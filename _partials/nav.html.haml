@@ -7,14 +7,21 @@
         %span.icon-bar
     .collapse.navbar-collapse#navbar-1
       %ul.nav.navbar-nav
-        %li{:class=>"#{'active' if page.output_path.start_with?('/index') }" }<
-          %a(href="#{site.base_url}/index.html") Home
-        %li{:class=>"#{'active' if page.output_path.start_with?('/downloads') }" }<
-          %a(href="#{site.base_url}/downloads.html") Downloads
+        %li{:class=>"#{'active' if page.output_path.eql?('') }" }<
+          %a(href="/") Home
+        %li.dropdown
+          %a.dropdown-toggle(href="#" data-toggle="dropdown")<
+            = precede 'Downloads ' do
+              %b.caret>
+          %ul.dropdown-menu
+            %li<
+              %a(href="/download-narayana") Narayana
+            %li<
+              %a(href="/download-nta") NTA
         %li{:class=>"#{'active' if page.output_path.start_with?('/docs') }" }<
-          %a(href="#{site.base_url}/docs.html") Docs
+          %a(href="/docs") Docs
         %li{:class=>"#{'active' if page.output_path.start_with?('/community') }" }<
-          %a(href="#{site.base_url}/community.html") Community
+          %a(href="/community") Community
         %li.dropdown
           %a.dropdown-toggle(href="#" data-toggle="dropdown")<
             = precede 'Source Code ' do

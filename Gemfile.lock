@@ -42,7 +42,7 @@ GEM
     formatador (0.2.5)
     fssm (0.2.10)
     git (1.2.8)
-    guard (2.6.1)
+    guard (2.7.0)
       formatador (>= 0.2.4)
       listen (~> 2.7)
       lumberjack (~> 1.0)

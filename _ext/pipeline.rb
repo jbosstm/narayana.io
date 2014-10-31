@@ -6,6 +6,7 @@ require 'file_merger'
 require 'less_config'
 require 'symlinker'
 require 'breadcrumb'
+require 'releases'
 
 Awestruct::Extensions::Pipeline.new do
   helper Awestruct::Extensions::Partial
@@ -18,5 +19,6 @@ Awestruct::Extensions::Pipeline.new do
   extension Awestruct::Extensions::FileMerger.new
   extension Awestruct::Extensions::LessConfig.new
   extension Awestruct::Extensions::Symlinker.new
+  extension Awestruct::Extensions::Indexifier.new
+  extension Release.new
 end
-
