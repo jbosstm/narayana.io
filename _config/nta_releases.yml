@@ -1,0 +1,19 @@
+- version: "1.0.0.Alpha2"
+  date: "2014-06-02"
+  product: "Narayana Transaction Analyser"
+  license: "LGPL"
+  files:
+    - name: "nta-1.0.0.Alpha2.ear"
+      description: "Narayana Transaction Analyser"
+    - name: "nta-demo-1.0.0.Alpha2.war"
+      description: "Demo web application for simulating transactions"
+
+- version: "1.0.0.Alpha1"
+  date: "2014-01-06"
+  product: "Narayana Transaction Analyser"
+  license: "LGPL"
+  files:
+    - name: "nta-full.ear"
+      description: "Narayana Transaction Analyser"
+    - name: "demo.war"
+      description: "Demo web application for simulating transactions"

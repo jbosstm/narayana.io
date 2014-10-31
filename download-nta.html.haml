@@ -1,0 +1,24 @@
+---
+layout: rightcol
+title:  Downloads
+rightcol_partial: rightcol-downloads.html.haml
+description: List of NTA releases available for download 
+---
+%h2 Narayana Transaction Analyser Downloads
+%table.table.table-bordered.table-striped.white-stripes
+  %thead
+    %th Version
+    %th Date
+    %th License
+    %th Files
+  %tbody
+    - for release in site.nta_releases
+      %tr
+        %td #{release[:product]} #{release[:version]}
+        %td #{release[:date]}
+        %td #{release[:license]}
+        %td
+          - for file in release.files
+            %a{:href=>file[:uri]}
+              %i.icon-download-alt
+              #{file[:description]} <br />
