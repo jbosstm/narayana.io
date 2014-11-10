@@ -4,22 +4,22 @@ rightcol_partial: rightcol-documentation.html.haml
 title:  Documentation
 description: List of Narayana documents available for download
 ---
-%header.jumbotron.subhead
-  .row
-    .col-md-12
-      %h2 Learn to use Narayana
+.row
+  .col-md-12
+    .well
+      %h1 Learn to use Narayana
       %p
         Get our latest open source project documentation
-        %a.btn.btn-default.btn-xs{:href=>site.links.docs.project}
-          %i.icon-arrow-right
+        %a{:href=>site.links.docs.project}
+          %i.icon-external-link
           here
         and documentation of our supported product
-        %a.btn.btn-default.btn-xs{:href=>site.links.docs.product}
-          %i.icon-arrow-right
+        %a{:href=>site.links.docs.product}
+          %i.icon-external-link
           here
       %p
         Or try out our quickstarts on
-        %a.btn.btn-default.btn-xs{:href=>"#"}
+        %a{:href=>"#"}
           %i.icon-github
           GitHub
 
@@ -30,7 +30,7 @@ description: List of Narayana documents available for download
       - for spec in site.links.specs
         %li.list-group-item
           %a{:href=>spec.link}
-            %i.icon-download-alt
+            %i.icon-external-link
             #{spec.name}, v#{spec.version}, #{spec.date}
   .col-md-6
     %h2 Books
@@ -38,7 +38,7 @@ description: List of Narayana documents available for download
       - for book in site.links.books
         %li.list-group-item
           %a{:href=>book.link}
-            %i.icon-arrow-right
+            %i.icon-external-link
             #{book.name}, by #{book.author}, #{book.date}
 
 .row
@@ -48,7 +48,7 @@ description: List of Narayana documents available for download
       - for article in site.links.articles
         %li.list-group-item
           %a{:href=>article.link}
-            %i.icon-arrow-right
+            %i.icon-external-link
             #{article.name}, #{article.publisher}, #{article.date}
   .col-md-6
     %h2 Whitepapers
@@ -56,5 +56,5 @@ description: List of Narayana documents available for download
       - for whitepaper in site.links.whitepapers
         %li.list-group-item
           %a{:href=>whitepaper.link}
-            %i.icon-arrow-right
+            %i.icon-external-link
             #{whitepaper.name}, #{whitepaper.publisher}, #{whitepaper.date}
