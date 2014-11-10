@@ -26,21 +26,35 @@ description: List of Narayana documents available for download
 .row
   .col-md-6
     %h2 Specifications
-    %table.table.table-bordered
-      %tbody
-        - for spec in site.links.specs
-          %tr
-            %td
-              %a{:href=>spec.link}
-                %i.icon-download-alt
-                #{spec.name}, v#{spec.version}, #{spec.date}
+    %ul.list-group
+      - for spec in site.links.specs
+        %li.list-group-item
+          %a{:href=>spec.link}
+            %i.icon-download-alt
+            #{spec.name}, v#{spec.version}, #{spec.date}
   .col-md-6
     %h2 Books
-    %table.table.table-bordered
-      %body
-        - for book in site.links.books
-          %tr
-            %td
-              %a{:href=>book.link}
-                %i.icon-arrow-right
-                #{book.name}, by #{book.author}, #{book.date}
+    %ul.list-group
+      - for book in site.links.books
+        %li.list-group-item
+          %a{:href=>book.link}
+            %i.icon-arrow-right
+            #{book.name}, by #{book.author}, #{book.date}
+
+.row
+  .col-md-6
+    %h2 Articles
+    %ul.list-group
+      - for article in site.links.articles
+        %li.list-group-item
+          %a{:href=>article.link}
+            %i.icon-arrow-right
+            #{article.name}, #{article.publisher}, #{article.date}
+  .col-md-6
+    %h2 Whitepapers
+    %ul.list-group
+      - for whitepaper in site.links.whitepapers
+        %li.list-group-item
+          %a{:href=>whitepaper.link}
+            %i.icon-arrow-right
+            #{whitepaper.name}, #{whitepaper.publisher}, #{whitepaper.date}
