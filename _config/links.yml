@@ -1,0 +1,54 @@
+# Narayana downloads
+
+
+# NTA downloads
+
+# Narayana documents
+docs:
+  version: 5.0.4.Final
+  date: 2014-11-10
+  project: /docs/project/index.html
+  product: /docs/product/index.html
+
+# Narayana resources
+specs:
+  - name: "WS-Coordination"
+    version: "1.0"
+    date: "Aug 2005"
+    link: "http://narayana.jboss.org/dms/jbosstm/resources/standards/WS-Coordination.pdf"
+  - name: "WS-AtomicTransaction"
+    version: "1.0"
+    date: "Aug 2005"
+    link: "http://narayana.jboss.org/dms/jbosstm/resources/standards/WS-AtomicTransaction.pdf"
+  - name: "WS-BusinessActivity"
+    version: "1.0"
+    date: "Aug 2005"
+    link: "http://narayana.jboss.org/dms/jbosstm/resources/standards/WS-BusinessActivity.pdf"
+  - name: "Web Services Context (WS-CTX)"
+    version: "1.0"
+    date: "Jul 2003"
+    link: "http://narayana.jboss.org/dms/jbosstm/resources/standards/WS-CTX.pdf"
+  - name: "Web Services Coordination Framework (WS-CF)"
+    version: "1.0"
+    date: "Jul 2003"
+    link: "http://narayana.jboss.org/dms/jbosstm/resources/standards/WS-CF.pdf"
+  - name: "Web Services Transaction Management (WS-TXM)"
+    version: "1.0"
+    date: "Jul 2003"
+    link: "http://narayana.jboss.org/dms/jbosstm/resources/standards/WS-TXM.pdf"
+
+# Related books
+books:
+  - name: "Java Transaction Processing: Design and Implementation"
+    author: "Mark Little, Jon Maron and Greg Pavlik"
+    date: "2004"
+    link: "http://www.amazon.com/exec/obidos/tg/detail/-/013035290X"
+  - name: "Developing Enterprise Web Services: An Architect's Guide"
+    author: "Sandeep Chatterjee and James Webber"
+    date: "2003"
+    link: "http://www.amazon.com/exec/obidos/tg/detail/-/0131401602"
+
+# Related articles
+
+# Related whitepapers
+

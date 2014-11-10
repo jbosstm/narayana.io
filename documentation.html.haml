@@ -1,0 +1,46 @@
+---
+layout: rightcol
+rightcol_partial: rightcol-documentation.html.haml
+title:  Documentation
+description: List of Narayana documents available for download
+---
+%header.jumbotron.subhead
+  .row
+    .col-md-12
+      %h2 Learn to use Narayana
+      %p
+        Get our latest open source project documentation
+        %a.btn.btn-default.btn-xs{:href=>site.links.docs.project}
+          %i.icon-arrow-right
+          here
+        and documentation of our supported product
+        %a.btn.btn-default.btn-xs{:href=>site.links.docs.product}
+          %i.icon-arrow-right
+          here
+      %p
+        Or try out our quickstarts on
+        %a.btn.btn-default.btn-xs{:href=>"#"}
+          %i.icon-github
+          GitHub
+
+.row
+  .col-md-6
+    %h2 Specifications
+    %table.table.table-bordered
+      %tbody
+        - for spec in site.links.specs
+          %tr
+            %td
+              %a{:href=>spec.link}
+                %i.icon-download-alt
+                #{spec.name}, v#{spec.version}, #{spec.date}
+  .col-md-6
+    %h2 Books
+    %table.table.table-bordered
+      %body
+        - for book in site.links.books
+          %tr
+            %td
+              %a{:href=>book.link}
+                %i.icon-arrow-right
+                #{book.name}, by #{book.author}, #{book.date}
