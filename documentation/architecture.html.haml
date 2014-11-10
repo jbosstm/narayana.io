@@ -1,0 +1,85 @@
+---
+layout: rightcol
+rightcol_partial: rightcol-documentation.html.haml
+title:  Narayana Architecture
+id: narayana_architecture
+---
+%h1 Narayana Architecture
+%p
+  This page contains references to various architecture papers and documents related to the JBoss Transaction Service. Since the product has been around for many years, some of these documents may be out-of-date; where necessary, we will update them, so watch this space! Some general notes first:
+  %ul
+    %li
+      %p
+        ArjunaCore is the transaction system at the heart of all of our transaction products. It is flexible, supporting ACID transactions as well as extended transactions. It's also distribution agnostic and can be used entirely by itself, without recourse to any other external entity or software.
+    %li
+      %p
+        The original transaction system was called Arjuna. It is now the Narayana Transaction Service.
+
+%h2
+  An overview of the architecture of JBoss Transactions.
+%p
+  As can be seen below, JBoss Transactions is made up of a number of different modules.
+%img{:src => "/images/narayana-architecture-diagram.jpg", :class => "img-responsive"}
+%ul
+  %li
+    %p
+      %b
+        ORB Portability:
+      in order to ensure that the JTS transaction service can run on any CORBA compliant ORB, we developed an ORB portability layer, which isolates the service from any idiosyncrasies of the underlying implementation.
+  %li
+    %p
+      %b
+        SOAP Portability:
+      for the same reasons, we built a SOAP abstraction for the Web Services transactions component.
+  %li
+    %p
+      %b
+        Object Transaction Service:
+      this is an implementation of the OMG's Object Transaction Service specification in Java, aka the Java Transaction Service.
+  %li
+    %p
+      %b
+        ArjunaCore:
+      this is the core of all of the various transaction service implementations.
+  %li
+    %p
+      %b
+        JDBC:
+      this module contains a wrapper for supported JDBC drivers and makes the wrapped whole transactional aware.
+  %li
+    %p
+      %b
+        JTA:
+      this module contains two JTA implementations - a purely local implementation, which wraps ArjunaCore and provides local JTA support, but no distributed transactions, and a version which wraps the JTS to provide distributed JTA transactions.
+  %li
+    %p
+      %b
+        Transactional Objects:
+      this is a set of classes for constructing transactional applications from POJOs. It has been in use for about 20 years (originally in C++).
+  %li
+    %p
+      %b
+        WS-T:
+      the Web Services transactions support, compliant with the specifications from the OASIS WS-TX technical committee.
+
+%h2
+  Published papers
+%p
+  %a{:href => "http://narayana.jboss.org/dms/jbosstm/resources/papers/ArjunaWeiss.pdf"}
+    A description of the evolution of Arjuna from academic project to commercial product.
+  A version of this was published in the USENIX Workshop on Industrial Experiences with Systems Software, Boston, MA, USA, 8 December 2002.
+%p
+  %a{:href => "http://narayana.jboss.org/dms/jbosstm/resources/papers/HPTS2005.pdf"}
+    The evolution of a transaction processing system.
+  Presented at the High Performance Transaction Systems workshop, 2005.
+
+%h2
+  Architecture documents
+%p
+  %a{:href =>"http://narayana.jboss.org/dms/jbosstm/resources/reports/Architecture-of-ArjunaCore.pdf"}
+    The architecture of ArjunaCore.
+  Hewlett-Packard, 2001.
+%p
+  %a{:href => "http://narayana.jboss.org/dms/jbosstm/resources/reports/OTS_1-2/OTS_1.2.pdf"}
+    Differences between OTS 1.1 and OTS 1.2.
+  Hewlett-Packard, 2001.

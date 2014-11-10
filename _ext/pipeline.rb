@@ -11,7 +11,6 @@ require 'releases'
 Awestruct::Extensions::Pipeline.new do
   helper Awestruct::Extensions::Partial
   helper Awestruct::Extensions::Breadcrumb
-  helper Awestruct::Extensions::GoogleAnalytics
   extension Awestruct::Extensions::WgetWrapper.new
   transformer Awestruct::Extensions::JsMinifier.new
   transformer Awestruct::Extensions::CssMinifier.new
@@ -19,6 +18,7 @@ Awestruct::Extensions::Pipeline.new do
   extension Awestruct::Extensions::FileMerger.new
   extension Awestruct::Extensions::LessConfig.new
   extension Awestruct::Extensions::Symlinker.new
+  helper Awestruct::Extensions::GoogleAnalytics
   extension Awestruct::Extensions::Indexifier.new([/^\/docs\/.*/, /\/404.html/]) # Exclude generated docs from "Indexification"
   extension Release.new
 end
