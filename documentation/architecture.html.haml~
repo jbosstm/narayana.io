@@ -1,7 +1,0 @@
----
-layout: rightcol
-rightcol_partial: rightcol-documentation.html.haml
-title:  Narayana Architecture
-id: narayana_architecture
----
-aaa
