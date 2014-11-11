@@ -1,7 +1,21 @@
-# Narayana downloads
+# Releases
+narayana:
+  version: 5.0.2.Final
+  date: 2014-06-02
+  binary: http://www.jboss.org/jbosstm/downloads/5.0.2.Final/binary/narayana-full-5.0.2.Final-bin.zip
+  source: http://www.jboss.org/jbosstm/downloads/5.0.2.Final/src/narayana-full-5.0.2.Final-src.zip
 
+blacktie:
+  version: 5.0.2.Final
+  date: 2014-06-02
+  windows: http://www.jboss.org/jbosstm/downloads/5.0.2.Final/binary/blacktie-5.0.2.Final-vc9x32-bin.zip
+  linux: http://www.jboss.org/jbosstm/downloads/5.0.2.Final/binary/blacktie-5.0.2.Final-fc18x64-bin.tar.gz
 
-# NTA downloads
+nta:
+  version: 1.0.0.Alpha2
+  date: 2014-04-01
+  binary: http://download.jboss.org/jbosstm/nta/1.0.0.Alpha2/binary/nta-1.0.0.Alpha2.ear
+  demo: http://download.jboss.org/jbosstm/nta/1.0.0.Alpha2/binary/nta-demo-1.0.0.Alpha2.war
 
 # Narayana documents
 docs:
