@@ -1,6 +1,10 @@
 .div
   %h2 Other Resources
   %ul.nav.nav-pills.nav-stacked
+    %li{:class => "#{'active' if page.real_page.output_path.start_with?('/documentation/sub-projects')}"}
+      %a{:href => "/documentation/sub-projects"}
+        %i.icon-fixed-width.icon-arrow-right
+        Sub-Projects
     %li{:class => "#{'active' if page.real_page.output_path.start_with?('/documentation/architecture')}"}
       %a{:href => "/documentation/architecture"}
         %i.icon-fixed-width.icon-arrow-right
@@ -9,46 +13,35 @@
       %a{:href => "/documentation/arjuna-core"}
         %i.icon-fixed-width.icon-arrow-right
         Arjuna Core
-    %li
-      %a{:href => "#"}
+    %li{:class => "#{'active' if page.real_page.output_path.start_with?('/documentation/transaction-fundamentals')}"}
+      %a{:href => "/documentation/transaction-fundamentals"}
         %i.icon-fixed-width.icon-arrow-right
         Transaction Fundamentals
-    %li
-      %a{:href => "#"}
-        %i.icon-fixed-width.icon-arrow-right
-        General
-    %li
-      %a{:href => "#"}
+    %li{:class => "#{'active' if page.real_page.output_path.start_with?('/documentation/presentations')}"}
+      %a{:href => "/documentation/presentations"}
         %i.icon-fixed-width.icon-arrow-right
         Presentations
-    %li
-      %a{:href => "#"}
-        %i.icon-fixed-width.icon-arrow-right
-        Source Overview
-    %li
-      %a{:href => "#"}
-        %i.icon-fixed-width.icon-arrow-right
-        Code Swarm
-    %li
-      %a{:href => "#"}
+    %li{:class => "#{'active' if page.real_page.output_path.start_with?('/documentation/narayana-features')}"}
+      %a{:href => "/documentation/narayana-features"}
         %i.icon-fixed-width.icon-arrow-right
         Features
-    %li
-      %a{:href => "#"}
+    %li{:class => "#{'active' if page.real_page.output_path.start_with?('/documentation/java-ee-support')}"}
+      %a{:href => "/documentation/java-ee-support"}
         %i.icon-fixed-width.icon-arrow-right
         Java EE Support
-    %li
-      %a{:href => "#"}
+    %li{:class => "#{'active' if page.real_page.output_path.start_with?('/documentation/platform-support')}"}
+      %a{:href => "/documentation/platform-support"}
         %i.icon-fixed-width.icon-arrow-right
         Platform Support
-    %li
-      %a{:href => "#"}
+    %li{:class => "#{'active' if page.real_page.output_path.start_with?('/documentation/why-to-choose-narayana')}"}
+      %a{:href => "/documentation/why-choose-narayana"}
         %i.icon-fixed-width.icon-arrow-right
-        Why To Chose Narayana
-    %li
-      %a{:href => "#"}
+        Why Choose Narayana
+    %li{:class => "#{'active' if page.real_page.output_path.start_with?('/documentation/web-services-support')}"}
+      %a{:href => "/documentation/web-services-support"}
         %i.icon-fixed-width.icon-arrow-right
         Web Services Support
-    %li
-      %a{:href => "#"}
-        General Reading List
+    %li{:class => "#{'active' if page.real_page.output_path.start_with?('/documentation/history')}"}
+      %a{:href => "/documentation/history"}
+        %i.icon-fixed-width.icon-arrow-right
+        History

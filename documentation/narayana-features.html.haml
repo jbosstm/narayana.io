@@ -1,0 +1,101 @@
+---
+layout: rightcol
+rightcol_partial: rightcol-documentation.html.haml
+title:  Narayana Features
+---
+%h1
+  Narayana Features
+Narayana is a pure Java multi-modal transaction service that supports distributed transactions in CORBA, J2EE and Web services environments.
+%h2
+  Standards compliance
+%ul
+  %li
+    CORBA Object Transaction Service (OTS)
+  %li
+    Java Enterprise (J2EE) transactions
+    %ul
+      %li
+        Java Transaction API (JTA)
+      %li
+        Java Transaction Service (JTS)
+  %li
+    Web services transactions
+    %ul
+      %li
+        Web Services Coordination (WS-Coordination)
+      %li
+        Web Services Atomic Transaction (WS-AtomicTransaction)
+      %li
+        Web Services Business Activity Framework (WS-BusinessActivity)
+%h2
+%ul
+  %li
+    J2EE and CORBA transactioning features
+  %li
+    Complete distributed transaction support
+  %li
+    Automated failure recovery system
+  %li
+    Flexible deployment: centralized and distributed transaction manager options
+  %li
+    Interposition support for improved distributed transaction performance
+  %li
+    POA ORB support
+  %li
+    Support for both checked and unchecked transaction behaviour
+  %li
+    Support for both flat and nested transaction models, with nested-aware resources and resource adapters
+  %li
+    Support for CosTransaction::Current API
+  %li
+    Direct and indirect transaction management
+  %li
+    Synchronization interface support
+  %li
+    Transaction heuristic support
+  %li
+    Explicit and implicit transaction context propagation
+  %li
+    Multi-thread aware
+
+%h2
+  Tested Database XA Resource Managers (for JBossTS 4.7.0.GA)
+%ul
+  %li
+    Oracle 10.2 using Oracle 10.2 thin driver
+  %li
+    Microsoft SQL Server 2005 using Microsoft JDBC driver 2.0
+  %li
+    IBM DB2 8.2.7 using IBM v9 driver
+  %li
+    PostgreSQL 8.1.9 using PostgreSQL 8.3.604 driver
+  %li
+    MySQL 5.0.22 using MySQL 5.1.7 driver
+  %li
+    Sybase 12.5.3 using jConnect 6.0
+  %li
+    Additionally the databse/driver combinations listed on the EAP page can reasonably be expected to work
+
+%h2
+  Web services transactioning features
+%ul
+  %li
+    Ensures reliable coordination and application data consistency for business processes that involve Web services.
+  %li
+    Supports transaction models for both intra-enterprise (EAI) and inter-enterprise (supply chain) Web services integration.
+  %li
+    Allows for consistent real-time updates across any component or resource involved in the business process.
+  %li
+    Fully automated crash recovery provides fast, unattended restoration of service after component failures.
+  %li
+    Future-proof, generic coordination engine architecture supports pluggable protocols.
+  %li
+    Currently supports the WS-Coordination WS- AtomicTransaction and WS-BusinessActivity specifications. Supports the leveraging of existing transaction infrastructure investments.
+  %li
+    Architected for portability across a wide- range of Web services platforms. Supports the open source JBoss application server for highly cost effective development and deployment.
+  %li
+    Close integration with enterprise Java standards, allowing Web services transactions to seamlessly integrate with J2EE application servers, messaging systems and database back- ends.
+  %li
+    Easy to use Java programming interfaces, based on the emerging JAXTX standard. A rich programming framework reduces overhead in adding transactioning capabilities to Web services.
+  %li
+  Leverages Arjuna's long history in transaction software, including the industry proven coordination engine, ArjunaCore - as used in the Bluestone and HP application servers.
