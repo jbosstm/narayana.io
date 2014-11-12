@@ -7,13 +7,13 @@
         %span.icon-bar
     .collapse.navbar-collapse#navbar-1
       %ul.nav.navbar-nav
-        %li{:class=>"#{'active' if page.output_path.eql?('') }" }<
+        %li{:class=>"#{'active' if page.real_page.output_path.eql?('/index.html') }" }<
           %a(href="/") Home
         %li{:class=>"#{'active' if page.real_page.output_path.start_with?('/downloads')}"}<
           %a(href="/downloads") Downloads
-        %li{:class=>"#{'active' if page.output_path.start_with?('/documentation') }" }<
+        %li{:class=>"#{'active' if page.real_page.output_path.start_with?('/documentation') }" }<
           %a(href="/documentation") Documentation
-        %li{:class=>"#{'active' if page.output_path.start_with?('/community') }" }<
+        %li{:class=>"#{'active' if page.real_page.output_path.start_with?('/community') }" }<
           %a(href="/community") Community
         %li.dropdown
           %a.dropdown-toggle(href="#" data-toggle="dropdown")<
