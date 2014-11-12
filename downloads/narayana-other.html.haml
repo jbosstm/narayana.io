@@ -1,0 +1,29 @@
+---
+layout: rightcol
+title: Other Narayana Versions
+---
+%h2 Other Narayana Versions
+%table.table.table-bordered.table-striped.white-stripes
+  %thead
+    %th Version
+    %th Date
+    %th License
+    %th
+  %tbody
+    - for release in site.links[:"narayana-other"]
+      %tr
+        %td #{release.version}
+        %td #{release.date}
+        %td LGPL
+        %td
+          %a{:href => release.binary}
+            %i.icon-download-alt
+            Narayana #{release.version} Binary
+      %tr
+        %td
+        %td 
+        %td LGPL
+        %td
+          %a{:href => release.source}
+            %i.icon-download-alt
+            Narayana #{release.version} Source Code

@@ -5,6 +5,12 @@ narayana:
   binary: http://www.jboss.org/jbosstm/downloads/5.0.2.Final/binary/narayana-full-5.0.2.Final-bin.zip
   source: http://www.jboss.org/jbosstm/downloads/5.0.2.Final/src/narayana-full-5.0.2.Final-src.zip
 
+narayana-other:
+  - version: 4.17.7.Final
+    date: 2013-07-19
+    binary: http://www.jboss.org/jbosstm/downloads/4.17.7.Final/binary/jbossts-full-4.17.7.Final.zip
+    source: http://www.jboss.org/jbosstm/downloads/4.17.7.Final/src/jbossts-full-4.17.7.Final-src.zip
+
 blacktie:
   version: 5.0.2.Final
   date: 2014-06-02
