@@ -1,0 +1,29 @@
+---
+layout: rightcol
+title: Other NTA Versions
+---
+%h2 Other NTA Versions
+%table.table.table-bordered.table-striped.white-stripes
+  %thead
+    %th Version
+    %th Date
+    %th License
+    %th
+  %tbody
+    - for release in site.links[:"nta-other"]
+      %tr
+        %td #{release.version}
+        %td #{release.date}
+        %td LGPL
+        %td
+          %a{:href => release.binary}
+            %i.icon-download-alt
+            NTA #{release.version} Binary
+      %tr
+        %td
+        %td 
+        %td LGPL
+        %td
+          %a{:href => release.demo}
+            %i.icon-download-alt
+            NTA #{release.version} Demo

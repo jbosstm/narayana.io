@@ -1,0 +1,29 @@
+---
+layout: rightcol
+title: Other BlackTie Versions
+---
+%h2 Other BlackTie Versions
+%table.table.table-bordered.table-striped.white-stripes
+  %thead
+    %th Version
+    %th Date
+    %th License
+    %th
+  %tbody
+    - for release in site.links[:"blacktie-other"]
+      %tr
+        %td #{release.version}
+        %td #{release.date}
+        %td LGPL
+        %td
+          %a{:href => release.linux}
+            %i.icon-download-alt
+            BlackTie #{release.version} Linux x64 Binary
+      %tr
+        %td
+        %td 
+        %td LGPL
+        %td
+          %a{:href => release.windows}
+            %i.icon-download-alt
+            BlackTie #{release.version} Windows Binary
