@@ -68,6 +68,22 @@ specs:
     version: "1.0"
     date: "Jul 2003"
     link: "http://narayana.jboss.org/dms/jbosstm/resources/standards/WS-TXM.pdf"
+  - name: "Narayana Server Integration Guide"
+    version: "4.14.0"
+    date: "2010"
+    link: "/docs/specs/server-integration-guide.pdf"
+  - name: "BA Framework Re-implementation Plan"
+    version: "0.1"
+    date: "22 Apr 2010"
+    link: "/docs/specs/BAFrameworkUpdated.odt"
+  - name: "REST-Atomic Transactions"
+    version: "2_draft_8"
+    date: "29 Jul 2013"
+    link: "/docs/specs/restat-v2-draft-8-2013-jul-29.pdf"
+  - name: "Web Linking"
+    version: "1"
+    date: "May 2010"
+    link: "/docs/specs/draft-nottingham-http-link-header-10.txt"
 
 # Related books
 books:
