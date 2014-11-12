@@ -6,7 +6,6 @@ require 'file_merger'
 require 'less_config'
 require 'symlinker'
 require 'breadcrumb'
-require 'releases'
 
 Awestruct::Extensions::Pipeline.new do
   helper Awestruct::Extensions::Partial
@@ -20,5 +19,4 @@ Awestruct::Extensions::Pipeline.new do
   extension Awestruct::Extensions::Symlinker.new
   helper Awestruct::Extensions::GoogleAnalytics
   extension Awestruct::Extensions::Indexifier.new([/^\/docs\/.*/, /\/404.html/]) # Exclude generated docs from "Indexification"
-  extension Release.new
 end
