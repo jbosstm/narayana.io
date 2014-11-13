@@ -69,9 +69,7 @@ profiles:
     jborg_fonts_url: /cache/static.jboss.org/theme/fonts
     jborg_images_url: /cache/static.jboss.org/theme/images
     jborg_js_url: /cache/static.jboss.org/theme/js
-    # TODO
-    # project_images_url: /cache/static.jboss.org/narayana/images
-    project_images_url: /cache/images
+    project_images_url: /images
     bootstrap_css_url: /stylesheets-source/_bootstrap-community
     bootstrap_js_url: /javascripts/bootstrap-community
     symlinker:
