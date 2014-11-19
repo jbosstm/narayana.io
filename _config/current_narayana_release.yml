@@ -1,0 +1,4 @@
+version: 5.0.2.Final
+date: 2014-06-02
+binary: http://www.jboss.org/jbosstm/downloads/5.0.2.Final/binary/narayana-full-5.0.2.Final-bin.zip
+source: http://www.jboss.org/jbosstm/downloads/5.0.2.Final/src/narayana-full-5.0.2.Final-src.zip

@@ -10,7 +10,7 @@ title: Previous NTA Versions
     %th License
     %th
   %tbody
-    - for release in site.links[:"nta-other"]
+    - for release in site.other_releases[:"nta-other"]
       %tr
         %td #{release.version}
         %td #{release.date}
