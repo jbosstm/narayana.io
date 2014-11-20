@@ -13,7 +13,7 @@
       google.load("feeds", "1");
     
       function initialize() {
-        var feed = new google.feeds.Feed("https://developer.jboss.org/en/feeds/allcontent?community=2040&showProjectContent=false&recursive=false");
+        var feed = new google.feeds.Feed("https://developer.jboss.org/view-browse-feed.jspa?containerType=14&userID=5690&browseSite=place-content&filterID=contentstatus%5Bpublished%5D~objecttype~objecttype%5Bthread%5D&browseViewID=placeContent&containerID=2040");
         feed.setNumEntries(4);
         feed.load(function(result) {
           if (!result.error) {
