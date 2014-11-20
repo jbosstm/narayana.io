@@ -1,8 +1,8 @@
 ## Awestruct
 _tmp
 _site
-stylesheets/_config-variables.less
 .awestruct
+.sass_cache
 
 ## OS related
 *.DS_Store
