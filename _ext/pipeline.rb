@@ -4,7 +4,6 @@ require 'css_minifier'
 require 'html_minifier'
 require 'file_merger'
 require 'less_config'
-require 'symlinker'
 require 'breadcrumb'
 
 Awestruct::Extensions::Pipeline.new do
@@ -16,7 +15,6 @@ Awestruct::Extensions::Pipeline.new do
   transformer Awestruct::Extensions::HtmlMinifier.new
   extension Awestruct::Extensions::FileMerger.new
   extension Awestruct::Extensions::LessConfig.new
-  extension Awestruct::Extensions::Symlinker.new
   helper Awestruct::Extensions::GoogleAnalytics
   extension Awestruct::Extensions::Indexifier.new([/^\/docs\/.*/, /\/404.html/]) # Exclude generated docs from "Indexification"
 end

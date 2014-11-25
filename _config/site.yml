@@ -72,9 +72,6 @@ profiles:
     project_images_url: /images
     bootstrap_css_url: /stylesheets-source/_bootstrap-community
     bootstrap_js_url: /javascripts/bootstrap-community
-    symlinker:
-      from: ../stylesheets
-      to: ./_site/stylesheets-source
   staging:
     jborg_fonts_url: http://static.jboss.org/theme/fonts
     jborg_images_url: http://static.jboss.org/theme/images
