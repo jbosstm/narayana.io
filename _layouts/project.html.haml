@@ -36,7 +36,6 @@
         - page.bottom_javascripts.each do |javascript|
           %script{:src=>javascript, :type=>'text/javascript'}
 
-      /- if site.profile.eql?("staging") or site.profile.eql?("production")
       :plain
         <!-- begin eloqua tracking -->
         <script type='text/javascript' language='JavaScript' src='http://www.redhat.com/j/elqNow/elqCfg.js'></script>
