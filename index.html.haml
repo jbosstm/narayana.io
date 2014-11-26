@@ -71,6 +71,29 @@ title: Narayana Homepage
             Professional Support
           %td.def
             Red Hat delivers the Professional Support, Consulting, and Training that you need whether you are testing a proof of concept, deploying a mission-critical application, or rolling out across your entire enterprise.
+            
+.row
+  .col-md-12
+    %h3 What is Narayana?
+    %p
+      Narayana is a transactions toolkit which provides support for applications developed using a broad range of standards-based transaction protocols:
+    %ol
+      %li
+        JTA
+      %li
+        JTS
+      %li
+        Web-Service Transactions
+      %li
+        REST Transactions
+      %li
+        STM
+      %li
+        XATMI/TX
+    %p
+      %em.Although Narayana is shipped as part of the WildFly application server, it continues to be developed as a stand-alone transaction manager. Narayana provides everything you need to develop transactional applications running over your own transport protocols and can be embedded in a range of containers.
+      
+      %img{:src => "/images/narayana-architecture-diagram.jpg", :class => "img-responsive"}
 
 .row
   = partial( 'latest-news.html.haml', {"real_page" => page} )
