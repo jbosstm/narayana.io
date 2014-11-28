@@ -57,6 +57,5 @@ rsync -Pr --protocol=28 --delete-after _site/* jbosstm@filemgmt.jboss.org:www_ht
 
 If you did any changes on the development branch. Go back and push them to GitHub.
 ```
-git checkout develop
 git push origin develop
 ```
