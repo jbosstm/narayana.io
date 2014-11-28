@@ -39,20 +39,21 @@ awestruct -d
 
 # Deploying web page
 
-Build deployable web page. This will generate a web page and automatically merge it to master branch.
-```
-awestruct -g -P production --deploy
-```
-
 Clean all unnecessary junk if required
 ```
-git clean -d -f
+git clean -d -f -x
 ```
 
-Upload a web page to github.io. If everything went ok, web page will be updated automatically. If something went wrong, GitHub will send an email and live web site will not be affected.
+Build deployable web page. This will generate the production web site.
 ```
-git push origin master
+awestruct -P production
 ```
+
+Upload a web page to github.io. If everything went ok, web page will be updated automatically.
+```
+rsync -Pr --protocol=28 --delete-after _site/* jbosstm@filemgmt.jboss.org:www_htdocs/jbosstm/
+```
+
 
 If you did any changes on the development branch. Go back and push them to GitHub.
 ```
