@@ -1,0 +1,241 @@
+features:
+  - name: "ACID"
+    jta: true
+    jts: true
+    xts: true
+    comp: false
+    rts: true
+    stm: true
+    blacktie: true
+    arjuna: true
+    txoj: true
+  - name: "Synchronizations"
+    jta: true
+    jts: true
+    xts: true
+    comp: false
+    rts: true
+    stm: false
+    blacktie: false
+    arjuna: true
+    txoj: false
+  - name: "Nested transactions"
+    jta: true
+    jts: true
+    xts: true
+    comp: false
+    rts: false
+    stm: true
+    blacktie: false
+    arjuna: true
+    txoj: true
+  - name: "Automated failure recovery"
+    jta: true
+    jts: true
+    xts: true
+    comp: false
+    rts: true
+    stm: false
+    blacktie: true
+    arjuna: true
+    txoj: true
+  - name: "Transaction log (file system, JDBC, HornetQ)"
+    jta: true
+    jts: true
+    xts: true
+    comp: false
+    rts: true
+    stm: true
+    blacktie: true
+    arjuna: true
+    txoj: true
+  - name: "JTA 1.2 API"
+    jta: true
+    jts: true
+    xts: true
+    comp: false
+    rts: false
+    stm: false
+    blacktie: false
+    arjuna: false
+    txoj: false
+  - name: "XAResource"
+    jta: true
+    jts: true
+    xts: true
+    comp: false
+    rts: true
+    stm: false
+    blacktie: true
+    arjuna: false
+    txoj: false
+  - name: "JTA bridging"
+    jta: false
+    jts: false
+    xts: true
+    comp: false
+    rts: true
+    stm: false
+    blacktie: false
+    arjuna: false
+    txoj: false
+  - name: "Provides Annotations API"
+    jta: true
+    jts: true
+    xts: true
+    comp: true
+    rts: false
+    stm: true
+    blacktie: false
+    arjuna: false
+    txoj: false
+  - name: "Remote transactions via JBoss remoting"
+    jta: true
+    jts: false
+    xts: false
+    comp: false
+    rts: false
+    stm: false
+    blacktie: false
+    arjuna: false
+    txoj: false
+  - name: "Remote transactions via CORBA"
+    jta: false
+    jts: true
+    xts: false
+    comp: false
+    rts: false
+    stm: false
+    blacktie: false
+    arjuna: false
+    txoj: false
+  - name: "Remote transactions via SOAP"
+    jta: false
+    jts: false
+    xts: true
+    comp: true
+    rts: false
+    stm: false
+    blacktie: false
+    arjuna: false
+    txoj: false
+  - name: "Remote transactions via REST"
+    jta: false
+    jts: false
+    xts: false
+    comp: false
+    rts: true
+    stm: false
+    blacktie: false
+    arjuna: false
+    txoj: false
+  - name: "In memory transactions"
+    jta: false
+    jts: false
+    xts: false
+    comp: false
+    rts: false
+    stm: true
+    blacktie: false
+    arjuna: true
+    txoj: true
+  - name: "Multiversion concurrency control"
+    jta: false
+    jts: false
+    xts: false
+    comp: false
+    rts: false
+    stm: true
+    blacktie: false
+    arjuna: false
+    txoj: false
+  - name: "CORBA Object Transaction Service (OTS) 1.1 compliant"
+    jta: false
+    jts: true
+    xts: false
+    comp: false
+    rts: false
+    stm: false
+    blacktie: false
+    arjuna: false
+    txoj: false
+  - name: "Different ORB compliant: JacORB, JDK ORB, IBM ORB*"
+    jta: false
+    jts: true
+    xts: false
+    comp: false
+    rts: false
+    stm: false
+    blacktie: false
+    arjuna: false
+    txoj: false
+  - name: "WS-Atomic Transaction v1.1 compliant"
+    jta: false
+    jts: false
+    xts: true
+    comp: false
+    rts: false
+    stm: false
+    blacktie: false
+    arjuna: false
+    txoj: false
+  - name: "WS-Atomic Transaction v1.2 compliant"
+    jta: false
+    jts: false
+    xts: true
+    comp: false
+    rts: false
+    stm: false
+    blacktie: false
+    arjuna: false
+    txoj: false
+  - name: "WS-Business Activity v1.1 compliant"
+    jta: false
+    jts: false
+    xts: true
+    comp: true
+    rts: false
+    stm: false
+    blacktie: false
+    arjuna: false
+    txoj: false
+  - name: "WS-Business Activity v1.2 compliant"
+    jta: false
+    jts: false
+    xts: true
+    comp: true
+    rts: false
+    stm: false
+    blacktie: false
+    arjuna: false
+    txoj: false
+  - name: "XATMI"
+    jta: false
+    jts: false
+    xts: false
+    comp: false
+    rts: false
+    stm: false
+    blacktie: true
+    arjuna: false
+    txoj: false
+  - name: "DTP TX"
+    jta: false
+    jts: false
+    xts: false
+    comp: false
+    rts: false
+    stm: false
+    blacktie: true
+    arjuna: false
+    txoj: false
+  - name: "Commercial support"
+    jta: true
+    jts: true
+    xts: true
+    comp: false
+    rts: false
+    stm: false
+    blacktie: false
+    arjuna: false
+    txoj: false
