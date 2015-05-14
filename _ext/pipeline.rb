@@ -9,6 +9,5 @@ Awestruct::Extensions::Pipeline.new do
   transformer Awestruct::Extensions::JsMinifier.new
   transformer Awestruct::Extensions::CssMinifier.new
   transformer Awestruct::Extensions::HtmlMinifier.new
-  helper Awestruct::Extensions::GoogleAnalytics
   extension Awestruct::Extensions::Indexifier.new([/^\/docs\/.*/, /\/404.html/]) # Exclude generated docs from "Indexification"
 end
