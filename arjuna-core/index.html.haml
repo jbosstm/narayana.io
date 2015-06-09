@@ -58,6 +58,6 @@ title:  Arjuna Core
   In addition to the transaction engine, ArjunaCore provides a complete toolkit for the development of fault-tolerant applications using objects and transactions. The toolkit (Transactional Objects for Java) is similar to EJB, but has been around for as long as ArjunaCore. It also provides nested transaction support (including nested transaction aware resources), type specific concurrency control and does not have many of the restrictions of EJB.
 %p
   Transactional Objects for Java exploits object-oriented techniques to present programmers with a toolkit of Java classes from which application classes can inherit to obtain desired properties, such as persistence and concurrency control. These classes form a hierarchy, part of which is shown below.
-%img{:src => "/images/transactional-objects-for-java-diagram.gif", :class => "img-responsive"}
+%img{:src => relative("/images/transactional-objects-for-java-diagram.gif"), :class => "img-responsive"}
 %p
   Apart from specifying the scopes of transactions, and setting appropriate locks within objects, the application programmer does not have any other responsibilities: Transactional Objects for Java (TXOJ) guarantee that transactional objects will be registered with, and be driven by, the appropriate transactions, and crash recovery mechanisms are invoked automatically in the event of failures.

@@ -6,6 +6,7 @@ require 'breadcrumb'
 Awestruct::Extensions::Pipeline.new do
   helper Awestruct::Extensions::Partial
   helper Awestruct::Extensions::Breadcrumb
+  helper Awestruct::Extensions::Relative
   transformer Awestruct::Extensions::JsMinifier.new
   transformer Awestruct::Extensions::CssMinifier.new
   transformer Awestruct::Extensions::HtmlMinifier.new

@@ -9,11 +9,11 @@ description: List of Narayana documents available for download
     .well
       %h1 Learn to use Narayana
       %p
-        %a{:href=>site.current_narayana_docs.project}
+        %a{:href => relative("/") + site.current_narayana_docs.project}
           %i.icon-external-link
           Narayana Guide (Community-only features)
       %p
-        %a{:href=>site.current_narayana_docs.product}
+        %a{:href => relative("/") + site.current_narayana_docs.product}
           %i.icon-external-link
           Narayana Guide (EAP product related features)
       %p
@@ -21,7 +21,7 @@ description: List of Narayana documents available for download
           %i.icon-github
           Narayana Quickstarts
       %p
-        %a{:href=>site.current_narayana_api.view}
+        %a{:href => relative("/") + site.current_narayana_api.view}
           %i.icon-external-link
           Narayana Javadocs
 
@@ -39,7 +39,7 @@ description: List of Narayana documents available for download
     %ul.list-group
       - for spec in site.links.specs
         %li.list-group-item
-          %a{:href=>spec.link}
+          %a{:href => spec.link.start_with?("http://") ? spec.link : relative("/") + spec.link}
             %i.icon-external-link
             #{spec.name}, v#{spec.version}, #{spec.date}
   .col-md-6

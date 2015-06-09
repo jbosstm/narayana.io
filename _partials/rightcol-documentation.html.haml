@@ -1,43 +1,44 @@
+/ Leaving this partial with the links, because it is not used from the home page (such relative links do not work from the home page)
 .div
   %h2 Other Resources
   %ul.nav.nav-pills.nav-stacked
-    %li{:class => "#{'active' if page.real_page.output_path.start_with?('/documentation/sub-projects')}"}
-      %a{:href => "/documentation/sub-projects"}
+    %li{:class => "#{'active' if page.real_page.output_path.start_with?('/sub-projects')}"}
+      %a{:href => relative("/sub-projects/index.html")}
         %i.icon-fixed-width.icon-arrow-right
         Sub-Projects
-    %li{:class => "#{'active' if page.real_page.output_path.start_with?('/documentation/architecture')}"}
-      %a{:href => "/documentation/architecture"}
+    %li{:class => "#{'active' if page.real_page.output_path.start_with?('/architecture')}"}
+      %a{:href => relative("/architecture/index.html")}
         %i.icon-fixed-width.icon-arrow-right
         Architecture
-    %li{:class => "#{'active' if page.real_page.output_path.start_with?('/documentation/arjuna-core')}"}
-      %a{:href => "/documentation/arjuna-core"}
+    %li{:class => "#{'active' if page.real_page.output_path.start_with?('/arjuna-core')}"}
+      %a{:href => relative("/arjuna-core/index.html")}
         %i.icon-fixed-width.icon-arrow-right
         Arjuna Core
-    %li{:class => "#{'active' if page.real_page.output_path.start_with?('/documentation/transaction-fundamentals')}"}
-      %a{:href => "/documentation/transaction-fundamentals"}
+    %li{:class => "#{'active' if page.real_page.output_path.start_with?('/transaction-fundamentals')}"}
+      %a{:href => relative("/transaction-fundamentals/index.html")}
         %i.icon-fixed-width.icon-arrow-right
         Transaction Fundamentals
-    %li{:class => "#{'active' if page.real_page.output_path.start_with?('/documentation/presentations')}"}
-      %a{:href => "/documentation/presentations"}
+    %li{:class => "#{'active' if page.real_page.output_path.start_with?('/presentations')}"}
+      %a{:href => relative("/presentations/index.html")}
         %i.icon-fixed-width.icon-arrow-right
         Presentations
-    %li{:class => "#{'active' if page.real_page.output_path.start_with?('/documentation/narayana-features')}"}
-      %a{:href => "/documentation/narayana-features"}
+    %li{:class => "#{'active' if page.real_page.output_path.start_with?('/narayana-features')}"}
+      %a{:href => relative("/narayana-features/index.html")}
         %i.icon-fixed-width.icon-arrow-right
         Features
-    %li{:class => "#{'active' if page.real_page.output_path.start_with?('/documentation/java-ee-support')}"}
-      %a{:href => "/documentation/java-ee-support"}
+    %li{:class => "#{'active' if page.real_page.output_path.start_with?('/java-ee-support')}"}
+      %a{:href => relative("/java-ee-support/index.html")}
         %i.icon-fixed-width.icon-arrow-right
         Java EE Support
-    %li{:class => "#{'active' if page.real_page.output_path.start_with?('/documentation/platform-support')}"}
-      %a{:href => "/documentation/platform-support"}
+    %li{:class => "#{'active' if page.real_page.output_path.start_with?('/platform-support')}"}
+      %a{:href => relative("/platform-support/index.html")}
         %i.icon-fixed-width.icon-arrow-right
         Platform Support
-    %li{:class => "#{'active' if page.real_page.output_path.start_with?('/documentation/web-services-support')}"}
-      %a{:href => "/documentation/web-services-support"}
+    %li{:class => "#{'active' if page.real_page.output_path.start_with?('/web-services-support')}"}
+      %a{:href => relative("/web-services-support/index.html")}
         %i.icon-fixed-width.icon-arrow-right
         Web Services Support
-    %li{:class => "#{'active' if page.real_page.output_path.start_with?('/documentation/history')}"}
-      %a{:href => "/documentation/history"}
+    %li{:class => "#{'active' if page.real_page.output_path.start_with?('/history')}"}
+      %a{:href => relative("/history/index.html")}
         %i.icon-fixed-width.icon-arrow-right
         History
