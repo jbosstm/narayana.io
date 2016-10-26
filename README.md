@@ -1,21 +1,13 @@
 # Preparing the environment
 
-Install Ruby
-```
-curl -L https://get.rvm.io | bash -s stable --ruby=1.9.3
-source /usr/local/rvm/scripts/rvm
-```
+
+Follow the instructions here to install awestruct:
+http://awestruct.org/getting_started/
 
 Install NodeJS and libxml. NodeJS is required by the JavaScript compression module.
 ```
 sudo apt-get install libxslt-dev libxml2-dev nodejs
 ```
-
-Install bundler
-```
-gem install bundler
-```
-
 Get the source code. Development code is stored on the develop branch and generated web page is no the master branch.
 ```
 git clone https://github.com/jbosstm/jbosstm.github.io
