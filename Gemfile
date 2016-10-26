@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'awestruct', '~> 0.5.0'	# Framework for creating static HTML sites
+gem 'awestruct', '~> 0.5.7'	# Framework for creating static HTML sites
 gem 'uglifier', '~> 2.5.3'	# Ruby wrapper for UglifyJS JavaScript compressor
 gem 'cssminify', '~> 1.0.2'	# CSS compression using YUI compressor
 gem 'rb-fsevent', '~> 0.9.3'	# FSEvents API with Signals catching (without RubyCocoa)
