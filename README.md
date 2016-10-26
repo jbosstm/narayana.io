@@ -8,7 +8,7 @@ Install NodeJS and libxml. NodeJS is required by the JavaScript compression modu
 ```
 sudo apt-get install libxslt-dev libxml2-dev nodejs
 ```
-Get the source code. Development code is stored on the develop branch and generated web page is no the master branch.
+Get the source code. Development code is stored on the develop branch.
 ```
 git clone https://github.com/jbosstm/jbosstm.github.io
 cd jbosstm.github.io
