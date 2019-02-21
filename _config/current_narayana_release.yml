@@ -1,8 +1,8 @@
-version: 5.9.2.Final
-date: 2018-12-14
-binary: http://www.jboss.org/jbosstm/downloads/5.9.2.Final/binary/narayana-full-5.9.2.Final-bin.zip
-source: http://www.jboss.org/jbosstm/downloads/5.9.2.Final/src/narayana-full-5.9.2.Final-src.zip
+version: 5.9.3.Final
+date: 2019-02-21
+binary: http://www.jboss.org/jbosstm/downloads/5.9.3.Final/binary/narayana-full-5.9.3.Final-bin.zip
+source: http://www.jboss.org/jbosstm/downloads/5.9.3.Final/src/narayana-full-5.9.3.Final-src.zip
 
 blacktie:
-  windows: http://www.jboss.org/jbosstm/downloads/5.9.2.Final/binary/blacktie-5.9.2.Final-vc9x32-bin.zip
-  linux: http://www.jboss.org/jbosstm/downloads/5.9.2.Final/binary/blacktie-5.9.2.Final-centos54x64-bin.tar.gz
+  windows: http://www.jboss.org/jbosstm/downloads/5.9.3.Final/binary/blacktie-5.9.3.Final-vc9x32-bin.zip
+  linux: http://www.jboss.org/jbosstm/downloads/5.9.3.Final/binary/blacktie-5.9.3.Final-centos54x64-bin.tar.gz
