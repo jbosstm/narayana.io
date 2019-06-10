@@ -5,15 +5,15 @@
     #feed
       .text-center
       %i.icon-refresh.icon-spin.icon-4x
-    %a{:href => "http://jbossts.blogspot.com"} More news
+    %a{:href => "https://jbossts.blogspot.com"} More news
 
     %script{ :type => 'text/javascript', :src => 'https://www.google.com/jsapi'}
-    -# Uses Google Feed API to load http://jbossts.blogspot.co.uk/ feed and replace the DOM elements
+    -# Uses Google Feed API to load https://jbossts.blogspot.co.uk/ feed and replace the DOM elements
     :javascript
       google.load("feeds", "1");
 
       function initialize() {
-        var feed = new google.feeds.Feed("http://jbossts.blogspot.com/feeds/posts/default");
+        var feed = new google.feeds.Feed("https://jbossts.blogspot.com/feeds/posts/default");
         feed.setNumEntries(4);
         feed.load(function(result) {
           if (!result.error) {

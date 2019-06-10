@@ -47,7 +47,7 @@ description: List of Narayana documents available for download
     %ul.list-group
       - for spec in site.links.specs
         %li.list-group-item
-          %a{:href => spec.link.start_with?("http://") ? spec.link : relative("/") + spec.link}
+          %a{:href => spec.link.start_with?("https://") ? spec.link : relative("/") + spec.link}
             %i.icon-external-link
             #{spec.name}, v#{spec.version}, #{spec.date}
   .col-md-6

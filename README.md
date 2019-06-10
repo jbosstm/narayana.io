@@ -2,7 +2,7 @@
 
 
 Follow the instructions here to install awestruct:
-http://awestruct.org/getting_started/
+https://awestruct.org/getting_started/
 
 Install NodeJS and libxml. NodeJS is required by the JavaScript compression module.
 ```
@@ -20,7 +20,7 @@ Install required gems
 bundle install
 ```
 
-For more information about Awestruct refer http://awestruct.org
+For more information about Awestruct refer https://awestruct.org
 
 # Web page preview
 
