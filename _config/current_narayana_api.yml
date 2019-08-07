@@ -1,4 +1,4 @@
 view: /docs/api/index.html
 viewblacktie: /docs/jatmibroker-xatmi-api/index.html
 viewblacktienbf: /docs/jatmibroker-nbf-api/index.html
-download: https://www.jboss.org/jbosstm/downloads/5.9.5.Final/api/narayana-full-5.9.5.Final-javadoc.jar
+download: http://www.jboss.org/jbosstm/downloads/5.9.6.Final/api/narayana-full-5.9.6.Final-javadoc.jar
