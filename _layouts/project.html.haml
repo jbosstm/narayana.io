@@ -103,6 +103,8 @@
                       %a(href="https://source.jboss.org/browse/narayana") FishEye
                 %li
                   %a(href="https://issues.jboss.org/browse/JBTM") Issue Tracker
+                %li{:class => page.output_path.start_with?("/lra") ? "active": ""}
+                  %a{:href => relative("/lra/certifications/index.html")} Certifications
 
         ~ content
 
