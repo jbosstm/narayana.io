@@ -38,6 +38,10 @@
       %a{:href => relative("/web-services-support/index.html")}
         %i.icon-fixed-width.icon-arrow-right
         Web Services Support
+    %li{:class => "#{'active' if page.real_page.output_path.start_with?('/lra')}"}
+      %a{:href => relative("/lra/index.html")}
+        %i.icon-fixed-width.icon-arrow-right
+        Long Running Actions
     %li{:class => "#{'active' if page.real_page.output_path.start_with?('/history')}"}
       %a{:href => relative("/history/index.html")}
         %i.icon-fixed-width.icon-arrow-right
