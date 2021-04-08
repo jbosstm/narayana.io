@@ -88,7 +88,7 @@
                   %a{:href => relative("/index.html")} Home
                 %li{:class => page.output_path.start_with?("/downloads") ? "active": ""}
                   %a{:href => relative("/downloads/index.html")} Downloads
-                %li{:class => page.output_path.start_with?("/documentation") ? "active": ""}
+                %li{:class => page.output_path.start_with?("/documentation") || (page.rightcol_partial == "rightcol-documentation.html.haml") ? "active": ""}
                   %a{:href => relative("/documentation/index.html")} Documentation
                 %li{:class => page.output_path.start_with?("/community") ? "active": ""}
                   %a{:href => relative("/community/index.html")} Community
@@ -103,8 +103,8 @@
                       %a(href="https://source.jboss.org/browse/narayana") FishEye
                 %li
                   %a(href="https://issues.jboss.org/browse/JBTM") Issue Tracker
-                %li{:class => page.output_path.start_with?("/lra") ? "active": ""}
-                  %a{:href => relative("/lra/certifications/index.html")} Certifications
+                %li{:class => page.output_path.start_with?("/certifications") ? "active": ""}
+                  %a{:href => relative("/certifications/index.html")} Certifications
 
         ~ content
 
