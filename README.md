@@ -4,6 +4,8 @@
 Follow the instructions here to install awestruct:
 https://awestruct.org/getting_started/
 
+This includes a download of ruby: curl -L https://get.rvm.io | bash -s stable --ruby=2.7.3 --auto-dotfiles
+
 Install NodeJS and libxml. NodeJS is required by the JavaScript compression module.
 ```
 sudo apt-get install libxslt-dev libxml2-dev nodejs
