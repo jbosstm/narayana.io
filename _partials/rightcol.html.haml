@@ -29,31 +29,15 @@
 
 .span4
   %section
-    %h4 Latest forum discussions
-    #forumDiv
-    :javascript
-      $(document).ready(function () {
-        $('#forumDiv').FeedEk({
-          FeedUrl: 'https://developer.jboss.org/view-browse-feed.jspa?containerType=14&userID=5690&browseSite=place-content&filterID=contentstatus%5Bpublished%5D~objecttype~objecttype%5Bthread%5D&browseViewID=placeContent&containerID=2040',
-          MaxCount: 2,
-          ShowDesc: false,
-          CharacterLimit: 200
-        });
-      });
+    %a{:href => "https://groups.google.com/forum/#!forum/narayana-users"}
+      %h4 Latest forum discussions
+
  
 .span4
   %section
-    %h4 Latest news
-    #blogDiv
-    :javascript
-      $(document).ready(function () {
-        $('#blogDiv').FeedEk({
-          FeedUrl: 'https://jbossts.blogspot.com/feeds/posts/default',
-          MaxCount: 2,
-          ShowDesc: false,
-          CharacterLimit: 200
-        });
-      });
+    %a{:href => "https://jbossts.blogspot.com/"}
+      %h4 Latest news
+
 
 .div
   %h2 Compliance 
