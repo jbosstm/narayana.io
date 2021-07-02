@@ -26,22 +26,6 @@ title: Downloads
       %td #{site.current_narayana_release.version}
       %td #{site.current_narayana_release.date}
       %td LGPL
-    %tr
-      %td
-        %a{:href => site.current_narayana_release.blacktie.linux}
-          %i.icon-download-alt
-          BlackTie Linux x64 Binary
-      %td #{site.current_narayana_release.version}
-      %td #{site.current_narayana_release.date}
-      %td LGPL
-    %tr
-      %td
-        %a{:href => site.current_narayana_release.blacktie.windows}
-          %i.icon-download-alt
-          BlackTie Windows Binary
-      %td #{site.current_narayana_release.version}
-      %td #{site.current_narayana_release.date}
-      %td LGPL
 
 %a{:href => relative("/downloads-other/index.html")}
   Legacy Narayana versions
@@ -86,14 +70,6 @@ title: Downloads
     %h3 Narayana XTS WSDL and XSD Files
     %ul.list-group
       - for file in site.related_files.wsdl
-        %li.list-group-item
-          %a{:href=>"https://github.com/jbosstm/narayana/tree/" + site.current_narayana_release.version + "/" + file.path}
-            %i.icon-external-link
-            #{file.name}
-  .col-md-6
-    %h3 Blacktie Interfaces
-    %ul.list-group
-      - for file in site.related_files.blacktie
         %li.list-group-item
           %a{:href=>"https://github.com/jbosstm/narayana/tree/" + site.current_narayana_release.version + "/" + file.path}
             %i.icon-external-link
