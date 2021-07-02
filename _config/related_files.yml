@@ -18,8 +18,3 @@ wsdl:
     path: "XTS/WS-T/dev/dd/wsarjtx/wsdl"
   - name: "WS-T wscoor 1.1"
     path: "XTS/WS-T/dev/dd/wscoor1.1/wsdl"
-blacktie:
-  - name: "TX"
-    path: "blacktie/tx/src/main/include"
-  - name: "XATMI"
-    path: "blacktie/xatmi/src/main/include"

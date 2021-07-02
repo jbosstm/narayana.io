@@ -6,7 +6,6 @@ features:
     comp: false
     rts: true
     stm: true
-    blacktie: true
     arjuna: true
     txoj: true
   - name: "Synchronizations"
@@ -16,7 +15,6 @@ features:
     comp: false
     rts: true
     stm: false
-    blacktie: false
     arjuna: true
     txoj: false
   - name: "Nested transactions"
@@ -26,7 +24,6 @@ features:
     comp: false
     rts: false
     stm: true
-    blacktie: false
     arjuna: true
     txoj: true
   - name: "Automated failure recovery"
@@ -36,7 +33,6 @@ features:
     comp: false
     rts: true
     stm: false
-    blacktie: true
     arjuna: true
     txoj: true
   - name: "Transaction log (file system, JDBC, HornetQ)"
@@ -46,7 +42,6 @@ features:
     comp: false
     rts: true
     stm: true
-    blacktie: true
     arjuna: true
     txoj: true
   - name: "JTA 1.2 API"
@@ -56,7 +51,6 @@ features:
     comp: false
     rts: false
     stm: false
-    blacktie: false
     arjuna: false
     txoj: false
   - name: "XAResource"
@@ -66,7 +60,6 @@ features:
     comp: false
     rts: true
     stm: false
-    blacktie: true
     arjuna: false
     txoj: false
   - name: "JTA bridging"
@@ -76,7 +69,6 @@ features:
     comp: false
     rts: true
     stm: false
-    blacktie: false
     arjuna: false
     txoj: false
   - name: "Provides Annotations API"
@@ -86,7 +78,6 @@ features:
     comp: true
     rts: false
     stm: true
-    blacktie: false
     arjuna: false
     txoj: false
   - name: "Remote transactions via JBoss remoting"
@@ -96,7 +87,6 @@ features:
     comp: false
     rts: false
     stm: false
-    blacktie: false
     arjuna: false
     txoj: false
   - name: "Remote transactions via CORBA"
@@ -106,7 +96,6 @@ features:
     comp: false
     rts: false
     stm: false
-    blacktie: false
     arjuna: false
     txoj: false
   - name: "Remote transactions via SOAP"
@@ -116,7 +105,6 @@ features:
     comp: true
     rts: false
     stm: false
-    blacktie: false
     arjuna: false
     txoj: false
   - name: "Remote transactions via REST"
@@ -126,7 +114,6 @@ features:
     comp: false
     rts: true
     stm: false
-    blacktie: false
     arjuna: false
     txoj: false
   - name: "In memory transactions"
@@ -136,7 +123,6 @@ features:
     comp: false
     rts: false
     stm: true
-    blacktie: false
     arjuna: true
     txoj: true
   - name: "Multiversion concurrency control"
@@ -146,7 +132,6 @@ features:
     comp: false
     rts: false
     stm: true
-    blacktie: false
     arjuna: false
     txoj: false
   - name: "CORBA Object Transaction Service (OTS) 1.1 compliant"
@@ -156,7 +141,6 @@ features:
     comp: false
     rts: false
     stm: false
-    blacktie: false
     arjuna: false
     txoj: false
   - name: "Different ORB compliant: JacORB, JDK ORB, IBM ORB*"
@@ -166,7 +150,6 @@ features:
     comp: false
     rts: false
     stm: false
-    blacktie: false
     arjuna: false
     txoj: false
   - name: "WS-Atomic Transaction v1.1 compliant"
@@ -176,7 +159,6 @@ features:
     comp: false
     rts: false
     stm: false
-    blacktie: false
     arjuna: false
     txoj: false
   - name: "WS-Atomic Transaction v1.2 compliant"
@@ -186,7 +168,6 @@ features:
     comp: false
     rts: false
     stm: false
-    blacktie: false
     arjuna: false
     txoj: false
   - name: "WS-Business Activity v1.1 compliant"
@@ -196,7 +177,6 @@ features:
     comp: true
     rts: false
     stm: false
-    blacktie: false
     arjuna: false
     txoj: false
   - name: "WS-Business Activity v1.2 compliant"
@@ -206,17 +186,6 @@ features:
     comp: true
     rts: false
     stm: false
-    blacktie: false
-    arjuna: false
-    txoj: false
-  - name: "XATMI"
-    jta: false
-    jts: false
-    xts: false
-    comp: false
-    rts: false
-    stm: false
-    blacktie: true
     arjuna: false
     txoj: false
   - name: "DTP TX"
@@ -226,7 +195,6 @@ features:
     comp: false
     rts: false
     stm: false
-    blacktie: true
     arjuna: false
     txoj: false
   - name: "Commercial support"
@@ -236,6 +204,5 @@ features:
     comp: false
     rts: false
     stm: false
-    blacktie: false
     arjuna: false
     txoj: false
