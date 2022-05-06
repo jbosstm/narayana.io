@@ -9,27 +9,27 @@ title: Community
       Forum
     %p
       Narayana user forum is the best place to ask any project related questions, give suggestions, or request a new feature.
-    %a{:href => "https://groups.google.com/forum/#!forum/narayana-users", :class => "btn btn-primary"}
-      Visit Narayana Forum
   .col-md-4
     %h1
       Chat
     %p
-      You can chat with the community on Gitter.im (if you aren't already a member then, once you're in the room add
-      yourself using the green Add button on the right hand side of the page).
-      Chat communication is recorded by Gitter and publicly available without any need for a Gitter account.
-    %a{:href => "https://gitter.im/jbosstm/community", :class => "btn btn-primary"}
-      Chat With Us
+      Start contributing to our open conversations in our Zulip open-source organisation!
   .col-md-4
     %h1
       Blog
     %p
       All the latest Narayana project news and other interesting stuff is published in our blog.
-    %a{:href => "https://jbossts.blogspot.co.uk", :class => "btn btn-primary"}
-      Visit Narayana Blog
 
 .row
-  .col-md-8
+  .col-md-4
+    %a{:href => "https://groups.google.com/forum/#!forum/narayana-users", :class => "btn btn-primary"} Visit Narayana Forum
+  .col-md-4
+    %a{:href => "https://narayana.zulipchat.com", :class => "btn btn-primary"} Chat With Us
+  .col-md-4
+    %a{:href => "https://jbossts.blogspot.co.uk", :class => "btn btn-primary"} Visit Narayana Blog
+
+.row
+  .col-md-6
     %h1
       Mailing Lists
     %p
@@ -41,27 +41,19 @@ title: Community
             %b jbossts-announce -
           Narayana project announcements.
           %p
-            The archive is available at
+            The archive is available
             %a{:href => "https://lists.jboss.org/pipermail/jbossts-announce/"}
-              https://lists.jboss.org/pipermail/jbossts-announce/
-.row
-  %h1 Social
+              here
   .col-md-6
     %h1
       Twitter
     %p
-      We use hashtag #narayanaio
+      Follow us on our 
+      %a{:href => "https://twitter.com/narayana_io"} Narayana twitter account!
+      We use the hashtag #narayanaio
     %a{:href => "https://twitter.com/hashtag/narayanaio", :class => "btn btn-primary"}
       Twitter #narayanaio
-  .col-md-6
-    %h2
-      Narayana_IO
-    %h3
-      Follow us!
-    %p
-      You can also follow our Narayana twitter account for our latest announcements
-    .div{:style => "height: 250px"}
-      %a{:class => "twitter-timeline", :href => "https://twitter.com/narayana_io", :height => "250"}
+
 .row
   %h1 Our team
   .col-md-6
@@ -86,22 +78,11 @@ title: Community
 .row
   .col-md-6
     %h2
-      Ondra Chaloupka
-    %p
-      I joined the team with 5 years experience of QE engineer for JBoss EAP.
-    %p
-      Prior to work at Red Hat I gained experience in PHP web and Java EE logistic system development.
-    .div{:style => "height: 250px"}
-      %a{:class => "twitter-timeline", :href => "https://twitter.com/_chalda", :height => "250"}
-  .col-md-6
-    %h2
       Tom Jenkinson
     %p
       My technical specialisms include transaction and integration technologies. primarily in the distributed systems field.
     .div{:style => "height: 250px"}
       %a{:class => "twitter-timeline", :href => "https://twitter.com/tom_jenkinson", :"data-widget-id" => "532499035693662208", :height => "250"}
-
-.row
   .col-md-6
     %h2
       Mayank Kunwar
@@ -109,6 +90,8 @@ title: Community
       I started working for Red Hat in January 2020 and joined Narayana team as Software Engineer with overall 4 years of experience.
     %p
       Prior to this role, I have worked in distributed system projects, handling various components like Job scheduling, node management and managing transactions between nodes using Java EE technologies. In first year of my software career, I have also worked on C# technology.
+
+.row
   .col-md-6
     %h2
       Manuel Finelli
@@ -127,6 +110,7 @@ title: Community
       %li Gytis Trikleris
       %li Paul Robinson
       %li Andrew Dinn
+      %li Ondra Chaloupka
       %li Kevin Conner.
       %li Richard Ackmatowicz.
       %li Machulak: MSc student.
