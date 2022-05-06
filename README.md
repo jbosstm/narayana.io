@@ -1,35 +1,36 @@
 # Preparing the environment
 
+Install awestruct (verified on Fedora 35):
+```sudo dnf -y update && sudo dnf -y install gcc-c++ make ruby-devel libxml2-devel libxslt-devel libffi-devel findutils git ruby tar redhat-rpm-config which python2 patchutils gem && dnf sudo clean all
+```
 
-Follow the instructions here to install awestruct:
-https://awestruct.org/getting_started/
+Install NodeJS as it is required by the JavaScript compression module:
+```
+sudo dnf install nodejs
+```
 
-Install NodeJS and libxml. NodeJS is required by the JavaScript compression module.
+Clone this repository (or your fork). Development code is stored on the develop branch:
 ```
-sudo apt-get install libxslt-dev libxml2-dev nodejs
-```
-Get the source code. Development code is stored on the develop branch.
-```
-git clone https://github.com/jbosstm/jbosstm.github.io
-cd jbosstm.github.io
+git clone https://github.com/jbosstm/narayana.io.git
+cd narayana.io
 git checkout develop
 ```
 
-Install required gems
+Install required gems:
 ```
 bundle install
 ```
 
-For more information about Awestruct refer https://awestruct.org
+For more information about Awestruct refer https://github.com/awestruct/awestruct
 
 # Web page preview
 
-If needed build and run a web page for a preview on a local server
+To build and run a preview of the website on a local server:
 ```
 awestruct -d
 ```
 
-# Deploying web page
+# Deploying web page (to update)
 
 Clean all unnecessary junk if required
 ```
