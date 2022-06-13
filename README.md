@@ -1,7 +1,8 @@
 # Preparing the environment
 
 Install awestruct (verified on Fedora 35):
-```sudo dnf -y update && sudo dnf -y install gcc-c++ make ruby-devel libxml2-devel libxslt-devel libffi-devel findutils git ruby tar redhat-rpm-config which python2 patchutils gem && dnf sudo clean all
+```
+sudo dnf -y update && sudo dnf -y install gcc-c++ make ruby-devel libxml2-devel libxslt-devel libffi-devel findutils git ruby tar redhat-rpm-config which python2 patchutils gem && dnf sudo clean all
 ```
 
 Install NodeJS as it is required by the JavaScript compression module:
@@ -44,7 +45,7 @@ awestruct -P production
 
 Upload a web page to github.io. If everything went ok, web page will be updated automatically.
 ```
-rsync -Pr --protocol=28 --delete-after _site/* jbosstm@filemgmt.jboss.org:www_htdocs/jbosstm/
+rsync -Pr --protocol=28 --delete-after _site/* jbosstm@filemgmt-prod-sync.jboss.org:www_htdocs/jbosstm/
 ```
 
 
