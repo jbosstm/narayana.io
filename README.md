@@ -2,7 +2,7 @@
 
 Install awestruct (verified on Fedora 35):
 ```
-sudo dnf -y update && sudo dnf -y install gcc-c++ make ruby-devel libxml2-devel libxslt-devel libffi-devel findutils git ruby tar redhat-rpm-config which python2 patchutils gem && dnf sudo clean all
+sudo dnf -y update && sudo dnf -y install gcc-c++ make ruby-devel libxml2-devel libxslt-devel libffi-devel findutils git ruby tar redhat-rpm-config which python2 patchutils gem && sudo dnf clean all
 ```
 
 Install NodeJS as it is required by the JavaScript compression module:
@@ -17,7 +17,7 @@ cd narayana.io
 git checkout develop
 ```
 
-Install required gems:
+Install required gems (on rhel this command might be executed with sudo):
 ```
 bundle install
 ```
