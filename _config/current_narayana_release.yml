@@ -1,5 +1,5 @@
 version: 5.12.6.Final
-date: 2022-04-05
+date: "2022-04-05"
 binary: http://www.jboss.org/jbosstm/downloads/5.12.6.Final/binary/narayana-full-5.12.6.Final-bin.zip
 source: http://www.jboss.org/jbosstm/downloads/5.12.6.Final/src/narayana-full-5.12.6.Final-src.zip
     
