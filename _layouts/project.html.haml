@@ -162,7 +162,3 @@
           %script{:src=>javascript, :type=>'text/javascript'}
 
       %script(src="https://cdnjs.cloudflare.com/ajax/libs/FeedEk/3.0.0/js/FeedEk.min.js")
-
-      <!-- Google Analytics -->
-      - if site.profile.eql?("staging") or site.profile.eql?("production")
-        %script{:src => relative("/js/analytics.js"), :type=>"text/javascript"}
