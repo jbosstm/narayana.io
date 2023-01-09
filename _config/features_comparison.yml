@@ -44,7 +44,7 @@ features:
     stm: true
     arjuna: true
     txoj: true
-  - name: "JTA 1.2 API"
+  - name: "Jakarta Transactions API"
     jta: true
     jts: true
     xts: true
