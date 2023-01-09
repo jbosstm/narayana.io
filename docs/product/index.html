@@ -2116,7 +2116,9 @@ public class ExClient
             programmers. Therefore, Sun Microsystems created the Java Transaction API (JTA),
             which specifies higher-level
             interfaces to assist in the development of distributed transactional
-            applications.
+            applications. The API has since been renamed and is called Jakarta Transactions and the
+            specification is maintained at <a class="ulink" href="https://jakarta.ee/specifications/transactions">
+            https://jakarta.ee/specifications/transactions</a>.
         </p>
         <p>
             Note, these interfaces are still low-level. You still need to implement state management and
@@ -2127,8 +2129,8 @@ public class ExClient
             other transactional APIs allow.
         </p>
         <p>
-            With reference to JTA 1.1 (
-            <a class="ulink" href="http://www.oracle.com/technetwork/java/javaee/tech/jta-138684.html">http://www.oracle.com/technetwork/java/javaee/tech/jta-138684.html</a>
+            With reference to Jakarta Transactions (
+            <a class="ulink" href="https://jakarta.ee/specifications/transactions/2.0/">https://jakarta.ee/specifications/transactions/2.0/</a>
             ),
             distributed transaction services typically involve a number of participants:
         </p>
@@ -2213,7 +2215,7 @@ public class ExClient
             </li></ul></div>
         <p>
             All of the JTA classes and interfaces exist within the
-            <span class="package">javax.transaction</span>
+            <span class="package">jakarta.transaction</span>
             package, and the
             corresponding Narayana
             implementations within the
@@ -2538,7 +2540,7 @@ TransactionManager.resume(tobj);
             to print full information
             about the transaction, including the identifier. Alternatively you
             can cast the
-            <span class="type">javax.transaction.Transaction</span>
+            <span class="type">jakarta.transaction.Transaction</span>
             instance to a
             <span class="type">com.arjuna.ats.jta.transaction.Transaction</span>
             ,
@@ -2711,19 +2713,18 @@ boolean isSame = txObj.equals(someOtherTxObj);
         
         <p>
             The
-            <code class="interfacename">javax.transaction.TransactionSynchronizationRegistry</code>
+            <code class="interfacename">jakarta.transaction.TransactionSynchronizationRegistry</code>
             interface, added to the
             JTA API in version 1.1, provides for registering Synchronizations with
             special ordering behavior, and for storing
             key-value pairs in a per-transaction Map. Full
-            details are available from the JTA 1.1 API specification and
-            javadoc. Here we focus on
+            details are available from the Jakarta Transactions API specification and javadoc. Here we focus on
             implementation specific behavior.
         </p>
         <div class="example"><a id="d5e1069"/><p class="title"><strong>Example 3.3. Accessing the TransactionSynchronizationRegistry in standalone environments</strong></p><div class="example-contents">
             
             <pre><code class="language-java">
-                javax.transaction.TransactionSynchronizationRegistry tsr = new com.arjuna.ats.internal.jta.transaction.arjunacore.TransactionSynchronizationRegistryImple();
+                jakarta.transaction.TransactionSynchronizationRegistry tsr = new com.arjuna.ats.internal.jta.transaction.arjunacore.TransactionSynchronizationRegistryImple();
 
             </code></pre>
             <p>
@@ -3887,7 +3888,7 @@ Normally you would leave participant log management to the transaction log that 
             
             <p>
                 Transaction logs may also be managed using
-                <a class="ulink" href="https://docs.oracle.com/javase/7/docs/technotes/guides/jmx">JMX</a>. Each transaction
+                <a class="ulink" href="https://jakarta.ee/specifications/platform/8/platform-spec-8.html#jakarta-management">JMX</a>. Each transaction
                 log record is instrumented as an MBean. Any JMX client may be used to manage logs using this mechanism.
             </p>
             <p>
@@ -4386,7 +4387,7 @@ jconsole -J-Djava.class.path="$CLASSPATH" -pluginpath $INSTALL_ROOT/lib/narayana
             </li><li class="step" title="Step 3">
                 <p>
                     The file is treated as being of standard
-                    <a class="ulink" href="https://docs.oracle.com/javase/8/docs/api/java/util/Properties.html"><code class="code">java.util.Properties</code> xml format</a>
+                    <a class="ulink" href="https://devdocs.io/openjdk~11/java.base/java/util/properties"><code class="code">java.util.Properties</code> xml format</a>
                     and loaded accordingly.
                     The <code class="code">entry</code> names are of the form <code class="code">EnvironmentBeanClass.propertyName</code>.
                 </p>
@@ -5169,8 +5170,8 @@ uba.close();
             <p>
                 Similarly to the client-side, the service-side is also integrated with JTA. To make your web service
                 WS-AT compliant,
-                annotate your web service class or method with the EJB 3 javax.ejb.TransactionAttribute annotation or the JTA
-                1.2 javax.transaction.Transactional annotation. XTS will automatically translate WS-AT context, received with
+                annotate your web service class or method with the EJB 3 jakarta.ejb.TransactionAttribute annotation or the JTA
+                1.2 jakarta.transaction.Transactional annotation. XTS will automatically translate WS-AT context, received with
                 the request, to JTA. See our quickstarts for an example:
                 <a class="xref" href="#ref-WSATMultiService" title="4.7.1. WS-AT Multi-Service">Section 4.7.1, “WS-AT Multi-Service”</a>
                 and
@@ -5607,8 +5608,8 @@ uba.close();
             <div class="section" title="4.3.1.2.2. Deploying Participants"><div class="titlepage"><div><div><h5 class="title"><a id="d5e2379"/>4.3.1.2.2. Deploying Participants</h5></div></div></div>
                 
                 <p>
-                    Transactional web services and transactional clients are regular Java EE applications and can be deployed into
-                    the application server in the same way as any other Java EE application. The XTS Subsystem exports all the client and
+                    Transactional web services and transactional clients are regular Jakarta EE applications and can be deployed into
+                    the application server in the same way as any other Jakarta EE application. The XTS Subsystem exports all the client and
                     web service API
                     classes needed to manage transactions and enroll and manage participant web services. It provides
                     implementations of all the WS-C and WS-T coordination services, not just the coordinator services. In
@@ -7685,7 +7686,7 @@ uba.close();
     </p>
     <p>
       Each service uses JPA to persist its data (the value of a counter). Therefore, the service class is annotated with
-      javax.ejb.TransactionAttribute which tells XTS to automatically bridge WS-AT transaction to JTA.
+      jakarta.ejb.TransactionAttribute which tells XTS to automatically bridge WS-AT transaction to JTA.
     </p>
   </div>
 
@@ -7706,7 +7707,7 @@ uba.close();
     </p>
     <p>
       FirstServiceAT uses JPA to persist its data. Therefore, the service class is annotated with
-      javax.ejb.TransactionAttribute which tells XTS to automatically bridge WS-AT transaction to JTA. The
+      jakarta.ejb.TransactionAttribute which tells XTS to automatically bridge WS-AT transaction to JTA. The
       FirstServiceAT Web Service updates some local data and then invokes the SecondServiceAT Web services.
     </p>
     <p>
@@ -7783,11 +7784,11 @@ uba.close();
             allows for grouping of data manipulations into constructs with certain properties. Traditional
             ACID transactions provide for properties of Atomicity, Consistency, Isolation and Durability.
         </p>
-        <p>In JavaEE applications, transaction support is provided via the Java Transaction API
-            (JTA). The classes and interfaces in the javax.transaction and javax.transaction.xa packages
+        <p>In Jakarta EE applications, transaction support is provided via the Java Transaction API
+            (JTA). The classes and interfaces in the jakarta.transaction and javax.transaction.xa packages
             provide a means by which the programmer may manage transaction demarcation (begin, commit,
             rollback) and, where necessary, interact with the transaction management system (e.g.
-            enlistResource). In many JavaEE applications, further abstractions are provided on top of the
+            enlistResource). In many Jakarta EE applications, further abstractions are provided on top of the
             JTA. For example, EJB3 @TransactionAttribute annotations may be used for transaction boundary
             demarcation in preference to explicit calls to the JTA's UserTransaction interface.
         </p>
@@ -7795,8 +7796,7 @@ uba.close();
             distributed applications, the JTA implementation may provide propagation of transaction
             context and transaction control calls between containers (JVMs) using either a propriety
             transport or JTS, the Java mapping of the CORBA OTS standard on an RMI/IIOP transport. In
-      Narayana,
-            both local and distributed (JTS) implementations of the JTA are available.
+            Narayana, both local and distributed (JTS) implementations of the JTA are available.
         </p>
         <p>In
             Web Services applications, ACID transaction management and interoperable context
@@ -7807,18 +7807,18 @@ uba.close();
             not the Java API through which the protocol may be driven. Therefore, XTS provides a custom
             Java API to users, with characteristics broadly similar to the JTA.
         </p>
-        <p>For applications that combine traditional JavaEE transaction management and Web Service
+        <p>For applications that combine traditional Jakarta EE transaction management and Web Service
             transaction management, it is often desirable to have some mechanism for linking these
             transaction types, such that a single transaction may span business logic written for either
-            transaction type. Examples include exposing existing JavaEE transactional business logic (e.g.
-            EJBs) as transactional Web Services, or allowing JavaEE transactional components to utilize
+            transaction type. Examples include exposing existing Jakarta EE transactional business logic (e.g.
+            EJBs) as transactional Web Services, or allowing Jakarta EE transactional components to utilize
             transactional Web Services.
         </p>
     </div>
     <div class="section" title="5.1.2. Transaction Bridging"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3376"/>5.1.2. Transaction Bridging</h3></div></div></div>
         
         <p>We
-            use the term Transaction Bridging to describe the process of linking the JavaEE and Web
+            use the term Transaction Bridging to describe the process of linking the Jakarta EE and Web
             Services transaction domains. The transaction bridge component (txbridge) of Narayana
             provides
             bi-directional linkage, such that either type of transaction may encompass business logic
@@ -7879,14 +7879,14 @@ uba.close();
         <p>The process of inflowing a WS-AT transaction context on a Web Service call into the
             container and converting it to a local JTA transaction context such that existing
             transactional
-            JavaEE code (e.g. EJBs) may be called within its scope, is termed Inbound
+            Jakarta EE code (e.g. EJBs) may be called within its scope, is termed Inbound
             Transaction Bridging.
             When using inbound bridging, a parent WS-AT transaction coordinator has a
             subordinate JTA
             coordinator interposed into it via the transaction bridge.
         </p>
         <p>The process of outflowing a WS-AT transaction context on a call to a transactional Web
-            Service from a business logic method operating in a JavaEE transaction scope, is termed
+            Service from a business logic method operating in a Jakarta EE transaction scope, is termed
             Outbound
             Transaction Bridging. When using outbound bridging, a parent JTA transaction
             coordinator has a
@@ -8004,7 +8004,7 @@ uba.close();
                 <p>The JAX-WS pipeline processing continues, eventually calling whatever business logic
                     is exposed. This may be e.g. an EJB using JSR-181 annotations. The business logic may use
                     the JTA transaction in the normal manner e.g. enlisting Synchronizations and XAResources
-                    or performing other transactional activity either directly or though the usual JavaEE
+                    or performing other transactional activity either directly or though the usual Jakarta EE
                     abstractions.
                 </p>
             </li><li class="listitem">
@@ -8307,7 +8307,7 @@ uba.close();
     <div class="section" title="5.3.6. Distributed JTA and the JTS"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3536"/>5.3.6. Distributed JTA and the JTS</h3></div></div></div>
         
         <p>The
-            JavaEE transaction engine in Narayana
+            Jakarta EE transaction engine in Narayana
             comes in two varieties. These are the local only
             JTA, which does not support propagation of transaction context or transaction control calls
             between JVMs and the JTAX, which provides the JTA API implemented by a JTS engine that does
