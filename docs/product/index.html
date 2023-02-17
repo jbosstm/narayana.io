@@ -21,19 +21,19 @@
     </div></div></div><hr/></div><div class="toc"><dl><dt><span class="preface"><a href="#preface">Preface</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e51">1. Document Conventions</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e56">1.1. Typographic Conventions</a></span></dt><dt><span class="section"><a href="#d5e150">1.2. Pull-quote Conventions</a></span></dt><dt><span class="section"><a href="#d5e159">1.3. Notes and Warnings</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e171">2. We Need Feedback!</a></span></dt></dl></dd><dt><span class="chapter"><a href="#d5e178">1. Transactions Overview</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e210">1.1. What is a transaction?</a></span></dt><dt><span class="section"><a href="#d5e238">1.2. The Coordinator</a></span></dt><dt><span class="section"><a href="#d5e243">1.3. The Transaction Context</a></span></dt><dt><span class="section"><a href="#d5e263">1.4. Participants</a></span></dt><dt><span class="section"><a href="#d5e266">1.5. Commit protocol</a></span></dt><dt><span class="section"><a href="#d5e290">1.6. The Synchronization Protocol</a></span></dt><dt><span class="section"><a href="#d5e310">1.7. Optimizations to the Protocol</a></span></dt><dt><span class="section"><a href="#d5e341">1.8. Non-Atomic Transactions and Heuristic Outcomes</a></span></dt><dt><span class="section"><a href="#d5e383">1.9. Interposition</a></span></dt><dt><span class="section"><a href="#d5e409">1.10. A New Transaction Protocol</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e421">1.10.1. Addressing the Problems of Transactioning in Loosely Coupled Systems</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="#d5e434">2. Failure Recovery</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e436">2.1. Architecture of the Recovery Manager</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e438">2.1.1. Crash Recovery Overview</a></span></dt><dt><span class="section"><a href="#d5e458">2.1.2. Recovery Manager</a></span></dt><dt><span class="section"><a href="#d5e533">2.1.3. Recovery Modules</a></span></dt><dt><span class="section"><a href="#d5e553">2.1.4. A Recovery Module for XA Resources</a></span></dt><dt><span class="section"><a href="#d5e592">2.1.5. Recovering XAConnections</a></span></dt><dt><span class="section"><a href="#d5e617">2.1.6. Alternative to XAResourceRecovery</a></span></dt><dt><span class="section"><a href="#d5e633">2.1.7. Shipped XAResourceRecovery implementations</a></span></dt><dt><span class="section"><a href="#d5e654">2.1.8. TransactionStatusConnectionManager</a></span></dt><dt><span class="section"><a href="#d5e658">2.1.9. Expired Scanner Thread</a></span></dt><dt><span class="section"><a href="#d5e674">2.1.10. Application Process</a></span></dt><dt><span class="section"><a href="#d5e679">2.1.11. TransactionStatusManager</a></span></dt><dt><span class="section"><a href="#d5e685">2.1.12. Object Store</a></span></dt><dt><span class="section"><a href="#d5e688">2.1.13. Socket free operation</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e694">2.2. How Narayana manages the OTS Recovery Protocol
     </a></span></dt><dd><dl><dt><span class="section"><a href="#d5e696">2.2.1. Recovery Protocol in OTS - Overview</a></span></dt><dt><span class="section"><a href="#d5e705">2.2.2. RecoveryCoordinator
             in Narayana
-        </a></span></dt><dt><span class="section"><a href="#d5e772">2.2.3. The default RecoveryCoordinator in JacOrb</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e791">2.3. Configuration Options</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e793">2.3.1. Recovery Protocol in OTS - Overview</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="#d5e842">3. Development Guide</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e844">3.1. Transactions</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e848">3.1.1. The Java Transaction API (JTA)</a></span></dt><dt><span class="section"><a href="#d5e879">3.1.2. Introducing the API</a></span></dt><dt><span class="section"><a href="#UserTransaction_Definition">3.1.3. UserTransaction</a></span></dt><dt><span class="section"><a href="#d5e918">3.1.4. TransactionManager</a></span></dt><dt><span class="section"><a href="#d5e967">3.1.5. Suspend and resuming a transaction</a></span></dt><dt><span class="section"><a href="#d5e986">3.1.6. The Transaction interface</a></span></dt><dt><span class="section"><a href="#d5e1013">3.1.7. Resource enlistment</a></span></dt><dt><span class="section"><a href="#d5e1031">3.1.8. Transaction synchronization</a></span></dt><dt><span class="section"><a href="#d5e1053">3.1.9. Transaction equality</a></span></dt><dt><span class="section"><a href="#d5e1065">3.1.10. TransactionSynchronizationRegistry</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1091">3.2. The Resource Manager</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1093">3.2.1. 
+        </a></span></dt><dt><span class="section"><a href="#d5e772">2.2.3. The default RecoveryCoordinator in JacOrb</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e791">2.3. Configuration Options</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e793">2.3.1. Recovery Protocol in OTS - Overview</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="#d5e842">3. Development Guide</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e844">3.1. Transactions</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e848">3.1.1. The Java Transaction API (Jakarta Transactions)</a></span></dt><dt><span class="section"><a href="#d5e880">3.1.2. Introducing the API</a></span></dt><dt><span class="section"><a href="#UserTransaction_Definition">3.1.3. UserTransaction</a></span></dt><dt><span class="section"><a href="#d5e920">3.1.4. TransactionManager</a></span></dt><dt><span class="section"><a href="#d5e969">3.1.5. Suspend and resuming a transaction</a></span></dt><dt><span class="section"><a href="#d5e988">3.1.6. The Transaction interface</a></span></dt><dt><span class="section"><a href="#d5e1015">3.1.7. Resource enlistment</a></span></dt><dt><span class="section"><a href="#d5e1033">3.1.8. Transaction synchronization</a></span></dt><dt><span class="section"><a href="#d5e1055">3.1.9. Transaction equality</a></span></dt><dt><span class="section"><a href="#d5e1067">3.1.10. TransactionSynchronizationRegistry</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1093">3.2. The Resource Manager</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1095">3.2.1. 
             The
             <code class="interfacename">XAResource</code>
             interface
-        </a></span></dt><dt><span class="section"><a href="#d5e1188">3.2.2. Opening a resource manager</a></span></dt><dt><span class="section"><a href="#d5e1193">3.2.3. Closing a resource manager</a></span></dt><dt><span class="section"><a href="#d5e1206">3.2.4. Thread of control</a></span></dt><dt><span class="section"><a href="#d5e1218">3.2.5. Transaction association</a></span></dt><dt><span class="section"><a href="#d5e1230">3.2.6. Externally controlled connections</a></span></dt><dt><span class="section"><a href="#d5e1236">3.2.7. Resource sharing</a></span></dt><dt><span class="section"><a href="#d5e1252">3.2.8. Local and global transactions</a></span></dt><dt><span class="section"><a href="#d5e1261">3.2.9. Transaction timeouts</a></span></dt><dt><span class="section"><a href="#d5e1278">3.2.10. Dynamic registration</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1287">3.3. General Transaction Issues</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1289">3.3.1. Advanced transaction issues with ArjunaCore</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1383">3.4. Tools</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1386">3.4.1. ObjectStore command-line browsers and editors</a></span></dt><dt><span class="section"><a href="#d5e1663">3.4.2. GUI Based Tools</a></span></dt><dt><span class="section"><a href="#d5e1681">3.4.3. View Transaction Statistics using an Application Server</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1748">3.5. Configuration options</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1750">3.5.1. Loading a configuration</a></span></dt><dt><span class="section"><a href="#d5e1845">3.5.2. ArjunaCore Options</a></span></dt><dt><span class="section"><a href="#d5e1874">3.5.3. Narayana
+        </a></span></dt><dt><span class="section"><a href="#d5e1190">3.2.2. Opening a resource manager</a></span></dt><dt><span class="section"><a href="#d5e1195">3.2.3. Closing a resource manager</a></span></dt><dt><span class="section"><a href="#d5e1208">3.2.4. Thread of control</a></span></dt><dt><span class="section"><a href="#d5e1220">3.2.5. Transaction association</a></span></dt><dt><span class="section"><a href="#d5e1232">3.2.6. Externally controlled connections</a></span></dt><dt><span class="section"><a href="#d5e1238">3.2.7. Resource sharing</a></span></dt><dt><span class="section"><a href="#d5e1254">3.2.8. Local and global transactions</a></span></dt><dt><span class="section"><a href="#d5e1263">3.2.9. Transaction timeouts</a></span></dt><dt><span class="section"><a href="#d5e1280">3.2.10. Dynamic registration</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1289">3.3. General Transaction Issues</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1291">3.3.1. Advanced transaction issues with ArjunaCore</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1385">3.4. Tools</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1388">3.4.1. ObjectStore command-line browsers and editors</a></span></dt><dt><span class="section"><a href="#d5e1665">3.4.2. GUI Based Tools</a></span></dt><dt><span class="section"><a href="#d5e1683">3.4.3. View Transaction Statistics using an Application Server</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1750">3.5. Configuration options</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1752">3.5.1. Loading a configuration</a></span></dt><dt><span class="section"><a href="#d5e1847">3.5.2. ArjunaCore Options</a></span></dt><dt><span class="section"><a href="#d5e1876">3.5.3. Narayana
             JTA Configuration options
-        </a></span></dt><dt><span class="section"><a href="#d5e1884">3.5.4. Narayana
+        </a></span></dt><dt><span class="section"><a href="#d5e1886">3.5.4. Narayana
             JTS Options
-        </a></span></dt><dt><span class="section"><a href="#d5e1895">3.5.5. Narayana
+        </a></span></dt><dt><span class="section"><a href="#d5e1897">3.5.5. Narayana
             WS-AT/WS-BA Options
-        </a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1914">3.6. Important Log Messages</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1917">3.6.1. Transaction State Change</a></span></dt><dt><span class="section"><a href="#d5e1950">3.6.2. Multi cause log message</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1965">3.7. Troubleshooting</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1968">3.7.1. WS-BA Participant-Completion Race Condition</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="#d5e2053">4. XTS Guide</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e2055">4.1. Introduction</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e2127">4.1.1. Managing service-Based Processes</a></span></dt><dt><span class="section"><a href="#d5e2138">4.1.2. Servlets</a></span></dt><dt><span class="section"><a href="#d5e2143">4.1.3. SOAP</a></span></dt><dt><span class="section"><a href="#d5e2147">4.1.4. Web Services Description Language (WDSL)</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e2151">4.2. Getting Started</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e2162">4.2.1. Enable
+        </a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1916">3.6. Important Log Messages</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1919">3.6.1. Transaction State Change</a></span></dt><dt><span class="section"><a href="#d5e1952">3.6.2. Multi cause log message</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1967">3.7. Troubleshooting</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1970">3.7.1. WS-BA Participant-Completion Race Condition</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="#d5e2055">4. XTS Guide</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e2057">4.1. Introduction</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e2129">4.1.1. Managing service-Based Processes</a></span></dt><dt><span class="section"><a href="#d5e2140">4.1.2. Servlets</a></span></dt><dt><span class="section"><a href="#d5e2145">4.1.3. SOAP</a></span></dt><dt><span class="section"><a href="#d5e2149">4.1.4. Web Services Description Language (WDSL)</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e2153">4.2. Getting Started</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e2164">4.2.1. Enable
             XTS on WildFly Application Server
-        </a></span></dt><dt><span class="section"><a href="#d5e2187">4.2.2. Working With WS-AT</a></span></dt><dt><span class="section"><a href="#d5e2240">4.2.3. Working With WS-BA</a></span></dt><dt><span class="section"><a href="#ref-TransactionContextPropagation">4.2.4. Configuration of The Transaction Context Propagation</a></span></dt><dt><span class="section"><a href="#d5e2299">4.2.5. Summary</a></span></dt></dl></dd><dt><span class="section"><a href="#sec-xts-api">4.3. The XTS API</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e2346">4.3.1. Participants</a></span></dt><dt><span class="section"><a href="#d5e2388">4.3.2. API for the Atomic Transaction Protocol</a></span></dt><dt><span class="section"><a href="#d5e2691">4.3.3. API for the Business Activity Protocol</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e2970">4.4. Stand-Alone Coordination</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e2978">4.4.1. Introduction</a></span></dt><dt><span class="section"><a href="#d5e2992">4.4.2. Configuring the Activation Coordinator</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e3069">4.5. Participant Crash Recovery</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e3098">4.5.1. WS-AT Recovery</a></span></dt><dt><span class="section"><a href="#d5e3201">4.5.2. WS-BA Recovery</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e3306">4.6. Web Service Transaction Service (XTS) Management</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e3309">4.6.1. Transaction manager overview</a></span></dt><dt><span class="section"><a href="#d5e3314">4.6.2. Configuring the transaction manager</a></span></dt><dt><span class="section"><a href="#d5e3322">4.6.3. Deployment descriptors</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e3326">4.7. Quickstarts Overview</a></span></dt><dd><dl><dt><span class="section"><a href="#ref-WSATMultiService">4.7.1. WS-AT Multi-Service</a></span></dt><dt><span class="section"><a href="#ref-WSATMultiHop">4.7.2. WS-AT Multi-Hop</a></span></dt><dt><span class="section"><a href="#d5e3344">4.7.3. XTS with SSL</a></span></dt><dt><span class="section"><a href="#d5e3349">4.7.4. Raw XTS API Demo</a></span></dt><dt><span class="section"><a href="#ref-CompensationsNonTransactionalResource">4.7.5. Non-transactional Resource with Compensating Transactions API</a></span></dt><dt><span class="section"><a href="#ref-CompensationsTravelAgent">4.7.6. Travel Agent with Compensating Transactions API</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="#txbridge">5. TXBridge Guide</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e3367">5.1. Introduction</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e3369">5.1.1. Contextual Overview</a></span></dt><dt><span class="section"><a href="#d5e3376">5.1.2. Transaction Bridging</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e3395">5.2. Transaction Bridge Architecture</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e3397">5.2.1. Overview</a></span></dt><dt><span class="section"><a href="#d5e3408">5.2.2. Shared Design Elements</a></span></dt><dt><span class="section"><a href="#d5e3430">5.2.3. Inbound Bridging</a></span></dt><dt><span class="section"><a href="#d5e3452">5.2.4. Outbound Bridging</a></span></dt><dt><span class="section"><a href="#d5e3472">5.2.5. Crash Recovery</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e3479">5.3. Using the Transaction Bridge</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e3481">5.3.1. Introduction</a></span></dt><dt><span class="section"><a href="#d5e3484">5.3.2. Enabling</a></span></dt><dt><span class="section"><a href="#d5e3509">5.3.3. Inbound Bridging</a></span></dt><dt><span class="section"><a href="#d5e3519">5.3.4. Outbound Bridging</a></span></dt><dt><span class="section"><a href="#d5e3528">5.3.5. Loops and Diamonds</a></span></dt><dt><span class="section"><a href="#d5e3536">5.3.6. Distributed JTA and the JTS</a></span></dt><dt><span class="section"><a href="#d5e3543">5.3.7. Logging</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e3554">5.4. Known Limitations</a></span></dt><dt><span class="section"><a href="#d5e3574">5.5. Design Notes</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e3576">5.5.1. General Points</a></span></dt><dt><span class="section"><a href="#d5e3583">5.5.2. Crash Recovery Considerations</a></span></dt><dt><span class="section"><a href="#d5e3603">5.5.3. Test framework</a></span></dt></dl></dd></dl></dd></dl></div>
+        </a></span></dt><dt><span class="section"><a href="#d5e2189">4.2.2. Working With WS-AT</a></span></dt><dt><span class="section"><a href="#d5e2242">4.2.3. Working With WS-BA</a></span></dt><dt><span class="section"><a href="#ref-TransactionContextPropagation">4.2.4. Configuration of The Transaction Context Propagation</a></span></dt><dt><span class="section"><a href="#d5e2301">4.2.5. Summary</a></span></dt></dl></dd><dt><span class="section"><a href="#sec-xts-api">4.3. The XTS API</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e2348">4.3.1. Participants</a></span></dt><dt><span class="section"><a href="#d5e2390">4.3.2. API for the Atomic Transaction Protocol</a></span></dt><dt><span class="section"><a href="#d5e2693">4.3.3. API for the Business Activity Protocol</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e2972">4.4. Stand-Alone Coordination</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e2980">4.4.1. Introduction</a></span></dt><dt><span class="section"><a href="#d5e2994">4.4.2. Configuring the Activation Coordinator</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e3071">4.5. Participant Crash Recovery</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e3100">4.5.1. WS-AT Recovery</a></span></dt><dt><span class="section"><a href="#d5e3203">4.5.2. WS-BA Recovery</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e3308">4.6. Web Service Transaction Service (XTS) Management</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e3311">4.6.1. Transaction manager overview</a></span></dt><dt><span class="section"><a href="#d5e3316">4.6.2. Configuring the transaction manager</a></span></dt><dt><span class="section"><a href="#d5e3324">4.6.3. Deployment descriptors</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e3328">4.7. Quickstarts Overview</a></span></dt><dd><dl><dt><span class="section"><a href="#ref-WSATMultiService">4.7.1. WS-AT Multi-Service</a></span></dt><dt><span class="section"><a href="#ref-WSATMultiHop">4.7.2. WS-AT Multi-Hop</a></span></dt><dt><span class="section"><a href="#d5e3346">4.7.3. XTS with SSL</a></span></dt><dt><span class="section"><a href="#d5e3351">4.7.4. Raw XTS API Demo</a></span></dt><dt><span class="section"><a href="#ref-CompensationsNonTransactionalResource">4.7.5. Non-transactional Resource with Compensating Transactions API</a></span></dt><dt><span class="section"><a href="#ref-CompensationsTravelAgent">4.7.6. Travel Agent with Compensating Transactions API</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="#txbridge">5. TXBridge Guide</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e3369">5.1. Introduction</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e3371">5.1.1. Contextual Overview</a></span></dt><dt><span class="section"><a href="#d5e3378">5.1.2. Transaction Bridging</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e3397">5.2. Transaction Bridge Architecture</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e3399">5.2.1. Overview</a></span></dt><dt><span class="section"><a href="#d5e3410">5.2.2. Shared Design Elements</a></span></dt><dt><span class="section"><a href="#d5e3432">5.2.3. Inbound Bridging</a></span></dt><dt><span class="section"><a href="#d5e3454">5.2.4. Outbound Bridging</a></span></dt><dt><span class="section"><a href="#d5e3474">5.2.5. Crash Recovery</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e3481">5.3. Using the Transaction Bridge</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e3483">5.3.1. Introduction</a></span></dt><dt><span class="section"><a href="#d5e3486">5.3.2. Enabling</a></span></dt><dt><span class="section"><a href="#d5e3511">5.3.3. Inbound Bridging</a></span></dt><dt><span class="section"><a href="#d5e3521">5.3.4. Outbound Bridging</a></span></dt><dt><span class="section"><a href="#d5e3530">5.3.5. Loops and Diamonds</a></span></dt><dt><span class="section"><a href="#d5e3538">5.3.6. Distributed JTA and the JTS</a></span></dt><dt><span class="section"><a href="#d5e3545">5.3.7. Logging</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e3556">5.4. Known Limitations</a></span></dt><dt><span class="section"><a href="#d5e3576">5.5. Design Notes</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e3578">5.5.1. General Points</a></span></dt><dt><span class="section"><a href="#d5e3585">5.5.2. Crash Recovery Considerations</a></span></dt><dt><span class="section"><a href="#d5e3605">5.5.3. Test framework</a></span></dt></dl></dd></dl></dd></dl></div>
     
     <div class="preface" title="Preface"><div class="titlepage"><div><div><h2 class="title"><a id="preface"/>Preface</h2></div></div></div>
     
@@ -349,7 +349,7 @@ public class ExClient
                 </dd></dl></div>
         <div class="figure"><a id="d5e256"/><p class="title"><strong>Figure 1.1. Context Flow</strong></p><div class="figure-contents">
             
-            <div class="mediaobject"><img src="images/transactions-overview-fig-web-services-context-flow.png" alt="Context Flow" longdesc="/home/mmusgrov/tmp/narayana/5.13.1.Final/sources/documentation/product/target/docbook/publish/en-US/html_single/ld-d5e258.html"/><div class="longdesc-link" align="right"><br clear="all"/><span class="longdesc-link">[<a href="ld-d5e258.html" target="longdesc">D</a>]</span></div></div>
+            <div class="mediaobject"><img src="images/transactions-overview-fig-web-services-context-flow.png" alt="Context Flow" longdesc="/home/mmusgrov/tmp/narayana/6.0.0.Final/sources/documentation/product/target/docbook/publish/en-US/html_single/ld-d5e258.html"/><div class="longdesc-link" align="right"><br clear="all"/><span class="longdesc-link">[<a href="ld-d5e258.html" target="longdesc">D</a>]</span></div></div>
         </div></div><br class="figure-break"/>
     </div>
     <div class="section" title="1.4. Participants"><div class="titlepage"><div><div><h2 class="title"><a id="d5e263"/>1.4. Participants</h2></div></div></div>
@@ -388,7 +388,7 @@ public class ExClient
         </p>
         <div class="figure"><a id="two-phase-commit-overview"/><p class="title"><strong>Figure 1.2. Two-Phase Commit Overview</strong></p><div class="figure-contents">
             
-            <div class="mediaobject"><img src="images/transactions-overview-fig-two-phase-commit-overview.png" alt="Two-Phase Commit Overview" longdesc="/home/mmusgrov/tmp/narayana/5.13.1.Final/sources/documentation/product/target/docbook/publish/en-US/html_single/ld-d5e273.html"/><div class="longdesc-link" align="right"><br clear="all"/><span class="longdesc-link">[<a href="ld-d5e273.html" target="longdesc">D</a>]</span></div></div>
+            <div class="mediaobject"><img src="images/transactions-overview-fig-two-phase-commit-overview.png" alt="Two-Phase Commit Overview" longdesc="/home/mmusgrov/tmp/narayana/6.0.0.Final/sources/documentation/product/target/docbook/publish/en-US/html_single/ld-d5e273.html"/><div class="longdesc-link" align="right"><br clear="all"/><span class="longdesc-link">[<a href="ld-d5e273.html" target="longdesc">D</a>]</span></div></div>
         </div></div><br class="figure-break"/>
         <div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h2>Note</h2>
             <p>
@@ -603,7 +603,7 @@ public class ExClient
         </p>
         <div class="figure"><a id="fig-interpositions"/><p class="title"><strong>Figure 1.3. Interpositions</strong></p><div class="figure-contents">
             
-            <div class="mediaobject"><img src="images/transactions-overview-fig-interpositions.png" alt="Interpositions" longdesc="/home/mmusgrov/tmp/narayana/5.13.1.Final/sources/documentation/product/target/docbook/publish/en-US/html_single/ld-d5e390.html"/><div class="longdesc-link" align="right"><br clear="all"/><span class="longdesc-link">[<a href="ld-d5e390.html" target="longdesc">D</a>]</span></div></div>
+            <div class="mediaobject"><img src="images/transactions-overview-fig-interpositions.png" alt="Interpositions" longdesc="/home/mmusgrov/tmp/narayana/6.0.0.Final/sources/documentation/product/target/docbook/publish/en-US/html_single/ld-d5e390.html"/><div class="longdesc-link" align="right"><br clear="all"/><span class="longdesc-link">[<a href="ld-d5e390.html" target="longdesc">D</a>]</span></div></div>
         </div></div><br class="figure-break"/>
         <p>
             Interposition is particularly useful for Web Services transactions, as a way of limiting the amount of
@@ -712,7 +712,7 @@ public class ExClient
         </p>
         <div class="figure"><a id="d5e441"/><p class="title"><strong>Figure 2.1. Recovery Manager Architecture</strong></p><div class="figure-contents">
             
-            <div class="mediaobject"><img src="images/failure-recovery-fig1-crashrecoveryarchitecture.png" alt="Recovery Manager Architecture" longdesc="/home/mmusgrov/tmp/narayana/5.13.1.Final/sources/documentation/product/target/docbook/publish/en-US/html_single/ld-d5e443.html"/><div class="longdesc-link" align="right"><br clear="all"/><span class="longdesc-link">[<a href="ld-d5e443.html" target="longdesc">D</a>]</span></div></div>
+            <div class="mediaobject"><img src="images/failure-recovery-fig1-crashrecoveryarchitecture.png" alt="Recovery Manager Architecture" longdesc="/home/mmusgrov/tmp/narayana/6.0.0.Final/sources/documentation/product/target/docbook/publish/en-US/html_single/ld-d5e443.html"/><div class="longdesc-link" align="right"><br clear="all"/><span class="longdesc-link">[<a href="ld-d5e443.html" target="longdesc">D</a>]</span></div></div>
         </div></div><br class="figure-break"/>
         <p>The Recovery Manager is a daemon process1 responsible for
             performing crash recovery. Only one Recovery Manager runs per
@@ -1236,7 +1236,7 @@ public class ExClient
         </p>
         <div class="figure"><a id="d5e572"/><p class="title"><strong>Figure 2.2. Resource-initiated recovery and XA Recovery</strong></p><div class="figure-contents">
             
-            <div class="mediaobject"><img src="images/failure-recovery-fig2-resourceinitiatedrecovery.png" alt="Resource-initiated recovery and XA Recovery" longdesc="/home/mmusgrov/tmp/narayana/5.13.1.Final/sources/documentation/product/target/docbook/publish/en-US/html_single/ld-d5e574.html"/><div class="longdesc-link" align="right"><br clear="all"/><span class="longdesc-link">[<a href="ld-d5e574.html" target="longdesc">D</a>]</span></div></div>
+            <div class="mediaobject"><img src="images/failure-recovery-fig2-resourceinitiatedrecovery.png" alt="Resource-initiated recovery and XA Recovery" longdesc="/home/mmusgrov/tmp/narayana/6.0.0.Final/sources/documentation/product/target/docbook/publish/en-US/html_single/ld-d5e574.html"/><div class="longdesc-link" align="right"><br clear="all"/><span class="longdesc-link">[<a href="ld-d5e574.html" target="longdesc">D</a>]</span></div></div>
         </div></div><br class="figure-break"/>
         <p>The XARecoveryModule will use the XAResourceRecovery
             implementation to get a XAResource to the target datasource. On
@@ -2086,17 +2086,17 @@ public class ExClient
     </div>
 </div>
 </div>
-    <div class="chapter" title="Chapter 3. Development Guide"><div class="titlepage"><div><div><h2 class="title"><a id="d5e842"/>Chapter 3. Development Guide</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="#d5e844">3.1. Transactions</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e848">3.1.1. The Java Transaction API (JTA)</a></span></dt><dt><span class="section"><a href="#d5e879">3.1.2. Introducing the API</a></span></dt><dt><span class="section"><a href="#UserTransaction_Definition">3.1.3. UserTransaction</a></span></dt><dt><span class="section"><a href="#d5e918">3.1.4. TransactionManager</a></span></dt><dt><span class="section"><a href="#d5e967">3.1.5. Suspend and resuming a transaction</a></span></dt><dt><span class="section"><a href="#d5e986">3.1.6. The Transaction interface</a></span></dt><dt><span class="section"><a href="#d5e1013">3.1.7. Resource enlistment</a></span></dt><dt><span class="section"><a href="#d5e1031">3.1.8. Transaction synchronization</a></span></dt><dt><span class="section"><a href="#d5e1053">3.1.9. Transaction equality</a></span></dt><dt><span class="section"><a href="#d5e1065">3.1.10. TransactionSynchronizationRegistry</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1091">3.2. The Resource Manager</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1093">3.2.1. 
+    <div class="chapter" title="Chapter 3. Development Guide"><div class="titlepage"><div><div><h2 class="title"><a id="d5e842"/>Chapter 3. Development Guide</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="#d5e844">3.1. Transactions</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e848">3.1.1. The Java Transaction API (Jakarta Transactions)</a></span></dt><dt><span class="section"><a href="#d5e880">3.1.2. Introducing the API</a></span></dt><dt><span class="section"><a href="#UserTransaction_Definition">3.1.3. UserTransaction</a></span></dt><dt><span class="section"><a href="#d5e920">3.1.4. TransactionManager</a></span></dt><dt><span class="section"><a href="#d5e969">3.1.5. Suspend and resuming a transaction</a></span></dt><dt><span class="section"><a href="#d5e988">3.1.6. The Transaction interface</a></span></dt><dt><span class="section"><a href="#d5e1015">3.1.7. Resource enlistment</a></span></dt><dt><span class="section"><a href="#d5e1033">3.1.8. Transaction synchronization</a></span></dt><dt><span class="section"><a href="#d5e1055">3.1.9. Transaction equality</a></span></dt><dt><span class="section"><a href="#d5e1067">3.1.10. TransactionSynchronizationRegistry</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1093">3.2. The Resource Manager</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1095">3.2.1. 
             The
             <code class="interfacename">XAResource</code>
             interface
-        </a></span></dt><dt><span class="section"><a href="#d5e1188">3.2.2. Opening a resource manager</a></span></dt><dt><span class="section"><a href="#d5e1193">3.2.3. Closing a resource manager</a></span></dt><dt><span class="section"><a href="#d5e1206">3.2.4. Thread of control</a></span></dt><dt><span class="section"><a href="#d5e1218">3.2.5. Transaction association</a></span></dt><dt><span class="section"><a href="#d5e1230">3.2.6. Externally controlled connections</a></span></dt><dt><span class="section"><a href="#d5e1236">3.2.7. Resource sharing</a></span></dt><dt><span class="section"><a href="#d5e1252">3.2.8. Local and global transactions</a></span></dt><dt><span class="section"><a href="#d5e1261">3.2.9. Transaction timeouts</a></span></dt><dt><span class="section"><a href="#d5e1278">3.2.10. Dynamic registration</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1287">3.3. General Transaction Issues</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1289">3.3.1. Advanced transaction issues with ArjunaCore</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1383">3.4. Tools</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1386">3.4.1. ObjectStore command-line browsers and editors</a></span></dt><dt><span class="section"><a href="#d5e1663">3.4.2. GUI Based Tools</a></span></dt><dt><span class="section"><a href="#d5e1681">3.4.3. View Transaction Statistics using an Application Server</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1748">3.5. Configuration options</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1750">3.5.1. Loading a configuration</a></span></dt><dt><span class="section"><a href="#d5e1845">3.5.2. ArjunaCore Options</a></span></dt><dt><span class="section"><a href="#d5e1874">3.5.3. Narayana
+        </a></span></dt><dt><span class="section"><a href="#d5e1190">3.2.2. Opening a resource manager</a></span></dt><dt><span class="section"><a href="#d5e1195">3.2.3. Closing a resource manager</a></span></dt><dt><span class="section"><a href="#d5e1208">3.2.4. Thread of control</a></span></dt><dt><span class="section"><a href="#d5e1220">3.2.5. Transaction association</a></span></dt><dt><span class="section"><a href="#d5e1232">3.2.6. Externally controlled connections</a></span></dt><dt><span class="section"><a href="#d5e1238">3.2.7. Resource sharing</a></span></dt><dt><span class="section"><a href="#d5e1254">3.2.8. Local and global transactions</a></span></dt><dt><span class="section"><a href="#d5e1263">3.2.9. Transaction timeouts</a></span></dt><dt><span class="section"><a href="#d5e1280">3.2.10. Dynamic registration</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1289">3.3. General Transaction Issues</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1291">3.3.1. Advanced transaction issues with ArjunaCore</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1385">3.4. Tools</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1388">3.4.1. ObjectStore command-line browsers and editors</a></span></dt><dt><span class="section"><a href="#d5e1665">3.4.2. GUI Based Tools</a></span></dt><dt><span class="section"><a href="#d5e1683">3.4.3. View Transaction Statistics using an Application Server</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1750">3.5. Configuration options</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1752">3.5.1. Loading a configuration</a></span></dt><dt><span class="section"><a href="#d5e1847">3.5.2. ArjunaCore Options</a></span></dt><dt><span class="section"><a href="#d5e1876">3.5.3. Narayana
             JTA Configuration options
-        </a></span></dt><dt><span class="section"><a href="#d5e1884">3.5.4. Narayana
+        </a></span></dt><dt><span class="section"><a href="#d5e1886">3.5.4. Narayana
             JTS Options
-        </a></span></dt><dt><span class="section"><a href="#d5e1895">3.5.5. Narayana
+        </a></span></dt><dt><span class="section"><a href="#d5e1897">3.5.5. Narayana
             WS-AT/WS-BA Options
-        </a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1914">3.6. Important Log Messages</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1917">3.6.1. Transaction State Change</a></span></dt><dt><span class="section"><a href="#d5e1950">3.6.2. Multi cause log message</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1965">3.7. Troubleshooting</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1968">3.7.1. WS-BA Participant-Completion Race Condition</a></span></dt></dl></dd></dl></div>
+        </a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1916">3.6. Important Log Messages</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1919">3.6.1. Transaction State Change</a></span></dt><dt><span class="section"><a href="#d5e1952">3.6.2. Multi cause log message</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e1967">3.7. Troubleshooting</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e1970">3.7.1. WS-BA Participant-Completion Race Condition</a></span></dt></dl></dd></dl></div>
     
     <div class="section" title="3.1. Transactions"><div class="titlepage"><div><div><h2 class="title"><a id="d5e844"/>3.1. Transactions</h2></div></div></div>
     
@@ -2108,7 +2108,7 @@ public class ExClient
     <p>
         Transactions ensure data integrity when an application interacts with multiple datasources.
     </p>
-    <div class="section" title="3.1.1. The Java Transaction API (JTA)"><div class="titlepage"><div><div><h3 class="title"><a id="d5e848"/>3.1.1. The Java Transaction API (JTA)</h3></div></div></div>
+    <div class="section" title="3.1.1. The Java Transaction API (Jakarta Transactions)"><div class="titlepage"><div><div><h3 class="title"><a id="d5e848"/>3.1.1. The Java Transaction API (Jakarta Transactions)</h3></div></div></div>
         
         <p>
             The interfaces specified by the many transaction standards tend to be too low-level for most
@@ -2116,9 +2116,9 @@ public class ExClient
             programmers. Therefore, Sun Microsystems created the Java Transaction API (JTA),
             which specifies higher-level
             interfaces to assist in the development of distributed transactional
-            applications. The API has since been renamed and is called Jakarta Transactions and the
-            specification is maintained at <a class="ulink" href="https://jakarta.ee/specifications/transactions">
-            https://jakarta.ee/specifications/transactions</a>.
+            applications. JTA was later renamed Jakarta Transactions and the
+            specification is maintained at <span style="color: red">&lt;a&gt;
+            https://jakarta.ee/specifications/transactions&lt;/a&gt;</span>.
         </p>
         <p>
             Note, these interfaces are still low-level. You still need to implement state management and
@@ -2130,7 +2130,7 @@ public class ExClient
         </p>
         <p>
             With reference to Jakarta Transactions (
-            <a class="ulink" href="https://jakarta.ee/specifications/transactions/2.0/">https://jakarta.ee/specifications/transactions/2.0/</a>
+            <a class="ulink" href="https://jakarta.ee/specifications/transactions/">https://jakarta.ee/specifications/transactions/</a>
             ),
             distributed transaction services typically involve a number of participants:
         </p>
@@ -2180,7 +2180,7 @@ public class ExClient
             need to be exposed. You only need to define high-level interfaces
             to allow transaction demarcation, resource
             enlistment, synchronization and recovery process to be
-            driven from the users of the transaction services. The JTA is
+            driven from the users of the transaction services. Jakarta Transactions is
             a high-level application interface
             that allows a transactional application to demarcate transaction boundaries, and
             also contains a
@@ -2189,12 +2189,12 @@ public class ExClient
         <div class="important" style="margin-left: 0.5in; margin-right: 0.5in;"><h2>Compatibility</h2>
             
             <p>
-                the JTA support provided by Narayana
+                the Jakarta Transactions support provided by Narayana
                 is compliant with the 1.1 specification.
             </p>
         </div>
     </div>
-    <div class="section" title="3.1.2. Introducing the API"><div class="titlepage"><div><div><h3 class="title"><a id="d5e879"/>3.1.2. Introducing the API</h3></div></div></div>
+    <div class="section" title="3.1.2. Introducing the API"><div class="titlepage"><div><div><h3 class="title"><a id="d5e880"/>3.1.2. Introducing the API</h3></div></div></div>
         
         <p>
             The Java Transaction API consists of three elements:
@@ -2214,13 +2214,13 @@ public class ExClient
                 </p>
             </li></ul></div>
         <p>
-            All of the JTA classes and interfaces exist within the
+            All of the Jakarta Transactions classes and interfaces exist within the
             <span class="package">jakarta.transaction</span>
             package, and the
             corresponding Narayana
             implementations within the
             <span class="package">com.arjuna.ats.jta</span>
-            package.
+            package. Note that XA resource API classes are still part of the Java SE (<a class="ulink" href="https://jakarta.ee/specifications/transactions/2.0/jakarta-transactions-spec-2.0.html#relationship-to-other-java-apis">https://jakarta.ee/specifications/transactions/2.0/jakarta-transactions-spec-2.0.html#relationship-to-other-java-apis</a>)
         </p>
         <p>
             Each Xid created by Narayana
@@ -2274,7 +2274,7 @@ public class ExClient
             <code class="methodname">com.arjuna.ats.jta.UserTransaction.userTransaction()</code>
             .
         </p>
-        <div class="procedure" title="Procedure 3.1. Selecting the local JTA Implementation"><a id="d5e908"/><p class="title"><strong>Procedure 3.1. Selecting the local JTA Implementation</strong></p><ol class="procedure" type="1"><li class="step" title="Step 1">
+        <div class="procedure" title="Procedure 3.1. Selecting the local Jakarta Transactions Implementation"><a id="d5e910"/><p class="title"><strong>Procedure 3.1. Selecting the local Jakarta Transactions Implementation</strong></p><ol class="procedure" type="1"><li class="step" title="Step 1">
                 <p>
                     Set property
                     <code class="varname">JTAEnvironmentBean.jtaTMImplementation</code>
@@ -2294,7 +2294,7 @@ public class ExClient
             </li></ol></div>
     </div>
 
-    <div class="section" title="3.1.4. TransactionManager"><div class="titlepage"><div><div><h3 class="title"><a id="d5e918"/>3.1.4. TransactionManager</h3></div></div></div>
+    <div class="section" title="3.1.4. TransactionManager"><div class="titlepage"><div><div><h3 class="title"><a id="d5e920"/>3.1.4. TransactionManager</h3></div></div></div>
         
         <p>
             The
@@ -2330,7 +2330,7 @@ public class ExClient
             are specific to the target transaction, regardless of the calling
             thread’s transaction context.
         </p>
-        <div class="table"><a id="d5e930"/><p class="title"><strong>Table 3.1. 
+        <div class="table"><a id="d5e932"/><p class="title"><strong>Table 3.1. 
                 <code class="interfacename">TransactionManager</code>
                 Methods
             </strong></p><div class="table-contents">
@@ -2411,10 +2411,10 @@ public class ExClient
         </p>
     </div>
 
-    <div class="section" title="3.1.5. Suspend and resuming a transaction"><div class="titlepage"><div><div><h3 class="title"><a id="d5e967"/>3.1.5. Suspend and resuming a transaction</h3></div></div></div>
+    <div class="section" title="3.1.5. Suspend and resuming a transaction"><div class="titlepage"><div><div><h3 class="title"><a id="d5e969"/>3.1.5. Suspend and resuming a transaction</h3></div></div></div>
         
         <p>
-            The JTA supports the concept of a thread temporarily suspending and resuming transactions in
+            Jakarta Transactions supports the concept of a thread temporarily suspending and resuming transactions in
             order to perform
             non-transactional work. Call the
             <code class="methodname">suspend</code>
@@ -2447,7 +2447,7 @@ public class ExClient
             <code class="systemitem">IllegalStateException</code>
             exception is thrown.
         </p>
-        <div class="example"><a id="d5e979"/><p class="title"><strong>Example 3.1. 
+        <div class="example"><a id="d5e981"/><p class="title"><strong>Example 3.1. 
                 Using the
                 <code class="methodname">suspend</code>
                 method
@@ -2465,7 +2465,7 @@ TransactionManager.resume(tobj);
         Narayana
                 allows a suspended transaction to be resumed by a different thread. This
                 feature is not required by
-                JTA, but is an important feature.
+                Jakarta Transactions, but is an important feature.
             </p>
         </div>
         <p>
@@ -2485,7 +2485,7 @@ TransactionManager.resume(tobj);
         </p>
     </div>
 
-    <div class="section" title="3.1.6. The Transaction interface"><div class="titlepage"><div><div><h3 class="title"><a id="d5e986"/>3.1.6. The Transaction interface</h3></div></div></div>
+    <div class="section" title="3.1.6. The Transaction interface"><div class="titlepage"><div><div><h3 class="title"><a id="d5e988"/>3.1.6. The Transaction interface</h3></div></div></div>
         
         <p>
             The
@@ -2532,7 +2532,7 @@ TransactionManager.resume(tobj);
             does not impose restrictions on threads terminating transactions.
         </p>
         <p>
-            The JTA standard does not provide a means to obtain the transaction identifier. However,
+            Jakarta Transactions does not provide a means to obtain the transaction identifier. However,
       Narayana
             provides several
             ways to view the transaction identifier. Call method
@@ -2558,7 +2558,7 @@ TransactionManager.resume(tobj);
     </div>
 
 
-    <div class="section" title="3.1.7. Resource enlistment"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1013"/>3.1.7. Resource enlistment</h3></div></div></div>
+    <div class="section" title="3.1.7. Resource enlistment"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1015"/>3.1.7. Resource enlistment</h3></div></div></div>
         
         <p>
             Typically, an application server manages transactional resources, such as database
@@ -2576,7 +2576,7 @@ TransactionManager.resume(tobj);
             through the two-phase commit protocol.
         </p>
         <p>
-            As stated previously, the JTA is much more closely integrated with the XA concept of resources
+            As stated previously, Jakarta Transactions is much more closely integrated with the XA concept of resources
             than the arbitrary
             objects. For each resource the application is using, the application server
             invokes the
@@ -2630,7 +2630,7 @@ TransactionManager.resume(tobj);
     </div>
 
 
-    <div class="section" title="3.1.8. Transaction synchronization"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1031"/>3.1.8. Transaction synchronization</h3></div></div></div>
+    <div class="section" title="3.1.8. Transaction synchronization"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1033"/>3.1.8. Transaction synchronization</h3></div></div></div>
         
         <p>
             Transaction synchronization allows the application server to be notified before and after the
@@ -2668,14 +2668,14 @@ TransactionManager.resume(tobj);
                                 method is executed without a transaction context.
                             </p>
                             <p>
-                                NOTE: If a JTA XAResource throws a RuntimeException, this method will not be called as the transaction has not and
+                                NOTE: If an XAResource throws a RuntimeException, this method will not be called as the transaction has not and
                                 cannot complete. Please see JBTM-2148 for more details.
                             </p>
                         </td></tr></tbody></table>
         </div>
     </div>
 
-    <div class="section" title="3.1.9. Transaction equality"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1053"/>3.1.9. Transaction equality</h3></div></div></div>
+    <div class="section" title="3.1.9. Transaction equality"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1055"/>3.1.9. Transaction equality</h3></div></div></div>
         
         <p>
             The transaction manager implements the
@@ -2692,7 +2692,7 @@ TransactionManager.resume(tobj);
             if the target object and the parameter
             object both refer to the same global transaction.
         </p>
-        <div class="example"><a id="d5e1061"/><p class="title"><strong>Example 3.2. 
+        <div class="example"><a id="d5e1063"/><p class="title"><strong>Example 3.2. 
                 Method
                 <code class="methodname">equals</code>
             </strong></p><div class="example-contents">
@@ -2709,19 +2709,20 @@ boolean isSame = txObj.equals(someOtherTxObj);
     </div>
 
 
-    <div class="section" title="3.1.10. TransactionSynchronizationRegistry"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1065"/>3.1.10. TransactionSynchronizationRegistry</h3></div></div></div>
+    <div class="section" title="3.1.10. TransactionSynchronizationRegistry"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1067"/>3.1.10. TransactionSynchronizationRegistry</h3></div></div></div>
         
         <p>
             The
             <code class="interfacename">jakarta.transaction.TransactionSynchronizationRegistry</code>
             interface, added to the
-            JTA API in version 1.1, provides for registering Synchronizations with
+            Jakarta Transactions API in version 1.1, provides for registering Synchronizations with
             special ordering behavior, and for storing
             key-value pairs in a per-transaction Map. Full
-            details are available from the Jakarta Transactions API specification and javadoc. Here we focus on
+            details are available in the Jakarta Transactions API specification and
+            javadoc. Here we focus on
             implementation specific behavior.
         </p>
-        <div class="example"><a id="d5e1069"/><p class="title"><strong>Example 3.3. Accessing the TransactionSynchronizationRegistry in standalone environments</strong></p><div class="example-contents">
+        <div class="example"><a id="d5e1071"/><p class="title"><strong>Example 3.3. Accessing the TransactionSynchronizationRegistry in standalone environments</strong></p><div class="example-contents">
             
             <pre><code class="language-java">
                 jakarta.transaction.TransactionSynchronizationRegistry tsr = new com.arjuna.ats.internal.jta.transaction.arjunacore.TransactionSynchronizationRegistryImple();
@@ -2783,9 +2784,9 @@ boolean isSame = txObj.equals(someOtherTxObj);
         </p>
     </div>
 </div>
-    <div class="section" title="3.2. The Resource Manager"><div class="titlepage"><div><div><h2 class="title"><a id="d5e1091"/>3.2. The Resource Manager</h2></div></div></div>
+    <div class="section" title="3.2. The Resource Manager"><div class="titlepage"><div><div><h2 class="title"><a id="d5e1093"/>3.2. The Resource Manager</h2></div></div></div>
     
-    <div class="section" title="3.2.1.  The XAResource interface"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1093"/>3.2.1. 
+    <div class="section" title="3.2.1.  The XAResource interface"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1095"/>3.2.1. 
             The
             <code class="interfacename">XAResource</code>
             interface
@@ -2908,7 +2909,7 @@ boolean isSame = txObj.equals(someOtherTxObj);
                 </p>
             </li></ul></div>
 
-        <div class="section" title="3.2.1.1.  Extended XAResource control"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1144"/>3.2.1.1. 
+        <div class="section" title="3.2.1.1.  Extended XAResource control"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1146"/>3.2.1.1. 
                 Extended
                 <code class="interfacename">XAResource</code>
                 control
@@ -2978,7 +2979,7 @@ boolean isSame = txObj.equals(someOtherTxObj);
                     implicit context propagation.
                 </p>
             </div>
-            <div class="section" title="3.2.1.1.1. Enlisting multiple one-phase-aware resources"><div class="titlepage"><div><div><h5 class="title"><a id="d5e1167"/>3.2.1.1.1. Enlisting multiple one-phase-aware resources</h5></div></div></div>
+            <div class="section" title="3.2.1.1.1. Enlisting multiple one-phase-aware resources"><div class="titlepage"><div><div><h5 class="title"><a id="d5e1169"/>3.2.1.1.1. Enlisting multiple one-phase-aware resources</h5></div></div></div>
                 
                 <p>
                     One-phase commit is used to process a single one-phase aware resource, which does not conform to the
@@ -3048,7 +3049,7 @@ boolean isSame = txObj.equals(someOtherTxObj);
         </div>
     </div>
 
-    <div class="section" title="3.2.2. Opening a resource manager"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1188"/>3.2.2. Opening a resource manager</h3></div></div></div>
+    <div class="section" title="3.2.2. Opening a resource manager"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1190"/>3.2.2. Opening a resource manager</h3></div></div></div>
         
         <p>
             The X/Open
@@ -3065,7 +3066,7 @@ boolean isSame = txObj.equals(someOtherTxObj);
         </p>
     </div>
 
-    <div class="section" title="3.2.3. Closing a resource manager"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1193"/>3.2.3. Closing a resource manager</h3></div></div></div>
+    <div class="section" title="3.2.3. Closing a resource manager"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1195"/>3.2.3. Closing a resource manager</h3></div></div></div>
         
         <p>
             The resource adapter closes a resource manager as a result of destroying the transactional resource. A
@@ -3102,7 +3103,7 @@ boolean isSame = txObj.equals(someOtherTxObj);
         </p>
     </div>
 
-    <div class="section" title="3.2.4. Thread of control"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1206"/>3.2.4. Thread of control</h3></div></div></div>
+    <div class="section" title="3.2.4. Thread of control"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1208"/>3.2.4. Thread of control</h3></div></div></div>
         
         <p>
             The X/Open
@@ -3137,7 +3138,7 @@ boolean isSame = txObj.equals(someOtherTxObj);
         </p>
     </div>
 
-    <div class="section" title="3.2.5. Transaction association"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1218"/>3.2.5. Transaction association</h3></div></div></div>
+    <div class="section" title="3.2.5. Transaction association"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1220"/>3.2.5. Transaction association</h3></div></div></div>
         
         <p>
             A transaction is associated with a transactional resource via the
@@ -3170,7 +3171,7 @@ boolean isSame = txObj.equals(someOtherTxObj);
         </p>
     </div>
 
-    <div class="section" title="3.2.6. Externally controlled connections"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1230"/>3.2.6. Externally controlled connections</h3></div></div></div>
+    <div class="section" title="3.2.6. Externally controlled connections"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1232"/>3.2.6. Externally controlled connections</h3></div></div></div>
         
         <p>
             For a transactional application whose transaction states are managed by an application server, its resources
@@ -3194,7 +3195,7 @@ boolean isSame = txObj.equals(someOtherTxObj);
         </p>
     </div>
 
-    <div class="section" title="3.2.7. Resource sharing"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1236"/>3.2.7. Resource sharing</h3></div></div></div>
+    <div class="section" title="3.2.7. Resource sharing"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1238"/>3.2.7. Resource sharing</h3></div></div></div>
         
         <p>
             When the same transactional resource is used to interleave multiple transactions, the application server must
@@ -3249,7 +3250,7 @@ xares.commit(xid1, false);
         </div></div><br class="example-break"/>
     </div>
 
-    <div class="section" title="3.2.8. Local and global transactions"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1252"/>3.2.8. Local and global transactions</h3></div></div></div>
+    <div class="section" title="3.2.8. Local and global transactions"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1254"/>3.2.8. Local and global transactions</h3></div></div></div>
         
         <p>
             The resource adapter must support the usage of both local and global transactions within the same
@@ -3272,7 +3273,7 @@ xares.commit(xid1, false);
     </div>
 
 
-    <div class="section" title="3.2.9. Transaction timeouts"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1261"/>3.2.9. Transaction timeouts</h3></div></div></div>
+    <div class="section" title="3.2.9. Transaction timeouts"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1263"/>3.2.9. Transaction timeouts</h3></div></div></div>
         
         <p>
             You can associate timeout values with transactions in order to control their lifetimes. If the timeout value
@@ -3326,7 +3327,7 @@ xares.commit(xid1, false);
 
     </div>
 
-    <div class="section" title="3.2.10. Dynamic registration"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1278"/>3.2.10. Dynamic registration</h3></div></div></div>
+    <div class="section" title="3.2.10. Dynamic registration"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1280"/>3.2.10. Dynamic registration</h3></div></div></div>
         
         <p>
             Dynamic registration is not supported in
@@ -3350,9 +3351,9 @@ xares.commit(xid1, false);
             </li></ul></div>
     </div>
 </div>
-    <div class="section" title="3.3. General Transaction Issues"><div class="titlepage"><div><div><h2 class="title"><a id="d5e1287"/>3.3. General Transaction Issues</h2></div></div></div>
+    <div class="section" title="3.3. General Transaction Issues"><div class="titlepage"><div><div><h2 class="title"><a id="d5e1289"/>3.3. General Transaction Issues</h2></div></div></div>
     
-    <div class="section" title="3.3.1. Advanced transaction issues with ArjunaCore"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1289"/>3.3.1. Advanced transaction issues with ArjunaCore</h3></div></div></div>
+    <div class="section" title="3.3.1. Advanced transaction issues with ArjunaCore"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1291"/>3.3.1. Advanced transaction issues with ArjunaCore</h3></div></div></div>
         
         <p>
             Atomic actions (transactions) can be used by both application programmers and class
@@ -3369,7 +3370,7 @@ xares.commit(xid1, false);
 	    Note: in the past ArjunaCore was also referred to as TxCore.
         </p>
 
-        <div class="section" title="3.3.1.1. Checking transactions"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1293"/>3.3.1.1. Checking transactions</h4></div></div></div>
+        <div class="section" title="3.3.1.1. Checking transactions"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1295"/>3.3.1.1. Checking transactions</h4></div></div></div>
             
             <p>
                 In a multi-threaded application, multiple threads may be associated with a transaction
@@ -3401,7 +3402,7 @@ xares.commit(xid1, false);
                 it, and application programmers can
                 provide their own implementations on a per transaction basis.
             </p>
-            <div class="example"><a id="d5e1298"/><p class="title"><strong>Example 3.5. 
+            <div class="example"><a id="d5e1300"/><p class="title"><strong>Example 3.5. 
                     Class
                     <code class="classname">CheckedAction</code>
                 </strong></p><div class="example-contents">
@@ -3490,7 +3491,7 @@ xares.commit(xid1, false);
                 </li></ul></div>
         </div>
 
-        <div class="section" title="3.3.1.2. Gathering statistics"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1338"/>3.3.1.2. Gathering statistics</h4></div></div></div>
+        <div class="section" title="3.3.1.2. Gathering statistics"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1340"/>3.3.1.2. Gathering statistics</h4></div></div></div>
             
             <p>
                 By default, the Transaction Service does not maintain any history information about
@@ -3508,7 +3509,7 @@ xares.commit(xid1, false);
                 <code class="classname">com.arjuna.ats.arjuna.coordinator.TxStats</code>
                 class.
             </p>
-            <div class="example"><a id="d5e1344"/><p class="title"><strong>Example 3.6. 
+            <div class="example"><a id="d5e1346"/><p class="title"><strong>Example 3.6. 
                     Class
                     <code class="classname">TxStats</code>
                 </strong></p><div class="example-contents">
@@ -3590,7 +3591,7 @@ xares.commit(xid1, false);
             </p>
         </div>
 
-        <div class="section" title="3.3.1.3. Asynchronously committing a transaction"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1352"/>3.3.1.3. Asynchronously committing a transaction</h4></div></div></div>
+        <div class="section" title="3.3.1.3. Asynchronously committing a transaction"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1354"/>3.3.1.3. Asynchronously committing a transaction</h4></div></div></div>
             
             <p>
                 By default, the Transaction Service executes the
@@ -3644,14 +3645,14 @@ xares.commit(xid1, false);
                 knowledge about heuristics outcomes is not required.
             </p>
         </div>
-        <div class="section" title="3.3.1.4. Transaction Logs"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1369"/>3.3.1.4. Transaction Logs</h4></div></div></div>
+        <div class="section" title="3.3.1.4. Transaction Logs"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1371"/>3.3.1.4. Transaction Logs</h4></div></div></div>
             
             <p>Narayana
                 supports a number of different transaction log implementations. They are
                 outlined
                 below.
             </p>
-            <div class="section" title="3.3.1.4.1. The ActionStore"><div class="titlepage"><div><div><h5 class="title"><a id="d5e1372"/>3.3.1.4.1. The ActionStore</h5></div></div></div>
+            <div class="section" title="3.3.1.4.1. The ActionStore"><div class="titlepage"><div><div><h5 class="title"><a id="d5e1374"/>3.3.1.4.1. The ActionStore</h5></div></div></div>
                 
                 <p>This is the original version of the transaction log as provided in prior releases. It
                     is
@@ -3660,14 +3661,14 @@ xares.commit(xid1, false);
                     the same location in the file system
                 </p>
             </div>
-            <div class="section" title="3.3.1.4.2. The HashedActionStore"><div class="titlepage"><div><div><h5 class="title"><a id="d5e1375"/>3.3.1.4.2. The HashedActionStore</h5></div></div></div>
+            <div class="section" title="3.3.1.4.2. The HashedActionStore"><div class="titlepage"><div><div><h5 class="title"><a id="d5e1377"/>3.3.1.4.2. The HashedActionStore</h5></div></div></div>
                 
                 <p>This implementation is based on the ActionStore but the individual logs are striped
                     across a number of sub-directories to improve performance. Check the Configuration Options
                     table for how to configure the HashedActionStore.
                 </p>
             </div>
-            <div class="section" title="3.3.1.4.3. LogStore"><div class="titlepage"><div><div><h5 class="title"><a id="d5e1378"/>3.3.1.4.3. LogStore</h5></div></div></div>
+            <div class="section" title="3.3.1.4.3. LogStore"><div class="titlepage"><div><div><h5 class="title"><a id="d5e1380"/>3.3.1.4.3. LogStore</h5></div></div></div>
                 
                 <p>This implementation is based on a traditional transaction log. All transaction states
                     within the same process (VM instance) are written to the same log (file), which is an
@@ -3689,13 +3690,13 @@ xares.commit(xid1, false);
         </div>
     </div>
 </div>
-    <div class="section" title="3.4. Tools"><div class="titlepage"><div><div><h2 class="title"><a id="d5e1383"/>3.4. Tools</h2></div></div></div>
+    <div class="section" title="3.4. Tools"><div class="titlepage"><div><div><h2 class="title"><a id="d5e1385"/>3.4. Tools</h2></div></div></div>
     
     <p>
         This chapter describes the various tools for managing transactions.
     </p>
 
-    <div class="section" title="3.4.1. ObjectStore command-line browsers and editors"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1386"/>3.4.1. ObjectStore command-line browsers and editors</h3></div></div></div>
+    <div class="section" title="3.4.1. ObjectStore command-line browsers and editors"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1388"/>3.4.1. ObjectStore command-line browsers and editors</h3></div></div></div>
         
         <p>
             There are currently three command-line editors for manipulating the ObjectStore. These tools are used to
@@ -3705,7 +3706,7 @@ xares.commit(xid1, false);
         </p>
 
 
-        <div class="section" title="3.4.1.1. Browse and Manage Transactions Using an Application Server"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1389"/>3.4.1.1. Browse and Manage Transactions Using an Application Server</h4></div></div></div>
+        <div class="section" title="3.4.1.1. Browse and Manage Transactions Using an Application Server"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1391"/>3.4.1.1. Browse and Manage Transactions Using an Application Server</h4></div></div></div>
             
             <p>
                 The WildFly Application Server
@@ -3750,7 +3751,7 @@ xares.commit(xid1, false);
                 </p>
                 <pre class="screen">/subsystem=transactions/log-store=log-store/:probe</pre>
             </div></div><br class="example-break"/>
-            <div class="example"><a id="d5e1406"/><p class="title"><strong>Example 3.8. View All Prepared Transactions</strong></p><div class="example-contents">
+            <div class="example"><a id="d5e1408"/><p class="title"><strong>Example 3.8. View All Prepared Transactions</strong></p><div class="example-contents">
                 
                 <p>
                     To view all prepared transactions, first refresh the log store (see
@@ -3884,11 +3885,11 @@ Normally you would leave participant log management to the transaction log that 
                     </dd></dl></div>
         </div>
 
-        <div class="section" title="3.4.1.2. Browse and Manage Transactions Using JMX"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1480"/>3.4.1.2. Browse and Manage Transactions Using JMX</h4></div></div></div>
+        <div class="section" title="3.4.1.2. Browse and Manage Transactions Using JMX"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1482"/>3.4.1.2. Browse and Manage Transactions Using JMX</h4></div></div></div>
             
             <p>
                 Transaction logs may also be managed using
-                <a class="ulink" href="https://jakarta.ee/specifications/platform/8/platform-spec-8.html#jakarta-management">JMX</a>. Each transaction
+                <a class="ulink" href="https://docs.oracle.com/javase/7/docs/technotes/guides/jmx">JMX</a>. Each transaction
                 log record is instrumented as an MBean. Any JMX client may be used to manage logs using this mechanism.
             </p>
             <p>
@@ -3912,7 +3913,7 @@ Normally you would leave participant log management to the transaction log that 
                 </p><pre class="screen">domain:key-property-list</pre><p>
                 where domain is <code class="code">jboss.jta</code> and key-property-list is a comma separated list of key=value pairs.
 
-                </p><div class="table"><a id="d5e1492"/><p class="title"><strong>Table 3.2. Object Name Keys</strong></p><div class="table-contents">
+                </p><div class="table"><a id="d5e1494"/><p class="title"><strong>Table 3.2. Object Name Keys</strong></p><div class="table-contents">
                     
                     <table summary="Object Name Keys" border="1"><colgroup><col width="150px"/><col width="290px"/></colgroup><thead><tr><th>Name</th><th>Meaning</th></tr></thead><tbody><tr><td>itype</td><td>
                                     <p>The transaction record type</p>
@@ -3923,12 +3924,12 @@ Normally you would leave participant log management to the transaction log that 
                                 </td></tr></tbody></table>
                 </div></div><p><br class="table-break"/>
 
-                </p><div class="example"><a id="d5e1514"/><p class="title"><strong>Example 3.9. Transaction record</strong></p><div class="example-contents">
+                </p><div class="example"><a id="d5e1516"/><p class="title"><strong>Example 3.9. Transaction record</strong></p><div class="example-contents">
                     
                     <p>jboss.jta:type=ObjectStore,itype=StateManager/BasicAction/TwoPhaseCoordinator/
                         AtomicAction,uid=0_ffff7f000001_-3a612f5d_53f63052_39</p>
                 </div></div><p><br class="example-break"/>
-                </p><div class="example"><a id="d5e1517"/><p class="title"><strong>Example 3.10. A participant record within a transaction</strong></p><div class="example-contents">
+                </p><div class="example"><a id="d5e1519"/><p class="title"><strong>Example 3.10. A participant record within a transaction</strong></p><div class="example-contents">
                     
                     <p>jboss.jta:type=ObjectStore,itype=StateManager/BasicAction/TwoPhaseCoordinator/
                         AtomicAction,uid=0_ffff7f000001_-3a612f5d_53f63052_39,puid=
@@ -4042,7 +4043,7 @@ Normally you would leave participant log management to the transaction log that 
                     </dd></dl></div>
         </div>
 
-        <div class="section" title="3.4.1.3. LogEditor"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1567"/>3.4.1.3. LogEditor</h4></div></div></div>
+        <div class="section" title="3.4.1.3. LogEditor"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1569"/>3.4.1.3. LogEditor</h4></div></div></div>
             
             <p>
                 The LogEditor tool is started by executing the following command:
@@ -4063,7 +4064,7 @@ java -Dcom.arjuna.ats.internal.arjuna.objectstore.hornetq.HornetqJournalEnvironm
             <p>
                 The tool supports the following options that can be provided on the command-line:
             </p>
-            <div class="table"><a id="d5e1574"/><p class="title"><strong>Table 3.3. LogEditor Options</strong></p><div class="table-contents">
+            <div class="table"><a id="d5e1576"/><p class="title"><strong>Table 3.3. LogEditor Options</strong></p><div class="table-contents">
                 
                 <table summary="LogEditor Options" border="1"><colgroup><col width="150px"/><col width="290px"/></colgroup><thead><tr><th>Option</th><th>Description</th></tr></thead><tbody><tr><td>
                                 -tx
@@ -4088,7 +4089,7 @@ java -Dcom.arjuna.ats.internal.arjuna.objectstore.hornetq.HornetqJournalEnvironm
             </div></div><br class="table-break"/>
         </div>
 
-        <div class="section" title="3.4.1.4. LogBrowser"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1607"/>3.4.1.4. LogBrowser</h4></div></div></div>
+        <div class="section" title="3.4.1.4. LogBrowser"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1609"/>3.4.1.4. LogBrowser</h4></div></div></div>
             
             <p>
                 The LogBrowser, invoked by calling
@@ -4098,7 +4099,7 @@ java -Dcom.arjuna.ats.internal.arjuna.objectstore.hornetq.HornetqJournalEnvironm
                 interface, with the following options:
             </p>
 
-            <div class="table"><a id="d5e1611"/><p class="title"><strong>Table 3.4. LogBrowserOptions</strong></p><div class="table-contents">
+            <div class="table"><a id="d5e1613"/><p class="title"><strong>Table 3.4. LogBrowserOptions</strong></p><div class="table-contents">
                 
                 <table summary="LogBrowserOptions" border="1"><colgroup><col width="150px"/><col width="290px"/></colgroup><thead><tr><th>Option</th><th>Description</th></tr></thead><tbody><tr><td>
                                 ls [
@@ -4153,15 +4154,15 @@ java -Dcom.arjuna.ats.internal.arjuna.objectstore.hornetq.HornetqJournalEnvironm
         </div>
     </div>
 
-    <div class="section" title="3.4.2. GUI Based Tools"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1663"/>3.4.2. GUI Based Tools</h3></div></div></div>
+    <div class="section" title="3.4.2. GUI Based Tools"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1665"/>3.4.2. GUI Based Tools</h3></div></div></div>
         
-        <div class="section" title="3.4.2.1. Embedded Console"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1665"/>3.4.2.1. Embedded Console</h4></div></div></div>
+        <div class="section" title="3.4.2.1. Embedded Console"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1667"/>3.4.2.1. Embedded Console</h4></div></div></div>
             
             <p>
                 Transaction management is integrated into the WildFly Application Server.
             </p>
         </div>
-        <div class="section" title="3.4.2.2. Performance Graphing"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1668"/>3.4.2.2. Performance Graphing</h4></div></div></div>
+        <div class="section" title="3.4.2.2. Performance Graphing"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1670"/>3.4.2.2. Performance Graphing</h4></div></div></div>
             
             <p>
                 There is a transaction statistics graphing tool which can run standalone or inside a
@@ -4180,7 +4181,7 @@ java -Dcom.arjuna.ats.internal.arjuna.objectstore.hornetq.HornetqJournalEnvironm
 export CLASSPATH="$JDK_HOME/lib/tools.jar:$JDK_HOME/lib/jconsole.jar:$ORSON_HOME/orson-0.5.0.jar:$ORSON_HOME/lib/jfreechart-1.0.6.jar:$ORSON_HOME/lib/jcommon-1.0.10.jar:$INSTALL_ROOT/lib/narayana-jta.jar&gt;"
         </pre>
 
-            <div class="section" title="3.4.2.2.1. Standalone Usage"><div class="titlepage"><div><div><h5 class="title"><a id="d5e1673"/>3.4.2.2.1. Standalone Usage</h5></div></div></div>
+            <div class="section" title="3.4.2.2.1. Standalone Usage"><div class="titlepage"><div><div><h5 class="title"><a id="d5e1675"/>3.4.2.2.1. Standalone Usage</h5></div></div></div>
                 
 
                 <pre class="screen">
@@ -4191,7 +4192,7 @@ java com.arjuna.ats.arjuna.tools.stats.TxPerfGraph
                     (note that standalone usage does not require the JDK tools and jconsole jars)
                 </p>
             </div>
-            <div class="section" title="3.4.2.2.2. Usage with jconsole"><div class="titlepage"><div><div><h5 class="title"><a id="d5e1677"/>3.4.2.2.2. Usage with jconsole</h5></div></div></div>
+            <div class="section" title="3.4.2.2.2. Usage with jconsole"><div class="titlepage"><div><div><h5 class="title"><a id="d5e1679"/>3.4.2.2.2. Usage with jconsole</h5></div></div></div>
                 
 
                 <pre class="screen">
@@ -4205,7 +4206,7 @@ jconsole -J-Djava.class.path="$CLASSPATH" -pluginpath $INSTALL_ROOT/lib/narayana
         </div>
     </div>
 
-    <div class="section" title="3.4.3. View Transaction Statistics using an Application Server"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1681"/>3.4.3. View Transaction Statistics using an Application Server</h3></div></div></div>
+    <div class="section" title="3.4.3. View Transaction Statistics using an Application Server"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1683"/>3.4.3. View Transaction Statistics using an Application Server</h3></div></div></div>
         
         <p>
             If you are using the Transaction Manager (TM) inside the WildFly Application Server
@@ -4225,7 +4226,7 @@ jconsole -J-Djava.class.path="$CLASSPATH" -pluginpath $INSTALL_ROOT/lib/narayana
         <p>
             The following table shows each available statistic, its description, and the CLI command to view the statistic.
         </p>
-        <div class="table"><a id="d5e1691"/><p class="title"><strong>Table 3.5. Transaction Subsystem Statistics</strong></p><div class="table-contents">
+        <div class="table"><a id="d5e1693"/><p class="title"><strong>Table 3.5. Transaction Subsystem Statistics</strong></p><div class="table-contents">
             
             <table summary="Transaction Subsystem Statistics" border="1"><colgroup><col/><col/><col/></colgroup><thead><tr><th>
                             Statistic
@@ -4301,10 +4302,10 @@ jconsole -J-Djava.class.path="$CLASSPATH" -pluginpath $INSTALL_ROOT/lib/narayana
         </div></div><br class="table-break"/>
     </div>
 </div>
-    <div class="section" title="3.5. Configuration options"><div class="titlepage"><div><div><h2 class="title"><a id="d5e1748"/>3.5. Configuration options</h2></div></div></div>
+    <div class="section" title="3.5. Configuration options"><div class="titlepage"><div><div><h2 class="title"><a id="d5e1750"/>3.5. Configuration options</h2></div></div></div>
     
 
-    <div class="section" title="3.5.1. Loading a configuration"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1750"/>3.5.1. Loading a configuration</h3></div></div></div>
+    <div class="section" title="3.5.1. Loading a configuration"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1752"/>3.5.1. Loading a configuration</h3></div></div></div>
         
         <p>
             Each module of the system contains a
@@ -4329,7 +4330,7 @@ jconsole -J-Djava.class.path="$CLASSPATH" -pluginpath $INSTALL_ROOT/lib/narayana
         <p>
             These beans are singletons, instantiated upon first access, using the following algorithm.
         </p>
-        <div class="procedure" title="Procedure 3.2. Algorithm for environment bean instantiation"><a id="d5e1760"/><p class="title"><strong>Procedure 3.2. Algorithm for environment bean instantiation</strong></p><ol class="procedure" type="1"><li class="step" title="Step 1">
+        <div class="procedure" title="Procedure 3.2. Algorithm for environment bean instantiation"><a id="d5e1762"/><p class="title"><strong>Procedure 3.2. Algorithm for environment bean instantiation</strong></p><ol class="procedure" type="1"><li class="step" title="Step 1">
                 <p>
                     The properties are loaded and populated from a properties file named and located as follows:
                 </p>
@@ -4387,7 +4388,7 @@ jconsole -J-Djava.class.path="$CLASSPATH" -pluginpath $INSTALL_ROOT/lib/narayana
             </li><li class="step" title="Step 3">
                 <p>
                     The file is treated as being of standard
-                    <a class="ulink" href="https://devdocs.io/openjdk~11/java.base/java/util/properties"><code class="code">java.util.Properties</code> xml format</a>
+                    <a class="ulink" href="https://docs.oracle.com/javase/8/docs/api/java/util/Properties.html"><code class="code">java.util.Properties</code> xml format</a>
                     and loaded accordingly.
                     The <code class="code">entry</code> names are of the form <code class="code">EnvironmentBeanClass.propertyName</code>.
                 </p>
@@ -4414,7 +4415,7 @@ jconsole -J-Djava.class.path="$CLASSPATH" -pluginpath $INSTALL_ROOT/lib/narayana
                 <p>
                     In the case of properties that take multiple values, they are white-space-delimited.
                 </p>
-                <div class="example"><a id="d5e1815"/><p class="title"><strong>Example 3.11. Example recovery modules of Recovery Environment Bean</strong></p><div class="example-contents">
+                <div class="example"><a id="d5e1817"/><p class="title"><strong>Example 3.11. Example recovery modules of Recovery Environment Bean</strong></p><div class="example-contents">
                     
                     <pre><code class="language-xml">&lt;entry key="RecoveryEnvironmentBean.recoveryModuleClassNames"&gt;
   com.arjuna.ats.internal.arjuna.recovery.AtomicActionRecoveryModule
@@ -4492,7 +4493,7 @@ jconsole -J-Djava.class.path="$CLASSPATH" -pluginpath $INSTALL_ROOT/lib/narayana
     </div>
 
 
-    <div class="section" title="3.5.2. ArjunaCore Options"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1845"/>3.5.2. ArjunaCore Options</h3></div></div></div>
+    <div class="section" title="3.5.2. ArjunaCore Options"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1847"/>3.5.2. ArjunaCore Options</h3></div></div></div>
         
         <p>
             The canonical reference for configuration options is the Javadoc of the various
@@ -4533,7 +4534,7 @@ jconsole -J-Djava.class.path="$CLASSPATH" -pluginpath $INSTALL_ROOT/lib/narayana
                 </p>
             </li></ul></div>
     </div>
-    <div class="section" title="3.5.3. Narayana JTA Configuration options"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1874"/>3.5.3. Narayana
+    <div class="section" title="3.5.3. Narayana JTA Configuration options"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1876"/>3.5.3. Narayana
             JTA Configuration options
         </h3></div></div></div>
         
@@ -4552,7 +4553,7 @@ jconsole -J-Djava.class.path="$CLASSPATH" -pluginpath $INSTALL_ROOT/lib/narayana
                 </p>
             </li></ul></div>
     </div>
-    <div class="section" title="3.5.4. Narayana JTS Options"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1884"/>3.5.4. Narayana
+    <div class="section" title="3.5.4. Narayana JTS Options"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1886"/>3.5.4. Narayana
             JTS Options
         </h3></div></div></div>
         
@@ -4572,7 +4573,7 @@ jconsole -J-Djava.class.path="$CLASSPATH" -pluginpath $INSTALL_ROOT/lib/narayana
                 </p>
             </li></ul></div>
     </div>
-    <div class="section" title="3.5.5. Narayana WS-AT/WS-BA Options"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1895"/>3.5.5. Narayana
+    <div class="section" title="3.5.5. Narayana WS-AT/WS-BA Options"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1897"/>3.5.5. Narayana
             WS-AT/WS-BA Options
         </h3></div></div></div>
         
@@ -4604,12 +4605,12 @@ jconsole -J-Djava.class.path="$CLASSPATH" -pluginpath $INSTALL_ROOT/lib/narayana
             </li></ul></div>
     </div>
 </div>
-    <div class="section" title="3.6. Important Log Messages"><div class="titlepage"><div><div><h2 class="title"><a id="d5e1914"/>3.6. Important Log Messages</h2></div></div></div>
+    <div class="section" title="3.6. Important Log Messages"><div class="titlepage"><div><div><h2 class="title"><a id="d5e1916"/>3.6. Important Log Messages</h2></div></div></div>
     
     <p>The transaction manager can generate a lot of logging information when configured to log in trace level.
         Here is a list of some of the log messages to check for.
     </p>
-    <div class="section" title="3.6.1. Transaction State Change"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1917"/>3.6.1. Transaction State Change</h3></div></div></div>
+    <div class="section" title="3.6.1. Transaction State Change"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1919"/>3.6.1. Transaction State Change</h3></div></div></div>
         
         <p> The following table  </p>
         <div class="informaltable">
@@ -4638,7 +4639,7 @@ jconsole -J-Djava.class.path="$CLASSPATH" -pluginpath $INSTALL_ROOT/lib/narayana
             </p>
         </div>
     </div>
-    <div class="section" title="3.6.2. Multi cause log message"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1950"/>3.6.2. Multi cause log message</h3></div></div></div>
+    <div class="section" title="3.6.2. Multi cause log message"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1952"/>3.6.2. Multi cause log message</h3></div></div></div>
         
         <p>The following table shows some log messages that you may see with an explanation of alternate reasons</p>
         <div class="informaltable">
@@ -4655,12 +4656,12 @@ jconsole -J-Djava.class.path="$CLASSPATH" -pluginpath $INSTALL_ROOT/lib/narayana
         </div>
     </div>
 </div>
-    <div class="section" title="3.7. Troubleshooting"><div class="titlepage"><div><div><h2 class="title"><a id="d5e1965"/>3.7. Troubleshooting</h2></div></div></div>
+    <div class="section" title="3.7. Troubleshooting"><div class="titlepage"><div><div><h2 class="title"><a id="d5e1967"/>3.7. Troubleshooting</h2></div></div></div>
     
     <p>
         This chapter covers issues that you may hit when developing applications with Narayana.
     </p>
-    <div class="section" title="3.7.1. WS-BA Participant-Completion Race Condition"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1968"/>3.7.1. WS-BA Participant-Completion Race Condition</h3></div></div></div>
+    <div class="section" title="3.7.1. WS-BA Participant-Completion Race Condition"><div class="titlepage"><div><div><h3 class="title"><a id="d5e1970"/>3.7.1. WS-BA Participant-Completion Race Condition</h3></div></div></div>
         
         <p>
             The WS-BA participant-completion protocol has a benign race condition that, in unusual circumstances, can
@@ -4668,7 +4669,7 @@ jconsole -J-Djava.class.path="$CLASSPATH" -pluginpath $INSTALL_ROOT/lib/narayana
             no inconsistency arrises, but it can be annoying for users. This section explains why this can happen, under
             what conditions, and what you can do to tolerate it.
         </p>
-        <div class="section" title="3.7.1.1. What's happening, in a nutshell"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1971"/>3.7.1.1. What's happening, in a nutshell</h4></div></div></div>
+        <div class="section" title="3.7.1.1. What's happening, in a nutshell"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1973"/>3.7.1.1. What's happening, in a nutshell</h4></div></div></div>
             
             <p>
                 Imagine a scenario where the client begins a business activity and then invokes a Web service. If the
@@ -4681,7 +4682,7 @@ jconsole -J-Djava.class.path="$CLASSPATH" -pluginpath $INSTALL_ROOT/lib/narayana
                 notification) and the client receives a "TransactionRolledBackException".
             </p>
         </div>
-        <div class="section" title="3.7.1.2. When is it most likely to happen?"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1974"/>3.7.1.2. When is it most likely to happen?</h4></div></div></div>
+        <div class="section" title="3.7.1.2. When is it most likely to happen?"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1976"/>3.7.1.2. When is it most likely to happen?</h4></div></div></div>
             
             <p>
                 Typically this happens when the client, coordinator and participant are running inside the same VM.
@@ -4691,7 +4692,7 @@ jconsole -J-Djava.class.path="$CLASSPATH" -pluginpath $INSTALL_ROOT/lib/narayana
                 VM is used to keep things simple.
             </p>
         </div>
-        <div class="section" title="3.7.1.3. How do I know if this is affecting my application?"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1977"/>3.7.1.3. How do I know if this is affecting my application?</h4></div></div></div>
+        <div class="section" title="3.7.1.3. How do I know if this is affecting my application?"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1979"/>3.7.1.3. How do I know if this is affecting my application?</h4></div></div></div>
             
             <p>
                 If the client is occasionally receiving a TransactionRolledbackException when calling
@@ -4702,7 +4703,7 @@ jconsole -J-Djava.class.path="$CLASSPATH" -pluginpath $INSTALL_ROOT/lib/narayana
             <p>
                 The following log message will help you identify this issue:
             </p>
-            <div class="example"><a id="d5e1981"/><p class="title"><strong>Example 3.12. Example Environment Bean</strong></p><div class="example-contents">
+            <div class="example"><a id="d5e1983"/><p class="title"><strong>Example 3.12. Example Environment Bean</strong></p><div class="example-contents">
                 
                 <pre><code class="no-highlight">WARN [com.arjuna.mw.wstx] (TaskWorker-2) ARJUNA045062: Coordinator cancelled the activity</code></pre>
             </div></div><br class="example-break"/>
@@ -4712,7 +4713,7 @@ jconsole -J-Djava.class.path="$CLASSPATH" -pluginpath $INSTALL_ROOT/lib/narayana
                 service to close the activity.
             </p>
         </div>
-        <div class="section" title="3.7.1.4. Why can't it be avoided?"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1985"/>3.7.1.4. Why can't it be avoided?</h4></div></div></div>
+        <div class="section" title="3.7.1.4. Why can't it be avoided?"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1987"/>3.7.1.4. Why can't it be avoided?</h4></div></div></div>
             
             <p>
                 For the protocol to avoid this issue, it would need to make the complete message synchronous,
@@ -4721,7 +4722,7 @@ jconsole -J-Djava.class.path="$CLASSPATH" -pluginpath $INSTALL_ROOT/lib/narayana
                 longer.
             </p>
         </div>
-        <div class="section" title="3.7.1.5. What can the application do to tolerate this?"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1988"/>3.7.1.5. What can the application do to tolerate this?</h4></div></div></div>
+        <div class="section" title="3.7.1.5. What can the application do to tolerate this?"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1990"/>3.7.1.5. What can the application do to tolerate this?</h4></div></div></div>
             
             <p>
                 A real, distributed deployment will rarely see this problem because communication latency between
@@ -4732,12 +4733,12 @@ jconsole -J-Djava.class.path="$CLASSPATH" -pluginpath $INSTALL_ROOT/lib/narayana
                 will depend on the requirements of your application.
             </p>
         </div>
-        <div class="section" title="3.7.1.6. Why exactly does this happen?"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1991"/>3.7.1.6. Why exactly does this happen?</h4></div></div></div>
+        <div class="section" title="3.7.1.6. Why exactly does this happen?"><div class="titlepage"><div><div><h4 class="title"><a id="d5e1993"/>3.7.1.6. Why exactly does this happen?</h4></div></div></div>
             
             <p>
                 First consider the following client code:
             </p>
-            <div class="example"><a id="d5e1994"/><p class="title"><strong>Example 3.13. Client Code Example</strong></p><div class="example-contents">
+            <div class="example"><a id="d5e1996"/><p class="title"><strong>Example 3.13. Client Code Example</strong></p><div class="example-contents">
                 
                 <pre><code class="language-java">
 UserBusinessActivity uba = UserBusinessActivityFactory.userBusinessActivity();
@@ -4866,28 +4867,28 @@ uba.close();
     </p>
 </div>
 </div>
-    <div class="chapter" title="Chapter 4. XTS Guide"><div class="titlepage"><div><div><h2 class="title"><a id="d5e2053"/>Chapter 4. XTS Guide</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="#d5e2055">4.1. Introduction</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e2127">4.1.1. Managing service-Based Processes</a></span></dt><dt><span class="section"><a href="#d5e2138">4.1.2. Servlets</a></span></dt><dt><span class="section"><a href="#d5e2143">4.1.3. SOAP</a></span></dt><dt><span class="section"><a href="#d5e2147">4.1.4. Web Services Description Language (WDSL)</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e2151">4.2. Getting Started</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e2162">4.2.1. Enable
+    <div class="chapter" title="Chapter 4. XTS Guide"><div class="titlepage"><div><div><h2 class="title"><a id="d5e2055"/>Chapter 4. XTS Guide</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="#d5e2057">4.1. Introduction</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e2129">4.1.1. Managing service-Based Processes</a></span></dt><dt><span class="section"><a href="#d5e2140">4.1.2. Servlets</a></span></dt><dt><span class="section"><a href="#d5e2145">4.1.3. SOAP</a></span></dt><dt><span class="section"><a href="#d5e2149">4.1.4. Web Services Description Language (WDSL)</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e2153">4.2. Getting Started</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e2164">4.2.1. Enable
             XTS on WildFly Application Server
-        </a></span></dt><dt><span class="section"><a href="#d5e2187">4.2.2. Working With WS-AT</a></span></dt><dt><span class="section"><a href="#d5e2240">4.2.3. Working With WS-BA</a></span></dt><dt><span class="section"><a href="#ref-TransactionContextPropagation">4.2.4. Configuration of The Transaction Context Propagation</a></span></dt><dt><span class="section"><a href="#d5e2299">4.2.5. Summary</a></span></dt></dl></dd><dt><span class="section"><a href="#sec-xts-api">4.3. The XTS API</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e2346">4.3.1. Participants</a></span></dt><dt><span class="section"><a href="#d5e2388">4.3.2. API for the Atomic Transaction Protocol</a></span></dt><dt><span class="section"><a href="#d5e2691">4.3.3. API for the Business Activity Protocol</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e2970">4.4. Stand-Alone Coordination</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e2978">4.4.1. Introduction</a></span></dt><dt><span class="section"><a href="#d5e2992">4.4.2. Configuring the Activation Coordinator</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e3069">4.5. Participant Crash Recovery</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e3098">4.5.1. WS-AT Recovery</a></span></dt><dt><span class="section"><a href="#d5e3201">4.5.2. WS-BA Recovery</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e3306">4.6. Web Service Transaction Service (XTS) Management</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e3309">4.6.1. Transaction manager overview</a></span></dt><dt><span class="section"><a href="#d5e3314">4.6.2. Configuring the transaction manager</a></span></dt><dt><span class="section"><a href="#d5e3322">4.6.3. Deployment descriptors</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e3326">4.7. Quickstarts Overview</a></span></dt><dd><dl><dt><span class="section"><a href="#ref-WSATMultiService">4.7.1. WS-AT Multi-Service</a></span></dt><dt><span class="section"><a href="#ref-WSATMultiHop">4.7.2. WS-AT Multi-Hop</a></span></dt><dt><span class="section"><a href="#d5e3344">4.7.3. XTS with SSL</a></span></dt><dt><span class="section"><a href="#d5e3349">4.7.4. Raw XTS API Demo</a></span></dt><dt><span class="section"><a href="#ref-CompensationsNonTransactionalResource">4.7.5. Non-transactional Resource with Compensating Transactions API</a></span></dt><dt><span class="section"><a href="#ref-CompensationsTravelAgent">4.7.6. Travel Agent with Compensating Transactions API</a></span></dt></dl></dd></dl></div>
+        </a></span></dt><dt><span class="section"><a href="#d5e2189">4.2.2. Working With WS-AT</a></span></dt><dt><span class="section"><a href="#d5e2242">4.2.3. Working With WS-BA</a></span></dt><dt><span class="section"><a href="#ref-TransactionContextPropagation">4.2.4. Configuration of The Transaction Context Propagation</a></span></dt><dt><span class="section"><a href="#d5e2301">4.2.5. Summary</a></span></dt></dl></dd><dt><span class="section"><a href="#sec-xts-api">4.3. The XTS API</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e2348">4.3.1. Participants</a></span></dt><dt><span class="section"><a href="#d5e2390">4.3.2. API for the Atomic Transaction Protocol</a></span></dt><dt><span class="section"><a href="#d5e2693">4.3.3. API for the Business Activity Protocol</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e2972">4.4. Stand-Alone Coordination</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e2980">4.4.1. Introduction</a></span></dt><dt><span class="section"><a href="#d5e2994">4.4.2. Configuring the Activation Coordinator</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e3071">4.5. Participant Crash Recovery</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e3100">4.5.1. WS-AT Recovery</a></span></dt><dt><span class="section"><a href="#d5e3203">4.5.2. WS-BA Recovery</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e3308">4.6. Web Service Transaction Service (XTS) Management</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e3311">4.6.1. Transaction manager overview</a></span></dt><dt><span class="section"><a href="#d5e3316">4.6.2. Configuring the transaction manager</a></span></dt><dt><span class="section"><a href="#d5e3324">4.6.3. Deployment descriptors</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e3328">4.7. Quickstarts Overview</a></span></dt><dd><dl><dt><span class="section"><a href="#ref-WSATMultiService">4.7.1. WS-AT Multi-Service</a></span></dt><dt><span class="section"><a href="#ref-WSATMultiHop">4.7.2. WS-AT Multi-Hop</a></span></dt><dt><span class="section"><a href="#d5e3346">4.7.3. XTS with SSL</a></span></dt><dt><span class="section"><a href="#d5e3351">4.7.4. Raw XTS API Demo</a></span></dt><dt><span class="section"><a href="#ref-CompensationsNonTransactionalResource">4.7.5. Non-transactional Resource with Compensating Transactions API</a></span></dt><dt><span class="section"><a href="#ref-CompensationsTravelAgent">4.7.6. Travel Agent with Compensating Transactions API</a></span></dt></dl></dd></dl></div>
     
-    <div class="section" title="4.1. Introduction"><div class="titlepage"><div><div><h2 class="title"><a id="d5e2055"/>4.1. Introduction</h2></div></div></div>
+    <div class="section" title="4.1. Introduction"><div class="titlepage"><div><div><h2 class="title"><a id="d5e2057"/>4.1. Introduction</h2></div></div></div>
     
-    <a id="d5e2057" class="indexterm"/>
-    <a id="d5e2060" class="indexterm"/>
+    <a id="d5e2059" class="indexterm"/>
     <a id="d5e2062" class="indexterm"/>
     <a id="d5e2064" class="indexterm"/>
-    <a id="d5e2067" class="indexterm"/>
-    <a id="d5e2070" class="indexterm"/>
-    <a id="d5e2073" class="indexterm"/>
-    <a id="d5e2076" class="indexterm"/>
+    <a id="d5e2066" class="indexterm"/>
+    <a id="d5e2069" class="indexterm"/>
+    <a id="d5e2072" class="indexterm"/>
+    <a id="d5e2075" class="indexterm"/>
     <a id="d5e2078" class="indexterm"/>
     <a id="d5e2080" class="indexterm"/>
     <a id="d5e2082" class="indexterm"/>
-    <a id="d5e2085" class="indexterm"/>
+    <a id="d5e2084" class="indexterm"/>
     <a id="d5e2087" class="indexterm"/>
-    <a id="d5e2090" class="indexterm"/>
-    <a id="d5e2093" class="indexterm"/>
-    <a id="d5e2096" class="indexterm"/>
+    <a id="d5e2089" class="indexterm"/>
+    <a id="d5e2092" class="indexterm"/>
+    <a id="d5e2095" class="indexterm"/>
+    <a id="d5e2098" class="indexterm"/>
 
     <p>
         The
@@ -4979,7 +4980,7 @@ uba.close();
         enterprises can be managed with transactional support.
     </p>
 
-    <div class="section" title="4.1.1. Managing service-Based Processes"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2127"/>4.1.1. Managing service-Based Processes</h3></div></div></div>
+    <div class="section" title="4.1.1. Managing service-Based Processes"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2129"/>4.1.1. Managing service-Based Processes</h3></div></div></div>
         
         <p>
             XTS allows you to create transactions that drive complex business processes, spanning multiple Web
@@ -5030,7 +5031,7 @@ uba.close();
         </p>
     </div>
 
-    <div class="section" title="4.1.2. Servlets"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2138"/>4.1.2. Servlets</h3></div></div></div>
+    <div class="section" title="4.1.2. Servlets"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2140"/>4.1.2. Servlets</h3></div></div></div>
         
 
         <p>
@@ -5057,7 +5058,7 @@ uba.close();
         </p>
     </div>
 
-    <div class="section" title="4.1.3. SOAP"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2143"/>4.1.3. SOAP</h3></div></div></div>
+    <div class="section" title="4.1.3. SOAP"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2145"/>4.1.3. SOAP</h3></div></div></div>
         
 
         <p>
@@ -5069,7 +5070,7 @@ uba.close();
         </p>
     </div>
 
-    <div class="section" title="4.1.4. Web Services Description Language (WDSL)"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2147"/>4.1.4. Web Services Description Language (WDSL)</h3></div></div></div>
+    <div class="section" title="4.1.4. Web Services Description Language (WDSL)"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2149"/>4.1.4. Web Services Description Language (WDSL)</h3></div></div></div>
         
         <p>
             <em class="firstterm">Web Services Description Language (WSDL)</em>
@@ -5082,16 +5083,16 @@ uba.close();
     </div>
 
 </div>
-    <div class="section" title="4.2. Getting Started"><div class="titlepage"><div><div><h2 class="title"><a id="d5e2151"/>4.2. Getting Started</h2></div></div></div>
+    <div class="section" title="4.2. Getting Started"><div class="titlepage"><div><div><h2 class="title"><a id="d5e2153"/>4.2. Getting Started</h2></div></div></div>
 
     
 
-    <a id="d5e2153" class="indexterm"/>
     <a id="d5e2155" class="indexterm"/>
     <a id="d5e2157" class="indexterm"/>
     <a id="d5e2159" class="indexterm"/>
+    <a id="d5e2161" class="indexterm"/>
 
-    <div class="section" title="4.2.1. Enable XTS on WildFly Application Server"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2162"/>4.2.1. Enable
+    <div class="section" title="4.2.1. Enable XTS on WildFly Application Server"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2164"/>4.2.1. Enable
             XTS on WildFly Application Server
         </h3></div></div></div>
         
@@ -5147,7 +5148,7 @@ uba.close();
             </li></ol></div>
     </div>
 
-    <div class="section" title="4.2.2. Working With WS-AT"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2187"/>4.2.2. Working With WS-AT</h3></div></div></div>
+    <div class="section" title="4.2.2. Working With WS-AT"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2189"/>4.2.2. Working With WS-AT</h3></div></div></div>
         
 
         <div class="section" title="4.2.2.1. Creating Client Applications"><div class="titlepage"><div><div><h4 class="title"><a id="ref-CreateWSATClient"/>4.2.2.1. Creating Client Applications</h4></div></div></div>
@@ -5171,7 +5172,7 @@ uba.close();
                 Similarly to the client-side, the service-side is also integrated with JTA. To make your web service
                 WS-AT compliant,
                 annotate your web service class or method with the EJB 3 jakarta.ejb.TransactionAttribute annotation or the JTA
-                1.2 jakarta.transaction.Transactional annotation. XTS will automatically translate WS-AT context, received with
+                jakarta.transaction.Transactional annotation. XTS will automatically translate WS-AT context, received with
                 the request, to JTA. See our quickstarts for an example:
                 <a class="xref" href="#ref-WSATMultiService" title="4.7.1. WS-AT Multi-Service">Section 4.7.1, “WS-AT Multi-Service”</a>
                 and
@@ -5179,7 +5180,7 @@ uba.close();
             </p>
         </div>
 
-        <div class="section" title="4.2.2.3. Using Raw XTS API"><div class="titlepage"><div><div><h4 class="title"><a id="d5e2199"/>4.2.2.3. Using Raw XTS API</h4></div></div></div>
+        <div class="section" title="4.2.2.3. Using Raw XTS API"><div class="titlepage"><div><div><h4 class="title"><a id="d5e2201"/>4.2.2.3. Using Raw XTS API</h4></div></div></div>
             
 
             <p>
@@ -5199,7 +5200,7 @@ uba.close();
                 </p>
             </div>
 
-            <div class="section" title="4.2.2.3.1. Creating Client Applications"><div class="titlepage"><div><div><h5 class="title"><a id="d5e2207"/>4.2.2.3.1. Creating Client Applications</h5></div></div></div>
+            <div class="section" title="4.2.2.3.1. Creating Client Applications"><div class="titlepage"><div><div><h5 class="title"><a id="d5e2209"/>4.2.2.3.1. Creating Client Applications</h5></div></div></div>
                 
 
                 <p>
@@ -5220,7 +5221,7 @@ uba.close();
                     in order to create a coordinator and drive the transaction to completion.
                 </p>
 
-                <div class="section" title="4.2.2.3.1.1. User Transactions"><div class="titlepage"><div><div><h6 class="title"><a id="d5e2214"/>4.2.2.3.1.1. User Transactions</h6></div></div></div>
+                <div class="section" title="4.2.2.3.1.1. User Transactions"><div class="titlepage"><div><div><h6 class="title"><a id="d5e2216"/>4.2.2.3.1.1. User Transactions</h6></div></div></div>
                     
 
                     <p>
@@ -5307,10 +5308,10 @@ uba.close();
         </div>
     </div>
 
-    <div class="section" title="4.2.3. Working With WS-BA"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2240"/>4.2.3. Working With WS-BA</h3></div></div></div>
+    <div class="section" title="4.2.3. Working With WS-BA"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2242"/>4.2.3. Working With WS-BA</h3></div></div></div>
         
 
-        <div class="section" title="4.2.3.1. Creating Client Applications"><div class="titlepage"><div><div><h4 class="title"><a id="d5e2242"/>4.2.3.1. Creating Client Applications</h4></div></div></div>
+        <div class="section" title="4.2.3.1. Creating Client Applications"><div class="titlepage"><div><div><h4 class="title"><a id="d5e2244"/>4.2.3.1. Creating Client Applications</h4></div></div></div>
             
 
             <p>
@@ -5331,7 +5332,7 @@ uba.close();
                 in order to create a coordinator and drive the transaction to completion.
             </p>
 
-            <div class="section" title="4.2.3.1.1. Business Activities"><div class="titlepage"><div><div><h5 class="title"><a id="d5e2249"/>4.2.3.1.1. Business Activities</h5></div></div></div>
+            <div class="section" title="4.2.3.1.1. Business Activities"><div class="titlepage"><div><div><h5 class="title"><a id="d5e2251"/>4.2.3.1.1. Business Activities</h5></div></div></div>
                 
 
                 <p>
@@ -5378,7 +5379,7 @@ uba.close();
             </div>
         </div>
 
-        <div class="section" title="4.2.3.2. Creating Transactional Web Services"><div class="titlepage"><div><div><h4 class="title"><a id="d5e2267"/>4.2.3.2. Creating Transactional Web Services</h4></div></div></div>
+        <div class="section" title="4.2.3.2. Creating Transactional Web Services"><div class="titlepage"><div><div><h4 class="title"><a id="d5e2269"/>4.2.3.2. Creating Transactional Web Services</h4></div></div></div>
             
 
             <p>
@@ -5397,7 +5398,7 @@ uba.close();
             </p>
         </div>
 
-        <div class="section" title="4.2.3.3. New Compensating Transactions API"><div class="titlepage"><div><div><h4 class="title"><a id="d5e2275"/>4.2.3.3. New Compensating Transactions API</h4></div></div></div>
+        <div class="section" title="4.2.3.3. New Compensating Transactions API"><div class="titlepage"><div><div><h4 class="title"><a id="d5e2277"/>4.2.3.3. New Compensating Transactions API</h4></div></div></div>
             
 
             <p>
@@ -5480,7 +5481,7 @@ uba.close();
         </p>
     </div>
 
-    <div class="section" title="4.2.5. Summary"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2299"/>4.2.5. Summary</h3></div></div></div>
+    <div class="section" title="4.2.5. Summary"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2301"/>4.2.5. Summary</h3></div></div></div>
         
 
         <p>
@@ -5502,7 +5503,6 @@ uba.close();
 
     
 
-    <a id="d5e2305" class="indexterm"/>
     <a id="d5e2307" class="indexterm"/>
     <a id="d5e2309" class="indexterm"/>
     <a id="d5e2311" class="indexterm"/>
@@ -5522,6 +5522,7 @@ uba.close();
     <a id="d5e2339" class="indexterm"/>
     <a id="d5e2341" class="indexterm"/>
     <a id="d5e2343" class="indexterm"/>
+    <a id="d5e2345" class="indexterm"/>
 
 
     <p>
@@ -5529,10 +5530,10 @@ uba.close();
         consume transactional Web Services and coordinate back-end systems.
     </p>
 
-    <div class="section" title="4.3.1. Participants"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2346"/>4.3.1. Participants</h3></div></div></div>
+    <div class="section" title="4.3.1. Participants"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2348"/>4.3.1. Participants</h3></div></div></div>
         
 
-        <div class="section" title="4.3.1.1. Overview"><div class="titlepage"><div><div><h4 class="title"><a id="d5e2348"/>4.3.1.1. Overview</h4></div></div></div>
+        <div class="section" title="4.3.1.1. Overview"><div class="titlepage"><div><div><h4 class="title"><a id="d5e2350"/>4.3.1.1. Overview</h4></div></div></div>
             
             <p>
                 The
@@ -5556,7 +5557,7 @@ uba.close();
                 <div class="mediaobject"><img src="images/xts-guide-fig-participant-backend-control.png" alt="Transactions, Participants, and Back-End Transaction Control"/></div>
             </div></div><br class="figure-break"/>
 
-            <div class="section" title="4.3.1.1.1. Atomic Transaction"><div class="titlepage"><div><div><h5 class="title"><a id="d5e2359"/>4.3.1.1.1. Atomic Transaction</h5></div></div></div>
+            <div class="section" title="4.3.1.1.1. Atomic Transaction"><div class="titlepage"><div><div><h5 class="title"><a id="d5e2361"/>4.3.1.1.1. Atomic Transaction</h5></div></div></div>
                 
                 <div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><h2>Warning!</h2>
                     
@@ -5573,7 +5574,7 @@ uba.close();
                 </p>
             </div>
 
-            <div class="section" title="4.3.1.1.2. Business Activity"><div class="titlepage"><div><div><h5 class="title"><a id="d5e2367"/>4.3.1.1.2. Business Activity</h5></div></div></div>
+            <div class="section" title="4.3.1.1.2. Business Activity"><div class="titlepage"><div><div><h5 class="title"><a id="d5e2369"/>4.3.1.1.2. Business Activity</h5></div></div></div>
                 
                 <p>
                     All Business Activity participants are instances one or the other of the interfaces described in
@@ -5585,7 +5586,7 @@ uba.close();
             </div>
         </div>
 
-        <div class="section" title="4.3.1.2. Participant Creation and Deployment"><div class="titlepage"><div><div><h4 class="title"><a id="d5e2372"/>4.3.1.2. Participant Creation and Deployment</h4></div></div></div>
+        <div class="section" title="4.3.1.2. Participant Creation and Deployment"><div class="titlepage"><div><div><h4 class="title"><a id="d5e2374"/>4.3.1.2. Participant Creation and Deployment</h4></div></div></div>
             
 
             <p>
@@ -5593,7 +5594,7 @@ uba.close();
                 the specifics of Participant programming and usage.
             </p>
 
-            <div class="section" title="4.3.1.2.1. Implementing Participants"><div class="titlepage"><div><div><h5 class="title"><a id="d5e2375"/>4.3.1.2.1. Implementing Participants</h5></div></div></div>
+            <div class="section" title="4.3.1.2.1. Implementing Participants"><div class="titlepage"><div><div><h5 class="title"><a id="d5e2377"/>4.3.1.2.1. Implementing Participants</h5></div></div></div>
                 
                 <p>
                     Implementing a participant is a relatively straightforward task. However, depending on the
@@ -5605,7 +5606,7 @@ uba.close();
                 </p>
             </div>
 
-            <div class="section" title="4.3.1.2.2. Deploying Participants"><div class="titlepage"><div><div><h5 class="title"><a id="d5e2379"/>4.3.1.2.2. Deploying Participants</h5></div></div></div>
+            <div class="section" title="4.3.1.2.2. Deploying Participants"><div class="titlepage"><div><div><h5 class="title"><a id="d5e2381"/>4.3.1.2.2. Deploying Participants</h5></div></div></div>
                 
                 <p>
                     Transactional web services and transactional clients are regular Jakarta EE applications and can be deployed into
@@ -5647,7 +5648,7 @@ uba.close();
         </div>
     </div>
 
-    <div class="section" title="4.3.2. API for the Atomic Transaction Protocol"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2388"/>4.3.2. API for the Atomic Transaction Protocol</h3></div></div></div>
+    <div class="section" title="4.3.2. API for the Atomic Transaction Protocol"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2390"/>4.3.2. API for the Atomic Transaction Protocol</h3></div></div></div>
         
 
         <div class="section" title="4.3.2.1. Durable2PCParticipant"><div class="titlepage"><div><div><h4 class="title"><a id="ref-Durable2PCParticipant"/>4.3.2.1. Durable2PCParticipant</h4></div></div></div>
@@ -5787,7 +5788,7 @@ uba.close();
                             transaction. Essentially the participant is resigning from the transaction.
                         </p>
                     </dd></dl></div>
-            <div class="example"><a id="d5e2473"/><p class="title"><strong>Example 4.1. 
+            <div class="example"><a id="d5e2475"/><p class="title"><strong>Example 4.1. 
                     Example Implementation of 2PC Participant's
                     <code class="methodname">prepare</code>
                     method
@@ -5819,7 +5820,7 @@ uba.close();
             </div></div><br class="example-break"/>
         </div>
 
-        <div class="section" title="4.3.2.4. TXContext"><div class="titlepage"><div><div><h4 class="title"><a id="d5e2477"/>4.3.2.4. TXContext</h4></div></div></div>
+        <div class="section" title="4.3.2.4. TXContext"><div class="titlepage"><div><div><h4 class="title"><a id="d5e2479"/>4.3.2.4. TXContext</h4></div></div></div>
             
             <p>
                 <span class="package">com.arjuna.mw.wst.TxContext</span>
@@ -5918,7 +5919,7 @@ uba.close();
                     </dd></dl></div>
         </div>
 
-        <div class="section" title="4.3.2.6. UserTransactionFactory"><div class="titlepage"><div><div><h4 class="title"><a id="d5e2548"/>4.3.2.6. UserTransactionFactory</h4></div></div></div>
+        <div class="section" title="4.3.2.6. UserTransactionFactory"><div class="titlepage"><div><div><h4 class="title"><a id="d5e2550"/>4.3.2.6. UserTransactionFactory</h4></div></div></div>
             
             <p>
                 Call the
@@ -6056,7 +6057,7 @@ uba.close();
                     </dd></dl></div>
         </div>
 
-        <div class="section" title="4.3.2.8. TransactionManagerFactory"><div class="titlepage"><div><div><h4 class="title"><a id="d5e2641"/>4.3.2.8. TransactionManagerFactory</h4></div></div></div>
+        <div class="section" title="4.3.2.8. TransactionManagerFactory"><div class="titlepage"><div><div><h4 class="title"><a id="d5e2643"/>4.3.2.8. TransactionManagerFactory</h4></div></div></div>
             
             <p>
                 Use the
@@ -6128,11 +6129,11 @@ uba.close();
         </div>
     </div>
 
-    <div class="section" title="4.3.3. API for the Business Activity Protocol"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2691"/>4.3.3. API for the Business Activity Protocol</h3></div></div></div>
+    <div class="section" title="4.3.3. API for the Business Activity Protocol"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2693"/>4.3.3. API for the Business Activity Protocol</h3></div></div></div>
 
         
 
-        <div class="section" title="4.3.3.1. Compatibility"><div class="titlepage"><div><div><h4 class="title"><a id="d5e2693"/>4.3.3.1. Compatibility</h4></div></div></div>
+        <div class="section" title="4.3.3.1. Compatibility"><div class="titlepage"><div><div><h4 class="title"><a id="d5e2695"/>4.3.3.1. Compatibility</h4></div></div></div>
             
             <p>
                 Previous implementations of XTS locate the Business Activity Protocol classes in the
@@ -6247,7 +6248,7 @@ uba.close();
                     </dd></dl></div>
         </div>
 
-        <div class="section" title="4.3.3.4. BAParticipantManager"><div class="titlepage"><div><div><h4 class="title"><a id="d5e2768"/>4.3.3.4. BAParticipantManager</h4></div></div></div>
+        <div class="section" title="4.3.3.4. BAParticipantManager"><div class="titlepage"><div><div><h4 class="title"><a id="d5e2770"/>4.3.3.4. BAParticipantManager</h4></div></div></div>
             
             <p>
                 In order for the Business Activity protocol to work correctly, the participants must be able to autonomously
@@ -6381,7 +6382,7 @@ uba.close();
         </div>
 
 
-        <div class="section" title="4.3.3.6. UserBusinessActivityFactory"><div class="titlepage"><div><div><h4 class="title"><a id="d5e2848"/>4.3.3.6. UserBusinessActivityFactory</h4></div></div></div>
+        <div class="section" title="4.3.3.6. UserBusinessActivityFactory"><div class="titlepage"><div><div><h4 class="title"><a id="d5e2850"/>4.3.3.6. UserBusinessActivityFactory</h4></div></div></div>
             
             <p>
                 Use the
@@ -6566,7 +6567,7 @@ uba.close();
                     </dd></dl></div>
         </div>
 
-        <div class="section" title="4.3.3.8. BusinessActivityManagerFactory"><div class="titlepage"><div><div><h4 class="title"><a id="d5e2964"/>4.3.3.8. BusinessActivityManagerFactory</h4></div></div></div>
+        <div class="section" title="4.3.3.8. BusinessActivityManagerFactory"><div class="titlepage"><div><div><h4 class="title"><a id="d5e2966"/>4.3.3.8. BusinessActivityManagerFactory</h4></div></div></div>
             
             <p>
                 Use the
@@ -6581,15 +6582,15 @@ uba.close();
     </div>
 
 </div>
-    <div class="section" title="4.4. Stand-Alone Coordination"><div class="titlepage"><div><div><h2 class="title"><a id="d5e2970"/>4.4. Stand-Alone Coordination</h2></div></div></div>
+    <div class="section" title="4.4. Stand-Alone Coordination"><div class="titlepage"><div><div><h2 class="title"><a id="d5e2972"/>4.4. Stand-Alone Coordination</h2></div></div></div>
 
     
 
-    <a id="d5e2972" class="indexterm"/>
     <a id="d5e2974" class="indexterm"/>
     <a id="d5e2976" class="indexterm"/>
+    <a id="d5e2978" class="indexterm"/>
 
-    <div class="section" title="4.4.1. Introduction"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2978"/>4.4.1. Introduction</h3></div></div></div>
+    <div class="section" title="4.4.1. Introduction"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2980"/>4.4.1. Introduction</h3></div></div></div>
         
         <p>
             By default, coordination contexts are obtained from the local coordinator.
@@ -6627,7 +6628,7 @@ uba.close();
             </li></ul></div>
     </div>
 
-    <div class="section" title="4.4.2. Configuring the Activation Coordinator"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2992"/>4.4.2. Configuring the Activation Coordinator</h3></div></div></div>
+    <div class="section" title="4.4.2. Configuring the Activation Coordinator"><div class="titlepage"><div><div><h3 class="title"><a id="d5e2994"/>4.4.2. Configuring the Activation Coordinator</h3></div></div></div>
         
         <p>
             The simplest way to configure a stand-alone coordinator is to provide a complete URL for the remote
@@ -6823,13 +6824,13 @@ uba.close();
         </div></div><br class="table-break"/>
     </div>
 </div>
-    <div class="section" title="4.5. Participant Crash Recovery"><div class="titlepage"><div><div><h2 class="title"><a id="d5e3069"/>4.5. Participant Crash Recovery</h2></div></div></div>
+    <div class="section" title="4.5. Participant Crash Recovery"><div class="titlepage"><div><div><h2 class="title"><a id="d5e3071"/>4.5. Participant Crash Recovery</h2></div></div></div>
 
     
 
-    <a id="d5e3071" class="indexterm"/>
     <a id="d5e3073" class="indexterm"/>
     <a id="d5e3075" class="indexterm"/>
+    <a id="d5e3077" class="indexterm"/>
 
     <p>
         A key requirement of a transaction service is to be resilient to a system crash by a host running a participant,
@@ -6841,7 +6842,7 @@ uba.close();
         policy.
     </p>
 
-    <div class="procedure" title="Procedure 4.2. Presumed Abort Policy"><a id="d5e3079"/><p class="title"><strong>Procedure 4.2. Presumed Abort Policy</strong></p><ol class="procedure" type="1"><li class="step" title="Step 1">
+    <div class="procedure" title="Procedure 4.2. Presumed Abort Policy"><a id="d5e3081"/><p class="title"><strong>Procedure 4.2. Presumed Abort Policy</strong></p><ol class="procedure" type="1"><li class="step" title="Step 1">
             <p>
                 If the coordinator crashes, it can assume that any transaction it does not know about is invalid, and reject a
                 participant request which refers to such a transaction.
@@ -6892,10 +6893,10 @@ uba.close();
         an
         interposed WS-AT coordinator has been employed.
     </p>
-    <div class="section" title="4.5.1. WS-AT Recovery"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3098"/>4.5.1. WS-AT Recovery</h3></div></div></div>
+    <div class="section" title="4.5.1. WS-AT Recovery"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3100"/>4.5.1. WS-AT Recovery</h3></div></div></div>
         
 
-        <div class="section" title="4.5.1.1. WS-AT Coordinator Crash Recovery"><div class="titlepage"><div><div><h4 class="title"><a id="d5e3100"/>4.5.1.1. WS-AT Coordinator Crash Recovery</h4></div></div></div>
+        <div class="section" title="4.5.1.1. WS-AT Coordinator Crash Recovery"><div class="titlepage"><div><div><h4 class="title"><a id="d5e3102"/>4.5.1.1. WS-AT Coordinator Crash Recovery</h4></div></div></div>
             
             <p>
                 The WS-AT coordination service tracks the status of each participant in a transaction as the transaction
@@ -6963,7 +6964,7 @@ uba.close();
 
         </div>
 
-        <div class="section" title="4.5.1.2. WS-AT Participant Crash Recovery"><div class="titlepage"><div><div><h4 class="title"><a id="d5e3119"/>4.5.1.2. WS-AT Participant Crash Recovery</h4></div></div></div>
+        <div class="section" title="4.5.1.2. WS-AT Participant Crash Recovery"><div class="titlepage"><div><div><h4 class="title"><a id="d5e3121"/>4.5.1.2. WS-AT Participant Crash Recovery</h4></div></div></div>
             
             <div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><h2>Warning!</h2>
                 
@@ -7061,7 +7062,7 @@ uba.close();
                 
 
 
-                <div class="section" title="4.5.1.2.1.1. Saving Participant Recovery State"><div class="titlepage"><div><div><h6 class="title"><a id="d5e3151"/>4.5.1.2.1.1. Saving Participant Recovery State</h6></div></div></div>
+                <div class="section" title="4.5.1.2.1.1. Saving Participant Recovery State"><div class="titlepage"><div><div><h6 class="title"><a id="d5e3153"/>4.5.1.2.1.1. Saving Participant Recovery State</h6></div></div></div>
                     
                     <p>
                         When a Business Activity participant web service completes its work, it may want to save the information
@@ -7132,7 +7133,7 @@ uba.close();
                     </p>
                 </div>
 
-                <div class="section" title="4.5.1.2.1.2. Recovering Participants at Reboot"><div class="titlepage"><div><div><h6 class="title"><a id="d5e3173"/>4.5.1.2.1.2. Recovering Participants at Reboot</h6></div></div></div>
+                <div class="section" title="4.5.1.2.1.2. Recovering Participants at Reboot"><div class="titlepage"><div><div><h6 class="title"><a id="d5e3175"/>4.5.1.2.1.2. Recovering Participants at Reboot</h6></div></div></div>
                     
                     <p>
                         A Web service must register with the XTS implementation when it is deployed, and unregister when
@@ -7143,7 +7144,7 @@ uba.close();
                         <span class="package">org.jboss.jbossts.xts.recovery.participant.at</span>
                         .
                     </p>
-                    <div class="example"><a id="d5e3178"/><p class="title"><strong>Example 4.5. Registering for Recovery</strong></p><div class="example-contents">
+                    <div class="example"><a id="d5e3180"/><p class="title"><strong>Example 4.5. Registering for Recovery</strong></p><div class="example-contents">
                         
                         <pre><code class="language-java">public abstract class XTSATRecoveryManager {
     . . .
@@ -7170,7 +7171,7 @@ uba.close();
                         calls. This instance identifies
                         saved participant recovery records and recreates new, recovered participant instances:
                     </p>
-                    <div class="example"><a id="d5e3186"/><p class="title"><strong>Example 4.6. 
+                    <div class="example"><a id="d5e3188"/><p class="title"><strong>Example 4.6. 
                             <code class="interfacename">XTSBARecoveryModule</code>
                             Interface
                         </strong></p><div class="example-contents">
@@ -7237,10 +7238,10 @@ uba.close();
     </div>
 
 
-    <div class="section" title="4.5.2. WS-BA Recovery"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3201"/>4.5.2. WS-BA Recovery</h3></div></div></div>
+    <div class="section" title="4.5.2. WS-BA Recovery"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3203"/>4.5.2. WS-BA Recovery</h3></div></div></div>
         
 
-        <div class="section" title="4.5.2.1. WS-BA Coordinator Crash Recovery"><div class="titlepage"><div><div><h4 class="title"><a id="d5e3203"/>4.5.2.1. WS-BA Coordinator Crash Recovery</h4></div></div></div>
+        <div class="section" title="4.5.2.1. WS-BA Coordinator Crash Recovery"><div class="titlepage"><div><div><h4 class="title"><a id="d5e3205"/>4.5.2.1. WS-BA Coordinator Crash Recovery</h4></div></div></div>
             
 
             <p>
@@ -7341,10 +7342,10 @@ uba.close();
 
         
 
-        <div class="section" title="4.5.2.2. WS-BA Participant Crash Recovery APIs"><div class="titlepage"><div><div><h4 class="title"><a id="d5e3235"/>4.5.2.2. WS-BA Participant Crash Recovery APIs</h4></div></div></div>
+        <div class="section" title="4.5.2.2. WS-BA Participant Crash Recovery APIs"><div class="titlepage"><div><div><h4 class="title"><a id="d5e3237"/>4.5.2.2. WS-BA Participant Crash Recovery APIs</h4></div></div></div>
             
 
-            <div class="section" title="4.5.2.2.1. Saving Participant Recovery State"><div class="titlepage"><div><div><h5 class="title"><a id="d5e3237"/>4.5.2.2.1. Saving Participant Recovery State</h5></div></div></div>
+            <div class="section" title="4.5.2.2.1. Saving Participant Recovery State"><div class="titlepage"><div><div><h5 class="title"><a id="d5e3239"/>4.5.2.2.1. Saving Participant Recovery State</h5></div></div></div>
                 
                 <p>
                     A participant may signal that it is capable of performing recovery processing, by implementing the
@@ -7389,7 +7390,7 @@ uba.close();
             </div>
 
 
-            <div class="section" title="4.5.2.2.2. Recovering Participants at Reboot"><div class="titlepage"><div><div><h5 class="title"><a id="d5e3251"/>4.5.2.2.2. Recovering Participants at Reboot</h5></div></div></div>
+            <div class="section" title="4.5.2.2.2. Recovering Participants at Reboot"><div class="titlepage"><div><div><h5 class="title"><a id="d5e3253"/>4.5.2.2.2. Recovering Participants at Reboot</h5></div></div></div>
                 
                 <p>
                     A Web service must register with the XTS implementation when it is deployed, and unregister when it is
@@ -7402,7 +7403,7 @@ uba.close();
                     <span class="package">org.jboss.jbossts.xts.recovery.participant.ba</span>
                     package.
                 </p>
-                <div class="example"><a id="d5e3257"/><p class="title"><strong>Example 4.8. 
+                <div class="example"><a id="d5e3259"/><p class="title"><strong>Example 4.8. 
                         <code class="classname">XTSBARecoveryManager</code>
                         Class
                     </strong></p><div class="example-contents">
@@ -7429,7 +7430,7 @@ uba.close();
                     calls. This instance identifies
                     saved participant recovery records and recreates new, recovered participant instances:
                 </p>
-                <div class="example"><a id="d5e3266"/><p class="title"><strong>Example 4.9. 
+                <div class="example"><a id="d5e3268"/><p class="title"><strong>Example 4.9. 
                         <code class="interfacename">XTSBARecoveryModule</code>
                         Interface
                     </strong></p><div class="example-contents">
@@ -7503,7 +7504,7 @@ uba.close();
                     recovery module.
                 </p>
             </div>
-            <div class="section" title="4.5.2.2.3. Securing Web Service State Changes"><div class="titlepage"><div><div><h5 class="title"><a id="d5e3283"/>4.5.2.2.3. Securing Web Service State Changes</h5></div></div></div>
+            <div class="section" title="4.5.2.2.3. Securing Web Service State Changes"><div class="titlepage"><div><div><h5 class="title"><a id="d5e3285"/>4.5.2.2.3. Securing Web Service State Changes</h5></div></div></div>
                 
                 <p>
                     When a BA participant completes, it is expected to commit changes to the web service state made during the
@@ -7527,7 +7528,7 @@ uba.close();
                     writing the participant log record. Conversely, if a recovery record cannot be written because of a fault or
                     a crash prior to writing, the provisional changes can be guaranteed to be rolled back.
                 </p>
-                <div class="example"><a id="d5e3289"/><p class="title"><strong>Example 4.10. 
+                <div class="example"><a id="d5e3291"/><p class="title"><strong>Example 4.10. 
                         <code class="interfacename">ConfirmCompletedParticipant</code>
                         Interface
                     </strong></p><div class="example-contents">
@@ -7597,7 +7598,7 @@ uba.close();
 
 
 </div>
-    <div class="section" title="4.6. Web Service Transaction Service (XTS) Management"><div class="titlepage"><div><div><h2 class="title"><a id="d5e3306"/>4.6. Web Service Transaction Service (XTS) Management</h2></div></div></div>
+    <div class="section" title="4.6. Web Service Transaction Service (XTS) Management"><div class="titlepage"><div><div><h2 class="title"><a id="d5e3308"/>4.6. Web Service Transaction Service (XTS) Management</h2></div></div></div>
     
     <p>
         The basic building blocks of a transactional Web Services application include the application itself, the Web
@@ -7607,7 +7608,7 @@ uba.close();
         consume services, and system administrators run the transaction-management infrastructure.
     </p>
 
-    <div class="section" title="4.6.1. Transaction manager overview"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3309"/>4.6.1. Transaction manager overview</h3></div></div></div>
+    <div class="section" title="4.6.1. Transaction manager overview"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3311"/>4.6.1. Transaction manager overview</h3></div></div></div>
         
         <p>
             The transaction manager is a Web service which coordinates XTS transactions. It is the only software component
@@ -7625,7 +7626,7 @@ uba.close();
     </div>
 
 
-    <div class="section" title="4.6.2. Configuring the transaction manager"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3314"/>4.6.2. Configuring the transaction manager</h3></div></div></div>
+    <div class="section" title="4.6.2. Configuring the transaction manager"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3316"/>4.6.2. Configuring the transaction manager</h3></div></div></div>
         
         <p>
             You can configure the Transaction Manager and related infrastructure by using two properties files.
@@ -7647,7 +7648,7 @@ uba.close();
         </div>
     </div>
 
-    <div class="section" title="4.6.3. Deployment descriptors"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3322"/>4.6.3. Deployment descriptors</h3></div></div></div>
+    <div class="section" title="4.6.3. Deployment descriptors"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3324"/>4.6.3. Deployment descriptors</h3></div></div></div>
         
         <p>
             In general, changing the contents of the various deployment descriptors used by XTS is not necessary.
@@ -7658,7 +7659,7 @@ uba.close();
         </p>
     </div>
 </div>
-    <div class="section" title="4.7. Quickstarts Overview"><div class="titlepage"><div><div><h2 class="title"><a id="d5e3326"/>4.7. Quickstarts Overview</h2></div></div></div>
+    <div class="section" title="4.7. Quickstarts Overview"><div class="titlepage"><div><div><h2 class="title"><a id="d5e3328"/>4.7. Quickstarts Overview</h2></div></div></div>
 
   
 
@@ -7672,7 +7673,7 @@ uba.close();
     
 
     <p>
-      Quickstart URL: <a class="ulink" href="https://github.com/jbosstm/quickstart/tree/5.13.1.Final-SNAPSHOT/XTS/wsat-jta-multi_service">https://github.com/jbosstm/quickstart/tree/5.13.1.Final-SNAPSHOT/XTS/wsat-jta-multi_service</a>
+      Quickstart URL: <a class="ulink" href="https://github.com/jbosstm/quickstart/tree/6.0.0.Final-SNAPSHOT/XTS/wsat-jta-multi_service">https://github.com/jbosstm/quickstart/tree/6.0.0.Final-SNAPSHOT/XTS/wsat-jta-multi_service</a>
     </p>
     <p>
       This quickstart uses JTA to manage WS-AT applications. The quickstart is composed of a client (the test) and two
@@ -7694,7 +7695,7 @@ uba.close();
     
 
     <p>
-      Quickstart URL: <a class="ulink" href="https://github.com/jbosstm/quickstart/tree/5.13.1.Final-SNAPSHOT/XTS/wsat-jta-multi_hop">https://github.com/jbosstm/quickstart/tree/5.13.1.Final-SNAPSHOT/XTS/wsat-jta-multi_hop</a>
+      Quickstart URL: <a class="ulink" href="https://github.com/jbosstm/quickstart/tree/6.0.0.Final-SNAPSHOT/XTS/wsat-jta-multi_hop">https://github.com/jbosstm/quickstart/tree/6.0.0.Final-SNAPSHOT/XTS/wsat-jta-multi_hop</a>
     </p>
     <p>
       This quickstart uses JTA to manage WS-AT applications. The quickstart is composed of a client (the test) and two
@@ -7717,11 +7718,11 @@ uba.close();
     </p>
   </div>
 
-  <div class="section" title="4.7.3. XTS with SSL"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3344"/>4.7.3. XTS with SSL</h3></div></div></div>
+  <div class="section" title="4.7.3. XTS with SSL"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3346"/>4.7.3. XTS with SSL</h3></div></div></div>
     
 
     <p>
-      Quickstart URL: <a class="ulink" href="https://github.com/jbosstm/quickstart/tree/5.13.1.Final-SNAPSHOT/XTS/ssl">https://github.com/jbosstm/quickstart/tree/5.13.1.Final-SNAPSHOT/XTS/ssl</a>
+      Quickstart URL: <a class="ulink" href="https://github.com/jbosstm/quickstart/tree/6.0.0.Final-SNAPSHOT/XTS/ssl">https://github.com/jbosstm/quickstart/tree/6.0.0.Final-SNAPSHOT/XTS/ssl</a>
     </p>
     <p>
       This example walks you through the steps required to setup two servers (client and server) that communicate via
@@ -7730,11 +7731,11 @@ uba.close();
     </p>
   </div>
 
-  <div class="section" title="4.7.4. Raw XTS API Demo"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3349"/>4.7.4. Raw XTS API Demo</h3></div></div></div>
+  <div class="section" title="4.7.4. Raw XTS API Demo"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3351"/>4.7.4. Raw XTS API Demo</h3></div></div></div>
     
 
     <p>
-      Quickstart URL: <a class="ulink" href="https://github.com/jbosstm/quickstart/tree/5.13.1.Final-SNAPSHOT/XTS/raw-xts-api-demo">https://github.com/jbosstm/quickstart/tree/5.13.1.Final-SNAPSHOT/XTS/raw-xts-api-demo</a>
+      Quickstart URL: <a class="ulink" href="https://github.com/jbosstm/quickstart/tree/6.0.0.Final-SNAPSHOT/XTS/raw-xts-api-demo">https://github.com/jbosstm/quickstart/tree/6.0.0.Final-SNAPSHOT/XTS/raw-xts-api-demo</a>
     </p>
     <p>
       This example demonstrates the whole range of XTS possibilities, including WS-AT and WS-BA.
@@ -7749,7 +7750,7 @@ uba.close();
     
 
     <p>
-      Quickstart URL: <a class="ulink" href="https://github.com/jbosstm/quickstart/tree/5.13.1.Final-SNAPSHOT/compensating-transactions/non-transactional_resource">https://github.com/jbosstm/quickstart/tree/5.13.1.Final-SNAPSHOT/compensating-transactions/non-transactional_resource</a>
+      Quickstart URL: <a class="ulink" href="https://github.com/jbosstm/quickstart/tree/6.0.0.Final-SNAPSHOT/compensating-transactions/non-transactional_resource">https://github.com/jbosstm/quickstart/tree/6.0.0.Final-SNAPSHOT/compensating-transactions/non-transactional_resource</a>
     </p>
     <p>
       This example demonstrates the simple use case of our API for developing applications that use Compensating
@@ -7762,7 +7763,7 @@ uba.close();
     
 
     <p>
-      Quickstart URL: <a class="ulink" href="https://github.com/jbosstm/quickstart/tree/5.13.1.Final-SNAPSHOT/compensating-transactions/travel-agent">https://github.com/jbosstm/quickstart/tree/5.13.1.Final-SNAPSHOT/compensating-transactions/travel-agent</a>
+      Quickstart URL: <a class="ulink" href="https://github.com/jbosstm/quickstart/tree/6.0.0.Final-SNAPSHOT/compensating-transactions/travel-agent">https://github.com/jbosstm/quickstart/tree/6.0.0.Final-SNAPSHOT/compensating-transactions/travel-agent</a>
     </p>
     <p>
       This example demonstrates the more complex use case of our API for developing applications that use Compensating
@@ -7774,21 +7775,21 @@ uba.close();
 
 </div>
 </div>
-    <div class="chapter" title="Chapter 5. TXBridge Guide"><div class="titlepage"><div><div><h2 class="title"><a id="txbridge"/>Chapter 5. TXBridge Guide</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="#d5e3367">5.1. Introduction</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e3369">5.1.1. Contextual Overview</a></span></dt><dt><span class="section"><a href="#d5e3376">5.1.2. Transaction Bridging</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e3395">5.2. Transaction Bridge Architecture</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e3397">5.2.1. Overview</a></span></dt><dt><span class="section"><a href="#d5e3408">5.2.2. Shared Design Elements</a></span></dt><dt><span class="section"><a href="#d5e3430">5.2.3. Inbound Bridging</a></span></dt><dt><span class="section"><a href="#d5e3452">5.2.4. Outbound Bridging</a></span></dt><dt><span class="section"><a href="#d5e3472">5.2.5. Crash Recovery</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e3479">5.3. Using the Transaction Bridge</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e3481">5.3.1. Introduction</a></span></dt><dt><span class="section"><a href="#d5e3484">5.3.2. Enabling</a></span></dt><dt><span class="section"><a href="#d5e3509">5.3.3. Inbound Bridging</a></span></dt><dt><span class="section"><a href="#d5e3519">5.3.4. Outbound Bridging</a></span></dt><dt><span class="section"><a href="#d5e3528">5.3.5. Loops and Diamonds</a></span></dt><dt><span class="section"><a href="#d5e3536">5.3.6. Distributed JTA and the JTS</a></span></dt><dt><span class="section"><a href="#d5e3543">5.3.7. Logging</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e3554">5.4. Known Limitations</a></span></dt><dt><span class="section"><a href="#d5e3574">5.5. Design Notes</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e3576">5.5.1. General Points</a></span></dt><dt><span class="section"><a href="#d5e3583">5.5.2. Crash Recovery Considerations</a></span></dt><dt><span class="section"><a href="#d5e3603">5.5.3. Test framework</a></span></dt></dl></dd></dl></div>
+    <div class="chapter" title="Chapter 5. TXBridge Guide"><div class="titlepage"><div><div><h2 class="title"><a id="txbridge"/>Chapter 5. TXBridge Guide</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="#d5e3369">5.1. Introduction</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e3371">5.1.1. Contextual Overview</a></span></dt><dt><span class="section"><a href="#d5e3378">5.1.2. Transaction Bridging</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e3397">5.2. Transaction Bridge Architecture</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e3399">5.2.1. Overview</a></span></dt><dt><span class="section"><a href="#d5e3410">5.2.2. Shared Design Elements</a></span></dt><dt><span class="section"><a href="#d5e3432">5.2.3. Inbound Bridging</a></span></dt><dt><span class="section"><a href="#d5e3454">5.2.4. Outbound Bridging</a></span></dt><dt><span class="section"><a href="#d5e3474">5.2.5. Crash Recovery</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e3481">5.3. Using the Transaction Bridge</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e3483">5.3.1. Introduction</a></span></dt><dt><span class="section"><a href="#d5e3486">5.3.2. Enabling</a></span></dt><dt><span class="section"><a href="#d5e3511">5.3.3. Inbound Bridging</a></span></dt><dt><span class="section"><a href="#d5e3521">5.3.4. Outbound Bridging</a></span></dt><dt><span class="section"><a href="#d5e3530">5.3.5. Loops and Diamonds</a></span></dt><dt><span class="section"><a href="#d5e3538">5.3.6. Distributed JTA and the JTS</a></span></dt><dt><span class="section"><a href="#d5e3545">5.3.7. Logging</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e3556">5.4. Known Limitations</a></span></dt><dt><span class="section"><a href="#d5e3576">5.5. Design Notes</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e3578">5.5.1. General Points</a></span></dt><dt><span class="section"><a href="#d5e3585">5.5.2. Crash Recovery Considerations</a></span></dt><dt><span class="section"><a href="#d5e3605">5.5.3. Test framework</a></span></dt></dl></dd></dl></div>
     
-    <div class="section" title="5.1. Introduction"><div class="titlepage"><div><div><h2 class="title"><a id="d5e3367"/>5.1. Introduction</h2></div></div></div>
+    <div class="section" title="5.1. Introduction"><div class="titlepage"><div><div><h2 class="title"><a id="d5e3369"/>5.1. Introduction</h2></div></div></div>
     
-    <div class="section" title="5.1.1. Contextual Overview"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3369"/>5.1.1. Contextual Overview</h3></div></div></div>
+    <div class="section" title="5.1.1. Contextual Overview"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3371"/>5.1.1. Contextual Overview</h3></div></div></div>
         
         <p>Transactions provide a structuring mechanism for business logic. Use of transactions
             allows for grouping of data manipulations into constructs with certain properties. Traditional
             ACID transactions provide for properties of Atomicity, Consistency, Isolation and Durability.
         </p>
-        <p>In Jakarta EE applications, transaction support is provided via the Java Transaction API
+        <p>In JavaEE applications, transaction support is provided via the Java Transaction API
             (JTA). The classes and interfaces in the jakarta.transaction and javax.transaction.xa packages
             provide a means by which the programmer may manage transaction demarcation (begin, commit,
             rollback) and, where necessary, interact with the transaction management system (e.g.
-            enlistResource). In many Jakarta EE applications, further abstractions are provided on top of the
+            enlistResource). In many JavaEE applications, further abstractions are provided on top of the
             JTA. For example, EJB3 @TransactionAttribute annotations may be used for transaction boundary
             demarcation in preference to explicit calls to the JTA's UserTransaction interface.
         </p>
@@ -7796,7 +7797,8 @@ uba.close();
             distributed applications, the JTA implementation may provide propagation of transaction
             context and transaction control calls between containers (JVMs) using either a propriety
             transport or JTS, the Java mapping of the CORBA OTS standard on an RMI/IIOP transport. In
-            Narayana, both local and distributed (JTS) implementations of the JTA are available.
+      Narayana,
+            both local and distributed (JTS) implementations of the JTA are available.
         </p>
         <p>In
             Web Services applications, ACID transaction management and interoperable context
@@ -7807,18 +7809,18 @@ uba.close();
             not the Java API through which the protocol may be driven. Therefore, XTS provides a custom
             Java API to users, with characteristics broadly similar to the JTA.
         </p>
-        <p>For applications that combine traditional Jakarta EE transaction management and Web Service
+        <p>For applications that combine traditional JavaEE transaction management and Web Service
             transaction management, it is often desirable to have some mechanism for linking these
             transaction types, such that a single transaction may span business logic written for either
-            transaction type. Examples include exposing existing Jakarta EE transactional business logic (e.g.
-            EJBs) as transactional Web Services, or allowing Jakarta EE transactional components to utilize
+            transaction type. Examples include exposing existing JavaEE transactional business logic (e.g.
+            EJBs) as transactional Web Services, or allowing JavaEE transactional components to utilize
             transactional Web Services.
         </p>
     </div>
-    <div class="section" title="5.1.2. Transaction Bridging"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3376"/>5.1.2. Transaction Bridging</h3></div></div></div>
+    <div class="section" title="5.1.2. Transaction Bridging"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3378"/>5.1.2. Transaction Bridging</h3></div></div></div>
         
         <p>We
-            use the term Transaction Bridging to describe the process of linking the Jakarta EE and Web
+            use the term Transaction Bridging to describe the process of linking the JavaEE and Web
             Services transaction domains. The transaction bridge component (txbridge) of Narayana
             provides
             bi-directional linkage, such that either type of transaction may encompass business logic
@@ -7840,7 +7842,7 @@ uba.close();
             handles the 2PC internally, the subordinates additionally expose the prepare method to their
             parent, behaving much like resources during the termination protocol.
         </p>
-        <div class="figure"><a id="d5e3382"/><p class="title"><strong>Figure 5.1. Transaction interposition in a distributed JTA environment</strong></p><div class="figure-contents">
+        <div class="figure"><a id="d5e3384"/><p class="title"><strong>Figure 5.1. Transaction interposition in a distributed JTA environment</strong></p><div class="figure-contents">
             
             <div class="mediaobject"><img src="images/txbridge-guide-interposition.png" alt="Transaction interposition in a distributed JTA environment"/></div>
         </div></div><br class="figure-break"/>
@@ -7850,7 +7852,7 @@ uba.close();
             children to be a coordinator of their native transaction type, even though these transaction
             types differ.
         </p>
-        <div class="figure"><a id="d5e3388"/><p class="title"><strong>Figure 5.2. Transactional bridging interposition</strong></p><div class="figure-contents">
+        <div class="figure"><a id="d5e3390"/><p class="title"><strong>Figure 5.2. Transactional bridging interposition</strong></p><div class="figure-contents">
             
             <div class="mediaobject"><img src="images/txbridge-guide-bridgeinterposition.png" alt="Transactional bridging interposition"/></div>
         </div></div><br class="figure-break"/>
@@ -7869,9 +7871,9 @@ uba.close();
         </p>
     </div>
 </div>
-    <div class="section" title="5.2. Transaction Bridge Architecture"><div class="titlepage"><div><div><h2 class="title"><a id="d5e3395"/>5.2. Transaction Bridge Architecture</h2></div></div></div>
+    <div class="section" title="5.2. Transaction Bridge Architecture"><div class="titlepage"><div><div><h2 class="title"><a id="d5e3397"/>5.2. Transaction Bridge Architecture</h2></div></div></div>
     
-    <div class="section" title="5.2.1. Overview"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3397"/>5.2.1. Overview</h3></div></div></div>
+    <div class="section" title="5.2.1. Overview"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3399"/>5.2.1. Overview</h3></div></div></div>
         
         <p>The transaction bridge resides in the package org.jboss.jbossts.txbridge and its
             subpackages.. It consists of two distinct sets of classes, one for bridging in each direction.
@@ -7879,14 +7881,14 @@ uba.close();
         <p>The process of inflowing a WS-AT transaction context on a Web Service call into the
             container and converting it to a local JTA transaction context such that existing
             transactional
-            Jakarta EE code (e.g. EJBs) may be called within its scope, is termed Inbound
+            JavaEE code (e.g. EJBs) may be called within its scope, is termed Inbound
             Transaction Bridging.
             When using inbound bridging, a parent WS-AT transaction coordinator has a
             subordinate JTA
             coordinator interposed into it via the transaction bridge.
         </p>
         <p>The process of outflowing a WS-AT transaction context on a call to a transactional Web
-            Service from a business logic method operating in a Jakarta EE transaction scope, is termed
+            Service from a business logic method operating in a JavaEE transaction scope, is termed
             Outbound
             Transaction Bridging. When using outbound bridging, a parent JTA transaction
             coordinator has a
@@ -7904,12 +7906,12 @@ uba.close();
             JTS
             option is used. We will return to this case later.
         </p>
-        <div class="figure"><a id="d5e3403"/><p class="title"><strong>Figure 5.3. Simplified Bridge Architecture</strong></p><div class="figure-contents">
+        <div class="figure"><a id="d5e3405"/><p class="title"><strong>Figure 5.3. Simplified Bridge Architecture</strong></p><div class="figure-contents">
             
             <div class="mediaobject"><img src="images/txbridge-guide-architecture.png" alt="Simplified Bridge Architecture"/></div>
         </div></div><br class="figure-break"/>
     </div>
-    <div class="section" title="5.2.2. Shared Design Elements"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3408"/>5.2.2. Shared Design Elements</h3></div></div></div>
+    <div class="section" title="5.2.2. Shared Design Elements"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3410"/>5.2.2. Shared Design Elements</h3></div></div></div>
         
         <p>The design of the inbound and outbound bridges is conceptually very similar. Each provides
             the following:
@@ -7964,7 +7966,7 @@ uba.close();
                 </p>
             </li></ul></div>
     </div>
-    <div class="section" title="5.2.3. Inbound Bridging"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3430"/>5.2.3. Inbound Bridging</h3></div></div></div>
+    <div class="section" title="5.2.3. Inbound Bridging"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3432"/>5.2.3. Inbound Bridging</h3></div></div></div>
         
         <p>The process flow when using the inbound bridge is as follows:</p>
         <div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
@@ -8004,7 +8006,7 @@ uba.close();
                 <p>The JAX-WS pipeline processing continues, eventually calling whatever business logic
                     is exposed. This may be e.g. an EJB using JSR-181 annotations. The business logic may use
                     the JTA transaction in the normal manner e.g. enlisting Synchronizations and XAResources
-                    or performing other transactional activity either directly or though the usual Jakarta EE
+                    or performing other transactional activity either directly or though the usual JavaEE
                     abstractions.
                 </p>
             </li><li class="listitem">
@@ -8029,7 +8031,7 @@ uba.close();
                 </p>
             </li></ol></div>
     </div>
-    <div class="section" title="5.2.4. Outbound Bridging"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3452"/>5.2.4. Outbound Bridging</h3></div></div></div>
+    <div class="section" title="5.2.4. Outbound Bridging"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3454"/>5.2.4. Outbound Bridging</h3></div></div></div>
         
         <p>The process flow when using the outbound bridge is as follows:</p>
         <div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
@@ -8083,7 +8085,7 @@ uba.close();
                 </p>
             </li></ol></div>
     </div>
-    <div class="section" title="5.2.5. Crash Recovery"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3472"/>5.2.5. Crash Recovery</h3></div></div></div>
+    <div class="section" title="5.2.5. Crash Recovery"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3474"/>5.2.5. Crash Recovery</h3></div></div></div>
         
         <p>The bridge includes independent crash recovery systems for the inbound and outbound sides.
             These are automatically installed and activated as part of the bridge deployment. They rely
@@ -8128,16 +8130,16 @@ uba.close();
         </p>
     </div>
 </div>
-    <div class="section" title="5.3. Using the Transaction Bridge"><div class="titlepage"><div><div><h2 class="title"><a id="d5e3479"/>5.3. Using the Transaction Bridge</h2></div></div></div>
+    <div class="section" title="5.3. Using the Transaction Bridge"><div class="titlepage"><div><div><h2 class="title"><a id="d5e3481"/>5.3. Using the Transaction Bridge</h2></div></div></div>
     
-    <div class="section" title="5.3.1. Introduction"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3481"/>5.3.1. Introduction</h3></div></div></div>
+    <div class="section" title="5.3.1. Introduction"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3483"/>5.3.1. Introduction</h3></div></div></div>
         
         <p>This section describes how to use the transaction bridge in your applications. It is
             recommended you first read the preceding chapters for a theoretical background in the way the
             bridge functions.
         </p>
     </div>
-    <div class="section" title="5.3.2. Enabling"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3484"/>5.3.2. Enabling</h3></div></div></div>
+    <div class="section" title="5.3.2. Enabling"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3486"/>5.3.2. Enabling</h3></div></div></div>
         
         <p>
             TXBridge is integrated with the XTS subsystem of the WildFly Application Server.
@@ -8188,12 +8190,12 @@ uba.close();
                 </p>
             </li></ol></div>
     </div>
-    <div class="section" title="5.3.3. Inbound Bridging"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3509"/>5.3.3. Inbound Bridging</h3></div></div></div>
+    <div class="section" title="5.3.3. Inbound Bridging"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3511"/>5.3.3. Inbound Bridging</h3></div></div></div>
         
         <p>To use the inbound bridge, register the JAX-WS handler into the handler chain of any Web
             Service as follows:
         </p>
-        <div class="example"><a id="d5e3512"/><p class="title"><strong>Example 5.1. 
+        <div class="example"><a id="d5e3514"/><p class="title"><strong>Example 5.1. 
                 Registering the
                 <code class="literal">handler</code>
                 for Inbound Bridging
@@ -8230,12 +8232,12 @@ uba.close();
             with the default timeout defined by the container.
         </p>
     </div>
-    <div class="section" title="5.3.4. Outbound Bridging"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3519"/>5.3.4. Outbound Bridging</h3></div></div></div>
+    <div class="section" title="5.3.4. Outbound Bridging"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3521"/>5.3.4. Outbound Bridging</h3></div></div></div>
         
         <p>To use the outbound bridge, register the JAX-WS handler into the handler chain of any Web
             Service client application as follows:
         </p>
-        <div class="example"><a id="d5e3522"/><p class="title"><strong>Example 5.2. 
+        <div class="example"><a id="d5e3524"/><p class="title"><strong>Example 5.2. 
                 Registering the
                 <code class="literal">handler</code>
                 for Outbound Bridging
@@ -8264,7 +8266,7 @@ uba.close();
             chain registered only on the former. This limitation may be addressed in future versions.
         </p>
     </div>
-    <div class="section" title="5.3.5. Loops and Diamonds"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3528"/>5.3.5. Loops and Diamonds</h3></div></div></div>
+    <div class="section" title="5.3.5. Loops and Diamonds"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3530"/>5.3.5. Loops and Diamonds</h3></div></div></div>
         
         <p>In distributed environments that utilize transaction bridging, it is possible to construct
             arrangements of servers such that a transaction context passes though more than one
@@ -8304,10 +8306,10 @@ uba.close();
             relationships between transactional components in the system.
         </p>
     </div>
-    <div class="section" title="5.3.6. Distributed JTA and the JTS"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3536"/>5.3.6. Distributed JTA and the JTS</h3></div></div></div>
+    <div class="section" title="5.3.6. Distributed JTA and the JTS"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3538"/>5.3.6. Distributed JTA and the JTS</h3></div></div></div>
         
         <p>The
-            Jakarta EE transaction engine in Narayana
+            JavaEE transaction engine in Narayana
             comes in two varieties. These are the local only
             JTA, which does not support propagation of transaction context or transaction control calls
             between JVMs and the JTAX, which provides the JTA API implemented by a JTS engine that does
@@ -8339,7 +8341,7 @@ uba.close();
             to avoid the problems described previously in 'Loops and Diamonds'.
         </p>
     </div>
-    <div class="section" title="5.3.7. Logging"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3543"/>5.3.7. Logging</h3></div></div></div>
+    <div class="section" title="5.3.7. Logging"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3545"/>5.3.7. Logging</h3></div></div></div>
         
         <p>The
             transaction bridge uses the jboss-logging system. When running inside WildFly Application Server,
@@ -8347,7 +8349,7 @@ uba.close();
             logging
             for the transaction bridge, which may be useful for debug purposes, the following logger should be added:
         </p>
-        <div class="example"><a id="d5e3546"/><p class="title"><strong>Example 5.3. Configuring Transaction Bridge Logging</strong></p><div class="example-contents">
+        <div class="example"><a id="d5e3548"/><p class="title"><strong>Example 5.3. Configuring Transaction Bridge Logging</strong></p><div class="example-contents">
             
             <pre><code class="language-xml">&lt;logger category="org.jboss.jbossts.txbridge"&gt;
   &lt;level name="ALL" /&gt;
@@ -8365,7 +8367,7 @@ uba.close();
             detail in the accompanying documentation set, but for ease of reference the following may be
             used to enable verbose logging:
         </p>
-        <div class="example"><a id="d5e3550"/><p class="title"><strong>Example 5.4. Configuring verbose logging</strong></p><div class="example-contents">
+        <div class="example"><a id="d5e3552"/><p class="title"><strong>Example 5.4. Configuring verbose logging</strong></p><div class="example-contents">
             
             <pre><code class="language-xml">&lt;logger category="com.arjuna"&gt;
   &lt;level name="ALL" /&gt;
@@ -8381,7 +8383,7 @@ uba.close();
         </p>
     </div>
 </div>
-    <div class="section" title="5.4. Known Limitations"><div class="titlepage"><div><div><h2 class="title"><a id="d5e3554"/>5.4. Known Limitations</h2></div></div></div>
+    <div class="section" title="5.4. Known Limitations"><div class="titlepage"><div><div><h2 class="title"><a id="d5e3556"/>5.4. Known Limitations</h2></div></div></div>
     
     <p>The current transaction bridge release has the following limitations:</p>
     <div class="itemizedlist"><ul class="itemizedlist"><li class="listitem">
@@ -8437,9 +8439,9 @@ uba.close();
             </p>
         </li></ul></div>
 </div>
-    <div class="section" title="5.5. Design Notes"><div class="titlepage"><div><div><h2 class="title"><a id="d5e3574"/>5.5. Design Notes</h2></div></div></div>
+    <div class="section" title="5.5. Design Notes"><div class="titlepage"><div><div><h2 class="title"><a id="d5e3576"/>5.5. Design Notes</h2></div></div></div>
     
-    <div class="section" title="5.5.1. General Points"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3576"/>5.5.1. General Points</h3></div></div></div>
+    <div class="section" title="5.5.1. General Points"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3578"/>5.5.1. General Points</h3></div></div></div>
         
         <p>This
             section records key design points relating to the bridge implementation. The target
@@ -8478,14 +8480,14 @@ uba.close();
             with XTS, not just the bridge.
         </p>
     </div>
-    <div class="section" title="5.5.2. Crash Recovery Considerations"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3583"/>5.5.2. Crash Recovery Considerations</h3></div></div></div>
+    <div class="section" title="5.5.2. Crash Recovery Considerations"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3585"/>5.5.2. Crash Recovery Considerations</h3></div></div></div>
         
         <p>As usual with transactions, it's the crash recovery that provides for the most complexity.
             Recovery for the inbound and outbound sides is handled independently. Because of event
             ordering between recovery modules (JTA, XTS), it requires two complete cycles to resolve some
             of these crash recovery situations.
         </p>
-        <div class="section" title="5.5.2.1. Inbound Crash Recovery"><div class="titlepage"><div><div><h4 class="title"><a id="d5e3586"/>5.5.2.1. Inbound Crash Recovery</h4></div></div></div>
+        <div class="section" title="5.5.2.1. Inbound Crash Recovery"><div class="titlepage"><div><div><h4 class="title"><a id="d5e3588"/>5.5.2.1. Inbound Crash Recovery</h4></div></div></div>
             
             <p>An inbound transaction involves at least
                 four log writes. Top down (i.e. in reverse order
@@ -8547,7 +8549,7 @@ uba.close();
                 Participant and the transaction completes.
             </p>
         </div>
-        <div class="section" title="5.5.2.2. Outbound Crash Recovery"><div class="titlepage"><div><div><h4 class="title"><a id="d5e3596"/>5.5.2.2. Outbound Crash Recovery</h4></div></div></div>
+        <div class="section" title="5.5.2.2. Outbound Crash Recovery"><div class="titlepage"><div><div><h4 class="title"><a id="d5e3598"/>5.5.2.2. Outbound Crash Recovery</h4></div></div></div>
             
             <p>An outbound transaction involves log writes for the JTA parent transaction and the XTS
                 BridgeWrapper coordinator. There is not a separate log created by the txbridge. The JTA tx
@@ -8580,7 +8582,7 @@ uba.close();
             </p>
         </div>
     </div>
-    <div class="section" title="5.5.3. Test framework"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3603"/>5.5.3. Test framework</h3></div></div></div>
+    <div class="section" title="5.5.3. Test framework"><div class="titlepage"><div><div><h3 class="title"><a id="d5e3605"/>5.5.3. Test framework</h3></div></div></div>
         
         <p>The test suite for the txbridge is split along two axis. Firstly, the inbound and outbound
             sides of the bridge have their own test suites in a parallel code package hierarchy. These are
