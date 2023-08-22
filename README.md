@@ -1,49 +1,22 @@
 # Preparing the environment
 
-Install awestruct (verified on Fedora 35):
+Install Hugo ([guide](https://gohugo.io/installation/)):
 ```
-sudo dnf -y update && sudo dnf -y install gcc-c++ make ruby-devel libxml2-devel libxslt-devel libffi-devel findutils git ruby tar redhat-rpm-config which python2 patchutils gem && sudo dnf clean all
-```
-
-Install NodeJS as it is required by the JavaScript compression module:
-```
-sudo dnf install nodejs
+sudo dnf install hugo
 ```
 
-Clone this repository (or your fork). Development code is stored on the develop branch:
-```
-git clone https://github.com/jbosstm/narayana.io.git
-cd narayana.io
-git checkout develop
-```
+Clone this repository (or your fork).
 
-Install required gems (on rhel this command might be executed with sudo):
-```
-bundle install
-```
-
-For more information about Awestruct refer https://github.com/awestruct/awestruct
 
 # Web page preview
 
 To build and run a preview of the website on a local server:
 ```
-awestruct -d
+npm install
+hugo -e development
+hugo serve
 ```
 
 # Deploying web page (to update)
 
-Clean all unnecessary junk if required
-```
-git clean -d -f -x
-```
-
-Build deployable web page. This will generate the production web site.
-```
-awestruct -P production
-```
-
-To upload the (new) production web site, run the following command. If everything went OK, the new web site is updated automatically.
-```
-rsync -Pr --protocol=28 --delete-after _site/* jbosstm@<rysnc_hostname>:www_htdocs/jbosstm/
-```
+Open a PR to the main branch, as soon as the PR is merged the github action (under .github) will build and publish the new website.

@@ -16,3 +16,9 @@ stylesheets/_config-variables.less
 
 ## Ruby tools
 .rvmrc
+
+## Hugo
+/public/
+/resources/
+.hugo_build.lock
+/node_modules/
