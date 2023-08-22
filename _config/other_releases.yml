@@ -1,5 +1,0 @@
-nta:
-  version: 1.0.0.Alpha2
-  date: "2014-04-01"
-  binary: https://downloads.jboss.org/jbosstm/nta/1.0.0.Alpha2/binary/nta-1.0.0.Alpha2.ear
-  demo: https://downloads.jboss.org/jbosstm/nta/1.0.0.Alpha2/binary/nta-demo-1.0.0.Alpha2.war
