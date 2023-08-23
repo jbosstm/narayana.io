@@ -19,4 +19,6 @@ hugo serve
 
 # Deploying web page (to update)
 
-Open a PR to the main branch, as soon as the PR is merged the github action (under .github) will build and publish the new website.
+```
+rsync -Pr --protocol=28 --delete-after public/* jbosstm@<rysnc_hostname>:www_htdocs/jbosstm/
+```
