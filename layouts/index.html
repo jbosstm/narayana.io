@@ -27,22 +27,16 @@
 			</nav>
 			{{ end -}}
 			{{ .Content }}
-			<div class="page-footer-meta d-flex flex-column flex-md-row justify-content-between">
-				{{ if .Site.Params.lastMod -}}
-					{{ partial "main/last-modified.html" . }}
-				{{ end -}}
-				{{ if .Site.Params.editPage -}}
-					{{ partial "main/edit-page.html" . }}
-				{{ end -}}
-			</div>
-			{{ partial "main/docs-navigation.html" . }}
-			<!--
-			{{ if not .Site.Params.options.collapsibleSidebar -}}
-				{{ partial "main/docs-navigation.html" . }}
-			{{ else -}}
-				<div class="my-n3"></div>
-			{{ end -}}
-			-->
+			  </div>
 		</main>
 	</div>
+{{ end }}
+{{ define "sidebar-footer" }}
+<section class="section section-sm container-fluid">
+  <div class="row justify-content-center text-center">
+    <div class="col-lg-9">
+      {{ partial "footer/custom-footer.html" . }}
+    </div>
+  </div>
+</section>
 {{ end }}

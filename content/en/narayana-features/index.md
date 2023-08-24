@@ -26,7 +26,7 @@ distributed transactions in CORBA, J2EE and Web services environments.
 | Remote transactions via JBoss remoting| ✔| 
 | Remote transactions via CORBA| | ✔|
 | Remote transactions via SOAP| | | ✔|      ✔| 
-| Remote transactions via REST| | | | | | ✔|
+| Remote transactions via REST| | | | | ✔| |
 | In memory transactions| | | | | | ✔| ✔| ✔|
 | Multiversion concurrency control| | | | | | ✔| 
 | CORBA Object Transaction Service (OTS) 1.1 compliant| | ✔|

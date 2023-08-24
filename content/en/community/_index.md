@@ -16,23 +16,22 @@ Forum
 Narayana user forum is the best place to ask any project related
 questions, give suggestions, or request a new feature.
 
+[Visit Narayana Forum](https://groups.google.com/forum/#!forum/narayana-users)
+
 Chat
 ====
 
 Start contributing to our open conversations in our Zulip open-source
 organisation!
 
+[Chat With Us](https://narayana.zulipchat.com)
+
+
 Blog
 ====
 
 All the latest Narayana project news and other interesting stuff is
 published in our blog.
-
-[Visit Narayana
-Forum](https://groups.google.com/forum/#!forum/narayana-users)
-
-
-[Chat With Us](https://narayana.zulipchat.com)
 
 [Visit Narayana Blog](https://jbossts.blogspot.co.uk)
 
@@ -54,7 +53,7 @@ Follow us on our [Narayana twitter
 account!](https://twitter.com/narayana_io) We use the hashtag
 \#narayanaio
 
-[Twitter \#narayanaio](https://twitter.com/hashtag/narayanaio)
+{{< js_twitter >}}
 
 Our team
 ========
@@ -70,6 +69,9 @@ Engineer). I\'ve been working in the area of reliable distributed
 systems since the mid-80\'s. My PhD was on fault-tolerant distributed
 systems, replication and transactions. I\'m also a Professor at
 Newcastle University and Lyon.
+
+{{< js_twitter_mark_little >}}
+
 
 Michael Musgrove
 ----------------
@@ -94,6 +96,7 @@ Tom Jenkinson
 My technical specialisms include transaction and integration
 technologies, primarily in the distributed systems field.
 
+{{< js_twitter_tom_jenkinson >}}
 
 Manuel Finelli
 --------------
@@ -101,6 +104,7 @@ Manuel Finelli
 Joined the JBoss Transaction team in 2020 with 6+ years experience in
 software engineering.
 
+{{< js_twitter_manuel_finelli >}}
 
 Marco Sappé Griot
 -----------------
