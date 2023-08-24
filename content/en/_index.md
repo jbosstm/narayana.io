@@ -23,17 +23,17 @@ Java based applications (including those written for the Java EE and EJB
 frameworks) thereby eliminating the risks and costs associated with
 time-consuming manual reconciliation following failures.
 
-  ------------------------------------------------------------------- -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  Bullet Proof Reliability                                            Founded on industry proven technology and over a 30 year history as a leader in the field of transaction processing.
-  Reduced Operating Costs                                             Built in failure recovery components that handle failures automatically with no manual intervention required. Moreover, the open source license make the product free to download and use.
-  Flexible Deployment Options                                         Can be deployed stand-alone as well as within a range of different container implementations, most notably WildFly application server.
-  Simplicity\...Not Complexity                                        Simplifies application development as programmers are able to focus on business logic rather than specialist non-reusable, error-prone failure recovery code.
-  Full Distributed Transactions                                       Preserves overall system state integrity regardless of the topology of the deployment and creates a unified transactioning solution for all resources - databases, message queues and arbitrary custom components.
-  Easily integrate with other JBoss frameworks                        Connect your transactional applications to services written for the WildFly application server.
-  Participate in transactions that span from Java to C++ and beyond   Narayana provides language bindings for both C/C++ and Java.
-  Industry Leading Interoperability                                   Extends beyond Jakarta EE to Web Services and REST through support of the WS-Coordination, WS-AtomicTransaction, WS-BusinessActivity and REST-AT specifications.
-  Professional Support                                                Red Hat delivers the Professional Support, Consulting, and Training that you need whether you are testing a proof of concept, deploying a mission-critical application, or rolling out across your entire enterprise.
-  ------------------------------------------------------------------- -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| | |
+| :----------------------------------------------------------------- | :----------------------------------------------------------------------------------------------- | 
+|  Bullet Proof Reliability                                             | Founded on industry proven technology and over a 30 year history as a leader in the field of transaction processing.  | 
+|  Reduced Operating Costs                                            | Built in failure recovery components that handle failures automatically with no manual intervention required. Moreover, the open source license make the product free to download and use. | 
+|  Flexible Deployment Options                                        | Can be deployed stand-alone as well as within a range of different container implementations, most notably WildFly application server. | 
+|  Simplicity\...Not Complexity                                       | Simplifies application development as programmers are able to focus on business logic rather than specialist non-reusable, error-prone failure recovery code. | 
+|  Full Distributed Transactions                                      | Preserves overall system state integrity regardless of the topology of the deployment and creates a unified transactioning solution for all resources - databases, message queues and arbitrary custom components. | 
+|  Easily integrate with other JBoss frameworks                       | Connect your transactional applications to services written for the WildFly application server. | 
+|  Participate in transactions that span from Java to C++ and beyond  | Narayana provides language bindings for both C/C++ and Java. | 
+|  Industry Leading Interoperability                                  | Extends beyond Jakarta EE to Web Services and REST through support of the WS-Coordination, WS-AtomicTransaction, WS-BusinessActivity and REST-AT specifications. | 
+|  Professional Support                                               | Red Hat delivers the Professional Support, Consulting, and Training that you need whether you are testing a proof of concept, deploying a mission-critical application, or rolling out across your entire enterprise. | 
 
 
 ### What is Narayana?

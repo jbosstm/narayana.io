@@ -1,3 +1,4 @@
+[![Website Build](https://github.com/marcosgopen/marcosgopen.github.io/actions/workflows/build-website.yml/badge.svg)](https://github.com/marcosgopen/marcosgopen.github.io/actions/workflows/build-website.yml)
 # Preparing the environment
 
 Install Hugo ([guide](https://gohugo.io/installation/)):
@@ -17,8 +18,7 @@ hugo -e development
 hugo serve
 ```
 
-# Deploying web page (to update)
-
+To upload the (new) production web site, run the following command. If everything went OK, the new web site is updated automatically.
 ```
 rsync -Pr --protocol=28 --delete-after public/* jbosstm@<rysnc_hostname>:www_htdocs/jbosstm/
 ```

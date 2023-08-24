@@ -1,4 +1,43 @@
 /** Custom styles */
+#badges .arquillian a {
+  background: url(https://static.jboss.org/common/images/licenses/badges-sprite.gif) no-repeat 0 0;
+  color: #666;
+  display: block;
+  padding: 4px 0;
+  margin-left: 10px;
+  padding-left: 30px;
+  text-decoration: none;
+  text-shadow: 2px 2px 2px #fff;
+}
 .row2 {
+  flex-shrink: 0;
+  width: 100%;
+  max-width: 100%;
+  padding-right: calc(var(--bs-gutter-x) * .5);
+  padding-left: calc(var(--bs-gutter-x) * .5);
+  margin-top: var(--bs-gutter-y);
   --bs-gutter-x: 0px;
+  box-sizing: border-box;
+  height: 110px;
+
+}
+
+    .banner {
+      background-image: url(narayana-banner-1180px.png);
+      background-repeat: no-repeat;
+      position: relative;
+      margin-bottom: -5px;
+      height: 110px;
+
+      background-size: 100% 100%;    
+  }
+
+.taglinelight {
+  color: #fff;
+  font-size: 23px;
+  position: absolute;
+  right: 40px;
+  bottom: 19px;
+  display: block;
+  box-sizing: border-box;
 }
