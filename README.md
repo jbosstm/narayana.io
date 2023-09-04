@@ -1,4 +1,4 @@
-[![Website Build](https://github.com/marcosgopen/marcosgopen.github.io/actions/workflows/build-website.yml/badge.svg)](https://github.com/marcosgopen/marcosgopen.github.io/actions/workflows/build-website.yml)
+[![Website Build](https://github.com/jbosstm/narayana.io/actions/workflows/build-website.yml/badge.svg)](https://github.com/jbosstm/narayana.io/actions/workflows/build-website.yml)
 # Preparing the environment
 
 Install Hugo ([guide](https://gohugo.io/installation/)):
@@ -9,12 +9,17 @@ sudo dnf install hugo
 Clone this repository (or your fork).
 
 
-# Web page preview
+# Web page build and preview
 
-To build and run a preview of the website on a local server:
+To build the website:
 ```
 npm install
-hugo -e development
+npm run build
+```
+
+
+To run a preview of the website on a local server:
+```
 hugo serve
 ```
 
