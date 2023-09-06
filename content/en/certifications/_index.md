@@ -9,5 +9,6 @@ images: []
 weight: 100
 layout: default
 ---
-[LRA 1.0 Compatible Certification Request (CCR)](lra/microprofile-lra-1.0/index.html)
+-   [LRA 1.0 Compatible Certification Request (CCR)](/certifications/lra/microprofile-lra-1.0/index.html)
+-   [LRA 2.0 Compatible Certification Request (CCR)](https://github.com/jbosstm/narayana/blob/main/certifications/lra/microprofile-lra-2.0/README.adoc)
 -------------------------------------------------------------------------------------
