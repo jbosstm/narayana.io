@@ -1,5 +1,5 @@
 canonifyURLs = true
-baseurl = "https://narayana.io/"
+baseURL = "https://www.narayana.io/"
 disableAliases = true
 disableHugoGeneratorInject = true
 enableEmoji = true
@@ -81,5 +81,3 @@ rel  = "sitemap"
     [[related.indices]]
     name = "date"
     weight = 10
-canonifyURLs = true
-baseurl = "https://narayana.io/"
