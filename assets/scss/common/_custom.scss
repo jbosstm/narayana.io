@@ -9,35 +9,78 @@
   text-decoration: none;
   text-shadow: 2px 2px 2px #fff;
 }
-.row2 {
-  flex-shrink: 0;
-  width: 100%;
-  max-width: 100%;
-  padding-right: calc(var(--bs-gutter-x) * .5);
-  padding-left: calc(var(--bs-gutter-x) * .5);
-  margin-top: var(--bs-gutter-y);
+
+.row2{
+  position: relative;
+  text-align: right;
+  color: white;
   --bs-gutter-x: 0px;
-  box-sizing: border-box;
-  height: 110px;
+}
+
+
+.bottom-right {
+  position: absolute;
+  bottom: 8px;
+  right: 16px;
+  max-width: 70%;
+}
+
+.top-right {
+  margin-top: 8px;
+  width: 130px;
+  height: 20px;
+  background-color: rgba(66, 66, 66, 0.75);
+  filter: alpha(opacity=75);
+  color: #e6e7e8;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
 
 }
 
-    .banner {
-      background-image: url(narayana-banner-1180px.png);
-      background-repeat: no-repeat;
-      position: relative;
-      margin-bottom: -5px;
-      height: 110px;
+.tabnav-closed {
+  display: block;
+  float: right;
+  height: 40px;
+  overflow: hidden;
+  position: absolute;
+  background-position: right top;
+  text-indent: -2000px;
+  width: 250px;
+  z-index: 999;
+  top: 0px;
+  right: 4px;
+  background-repeat: no-repeat;
 
-      background-size: 100% 100%;    
-  }
+}
+.tabnav-closed::after {
+  -webkit-transform: rotate(0deg);
+  transform: rotate(0deg);
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  -ms-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  background: url("https://static.jboss.org/common/images/arrow-tabnav-down.png") no-repeat scroll 0 0 transparent;
+  content: "x";
+  height: 15px;
+  position: absolute;
+  right: 12px;
+  top: 9px;
+  width: 13px;
+}
 
-.taglinelight {
-  color: #fff;
-  font-size: 23px;
+.dropup {
+  height: 37px;
+  background-image: url("https://static.jboss.org/common/images/tabzilla/tabzilla-redhat-logo-sprite.png");
+  background-repeat: no-repeat;
+  background-position: right top;
+  width: 250px;
+  background-color: transparent;
   position: absolute;
   right: 40px;
-  bottom: 19px;
-  display: block;
-  box-sizing: border-box;
+  margin-bottom: -40px;
+  z-index: 999;
+  text-align: center;
+  margin-top: -1px !important;
 }
