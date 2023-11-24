@@ -50,7 +50,7 @@ release.
 ### Release Cycle
 
 Narayana releases frequently. We deliver frequent milestones, typically
-one a month, and support building from master for those that wish to be
+one a month, and support building from main for those that wish to be
 on the bleeding edge.
 
 ### Contribution
