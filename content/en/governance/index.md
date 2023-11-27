@@ -49,7 +49,7 @@ release.
 
 ### Release Cycle
 
-Narayana releases on an "as needed" basis. We support building from main for those that wish to be on the bleeding edge.
+Narayana releases on an "as needed" basis, and we document how to build from main for those that wish to be on the bleeding edge.
 
 ### Contribution
 
