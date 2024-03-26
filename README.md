@@ -14,9 +14,14 @@ Clone this repository (or your fork).
 To build the website:
 ```
 npm install
-npm run build
+npm run build -- -b https://www.narayana.io/
 ```
+To build the website the a specific configuration:
 
+```
+npm install
+HUGO_ENV=serverless npm run build
+```
 
 To run a preview of the website on a local server:
 ```
