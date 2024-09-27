@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>Using the Transaction Bridge</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+/*! Stylesheet for CodeRay to loosely match GitHub themes | MIT License */
+pre.CodeRay{background:#f7f7f8}
+.CodeRay .line-numbers{border-right:1px solid;opacity:.35;padding:0 .5em 0 0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+.CodeRay span.line-numbers{display:inline-block;margin-right:.75em}
+.CodeRay .line-numbers strong{color:#000}
+table.CodeRay{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.CodeRay td{vertical-align:top;line-height:inherit}
+table.CodeRay td.line-numbers{text-align:right}
+table.CodeRay td.code{padding:0 0 0 .75em}
+.CodeRay .debug{color:#fff!important;background:navy!important}
+.CodeRay .annotation{color:#007}
+.CodeRay .attribute-name{color:navy}
+.CodeRay .attribute-value{color:#700}
+.CodeRay .binary{color:#509}
+.CodeRay .comment{color:#998;font-style:italic}
+.CodeRay .char{color:#04d}
+.CodeRay .char .content{color:#04d}
+.CodeRay .char .delimiter{color:#039}
+.CodeRay .class{color:#458;font-weight:bold}
+.CodeRay .complex{color:#a08}
+.CodeRay .constant,.CodeRay .predefined-constant{color:teal}
+.CodeRay .color{color:#099}
+.CodeRay .class-variable{color:#369}
+.CodeRay .decorator{color:#b0b}
+.CodeRay .definition{color:#099}
+.CodeRay .delimiter{color:#000}
+.CodeRay .doc{color:#970}
+.CodeRay .doctype{color:#34b}
+.CodeRay .doc-string{color:#d42}
+.CodeRay .escape{color:#666}
+.CodeRay .entity{color:#800}
+.CodeRay .error{color:#808}
+.CodeRay .exception{color:inherit}
+.CodeRay .filename{color:#099}
+.CodeRay .function{color:#900;font-weight:bold}
+.CodeRay .global-variable{color:teal}
+.CodeRay .hex{color:#058}
+.CodeRay .integer,.CodeRay .float{color:#099}
+.CodeRay .include{color:#555}
+.CodeRay .inline{color:#000}
+.CodeRay .inline .inline{background:#ccc}
+.CodeRay .inline .inline .inline{background:#bbb}
+.CodeRay .inline .inline-delimiter{color:#d14}
+.CodeRay .inline-delimiter{color:#d14}
+.CodeRay .important{color:#555;font-weight:bold}
+.CodeRay .interpreted{color:#b2b}
+.CodeRay .instance-variable{color:teal}
+.CodeRay .label{color:#970}
+.CodeRay .local-variable{color:#963}
+.CodeRay .octal{color:#40e}
+.CodeRay .predefined{color:#369}
+.CodeRay .preprocessor{color:#579}
+.CodeRay .pseudo-class{color:#555}
+.CodeRay .directive{font-weight:bold}
+.CodeRay .type{font-weight:bold}
+.CodeRay .predefined-type{color:inherit}
+.CodeRay .reserved,.CodeRay .keyword{color:#000;font-weight:bold}
+.CodeRay .key{color:#808}
+.CodeRay .key .delimiter{color:#606}
+.CodeRay .key .char{color:#80f}
+.CodeRay .value{color:#088}
+.CodeRay .regexp .delimiter{color:#808}
+.CodeRay .regexp .content{color:#808}
+.CodeRay .regexp .modifier{color:#808}
+.CodeRay .regexp .char{color:#d14}
+.CodeRay .regexp .function{color:#404;font-weight:bold}
+.CodeRay .string{color:#d20}
+.CodeRay .string .string .string{background:#ffd0d0}
+.CodeRay .string .content{color:#d14}
+.CodeRay .string .char{color:#d14}
+.CodeRay .string .delimiter{color:#d14}
+.CodeRay .shell{color:#d14}
+.CodeRay .shell .delimiter{color:#d14}
+.CodeRay .symbol{color:#990073}
+.CodeRay .symbol .content{color:#a60}
+.CodeRay .symbol .delimiter{color:#630}
+.CodeRay .tag{color:teal}
+.CodeRay .tag-special{color:#d70}
+.CodeRay .variable{color:#036}
+.CodeRay .insert{background:#afa}
+.CodeRay .delete{background:#faa}
+.CodeRay .change{color:#aaf;background:#007}
+.CodeRay .head{color:#f8f;background:#505}
+.CodeRay .insert .insert{color:#080}
+.CodeRay .delete .delete{color:#800}
+.CodeRay .change .change{color:#66f}
+.CodeRay .head .head{color:#f4f}
+</style>
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>Using the Transaction Bridge</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_introduction">Introduction</a></li>
+<li><a href="#_enabling">Enabling</a></li>
+<li><a href="#_inbound_bridging">Inbound Bridging</a></li>
+<li><a href="#_outbound_bridging">Outbound Bridging</a></li>
+<li><a href="#_loops_and_diamonds">Loops and Diamonds</a></li>
+<li><a href="#_distributed_jta_and_the_jts">Distributed JTA and the JTS</a></li>
+<li><a href="#_logging">Logging</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_introduction"><a class="anchor" href="#_introduction"></a>Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This section describes how to use the transaction bridge in your applications.
+It is recommended you first read the preceding chapters for a theoretical background in the way the bridge functions.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_enabling"><a class="anchor" href="#_enabling"></a>Enabling</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>TXBridge is integrated with the XTS subsystem of the WildFly Application Server.
+The XTS subsystem is enabled using the <code>standalone-xts.xml</code> configuration</p>
+</div>
+<div class="olist arabic">
+<div class="title">Procedure: Starting WildFly Application Server with XTS Enabled</div>
+<ol class="arabic">
+<li>
+<p>Change to the WildFly Application Server directory:</p>
+<div class="paragraph">
+<p><code>cd $JBOSS_HOME</code></p>
+</div>
+</li>
+<li>
+<p>Copy the example XTS configuration into the configurations directory:</p>
+<div class="paragraph">
+<p><code>cp docs/examples/configs/standalone-xts.xml standalone/configuration</code></p>
+</div>
+</li>
+<li>
+<p>Start WildFly Application Server, specifying the xts configuration:</p>
+<div class="paragraph">
+<p>Linux:</p>
+</div>
+<div class="paragraph">
+<p><code>bin/standalone.sh --server-config=standalone-xts.xml</code></p>
+</div>
+<div class="paragraph">
+<p>Windows:</p>
+</div>
+<div class="paragraph">
+<p><code>bin\standalone.bat --server-config=standalone-xts.xml</code></p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_inbound_bridging"><a class="anchor" href="#_inbound_bridging"></a>Inbound Bridging</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To use the inbound bridge, register the JAX-WS handler into the handler chain of any Web Service as follows:</p>
+</div>
+<div class="listingblock">
+<div class="title">Registering the <code>handler</code> for Inbound Bridging</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;handler-chain&gt;</span>
+    <span class="tag">&lt;protocol-bindings&gt;</span>##SOAP11_HTTP<span class="tag">&lt;/protocol-bindings&gt;</span>
+    <span class="tag">&lt;handler&gt;</span>
+        <span class="tag">&lt;handler-name&gt;</span>TransactionBridgeHandler<span class="tag">&lt;/handler-name&gt;</span>
+        <span class="tag">&lt;handler-class&gt;</span>org.jboss.jbossts.txbridge.inbound.JaxWSTxInboundBridgeHandler<span class="tag">&lt;/handler-class&gt;</span>
+    <span class="tag">&lt;/handler&gt;</span>
+
+    <span class="tag">&lt;handler&gt;</span>
+        <span class="tag">&lt;handler-name&gt;</span>WebServicesTxContextHandler<span class="tag">&lt;/handler-name&gt;</span>
+        <span class="tag">&lt;handler-class&gt;</span>com.arjuna.mw.wst11.service.JaxWSHeaderContextProcessor<span class="tag">&lt;/handler-class&gt;</span>
+    <span class="tag">&lt;/handler&gt;</span>
+<span class="tag">&lt;/handler-chain&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The web service may then operate as though running in the scope of a JTA transaction, as indeed it is.
+For example, it can call (or indeed simply be) an EJB3 business logic method annotated with <code>@TansactionAttribute(TransactionAttributeType.MANDATORY)</code>.</p>
+</div>
+<div class="paragraph">
+<p>Note that the handlers expect a WS-AT transaction context to be present on all inbound invocations.
+If you wish deploy your service in such a way as to make transactional invocation optional, you must expose it though two different endpoints, one transactional and one not, with the handlers registered only on the former.
+This limitation may be addressed in future versions.</p>
+</div>
+<div class="paragraph">
+<p>If WS-AT transaction context contains transaction timeout then the bridged JTA transaction is created with this timeout.
+If the context does not provide the information then the bridged JTA transaction is created with the default timeout defined by the container.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_outbound_bridging"><a class="anchor" href="#_outbound_bridging"></a>Outbound Bridging</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To use the outbound bridge, register the JAX-WS handler into the handler chain of any Web Service client application as follows:</p>
+</div>
+<div class="listingblock">
+<div class="title">Registering the <code>handler</code> for Outbound Bridging</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;handler-chain&gt;</span>
+    <span class="tag">&lt;protocol-bindings&gt;</span>##SOAP11_HTTP<span class="tag">&lt;/protocol-bindings&gt;</span>
+    <span class="tag">&lt;handler&gt;</span>
+        <span class="tag">&lt;handler-name&gt;</span>TransactionBridgeHandler<span class="tag">&lt;/handler-name&gt;</span>
+        <span class="tag">&lt;handler-class&gt;</span>org.jboss.jbossts.txbridge.outbound.JaxWSTxOutboundBridgeHandler<span class="tag">&lt;/handler-class&gt;</span>
+    <span class="tag">&lt;/handler&gt;</span>
+
+    <span class="tag">&lt;handler&gt;</span>
+        <span class="tag">&lt;handler-name&gt;</span>WebServicesTxContextHandler<span class="tag">&lt;/handler-name&gt;</span>
+        <span class="tag">&lt;handler-class&gt;</span>com.arjuna.mw.wst11.client.JaxWSHeaderContextProcessor<span class="tag">&lt;/handler-class&gt;</span>
+    <span class="tag">&lt;/handler&gt;</span>
+<span class="tag">&lt;/handler-chain&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The web service client may then make calls to web service implementations that expect to be invoked in the scope of a WS-AT transaction.</p>
+</div>
+<div class="paragraph">
+<p>Note that the handlers expect a JTA transaction context to be present on the client thread used to make the outbound web service invocation.
+If the context is not always present, different stubs must be used for the transactional and non-transactional cases and the handler chain registered only on the former.
+This limitation may be addressed in future versions.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_loops_and_diamonds"><a class="anchor" href="#_loops_and_diamonds"></a>Loops and Diamonds</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In distributed environments that utilize transaction bridging, it is possible to construct arrangements of servers such that a transaction context passes though more than one interposition.
+These can give rise to some undesirable issues, including locking and performance problems.</p>
+</div>
+<div class="paragraph">
+<p>A simple case would be a loop in which a JTA transaction context is bridged outbound to a WS-AT context, passed though one or more remote servers and inflowed back to the original server through an inbound bridge.
+This may result in a new subordinate JTA context, rather than reuse of the existing parent context in the original server.</p>
+</div>
+<div class="paragraph">
+<p>This situation has two main observable effects.
+Firstly, the parent JTA transaction and indirectly subordinate JTA transaction are considered distinct and <code>XAResources</code> may not be shared between them.
+In most cases this will cause isolation between the transactions, such that they do not share locks or see eachother&#8217;s changes.
+This may cause deadlocks in the application.
+Secondly, performance will be poor relative to reuse of the original context, particularly if the interposition chain becomes long.</p>
+</div>
+<div class="paragraph">
+<p>A similar problem exists where a transaction context is propagated from a single source to a single destination server via two or more separate routes, the abstract paths forming a diamond shape.
+In such case the intermediate nodes operate independently and will bridge the original context to two separate interposed contexts.
+To the destination server these will appear unrelated, rather than as representations of the same transaction.
+Thus instead of recombining into a single shared transaction context at the destination, they will behave as different transactions, giving rise once again to potential deadlock and performance issues.</p>
+</div>
+<div class="paragraph">
+<p>These problems may be partially addressed by having a shared context mapping service available on the network, which each bridge consults when working with a previously unseen transaction context for the first time.
+Using such a mechanism, bridge instances may identify transactions for which an established mapping already exists and reuse that relationship rather than creating a new one.</p>
+</div>
+<div class="paragraph">
+<p>This shared service model does however cause some issues of its own with regard to performance and availability.
+It is not currently implemented.
+Therefore, users are urged to be cautious when constructing distributed applications.
+Whilst location abstraction is sometimes desirable, is is important to maintain a clear understanding of the deployment relationships between transactional components in the system.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_distributed_jta_and_the_jts"><a class="anchor" href="#_distributed_jta_and_the_jts"></a>Distributed JTA and the JTS</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The JavaEE transaction engine in Narayana comes in two varieties.
+These are the local only JTA, which does not support propagation of transaction context or transaction control calls between JVMs and the JTAX, which provides the JTA API implemented by a JTS engine that does support distributed usage.</p>
+</div>
+<div class="paragraph">
+<p>WildFly Application Server</p>
+</div>
+<div class="paragraph">
+<p>uses the local JTA implementation by default, but can be reconfigured to use the JTS via the JTA API, such that it supports distributed transactions without requiring any changes to business applications.</p>
+</div>
+<div class="paragraph">
+<p>In environments requiring transaction propagation of JTA transactions, it is feasible to use either the JTS or an outbound and inbound bridge pair to achieve this.
+In the former case the transport is RMI/IIOP for the transaction control and RMI/IIOP or JRMP for the transactional business logic calls.
+In the latter case the transport is Web Services for both transaction control and business logic.</p>
+</div>
+<div class="paragraph">
+<p>From a transaction management perspective the JTS solution is preferred, due to simplicity (no protocol mapping is needed), maturity (Narayana JTS was the world&#8217;s first JTS implementation and has been extensively used and tested in production environments) and performance (binary vs. xml).</p>
+</div>
+<div class="paragraph">
+<p>It is possible to use transactions that propagate context on some calls via JTS and on others via Web Services, such as a client invoking both EJBs via RMI/IIOP and Web services with WS-AT context.
+In such cases it&#8217;s possible for a transaction to have multiple representations that the infrastructure cannot determine are related, even if they actually represent different contexts in the same interposition hierarchy.
+Care must therefore be taken to avoid the problems described previously in 'Loops and Diamonds'.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_logging"><a class="anchor" href="#_logging"></a>Logging</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The transaction bridge uses the jboss-logging system.
+When running inside WildFly Application Server, logging is configured via logging subsystem&#8217;s configuration in <code>standalone-xts.xml</code> file.
+To enable full logging for the transaction bridge, which may be useful for debug purposes, the following logger should be added:</p>
+</div>
+<div class="listingblock">
+<div class="title">Configuring Transaction Bridge Logging</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;logger</span> <span class="attribute-name">category</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">org.jboss.jbossts.txbridge</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+    <span class="tag">&lt;level</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">ALL</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/logger&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that the transaction bridge is a thin layer on top of the XTS and JTA/JTS components of Narayana, and that it also interacts with other parts of the application server.
+To gain a comprehensive understanding of the system&#8217;s operation, it may be necessary to enable verbose logging for some of these other components also.
+The Narayana logging system is discussed in detail in the accompanying documentation set, but for ease of reference the following may be used to enable verbose logging:</p>
+</div>
+<div class="listingblock">
+<div class="title">Configuring verbose logging</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;logger</span> <span class="attribute-name">category</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">com.arjuna</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+    <span class="tag">&lt;level</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">ALL</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/logger&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note also that deployment ordering issues can result in Narayana components, including the transaction bridge, becoming active before the logging system is fully configured.
+In such cases a default logging level may apply during startup, resulting in some more detailed debug messages being missed.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>

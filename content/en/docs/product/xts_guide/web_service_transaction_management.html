@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>Web Service Transaction Service (XTS) Management</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>Web Service Transaction Service (XTS) Management</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_transaction_manager_overview">Transaction manager overview</a></li>
+<li><a href="#_configuring_the_transaction_manager">Configuring the transaction manager</a></li>
+<li><a href="#_deployment_descriptors">Deployment descriptors</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>The basic building blocks of a transactional Web Services application include the application itself, the Web services that the application consumes, the Transaction Manager, and the transaction participants which support those Web services.
+Although it is likely that different developers will be responsible for each piece, the concepts are presented here so that you can see the whole picture.
+Often, developers produce services, or applications that consume services, and system administrators run the transaction-management infrastructure.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_transaction_manager_overview"><a class="anchor" href="#_transaction_manager_overview"></a>Transaction manager overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The transaction manager is a Web service which coordinates XTS transactions.
+It is the only software component in XTS that is designed to be run directly as a network service, rather than to support end-user code.
+The transaction manager runs as a JAXM request/response Web service.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>When starting up an application server instance that has XTS transaction manager deployed within it, you may see various <code>error</code> messages in the console or log.
+For example, <code>16:53:38,850 ERROR [STDERR] Message Listener Service: started, message listener jndi name activationcoordinator</code>.
+These are for information purposes only and are not actual errors.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_configuring_the_transaction_manager"><a class="anchor" href="#_configuring_the_transaction_manager"></a>Configuring the transaction manager</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You can configure the Transaction Manager and related infrastructure by using two properties files.
+The <code>standalone-xts.xml</code> file contains the common configuration options.
+More advanced options can be configured in the <code>xts-properties.xml_</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The XTS module (<code>modules/system/layers/base/org/jboss/xts/main/jbossxts-${XTS_VERSION}.jar</code>)
+in the WildFly Application Server
+includes the configuration file, <code>xts-properties.xml</code>,
+in the root of the jar.
+These properties can be edited and then
+re-packaged in the jar.
+The changes will take affect on next boot of the WildFly Application Server.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_deployment_descriptors"><a class="anchor" href="#_deployment_descriptors"></a>Deployment descriptors</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In general, changing the contents of the various deployment descriptors used by XTS is not necessary.
+However, if you do need to modify them they are all included in <code>modules/system/layers/base/org/jboss/xts/main/jbossxts-${XTS_VERSION}.jar</code>.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>

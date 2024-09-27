@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>Known Limitations</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="article">
+<div id="header">
+<h1>Known Limitations</h1>
+</div>
+<div id="content">
+<div class="paragraph">
+<p>The current transaction bridge release has the following limitations:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The bridge operates only on WS-AT 1.2, not 1.0, although XTS includes implementations of both versions of WS-AT.
+Care must therefore be taken to deploy and configure the system correctly.</p>
+</li>
+<li>
+<p>The bridge provides JAX-WS handlers only, not JAX-RPC, although it is possible to create such if required.</p>
+</li>
+<li>
+<p>Long running activities that occur during the transaction termination process may cause timeouts in the transaction system, which can in turn cause inconsistent transaction outcomes or incomplete transaction termination.
+To minimize this problem, it is advised to manually flush data that would otherwise be flushed by Synchronizations during termination, such as hibernate session state.</p>
+</li>
+<li>
+<p>A transaction context must always be present on the Thread in order for the context processors to operate correctly, as detailed previously in 'Using the Transaction Bridge'.</p>
+</li>
+<li>
+<p>A subordinate transaction context will be created and registered into the parent transaction unconditionally, which can cause unnecessary overhead in situations where no transactional activity takes place in the scope of the subordinate.
+Care should be taken to register the bridge handlers only on methods that do require them.
+In future releases this may be addressed by the use of WS-Policy or lazy initialization techniques.</p>
+</li>
+<li>
+<p>Transaction mappings are local to BridgeManagers, which are singletons.
+This means mappings are classloader scoped and not shared across JVMs.
+This gives rise to issues where transactional resources are accessed indirectly though multiple bridges or transaction context transports, as described in 'Loops and Diamonds'.</p>
+</li>
+<li>
+<p>Crash recovery is subject to certain timing issues, due to the interaction between recovery of the JTA/XA and XTS sides of the transaction.
+It may take more than one crash recovery cycle for a bridged transaction to recover fully.
+Note that recovery of subordinate transactions is dependent on the recovery of their parent, so care must be taken to ensure the correct recovery of any external transaction manager used in that role.
+The transaction bridge does not currently provide dedicated tooling for the manual resolution of orphaned subordinates, instead relying on the general purpose objectstore maintenance tooling provided by Narayana.</p>
+</li>
+<li>
+<p>Note that crash recovery will not behave correctly for outbound bridged transactions if 1PC commit optimization is used in the parent JTA transaction.
+This is not specific to the bridge, but rather is a generic issue with any transaction in which a single resource is an interposed subordinate coordinator.
+Inbound bridges transactions are unaffected as XTS (WS-AT) does not utilize a 1PC optimization.</p>
+</li>
+</ul>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>Transaction Model</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>Transaction Model</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_architecture">Architecture</a></li>
+<li><a href="#_state_transitions">State Transitions</a></li>
+<li><a href="#_the_transaction_manager_resource">The Transaction Manager Resource</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>The REST Atomic Transaction (RESTAT) model uses a traditional two-phase commit protocol with the following optimizations:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Presumed rollback: the transaction coordinator need not record information about the participants in stable storage until it decides to commit, i.e., until after the prepare phase has completed successfully.
+A definitive answer that a transaction does not exist can be used to infer that it rolled back.</p>
+</li>
+<li>
+<p>One-phase: if the coordinator discovers that only a single participant is registered then it may omit the prepare phase.</p>
+</li>
+<li>
+<p>Read-only: a participant that is responsible for a service that did not modify any transactional data during the course of the transaction can indicate to the coordinator during prepare that it is a read-only participant and the coordinator can omit it from the second phase of the commit protocol.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_architecture"><a class="anchor" href="#_architecture"></a>Architecture</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The diagram below illustrates the various resources defined within the RESTAT protocol.
+We shall discuss each of these in the following sections.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/rts-architecture.png" alt="rts architecture">
+</div>
+<div class="title">Figure 1. Architecture</div>
+</div>
+<div class="paragraph">
+<p>These components are enumerated below and discussed in the following sections:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Transaction Manager: this is a factory resource that is responsible for creating new transactions.
+Once created, the transaction manager has no further role to play in the life of the transaction.</p>
+</li>
+<li>
+<p>Transaction Coordinator: this is a specific resource for the transaction.
+It drives the two-phase commit protocol and manages interactions with participants.</p>
+</li>
+<li>
+<p>Client: the user of transactions.</p>
+</li>
+<li>
+<p>Service: a transaction-aware service that performs work that may need to be coordinated with other such services elsewhere.</p>
+</li>
+<li>
+<p>Participant: a resource that manages the state changes performed by the service in the context of a transaction.
+The participant is driven through two-phase commit by the coordinator.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_state_transitions"><a class="anchor" href="#_state_transitions"></a>State Transitions</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A transaction coordinator and two-phase participant go through the state transitions shown:</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/rts-state_transitions.png" alt="rts state transitions">
+</div>
+<div class="title">Figure 2. StateTransitions</div>
+</div>
+<div class="paragraph">
+<p>As such, all of the resources in the protocol have statuses that can be represented as one of these values.
+Asking a resource to change its state from, say, Active to Committed, may drive it through all of the intermediate states and as a result trigger protocol specific events, such as driving the two-phase commit protocol.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_transaction_manager_resource"><a class="anchor" href="#_the_transaction_manager_resource"></a>The Transaction Manager Resource</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The transaction manager is represented by a URI (referred to as the <em>transaction-manager</em> URI).
+It enables clients to create new transaction resources and to query the list of current transactions.
+The actual URI depends upon how RESTAT is deployed and will be discussed later.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>

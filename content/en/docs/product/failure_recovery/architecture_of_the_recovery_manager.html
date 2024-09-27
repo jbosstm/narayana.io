@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>Architecture of the Recovery Manager</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+/*! Stylesheet for CodeRay to loosely match GitHub themes | MIT License */
+pre.CodeRay{background:#f7f7f8}
+.CodeRay .line-numbers{border-right:1px solid;opacity:.35;padding:0 .5em 0 0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+.CodeRay span.line-numbers{display:inline-block;margin-right:.75em}
+.CodeRay .line-numbers strong{color:#000}
+table.CodeRay{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.CodeRay td{vertical-align:top;line-height:inherit}
+table.CodeRay td.line-numbers{text-align:right}
+table.CodeRay td.code{padding:0 0 0 .75em}
+.CodeRay .debug{color:#fff!important;background:navy!important}
+.CodeRay .annotation{color:#007}
+.CodeRay .attribute-name{color:navy}
+.CodeRay .attribute-value{color:#700}
+.CodeRay .binary{color:#509}
+.CodeRay .comment{color:#998;font-style:italic}
+.CodeRay .char{color:#04d}
+.CodeRay .char .content{color:#04d}
+.CodeRay .char .delimiter{color:#039}
+.CodeRay .class{color:#458;font-weight:bold}
+.CodeRay .complex{color:#a08}
+.CodeRay .constant,.CodeRay .predefined-constant{color:teal}
+.CodeRay .color{color:#099}
+.CodeRay .class-variable{color:#369}
+.CodeRay .decorator{color:#b0b}
+.CodeRay .definition{color:#099}
+.CodeRay .delimiter{color:#000}
+.CodeRay .doc{color:#970}
+.CodeRay .doctype{color:#34b}
+.CodeRay .doc-string{color:#d42}
+.CodeRay .escape{color:#666}
+.CodeRay .entity{color:#800}
+.CodeRay .error{color:#808}
+.CodeRay .exception{color:inherit}
+.CodeRay .filename{color:#099}
+.CodeRay .function{color:#900;font-weight:bold}
+.CodeRay .global-variable{color:teal}
+.CodeRay .hex{color:#058}
+.CodeRay .integer,.CodeRay .float{color:#099}
+.CodeRay .include{color:#555}
+.CodeRay .inline{color:#000}
+.CodeRay .inline .inline{background:#ccc}
+.CodeRay .inline .inline .inline{background:#bbb}
+.CodeRay .inline .inline-delimiter{color:#d14}
+.CodeRay .inline-delimiter{color:#d14}
+.CodeRay .important{color:#555;font-weight:bold}
+.CodeRay .interpreted{color:#b2b}
+.CodeRay .instance-variable{color:teal}
+.CodeRay .label{color:#970}
+.CodeRay .local-variable{color:#963}
+.CodeRay .octal{color:#40e}
+.CodeRay .predefined{color:#369}
+.CodeRay .preprocessor{color:#579}
+.CodeRay .pseudo-class{color:#555}
+.CodeRay .directive{font-weight:bold}
+.CodeRay .type{font-weight:bold}
+.CodeRay .predefined-type{color:inherit}
+.CodeRay .reserved,.CodeRay .keyword{color:#000;font-weight:bold}
+.CodeRay .key{color:#808}
+.CodeRay .key .delimiter{color:#606}
+.CodeRay .key .char{color:#80f}
+.CodeRay .value{color:#088}
+.CodeRay .regexp .delimiter{color:#808}
+.CodeRay .regexp .content{color:#808}
+.CodeRay .regexp .modifier{color:#808}
+.CodeRay .regexp .char{color:#d14}
+.CodeRay .regexp .function{color:#404;font-weight:bold}
+.CodeRay .string{color:#d20}
+.CodeRay .string .string .string{background:#ffd0d0}
+.CodeRay .string .content{color:#d14}
+.CodeRay .string .char{color:#d14}
+.CodeRay .string .delimiter{color:#d14}
+.CodeRay .shell{color:#d14}
+.CodeRay .shell .delimiter{color:#d14}
+.CodeRay .symbol{color:#990073}
+.CodeRay .symbol .content{color:#a60}
+.CodeRay .symbol .delimiter{color:#630}
+.CodeRay .tag{color:teal}
+.CodeRay .tag-special{color:#d70}
+.CodeRay .variable{color:#036}
+.CodeRay .insert{background:#afa}
+.CodeRay .delete{background:#faa}
+.CodeRay .change{color:#aaf;background:#007}
+.CodeRay .head{color:#f8f;background:#505}
+.CodeRay .insert .insert{color:#080}
+.CodeRay .delete .delete{color:#800}
+.CodeRay .change .change{color:#66f}
+.CodeRay .head .head{color:#f4f}
+</style>
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>Architecture of the Recovery Manager</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_crash_recovery_overview">Crash Recovery Overview</a></li>
+<li><a href="#_recovery_manager">Recovery Manager</a>
+<ul class="sectlevel2">
+<li><a href="#_managing_recovery_directly">Managing recovery directly</a></li>
+<li><a href="#_separate_recovery_manager">Separate Recovery Manager</a></li>
+<li><a href="#_in_process_recovery_manager">In process Recovery Manager</a></li>
+<li><a href="#_recovering_for_multiple_transaction_coordinators">Recovering For Multiple Transaction Coordinators</a></li>
+<li><a href="#_recovery_from_an_alternate_node">Recovery From An Alternate Node</a></li>
+</ul>
+</li>
+<li><a href="#_recovery_modules">Recovery Modules</a>
+<ul class="sectlevel2">
+<li><a href="#_narayana_recovery_module_classes">Narayana Recovery Module Classes</a></li>
+</ul>
+</li>
+<li><a href="#_a_recovery_module_for_xa_resources">A Recovery Module for XA Resources</a>
+<ul class="sectlevel2">
+<li><a href="#_assumed_complete">Assumed complete</a></li>
+</ul>
+</li>
+<li><a href="#_recovering_xaconnections">Recovering XAConnections</a></li>
+<li><a href="#_alternative_to_xaresourcerecovery">Alternative to <code>XAResourceRecovery</code></a></li>
+<li><a href="#_shipped_xaresourcerecovery_implementations">Shipped <code>XAResourceRecovery</code> implementations</a></li>
+<li><a href="#_transactionstatusconnectionmanager"><code>TransactionStatusConnectionManager</code></a></li>
+<li><a href="#_expired_scanner_thread">Expired Scanner Thread</a></li>
+<li><a href="#_application_process">Application Process</a></li>
+<li><a href="#_transactionstatusmanager"><code>TransactionStatusManager</code></a></li>
+<li><a href="#_object_store">Object Store</a></li>
+<li><a href="#_socket_free_operation">Socket free operation</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_crash_recovery_overview"><a class="anchor" href="#_crash_recovery_overview"></a>Crash Recovery Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The main architectural components within Crash Recovery are illustrated in the diagram below:</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/failure-recovery-fig1-crashrecoveryarchitecture.png" alt="failure recovery fig1 crashrecoveryarchitecture">
+</div>
+<div class="title">Figure 1. Recovery Manager Architecture</div>
+</div>
+<div class="paragraph">
+<p>The Recovery Manager is a daemon process responsible for performing crash recovery.
+Only one Recovery Manager runs per node.
+The Object Store provides persistent data storage for transactions to log data.
+During normal transaction processing each transaction will log persistent data needed for the commit phase to the Object Store.
+On successfully committing a transaction this data is removed, however if the transaction fails then this data remains within the Object Store.</p>
+</div>
+<div class="paragraph">
+<p>The Recovery Manager functions by:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Periodically scanning the Object Store for transactions that may have failed.
+Failed transactions are indicated by the presence of log data after a period of time that the transaction would have normally been expected to finish.</p>
+</li>
+<li>
+<p>Checking with the application process which originated the transaction whether the transaction is still in progress or not.</p>
+</li>
+<li>
+<p>Recovering the transaction by re-activating the transaction and then replaying phase two of the commit protocol.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The following sections describe the architectural components in more detail.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_recovery_manager"><a class="anchor" href="#_recovery_manager"></a>Recovery Manager</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>On initialisation, the Recovery Manager first loads in configuration information via a properties file.
+This configuration includes a number of recovery activators and recovery modules, which are then dynamically loaded.</p>
+</div>
+<div class="paragraph">
+<p>The Recovery Manager is not specifically tied to an Object Request Broker or ORB.
+Hence, the OTS recovery protocol is not implicitly enabled.
+To enable such protocol, we use the concept of recovery activator, defined with the interface <code>RecoveryActivator</code>, which is used to instantiate a recovery class related to the underlying communication protocol.
+For instance, when used with OTS, the <code>RecoveryActivitor</code> has the responsibility to create a <code>RecoveryCoordinator</code> object able to respond to the <code>replay_completion</code> operation.</p>
+</div>
+<div class="paragraph">
+<p>All <code>RecoveryActivator</code> instances inherit the same interface.
+They are loaded via the following recovery extension property:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;entry</span> <span class="attribute-name">key</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">RecoveryEnvironmentBean.recoveryActivators</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+    list_of_class_names
+<span class="tag">&lt;entry&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For instance the <code>RecoveryActivator</code> provided in the distribution of JTS/OTS, which shall not be commented, is as follow:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;entry</span> <span class="attribute-name">key</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">RecoveryEnvironmentBean.recoveryActivators</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+    com.arjuna.ats.internal.jts.orbspecific.recovery.RecoveryEnablement
+<span class="tag">&lt;entry&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When loaded all <code>RecoveryActivator</code> instances provide the method startRCservice invoked by the Recovery Manager and used to create the appropriate Recovery Component able to receive recovery requests according to a particular transaction protocol.
+For instance the <code>RecoveryCoordinator</code> defined by the OTS protocol.</p>
+</div>
+<div class="paragraph">
+<p>Each recovery module is used to recover a different type of transaction/resource, however each recovery module inherits the same basic behavior.</p>
+</div>
+<div class="paragraph">
+<p>Recovery consists of two separate passes/phases separated by two timeout periods.
+The first pass examines the object store for potentially failed transactions; the second pass performs crash recovery on failed transactions.
+The timeout between the first and second pass is known as the backoff period.
+The timeout between the end of the second pass and the start of the first pass is the recovery period.
+The recovery period is larger than the backoff period.</p>
+</div>
+<div class="paragraph">
+<p>The Recovery Manager invokes the first pass upon each recovery module, applies the backoff period timeout, invokes the second pass upon each recovery module and finally applies the recovery period timeout before restarting the first pass again.</p>
+</div>
+<div class="paragraph">
+<p>The recovery modules are loaded via the following recovery extension property:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;entry</span> <span class="attribute-name">key</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">RecoveryEnvironmentBean.recoveryExtenstions</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+    list_of_class_names
+<span class="tag">&lt;entry&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The backoff period and recovery period are set using the following properties:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;entry</span> <span class="attribute-name">key</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">RecoveryEnvironmentBean.recoveryBackoffPeriod</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;entry</span> <span class="attribute-name">key</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">RecoveryEnvironmentBean.periodicRecoveryPeriod</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The following java classes are used to implement the Recovery Manager:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>package <code>com.arjuna.ats.arjuna.recovery</code>:</p>
+<div class="paragraph">
+<p><code>RecoveryManager</code> – The daemon process that starts up by instantiating an instance of the <code>RecoveryManagerImple</code> class.</p>
+</div>
+<div class="paragraph">
+<p><code>RecoveryEnvironment</code> - Properties used by the recovery manager.</p>
+</div>
+<div class="paragraph">
+<p><code>RecoveryConfiguration</code> - Specifies the name of the Recovery Manager property file.(ie <code>RecoveryManager-properties.xml</code>)</p>
+</div>
+</li>
+<li>
+<p>package <code>com.arjuna.ats.internal.ts.arjuna.recovery</code>:</p>
+<div class="paragraph">
+<p><code>RecoveryManagerImple</code> - Creates and starts instances of the <code>RecActivatorLoader</code>, the <code>PeriodicRecovery</code> thread and the <code>ExpiryEntryMonitor</code> thread.</p>
+</div>
+<div class="paragraph">
+<p><code>RecActivatorLoader</code> - Dynamically loads in the <code>RecoveryActivator</code> specified in the Recovery Manager property file.
+Each <code>RecoveryActicator</code> is specified as a recovery extension in the properties file</p>
+</div>
+<div class="paragraph">
+<p><code>PeriodicRecovery</code> - Thread which loads each recovery module, then calls the first pass method for each module, applies the backoff period timeout, calls the second pass method for each module and applies the recovery period timeout.</p>
+</div>
+<div class="paragraph">
+<p><code>RecoveryClassLoader</code> - Dynamically loads in the recovery modules specified in the Recovery Manager property file.
+Each module is specified as a recovery extension in the properties file (e.g., <code>com.arjuna.ats.arjuna.recovery.recoveryExtension1=com.arjuna.ats.internal.ts.arjuna.recovery.AtomicActionRecoveryModule</code>).</p>
+</div>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>By default, the recovery manager listens on the first available port on a given machine.
+If you wish to control the port number that it uses, you can specify this using the <code>com.arjuna.ats.arjuna.recovery.recoveryPort</code> attribute.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_managing_recovery_directly"><a class="anchor" href="#_managing_recovery_directly"></a>Managing recovery directly</h3>
+<div class="paragraph">
+<p>As already mentioned, recovery typically happens at periodic intervals.
+If you require to drive recovery directly, then there are two options, depending upon how the <code>RecoveryManager</code> has been created.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_separate_recovery_manager"><a class="anchor" href="#_separate_recovery_manager"></a>Separate Recovery Manager</h3>
+<div class="paragraph">
+<p>You can either use the <code>com.arjuna.ats.arjuna.tools.RecoveryMonitor</code> program to send a message to the Recovery Manager instructing it to perform recovery, or you can create an instance of the <code>com.arjuna.ats.arjuna.recovery.RecoveryDriver</code> class to do likewise.
+There are two types of recovery scan available:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><code>ASYNC_SCAN</code>: here a message is sent to the <code>RecoveryManager</code> to instruct it to perform recovery, but the response returns before recovery has completed.</p>
+</li>
+<li>
+<p><code>SYNC</code>: here a message is sent to the <code>RecoveryManager</code> to instruct it to perform recovery, and the response occurs only when recovery has completed.</p>
+<div class="paragraph">
+<p>When using the RecoveryMonitor program there is a -verbose option which will trigger a recovery scan and report any warnings or errors emitted from the XA recovery module by printing "ERROR" (otherwise "DONE" is printed).
+If the monitor is invoked programmatically, for example RecoveryMonitor.main(new String [] {"-verbose", "-port", &#8230;&#8203;});, then the status of the recovery pass is available by calling the static method RecoveryMonitor.getResponse(); Note that only XA resource issues are reported using this mechanism which is sufficient to detect any resource recovery failures, including unavailablity of resources that impact orphan detection.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_in_process_recovery_manager"><a class="anchor" href="#_in_process_recovery_manager"></a>In process Recovery Manager</h3>
+<div class="paragraph">
+<p>You can invoke the scan operation on the <code>RecoveryManager</code>.
+This operation returns only when recovery has completed.
+However, if you wish to have an asynchronous interaction pattern, then the RecoveryScan interface is provided:</p>
+</div>
+<div class="listingblock">
+<div class="title">RecoveryScan interface</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">interface</span> <span class="class">RecoveryScan</span> {
+    <span class="directive">public</span> <span class="type">void</span> completed();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>An instance of an object supporting this interface can be passed to the scan operation and its completed method will be called when recovery finishes.
+The scan operation returns immediately, however.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_recovering_for_multiple_transaction_coordinators"><a class="anchor" href="#_recovering_for_multiple_transaction_coordinators"></a>Recovering For Multiple Transaction Coordinators</h3>
+<div class="paragraph">
+<p>Sometimes a single Recovery Manager can be made responsible for recovering transactions executing on behalf of multiple transaction coordinators.
+Conversely, due to specific configurations it may be that multiple Recovery Managers share the same Object Store and in which case should not conflict with each other, e.g., roll back transactions that they do not understand.
+Therefore, when running recovery it is necessary to tell Narayana which types of transactions it can recover and which transaction identifiers it should ignore.</p>
+</div>
+<div class="paragraph">
+<p>When necessary each transaction identifier that Narayana creates may have a unique node identifier encoded within it and Narayana will only recover transactions and states that match a specified node identifier.
+The node identifier for each Narayana instance should be set via the com.arjuna.ats.arjuna.nodeIdentifier property.
+This value must be unique across Narayana instances.
+The contents of this should be alphanumeric and not exceed 10 bytes in length.
+If you do not provide a value, then Narayana will fabricate one and report the value via the logging infrastructure.</p>
+</div>
+<div class="paragraph">
+<p>How this value is used will depend upon the type of resources being recovered and will be discussed within the relevant sections for the Recovery Modules.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_recovery_from_an_alternate_node"><a class="anchor" href="#_recovery_from_an_alternate_node"></a>Recovery From An Alternate Node</h3>
+<div class="paragraph">
+<p>After failure it is sometimes desirable to recover on a different node from the one where the transaction manager failed.
+This kind of usage is only supported in JTA mode running inside an application server (with certain restrictions) and is not typical because of the consequences of incorrect configuration:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Only JTA transactions will be recovered (so the failing node must be configured in JTA mode).</p>
+</li>
+<li>
+<p>Changing versions of Narayana or the application server on the new node is not supported.</p>
+</li>
+<li>
+<p>The recovering node must have access to the same object store logs as the failed node (which can be achieved by either copying the logs or by using a shared file system or by using the JDBC object store connected to a database that is accessible to both nodes).
+If you are using the JDBC object store ensure that it is configured the same way on both nodes.</p>
+</li>
+<li>
+<p>Both nodes must have access to the same set of resource managers and with the same configuration (minimally, the JNDI names must not change).
+Often the deployment model for databases is to host the resource manager on a different node from the application server so generally this should not be an issue.</p>
+</li>
+<li>
+<p>Recovery requires help from Resource Managers which should be configured to support the ability to recover from other nodes.
+Database recovery is known to work but other resource managers may require case by case consideration.</p>
+</li>
+<li>
+<p>If application deployments define their own datasources then these applications must also be deployed on the new server.</p>
+</li>
+<li>
+<p>It is recommended that the transaction subsystem is configured in the same way on the new node as it was on the failed one.
+In particular the node identifier should not change.
+The comment made in the previous section about the uniqueness of the node identifier still applies so it is imperative that the failed node is not brought back online without changing its configuration.
+The same restrictions regarding object stores still apply, namely "exactly one recovery manager per <code>ObjectStore</code> must run on each node and ObjectStores must not be shared by multiple nodes".</p>
+</li>
+<li>
+<p>Before restarting recovery on the new node sanity check your configuration to ensure it does not contain any hard coded IP addresses that refer to network interfaces on the failed node.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This is a long list of caveats and if it is not possible to simply restart the failed node then, in order to avoid the consequences of incorrect configuration, we advise that the application server on the recovering node uses the same configuration file as the failed node.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_recovery_modules"><a class="anchor" href="#_recovery_modules"></a>Recovery Modules</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>As stated before each recovery module is used to recover a different type of transaction/resource, but each recovery module must implement the following <code>RecoveryModule</code> interface, which defines two methods: <code>periodicWorkFirstPass</code> and <code>periodicWorkSecondPass</code> invoked by the Recovery Manager.</p>
+</div>
+<div class="listingblock">
+<div class="title"><code>RecoveryModule</code> interface</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">interface</span> <span class="class">RecoveryModule</span> {
+    <span class="comment">/**
+     * Called by the RecoveryManager at start up, and then
+     * PERIODIC_RECOVERY_PERIOD seconds after the completion, for all
+     * RecoveryModules of the second pass
+     */</span>
+    <span class="directive">public</span> <span class="type">void</span> periodicWorkFirstPass();
+
+    <span class="comment">/**
+     * Called by the RecoveryManager RECOVERY_BACKOFF_PERIOD seconds after the
+     * completion of the first pass
+     */</span>
+    <span class="directive">public</span> <span class="type">void</span> periodicWorkSecondPass();
+}</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_narayana_recovery_module_classes"><a class="anchor" href="#_narayana_recovery_module_classes"></a>Narayana Recovery Module Classes</h3>
+<div class="paragraph">
+<p>Narayana provides a set of recovery modules that are responsible to manage recovery according to the nature of the participant and its position in a transactional tree.
+The provided classes (that all implements the <code>RecoveryModule</code> interface) are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>com.arjuna.ats.internal.arjuna.recovery.AtomicActionRecoveryModule</code></p>
+<div class="paragraph">
+<p>Recovers AtomicAction transactions.</p>
+</div>
+</li>
+<li>
+<p><code>com.arjuna.ats.internal.jts.recovery.transactions.TransactionRecoveryModule</code></p>
+<div class="paragraph">
+<p>Recovers JTS Transactions.
+This is a generic class from which TopLevel and Server transaction recovery modules inherit, respectively</p>
+</div>
+</li>
+<li>
+<p><code>com.arjuna.ats.internal.jts.recovery.transactions.TopLevelTransactionRecoveryModule</code></p>
+</li>
+<li>
+<p><code>com.arjuna.ats.internal.jts.recovery.transactions.ServerTransactionRecoveryModule</code></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_a_recovery_module_for_xa_resources"><a class="anchor" href="#_a_recovery_module_for_xa_resources"></a>A Recovery Module for XA Resources</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>During recovery, the Transaction Manager needs to be able to communicate to all resource managers that are in use by the applications in the system.
+For each resource manager, the Transaction Manager uses the <code>XAResource.recover</code> method to retrieve the list of transactions that are currently in a prepared or heuristically completed state.
+Typically, the system administrator configures all transactional resource factories that are used by the applications deployed on the system.
+An example of such a resource factory is the <code>JDBC XADataSource</code> object, which is a factory for the <code>JDBC XAConnection</code> objects.</p>
+</div>
+<div class="paragraph">
+<p>Because <code>XAResource</code> objects are not persistent across system failures, the Transaction Manager needs to have some way to acquire the <code>XAResource</code> objects that represent the resource managers which might have participated in the transactions prior to the system failure.
+For example, a Transaction Manager might, through the use of JNDI lookup mechanism, acquire a connection from each of the transactional resource factories, and then obtain the corresponding <code>XAResource</code> object for each connection.
+The Transaction Manager then invokes the <code>XAResource.recover</code> method to ask each resource manager to return the transactions that are currently in a prepared or heuristically completed state.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>When running XA recovery it is necessary to tell Narayana which types of Xid it can recover.
+Each <code>Xid</code> that Narayana creates has a unique node identifier encoded within it and Narayana will only recover transactions and states that match a specified node identifier.
+The node identifier to use should be provided to Narayana via the property <code>JTAEnvironmentBean.xaRecoveryNodes</code>; multiple values may be provided in a list.
+A value of <code>*</code> will force Narayana to recover (and possibly rollback) all transactions irrespective of their node identifier and should be used with caution.
+The contents of <code>com.arjuna.ats.jta.xaRecoveryNode</code> should be alphanumeric and match the values of <code>com.arjuna.ats.arjuna.nodeIdentifier</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>One of the following recovery mechanisms will be used:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If the <code>XAResource</code> is serializable, then the serialized form will be saved during transaction commitment, and used during recovery.
+It is assumed that the recreated <code>XAResource</code> is valid and can be used to drive recovery on the associated database.</p>
+</li>
+<li>
+<p>The <code>com.arjuna.ats.jta.recovery.XAResourceRecovery</code>, <code>com.arjuna.ats.jta.recovery.XARecoveryResourceManager</code> and <code>com.arjuna.ats.jta.recovery.XARecoveryResource</code> interfaces are used.
+These are described in detail later in this document.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To manage recovery, we have seen in the previous chapter that the Recovery Manager triggers a recovery process by calling a set of recovery modules that implements the two methods defined by the <code>RecoveryModule</code> interface.
+To enable recovery of participants controlled via the XA interface, a specific recovery module named <code>XARecoveryModule</code> is provided.
+The <code>XARecoveryModule</code>, defined in the packages <code>com.arjuna.ats.internal.jta.recovery.arjunacore</code> and <code>com.arjuna.ats.internal.jta.recovery.jts</code>, handles recovery of XA resources (databases etc.) used in JTA.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Narayana supports two JTA implementations: a purely local version (no distributed transactions) and a version layered on the JTS.
+Recovery for the former is straightforward.
+In the following discussion we shall implicitly consider on the JTS implementation.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Its behavior consists of two aspects: "transaction-initiated" and "`esource-initiated" recovery.
+Transaction-initiated recovery is possible where the particular transaction branch had progressed far enough for a JTA Resource Record to be written in the <code>ObjectStore</code>.</p>
+</div>
+<div class="paragraph">
+<p>A JTA Resource record contains the information needed to link the transaction, as known to the rest of Narayana, to the database.
+Resource-initiated recovery is necessary for branches where a failure occurred after the database had made a persistent record of the transaction, but before the JTA <code>ResourceRecord</code> was persisted.
+Resource-initiated recovery is also necessary for datasources for which it is not possible to hold information in the JTA Resource record that allows the recreation in the <code>RecoveryManager</code> of the <code>XAConnection</code>/<code>XAResource</code> that was used in the original application.</p>
+</div>
+<div class="paragraph">
+<p>Transaction-initiated recovery is automatic.
+The <code>XARecoveryModule</code> finds the JTA Resource Record that need recovery, then uses the normal recovery mechanisms to find the status of the transaction it was involved in (i.e., it calls replay_completion on the RecoveryCoordinator for the transaction branch), (re)creates the appropriate <code>XAResource</code> and issues commit or rollback on it as appropriate.
+The <code>XAResource</code> creation will use the same information, database name, username, password etc., as the original application.</p>
+</div>
+<div class="paragraph">
+<p>Resource-initiated recovery has to be specifically configured, by supplying the Recovery Manager with the appropriate information for it to interrogate all the databases (<code>XADataSources</code>) that have been accessed by any Narayana application.
+The access to each XADataSource is handled by a class that implements the <code>com.arjuna.ats.jta.recovery.XAResourceRecovery</code> interface, as illustrated in <a href="#resource-initiated_recovery_and_XA_recovery">Resource-initiated recovery and XA Recovery</a>.
+Instances of classes that implements the <code>XAResourceRecovery</code> interface are dynamically loaded, as controlled by properties with names beginning <code>com.arjuna.ats.jta.recovery.XAResourceRecovery</code>.</p>
+</div>
+<div id="resource-initiated_recovery_and_XA_recovery" class="imageblock text-center">
+<div class="content">
+<img src="images/failure-recovery-fig2-resourceinitiatedrecovery.png" alt="failure recovery fig2 resourceinitiatedrecovery">
+</div>
+<div class="title">Figure 2. Resource-initiated recovery and XA Recovery</div>
+</div>
+<div class="paragraph">
+<p>The <code>XARecoveryModule</code> will use the <code>XAResourceRecovery</code> implementation to get a <code>XAResource</code> to the target datasource.
+On each invocation of <code>periodicWorkSecondPass</code>, the recovery module will issue an <code>XAResource.recover</code> request – this will (as described in the XA specification) return a list of the transaction identifiers (Xid&#8217;s) that are known to the datasource and are in an indeterminate (in-doubt) state.
+The list of these in-doubt Xid&#8217;s received on successive passes (i.e. <code>periodicWorkSecondPass</code>-es) is compared.
+Any Xid that appears in both lists, and for which no JTA <code>ResourceRecord</code> was found by the intervening transaction-initiated recovery is assumed to belong to a transaction that was involved in a crash before any JTA <code>ResourceRecord</code> was written, and a rollback is issued for that transaction on the <code>XAResource</code>.</p>
+</div>
+<div class="paragraph">
+<p>This double-scan mechanism is used because it is possible the Xid was obtained from the datasource just as the original application process was about to create the corresponding <code>JTA_ResourceRecord</code>.
+The interval between the scans should allow time for the record to be written unless the application crashes (and if it does, rollback is the right answer).</p>
+</div>
+<div class="paragraph">
+<p>An <code>XAResourceRecovery</code> implementation class can be written to contain all the information needed to perform recovery to some datasource.
+Alternatively, a single class can handle multiple datasources.
+The constructor of the implementation class must have an empty parameter list (because it is loaded dynamically), but the interface includes an initialise method which passes in further information as a string.
+The content of the string is taken from the property value that provides the class name: everything after the first semi-colon is passed as the value of the string.
+The use made of this string is determined by the <code>XAResourceRecovery</code> implementation class.</p>
+</div>
+<div class="paragraph">
+<p>For further details on the way to implement a class that implements the interface <code>XAResourceRecovery</code>, read the JDBC chapter of the JTA Programming Guide.
+An implementation class is provided that supports resource-initiated recovery for any XADataSource.
+This class could be used as a template to build your own implementation class.</p>
+</div>
+<div class="sect2">
+<h3 id="_assumed_complete"><a class="anchor" href="#_assumed_complete"></a>Assumed complete</h3>
+<div class="paragraph">
+<p>If a failure occurs in the transaction environment after the transaction coordinator had told the <code>XAResource</code> to commit but before the transaction log has been updated to remove the participant, then recovery will attempt to replay the commit.
+In the case of a Serialized <code>XAResource</code>, the response from the <code>XAResource</code> will enable the participant to be removed from the log, which will eventually be deleted when all participants have been committed.
+However, if the <code>XAResource</code> is not recoverable then it is extremely unlikely that any <code>XAResourceRecovery</code> instance will be able to provide the recovery sub-system with a fresh <code>XAResource</code> to use in order to attempt recovery; in which case recovery will continually fail and the log entry will never be removed.</p>
+</div>
+<div class="paragraph">
+<p>There are two possible solutions to this problem:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Rely on the relevant <code>ExpiryScanner</code> to eventually move the log elsewhere.
+Manual intervention will then be needed to ensure the log can be safely deleted.
+If a log entry is moved, suitable warning messages will be output.</p>
+</li>
+<li>
+<p>Set the <code>com.arjuna.ats.jta.xaAssumeRecoveryComplete</code> to true.
+This option is checked whenever a new <code>XAResource</code> instance cannot be located from any registered <code>XAResourceRecovery</code> instance.
+If false (the default), recovery assumes that there is a transient problem with the <code>XAResourceRecovery</code> instances (e.g., not all have been registered with the sub-system) and will attempt recovery periodically.
+If true then recovery assumes that a previous commit attempt succeeded and this instance can be removed from the log with no further recovery attempts.
+This option is global, so needs to be used with care since if used incorrectly <code>XAResource</code> instances may remain in an uncommitted state.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_recovering_xaconnections"><a class="anchor" href="#_recovering_xaconnections"></a>Recovering XAConnections</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When recovering from failures, Narayana requires the ability to reconnect to databases that were in use prior to the failures in order to resolve any outstanding transactions.
+Most connection information will be saved by the transaction service during its normal execution, and can be used during recovery to recreate the connection.
+However, it is possible that not all such information will have been saved prior to a failure (for example, a failure occurs before such information can be saved, but after the database connection is used).
+In order to recreate those connections it is necessary to provide implementations of the following Narayana interface <code>com.arjuna.ats.jta.recovery.XAResourceRecovery</code>, one for each database that may be used by an application.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>if using the transactional JDBC driver provided with Narayana, then no additional work is necessary in order to ensure that recovery occurs.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>To inform the recovery system about each of the <code>XAResourceRecovery</code> instances, it is necessary to specify their class names through the JTAEnvironmentBean.xaResourceRecoveryInstances property variable, whose values is a list of space separated strings, each being a classname followed by optional configuration information.</p>
+</div>
+<div class="paragraph">
+<p><code>JTAEnvironmentBean.xaResourceRecoveryInstances=com.foo.barRecovery</code></p>
+</div>
+<div class="paragraph">
+<p>Additional information that will be passed to the instance when it is created may be specified after a semicolon:</p>
+</div>
+<div class="paragraph">
+<p><code>JTAEnvironmentBean.xaResourceRecoveryInstances=com.foo.barRecovery;myData=hello</code></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>These properties need to go into the JTA section of the property file.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Any errors will be reported during recovery.</p>
+</div>
+<div class="listingblock">
+<div class="title"><code>XAResourceRecovery</code> interface</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">interface</span> <span class="class">XAResourceRecovery</span> {
+    <span class="directive">public</span> <span class="predefined-type">XAResource</span> getXAResource() <span class="directive">throws</span> <span class="exception">SQLException</span>;
+
+    <span class="directive">public</span> <span class="type">boolean</span> initialise(<span class="predefined-type">String</span> p);
+
+    <span class="directive">public</span> <span class="type">boolean</span> hasMoreResources();
+};</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Each method should return the following information:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>initialise: once the instance has been created, any additional information which occurred on the property value (anything found after the first semi-colon) will be passed to the object.
+The object can then use this information in an implementation specific manner to initialise itself, for example.</p>
+</li>
+<li>
+<p><code>hasMoreResources</code>: each <code>XAResourceRecovery</code> implementation may provide multiple <code>XAResource</code> instances.
+Before any call to <code>getXAResource</code> is made, <code>hasMoreResources</code> is called to determine whether there are any further connections to be obtained.
+If this returns false, <code>getXAResource</code> will not be called again during this recovery sweep and the instance will not be used further until the next recovery scan.
+It is up to the implementation to maintain the internal state backing this method and to reset the iteration as required.
+Failure to do so will mean that the second and subsequent recovery sweeps in the lifetime of the JVM do not attempt recovery.</p>
+</li>
+<li>
+<p><code>getXAResource</code>: returns an instance of the <code>XAResource</code> object.
+How this is created (and how the parameters to its constructors are obtained) is up to the <code>XAResourceRecovery</code> implementation.
+The parameters to the constructors of this class should be similar to those used when creating the initial driver or data source, and should obviously be sufficient to create new <code>XAResources</code> that can be used to drive recovery.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If you want your <code>XAResourceRecovery</code> instance to be called during each sweep of the recovery manager then you should ensure that once <code>hasMoreResources</code> returns false to indicate the end of work for the current scan it then returns true for the next recovery scan.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_alternative_to_xaresourcerecovery"><a class="anchor" href="#_alternative_to_xaresourcerecovery"></a>Alternative to <code>XAResourceRecovery</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The iterator based approach used by <code>XAResourceRecovery</code> leads to a requirement for implementations to manage state, which makes them more complex than necessary.</p>
+</div>
+<div class="paragraph">
+<p>As an alternative, starting with Narayana 4.4, users may provide an implementation of the public interface</p>
+</div>
+<div class="listingblock">
+<div class="title"><code>XAResourceRecoveryHelper</code></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">interface</span> <span class="class">com</span>.arjuna.ats.jta.recovery.
+
+XAResourceRecoveryHelper {
+    <span class="directive">public</span> <span class="type">boolean</span> initialise (<span class="predefined-type">String</span> p) <span class="directive">throws</span> <span class="exception">Exception</span>;
+    <span class="directive">public</span> <span class="predefined-type">XAResource</span><span class="type">[]</span> getXAResources () <span class="directive">throws</span> <span class="exception">Exception</span>;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>During each recovery sweep the <code>getXAResources</code> method will be called and recovery attempted on each element of the array.
+For the majority of resource managers it will be necessary to have only one <code>XAResource</code> in the array, as the <code>recover()</code> call on it can return multiple Xids.</p>
+</div>
+<div class="paragraph">
+<p>Unlike <code>XAResourceRecovery</code> instances, which are configured via the xml properties file and instantiated by Narayana, instances of <code>XAResourceRecoveryHelper</code> and constructed by the application code and registered with Narayana by calling</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">XARecoveryModule.addXAResourceRecoveryHelper(...)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The initialize method is not called by Narayana in the current implementation, but is provided to allow for the addition of further configuration options in later releases.</p>
+</div>
+<div class="paragraph">
+<p><code>XAResourceRecoveryHelper</code> instances may be deregistered, after which they will no longer be called by the recovery manager.
+Deregistration may block for a time if a recovery scan is in progress.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">XARecoveryModule.removeXAResourceRecoveryHelper(...)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The ability to dynamically add and remove instances of <code>XAResourceRecoveryHelper</code> whilst the system is running makes this approach an attractive option for environments in which e.g. datasources may be deployed or undeployed, such as application servers.
+Care should be taken with classloading behaviour in such cases.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_shipped_xaresourcerecovery_implementations"><a class="anchor" href="#_shipped_xaresourcerecovery_implementations"></a>Shipped <code>XAResourceRecovery</code> implementations</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Recovery of XA datasources can sometimes be implementation dependant, requiring developers to provide their own <code>XAResourceRecovery</code> instances.
+However, Narayana ships with several out-of-the-box implementations that may be useful.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>These <code>XAResourceRecovery</code> instances are primarily intended for when running Narayana outside of a container such as WildFly Application Server, since they rely upon <code>XADataSources</code> as the primary handle to drive recovery.
+If you are not running Narayana stand-alone then you should consult the relevant integration documentation to ensure that the right recovery modules are being used.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml">com.arjuna.ats.internal.jdbc.recovery.BasicXARecovery</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>this expects an XML property file to be specified upon creation and from which it will read the configuration properties for the datasource.
+For example:</p>
+</div>
+</div>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="title">XML datasource</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="preprocessor">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="doctype">&lt;!DOCTYPE properties SYSTEM &quot;http://java.sun.com/dtd/properties.dtd&quot;&gt;</span>
+<span class="tag">&lt;properties&gt;</span>
+    <span class="tag">&lt;entry</span> <span class="attribute-name">key</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">DB_X_DatabaseUser</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>username<span class="tag">&lt;/entry&gt;</span>
+    <span class="tag">&lt;entry</span> <span class="attribute-name">key</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">DB_X_DatabasePassword</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>password&quot;<span class="tag">&lt;/entry&gt;</span>
+    <span class="tag">&lt;entry</span> <span class="attribute-name">key</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">DB_X_DatabaseDynamicClass</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>DynamicClass<span class="tag">&lt;/entry&gt;</span>
+    <span class="tag">&lt;entry</span> <span class="attribute-name">key</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">DB_X_DatabaseURL</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>theURL<span class="tag">&lt;/entry&gt;</span>
+<span class="tag">&lt;/properties&gt;</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml">com.arjuna.ats.internal.jdbc.recovery.JDBCXARecovery</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>this recovery implementation should work on any datasource that is exposed via JNDI.
+It expects an XML property file to be specified upon creation and from which it will read the database JNDI name, username and password.
+For example:</p>
+</div>
+</div>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="title">JNDI datasource</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="preprocessor">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="doctype">&lt;!DOCTYPE properties SYSTEM &quot;http://java.sun.com/dtd/properties.dtd&quot;&gt;</span>
+<span class="tag">&lt;properties&gt;</span>
+    <span class="tag">&lt;entry</span> <span class="attribute-name">key</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">DatabaseJNDIName</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>java:ExampleDS<span class="tag">&lt;/entry&gt;</span>
+    <span class="tag">&lt;entry</span> <span class="attribute-name">key</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">UserName</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>username<span class="tag">&lt;/entry&gt;</span>
+    <span class="tag">&lt;entry</span> <span class="attribute-name">key</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">Password</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>password<span class="tag">&lt;/entry&gt;</span>
+<span class="tag">&lt;/properties&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Because these classes are <code>XAResourceRecovery</code> instances they are passed any necessary initialization information via the initialise operation.
+In the case of BasicXARecovery and JDBCXARecovery this should be the location of a property file and is specified in the Narayana configuration file.
+For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml">com.arjuna.ats.jta.recovery.XAResourceRecoveryJDBC=com.arjuna.ats.internal.jdbc.recovery.JDBCXAResourceRecovery;thePropertyFile</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_transactionstatusconnectionmanager"><a class="anchor" href="#_transactionstatusconnectionmanager"></a><code>TransactionStatusConnectionManager</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>TransactionStatusConnectionManager</code> object is used by the recovery modules to retrieve the status of transactions and acts like a proxy for <code>TransactionStatusManager</code> objects.
+It maintains a table of <code>TransactionStatusConnector</code> obects each of which connects to a <code>TransactionStatusManager</code> object in an Application Process.</p>
+</div>
+<div class="paragraph">
+<p>The transactions status is retrieved using the <code>getTransactionStatus</code> methods which take a transaction Uid and if available a transaction type as parameters.
+The process Uid field in the transactions Uid parameter is used to lookup the target <code>TransactionStatusManagerItem</code> host/port pair in the Object Store.
+The host/port pair are used to make a TCP connection to the target <code>TransactionStatusManager</code> object by a <code>TransactionStatusConnector</code> object.
+The <code>TransactionStatusConnector</code> passes the transaction Uid/transaction type to the <code>TransactionStatusManager</code> in order to retrieve the transactions status.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_expired_scanner_thread"><a class="anchor" href="#_expired_scanner_thread"></a>Expired Scanner Thread</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When the Recovery Manager initialises an expiry scanner thread <code>ExpiryEntryMonitor</code> is created which is used to remove long dead items from the <code>ObjectStore</code>.
+A number of scanner modules are dynamically loaded which remove long dead items for a particular type.</p>
+</div>
+<div class="paragraph">
+<p>Scanner modules are loaded at initialisation and are specified as properties beginning with</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;entry</span> <span class="attribute-name">key</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">RecoveryEnvironmentBean.expiryScanners</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+    list of class names
+<span class="tag">&lt;/entry&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>All the scanner modules are called periodically to scan for dead items by the <code>ExpiryEntryMonitor</code> thread.
+This period is set with the property:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;entry</span> <span class="attribute-name">key</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">RecoveryEnvironmentBean.expiryScanInterval</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+    number_of_hours
+<span class="tag">&lt;/entry&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>All scanners inherit the same behaviour from the java interface <code>ExpiryScanner</code>.
+A scan method is provided by this interface and implemented by all scanner modules, this is the method that gets called by the scanner thread.</p>
+</div>
+<div class="paragraph">
+<p>The <code>ExpiredTransactionStatusManagerScanner</code> removes long dead <code>TransactionStatusManagerItems</code> from the Object Store.
+These items will remain in the Object Store for a period of time before they are deleted.
+This time is set by the property:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;entry</span> <span class="attribute-name">key</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">RecoveryEnvironmentBean.transactionStatusManagerExpiryTime</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+    number_of_hours
+<span class="tag">&lt;/entry&gt;</span> (default 12 hours)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>AtomicActionExpiryScanner</code> moves transaction logs for AtomicActions that are assumed to have completed.
+For instance, if a failure occurs after a participant has been told to commit but before the transaction system can update the log, then upon recovery Narayana recovery will attempt to replay the commit request, which will obviously fail, thus preventing the log from being removed.
+This is also used when logs cannot be recovered automatically for other reasons, such as being corrupt or zero length.
+All logs are moved to a location based on the old location appended with <code>/Expired</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><code>AtomicActionExpiryScanner</code> is disabled by default.
+To enable it simply add it to the Narayana properties file.
+You do not need to enable it in order to cope with (move) corrupt logs.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_application_process"><a class="anchor" href="#_application_process"></a>Application Process</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This represents the user transactional program.
+A Local transaction (hash) table, maintained within the running application process keeps trace of the current status of all transactions created by that application process, The Recovery Manager needs access to the transaction tables so that it can determine whether a transaction is still in progress, if so then recovery does not happen.</p>
+</div>
+<div class="paragraph">
+<p>The transaction tables are accessed via the <code>TransactionStatusManager</code> object.
+On application program initialisation the host/port pair that represents the <code>TransactionStatusManager</code> is written to the Object Store in <code>../Recovery/TransactionStatusManager</code> part of the Object Store file hierarchy and identified by the process Uid of the application process.</p>
+</div>
+<div class="paragraph">
+<p>The Recovery Manager uses the <code>TransactionStatusConnectionManager</code> object to retrieve the status of a transaction and a <code>TransactionStatusConnector</code> object is used to make a TCP connection to the <code>TransactionStatusManager</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_transactionstatusmanager"><a class="anchor" href="#_transactionstatusmanager"></a><code>TransactionStatusManager</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This object acts as an interface for the Recovery Manager to obtain the status of transactions from running Narayana application processes.
+One <code>TransactionStatusManager</code> is created per application process by the class <code>com.arjuna.ats.arjuna.coordinator.TxControl</code>.
+Currently a tcp connection is used for communication between the <code>RecoveryManager</code> and <code>TransactionStatusManager</code>.
+Any free port is used by the <code>TransactionStatusManager</code> by default, however the port can be fixed with the property:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;entry</span> <span class="attribute-name">key</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">RecoveryEnvironmentBean.transactionStatusManagerPort</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+    port
+<span class="tag">&lt;/entry&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>On creation the <code>TransactionStatusManager</code> obtains a port which it stores with the host in the Object Store as a <code>TransactionStatusManagerItem</code>.
+A Listener thread is started which waits for a connection request from a <code>TransactionStatusConnector</code>.
+When a connection is established a Connection thread is created which runs a Service (<code>AtomicActionStatusService</code>) which accepts a transaction Uid and a transaction type (if available) from a <code>TransactionStatusConnector</code>, the transaction status is obtained from the local thransaction table and returned back to the <code>TransactionStatusConnector</code></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_object_store"><a class="anchor" href="#_object_store"></a>Object Store</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>All objects are identified by a unique identifier Uid.
+One of the values of which is a process id in which the object was created.
+The Recovery Manager uses the process id to locate transaction status manager items when contacting the originator application process for the transaction status.
+Therefore, exactly one recovery manager per <code>ObjectStore</code> must run on each node and ObjectStores must not be shared by multiple nodes.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_socket_free_operation"><a class="anchor" href="#_socket_free_operation"></a>Socket free operation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The use of TCP/IP sockets for <code>TransactionStatusManager</code> and <code>RecoveryManager</code> provides for maximum flexibility in the deployment architecture.
+It is often desirable to run the <code>RecoveryManager</code> in a separate JVM from the Transaction manager(s) for increased reliability.
+In such deployments, TCP/IP provides for communication between the <code>RecoveryManager</code> and transaction manager(s), as detailed in the preceding sections.
+Specifically, each JVM hosting a TransactionManager will run a <code>TransactionStatusManager</code> listener, through which the <code>RecoveryManager</code> can contact it to determine if a transaction is still live or not.
+The <code>RecoveryManager</code> likewise listens on a socket, through which it can be contacted to perform recovery scans on demand.
+The presence of a recovery listener is also used as a safety check when starting a <code>RecoveryManager</code>, since at most one should be running for a given <code>ObjectStore</code>.</p>
+</div>
+<div class="paragraph">
+<p>There are some deployment scenarios in which there is only a single TransactionManager accessing the <code>ObjectStore</code> and the <code>RecoveryManager</code> is co-located in the same JVM.
+For such cases the use of TCP/IP sockets for communication introduces unnecessary runtime overhead.
+Additionally, if several such distinct processes are needed for e.g. replication or clustering, management of the TCP/IP port allocation can become unwieldy.
+Therefore it may be desirable to configure for socketless recovery operation.</p>
+</div>
+<div class="paragraph">
+<p>The property <code>CoordinatorEnvironmentBean.transactionStatusManagerEnable</code> can be set to a value of NO to disable the <code>TransactionStatusManager</code> for any given <code>TransactionManager</code>.
+Note that this must not be done if recovery runs in a separate process, as it may lead to incorrect recovery behavior in such cases.
+For an in-process recovery manager, the system will use direct access to the <code>ActionStatusService</code> instead.</p>
+</div>
+<div class="paragraph">
+<p>The property <code>RecoveryEnvironmentBean.recoveryListener</code> can likewise be used to disable the TCP/IP socket listener used by the recovery manager.
+Care must be taken not to inadvertently start multiple recovery managers for the same <code>ObjectStore</code>, as this error, which may lead to significant crash recovery problems, cannot be automatically detected and prevented without the benefit of the socket listener.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>Quickstarts Overview</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>Quickstarts Overview</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#ref_wsatmultiservice">WS-AT Multi-Service</a></li>
+<li><a href="#ref_wsatmultihop">WS-AT Multi-Hop</a></li>
+<li><a href="#_xts_with_ssl">XTS with SSL</a></li>
+<li><a href="#_raw_xts_api_demo">Raw XTS API Demo</a></li>
+<li><a href="#ref_compensationsnontransactionalresource">Non-transactional Resource with Compensating Transactions API</a></li>
+<li><a href="#ref_compensationstravelagent">Travel Agent with Compensating Transactions API</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>There are multiple quickstarts provided on Narayana GitHub repository which should give you a better understanding of how to use our software.
+This chapter will give you a brief overview where to find them and what technologies they demonstrate.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="ref_wsatmultiservice"><a class="anchor" href="#ref_wsatmultiservice"></a>WS-AT Multi-Service</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Quickstart URL: <a href="https://github.com/jbosstm/quickstart/tree//XTS/wsat-jta-multi_service" class="bare">https://github.com/jbosstm/quickstart/tree//XTS/wsat-jta-multi_service</a></p>
+</div>
+<div class="paragraph">
+<p>This quickstart uses JTA to manage WS-AT applications.
+The quickstart is composed of a client (the test) and two Web services (<code>FirstServiceAT</code> and <code>SecondServiceAT</code>).
+Both services are invoked by the test from within the same JTA transaction.</p>
+</div>
+<div class="paragraph">
+<p>The Client begins a JTA transaction and then invokes an operation on each service.
+Transaction context propagation is enabled by default.
+Therefore XTS automatically bridges the JTA transaction to a WS-AT transaction before each invocation is made.</p>
+</div>
+<div class="paragraph">
+<p>Each service uses JPA to persist its data (the value of a counter).
+Therefore, the service class is annotated with <code>jakarta.ejb.TransactionAttribute</code> which tells XTS to automatically bridge WS-AT transaction to JTA.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="ref_wsatmultihop"><a class="anchor" href="#ref_wsatmultihop"></a>WS-AT Multi-Hop</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Quickstart URL: <a href="https://github.com/jbosstm/quickstart/tree//XTS/wsat-jta-multi_hop" class="bare">https://github.com/jbosstm/quickstart/tree//XTS/wsat-jta-multi_hop</a></p>
+</div>
+<div class="paragraph">
+<p>This quickstart uses JTA to manage WS-AT applications.
+The quickstart is composed of a client (the test) and two Web services (<code>FirstServiceAT</code> and <code>SecondServiceAT</code>).</p>
+</div>
+<div class="paragraph">
+<p>The Client begins a JTA transaction and then invokes an operation on <code>FirstServiceAT</code>.
+Transaction context propagation is enabled by default.
+Therefore XTS automatically bridges the JTA transaction to a WS-AT transaction before the invocation is made.</p>
+</div>
+<div class="paragraph">
+<p><code>FirstServiceAT</code> uses JPA to persist its data.
+Therefore, the service class is annotated with <code>jakarta.ejb.TransactionAttribute</code> which tells XTS to automatically bridge WS-AT transaction to JTA.
+The <code>FirstServiceAT</code> Web Service updates some local data and then invokes the <code>SecondServiceAT</code> Web services.</p>
+</div>
+<div class="paragraph">
+<p>Similarly, to when invoking <code>FirstServiceAT</code>, the JTA transaction is bridged to a WS-AT transaction when invoking <code>SecondServiceAT</code>.
+<code>SecondServiceAT</code> also uses JPA for persistence, so the incoming WS-AT transaction is again bridged to JTA.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_xts_with_ssl"><a class="anchor" href="#_xts_with_ssl"></a>XTS with SSL</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Quickstart URL: <a href="https://github.com/jbosstm/quickstart/tree//XTS/ssl" class="bare">https://github.com/jbosstm/quickstart/tree//XTS/ssl</a></p>
+</div>
+<div class="paragraph">
+<p>This example walks you through the steps required to setup two servers (client and server) that communicate via Web services over a secure connection.
+The example show how this can be done for WS-Atomic Transaction, but the same applies for WS Business Activity.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_raw_xts_api_demo"><a class="anchor" href="#_raw_xts_api_demo"></a>Raw XTS API Demo</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Quickstart URL: <a href="https://github.com/jbosstm/quickstart/tree//XTS/raw-xts-api-demo" class="bare">https://github.com/jbosstm/quickstart/tree//XTS/raw-xts-api-demo</a></p>
+</div>
+<div class="paragraph">
+<p>This example demonstrates the whole range of XTS possibilities, including WS-AT and WS-BA.</p>
+</div>
+<div class="paragraph">
+<p>This example uses the Raw XTS API.
+It is only recommended for scenarios where the WS-AT to JTA integration is not appropriate; or where the Compensating Transactions API support for WS-BA is not appropriate.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="ref_compensationsnontransactionalresource"><a class="anchor" href="#ref_compensationsnontransactionalresource"></a>Non-transactional Resource with Compensating Transactions API</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Quickstart URL: <a href="https://github.com/jbosstm/quickstart/tree//compensating-transactions/non-transactional_resource" class="bare">https://github.com/jbosstm/quickstart/tree//compensating-transactions/non-transactional_resource</a></p>
+</div>
+<div class="paragraph">
+<p>This example demonstrates the simple use case of our API for developing applications that use Compensating Transactions.
+It shows how a non-transactional activity (such as sending an email, or printing a document) can be coordinated in a compensating transaction.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="ref_compensationstravelagent"><a class="anchor" href="#ref_compensationstravelagent"></a>Travel Agent with Compensating Transactions API</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Quickstart URL: <a href="https://github.com/jbosstm/quickstart/tree//compensating-transactions/travel-agent" class="bare">https://github.com/jbosstm/quickstart/tree//compensating-transactions/travel-agent</a></p>
+</div>
+<div class="paragraph">
+<p>This example demonstrates the more complex use case of our API for developing applications that use Compensating Transactions.
+It shows how a long running compensating transaction can be composed of a series of short-running ACID transactions.
+The example also involves multiple organisations and forms a distributed transaction over Web Services.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>Introduction</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>Introduction</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_contextual_overview">Contextual Overview</a></li>
+<li><a href="#_transaction_bridging">Transaction Bridging</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_contextual_overview"><a class="anchor" href="#_contextual_overview"></a>Contextual Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Transactions provide a structuring mechanism for business logic.
+Use of transactions allows for grouping of data manipulations into constructs with certain properties.
+Traditional ACID transactions provide for properties of Atomicity, Consistency, Isolation and Durability.</p>
+</div>
+<div class="paragraph">
+<p>In JavaEE applications, transaction support is provided via the Java Transaction API (JTA).
+The classes and interfaces in the <code>jakarta.transaction</code> and <code>javax.transaction.xa</code> packages provide a means by which the programmer may manage transaction demarcation (<code>begin</code>, <code>commit</code>, <code>rollback</code>) and, where necessary, interact with the transaction management system (e.g. <code>enlistResource</code>).
+In many JavaEE applications, further abstractions are provided on top of the JTA.
+For example, EJB3 <code>@TransactionAttribute</code> annotations may be used for transaction boundary demarcation in preference to explicit calls to the JTA&#8217;s UserTransaction interface.</p>
+</div>
+<div class="paragraph">
+<p>In distributed applications, the JTA implementation may provide propagation of transaction context and transaction control calls between containers (JVMs) using either a propriety transport or JTS, the Java mapping of the CORBA OTS standard on an RMI/IIOP transport.
+In Narayana, both local and distributed (JTS) implementations of the JTA are available.</p>
+</div>
+<div class="paragraph">
+<p>In Web Services applications, ACID transaction management and interoperable context propagation is provided for by the WS-AT standard.
+Narayana XTS provides an implementation of both the 1.1 and 1.2 versions of this standard.
+Bridging is provided only on the more recent version.
+At the time of writing the standard covers only the web services API and protocol, not the Java API through which the protocol may be driven.
+Therefore, XTS provides a custom Java API to users, with characteristics broadly similar to the JTA.</p>
+</div>
+<div class="paragraph">
+<p>For applications that combine traditional JavaEE transaction management and Web Service transaction management, it is often desirable to have some mechanism for linking these transaction types, such that a single transaction may span business logic written for either transaction type.
+Examples include exposing existing JavaEE transactional business logic (e.g. EJBs) as transactional Web Services, or allowing JavaEE transactional components to utilize transactional Web Services.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_transaction_bridging"><a class="anchor" href="#_transaction_bridging"></a>Transaction Bridging</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>We use the term Transaction Bridging to describe the process of linking the JavaEE and Web Services transaction domains.
+The transaction bridge component (txbridge) of Narayana provides bi-directional linkage, such that either type of transaction may encompass business logic designed for use with the other type.</p>
+</div>
+<div class="paragraph">
+<p>The technique used by the bridge is a combination of interposition and protocol mapping.</p>
+</div>
+<div class="paragraph">
+<p>Interposition is used in transaction systems to allow a tree of transaction coordinators to be constructed, usually for performance reasons.
+Interposed coordinators function as transaction managers for nodes below them in the tree, whilst appearing as resources (participants in WS-AT terminology) to the node above them.</p>
+</div>
+<div class="paragraph">
+<p>Within a single transaction domain, interposition may be used to allow remote nodes to minimize the number of network calls necessary at transaction termination.
+The top level node is known as the root coordinator, whilst interposed coordinators are termed subordinate.
+This name indicates that they are not autonomously responsible for determining the transaction outcome, but rather are driven by their parent coordinator.
+Therefore, whilst a top level coordinator exposes only the <code>commit</code> and <code>rollback</code> methods for transaction termination and handles the 2PC internally, the subordinates additionally expose the prepare method to their parent, behaving much like resources during the termination protocol.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/txbridge-guide-interposition.png" alt="txbridge guide interposition">
+</div>
+<div class="title">Figure 1. Transaction interposition in a distributed JTA environment</div>
+</div>
+<div class="paragraph">
+<p>In the transaction bridge, an interposed coordinator is registered into the existing transaction and performs the additional task of protocol mapping.
+That is, it appears to its parent coordinator to be a resource of its native transaction type, whilst appearing to its children to be a coordinator of their native transaction type, even though these transaction types differ.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/txbridge-guide-bridgeinterposition.png" alt="txbridge guide bridgeinterposition">
+</div>
+<div class="title">Figure 2. Transactional bridging interposition</div>
+</div>
+<div class="paragraph">
+<p>The interposed coordinator is responsible for performing mapping between the transaction protocols.
+There is a strong correspondence between the API and protocol used by the JTA and WS-AT transaction types, which is unsurprising given their common heritage and shared problem domain.
+However, method signatures, exception types and such do differ.
+The bridge provides a abstraction layer to mask these distinctions as far as possible.</p>
+</div>
+<div class="paragraph">
+<p>The net result of this is that existing business logic perceives its expected transaction environment, even though the transaction in which it is executing may be subordinate to one of a different type.
+No changes are necessary to existing transactional applications to allow them to operate in the scope of foreign transactions.
+This facilitates reuse of existing business logic components in new environments and increases the possibilities for new architectures and interoperability.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>

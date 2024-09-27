@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>Logging</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="article">
+<div id="header">
+<h1>Logging</h1>
+</div>
+<div id="content">
+<div class="paragraph">
+<p>The recovery manager and the transaction server services produce log files which are located in the <code>services/logs/</code> directory.
+Two log files are created per service.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>&lt;service-name&gt;-service.log</code></dt>
+<dd>
+<p>Contains information regarding whether the service is stopped, started, restarted, or in another state.</p>
+</dd>
+<dt class="hdlist1"><code>&lt;service-name&gt;.log</code></dt>
+<dd>
+<p>Contains information logged from the actual service.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>To configure what information is logged in these files, edit the appropriate LOG4J configuration files located in <code>services/config/</code>.</p>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:39:50 +0100
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>Overview of Protocols Used by XTS</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+/*! Stylesheet for CodeRay to loosely match GitHub themes | MIT License */
+pre.CodeRay{background:#f7f7f8}
+.CodeRay .line-numbers{border-right:1px solid;opacity:.35;padding:0 .5em 0 0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+.CodeRay span.line-numbers{display:inline-block;margin-right:.75em}
+.CodeRay .line-numbers strong{color:#000}
+table.CodeRay{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.CodeRay td{vertical-align:top;line-height:inherit}
+table.CodeRay td.line-numbers{text-align:right}
+table.CodeRay td.code{padding:0 0 0 .75em}
+.CodeRay .debug{color:#fff!important;background:navy!important}
+.CodeRay .annotation{color:#007}
+.CodeRay .attribute-name{color:navy}
+.CodeRay .attribute-value{color:#700}
+.CodeRay .binary{color:#509}
+.CodeRay .comment{color:#998;font-style:italic}
+.CodeRay .char{color:#04d}
+.CodeRay .char .content{color:#04d}
+.CodeRay .char .delimiter{color:#039}
+.CodeRay .class{color:#458;font-weight:bold}
+.CodeRay .complex{color:#a08}
+.CodeRay .constant,.CodeRay .predefined-constant{color:teal}
+.CodeRay .color{color:#099}
+.CodeRay .class-variable{color:#369}
+.CodeRay .decorator{color:#b0b}
+.CodeRay .definition{color:#099}
+.CodeRay .delimiter{color:#000}
+.CodeRay .doc{color:#970}
+.CodeRay .doctype{color:#34b}
+.CodeRay .doc-string{color:#d42}
+.CodeRay .escape{color:#666}
+.CodeRay .entity{color:#800}
+.CodeRay .error{color:#808}
+.CodeRay .exception{color:inherit}
+.CodeRay .filename{color:#099}
+.CodeRay .function{color:#900;font-weight:bold}
+.CodeRay .global-variable{color:teal}
+.CodeRay .hex{color:#058}
+.CodeRay .integer,.CodeRay .float{color:#099}
+.CodeRay .include{color:#555}
+.CodeRay .inline{color:#000}
+.CodeRay .inline .inline{background:#ccc}
+.CodeRay .inline .inline .inline{background:#bbb}
+.CodeRay .inline .inline-delimiter{color:#d14}
+.CodeRay .inline-delimiter{color:#d14}
+.CodeRay .important{color:#555;font-weight:bold}
+.CodeRay .interpreted{color:#b2b}
+.CodeRay .instance-variable{color:teal}
+.CodeRay .label{color:#970}
+.CodeRay .local-variable{color:#963}
+.CodeRay .octal{color:#40e}
+.CodeRay .predefined{color:#369}
+.CodeRay .preprocessor{color:#579}
+.CodeRay .pseudo-class{color:#555}
+.CodeRay .directive{font-weight:bold}
+.CodeRay .type{font-weight:bold}
+.CodeRay .predefined-type{color:inherit}
+.CodeRay .reserved,.CodeRay .keyword{color:#000;font-weight:bold}
+.CodeRay .key{color:#808}
+.CodeRay .key .delimiter{color:#606}
+.CodeRay .key .char{color:#80f}
+.CodeRay .value{color:#088}
+.CodeRay .regexp .delimiter{color:#808}
+.CodeRay .regexp .content{color:#808}
+.CodeRay .regexp .modifier{color:#808}
+.CodeRay .regexp .char{color:#d14}
+.CodeRay .regexp .function{color:#404;font-weight:bold}
+.CodeRay .string{color:#d20}
+.CodeRay .string .string .string{background:#ffd0d0}
+.CodeRay .string .content{color:#d14}
+.CodeRay .string .char{color:#d14}
+.CodeRay .string .delimiter{color:#d14}
+.CodeRay .shell{color:#d14}
+.CodeRay .shell .delimiter{color:#d14}
+.CodeRay .symbol{color:#990073}
+.CodeRay .symbol .content{color:#a60}
+.CodeRay .symbol .delimiter{color:#630}
+.CodeRay .tag{color:teal}
+.CodeRay .tag-special{color:#d70}
+.CodeRay .variable{color:#036}
+.CodeRay .insert{background:#afa}
+.CodeRay .delete{background:#faa}
+.CodeRay .change{color:#aaf;background:#007}
+.CodeRay .head{color:#f8f;background:#505}
+.CodeRay .insert .insert{color:#080}
+.CodeRay .delete .delete{color:#800}
+.CodeRay .change .change{color:#66f}
+.CodeRay .head .head{color:#f4f}
+</style>
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>Overview of Protocols Used by XTS</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_ws_coordination">WS-Coordination</a>
+<ul class="sectlevel2">
+<li><a href="#_activation">Activation</a></li>
+<li><a href="#_registration">Registration</a></li>
+<li><a href="#_completion">Completion</a></li>
+</ul>
+</li>
+<li><a href="#_ws_transaction">WS-Transaction</a>
+<ul class="sectlevel2">
+<li><a href="#_ws_transaction_foundations">WS-Transaction Foundations</a></li>
+<li><a href="#_ws_transaction_architecture">WS-Transaction Architecture</a></li>
+<li><a href="#_ws_transaction_models">WS-Transaction Models</a></li>
+<li><a href="#_application_messages">Application Messages</a></li>
+</ul>
+</li>
+<li><a href="#_summary">Summary</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This section discusses fundamental concepts associated with the WS-Coordination, WS-Atomic Transaction and WS-Business Activity protocols, as defined in each protocol&#8217;s specification.
+Foundational information about these protocols is important to understanding the remaining material covered in this guide.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If you are familiar with the WS-Coordination, WS-Atomic Transaction, and WS-Business Activity specifications, you may only need to skim this chapter.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_ws_coordination"><a class="anchor" href="#_ws_coordination"></a>WS-Coordination</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In general terms, <em>coordination</em> is the act of one entity, known as the coordinator, disseminating information to a number of participants for some domain-specific reason.
+This reason could be to reach consensus on a decision by a distributed transaction protocol, or to guarantee that all participants obtain a specific message, such as in a reliable multicast environment.
+When parties are being coordinated, information, known as the <em>coordination context</em>, is propagated to tie together operations which are logically part of the same coordinated work or activity.
+This context information may flow with normal application messages, or may be an explicit part of a message exchange.
+It is specific to the type of coordination being performed.</p>
+</div>
+<div class="paragraph">
+<p>The fundamental idea underpinning <em>WS-Coordination (WS-C)</em> is that a coordination infrastructure is needed in a Web Services environment.
+The WS-C specification defines a framework that allows different coordination protocols to be plugged in to coordinate work between clients, services, and participants, as shown in <a href="#fig_ws_c_architecture">WS-C Architecture</a>.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div id="fig_ws_c_architecture" class="imageblock text-center">
+<div class="content">
+<img src="images/xts-fig-ws-c-overview.png" alt="xts fig ws c overview">
+</div>
+<div class="title">Figure 1. WS-C Architecture</div>
+</div>
+<div class="paragraph">
+<p>The WS-C specification speaks of activities , which are distributed units of work, involving one or more parties.
+These parties may be services, components, or even objects.
+At this level, an activity is minimally specified and is simply created, run, and then completed.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Whatever coordination protocol is used, and in whatever domain it is deployed, the same generic requirements are present.</p>
+</div>
+<div id="list_requirements_for_wsc" class="ulist">
+<div class="title">Generic Requirements for WS-C</div>
+<ul>
+<li>
+<p>Instantiation, or activation, of a new coordinator for the specific coordination protocol, for a particular application instance.</p>
+</li>
+<li>
+<p>Registration of participants with the coordinator, such that they will receive that coordinator&#8217;s protocol messages during (some part of) the application&#8217;s lifetime.</p>
+</li>
+<li>
+<p>Propagation of contextual information between Web Services that comprise the application.</p>
+</li>
+<li>
+<p>An entity to drive the coordination protocol through to completion.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The first three of the points in <a href="#list_requirements_for_wsc">Generic Requirements for WS-C</a> are the direct responsibility of WS-C, while the fourth is the responsibility of a third-party entity.
+The third-party entity is usually the client component of the overall application.
+These four WS-C roles and their relationships are shown in <a href="#fig_wsc_four_roles">Four Roles in WS-C</a>.</p>
+</div>
+<div id="fig_wsc_four_roles" class="imageblock text-center">
+<div class="content">
+<img src="images/xts-fig-wsc-four-roles.png" alt="xts fig wsc four roles">
+</div>
+<div class="title">Figure 2. Four Roles in WS-C</div>
+</div>
+<div class="sect2">
+<h3 id="_activation"><a class="anchor" href="#_activation"></a>Activation</h3>
+<div class="paragraph">
+<p>The WS-C framework exposes an Activation Service which supports the creation of coordinators for specific coordination protocols and retrieval of associated contexts.
+Activation services are invoked synchronously using an RPC style exchange.
+So, the service WSDL defines a single port declaring a <code>CreateCoordinationContext</code> operation.
+This operation takes an input specfying the details of the transaction to be created, including the type of coordination required, timeout, and other relevant information.
+It returns an output containing the details of the newly-created transaction context: the transaction identifier, coordination type, and registration service URL.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Activation Service portType Declaration --&gt;</span> 
+<span class="tag">&lt;wsdl:portType</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">ActivationCoordinatorPortType</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span> 
+  <span class="tag">&lt;wsdl:operation</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">CreateCoordinationContext</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span> 
+    <span class="tag">&lt;wsdl:input</span> <span class="attribute-name">message</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">wscoor:CreateCoordinationContext</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span> 
+    <span class="tag">&lt;wsdl:output</span> <span class="attribute-name">message</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">wscoor:CreateCoordinationContextResponse</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span> 
+  <span class="tag">&lt;/wsdl:operation&gt;</span> 
+<span class="tag">&lt;/wsdl:portType&gt;</span> </code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_registration"><a class="anchor" href="#_registration"></a>Registration</h3>
+<div class="paragraph">
+<p>The context returned by the activation service includes the URL of a Registration Service.
+When a web service receieves a service request accompanied by a transaction context, it contacts the Registration Service to enroll as a participant in the transaction.
+The registration request includes a participant protocol defining the role the web service wishes to take in the transaction.
+Depending upon the coordination protocol, more than one choice of participant protocol may be available.</p>
+</div>
+<div class="paragraph">
+<p>Like the activation service, the registration service assumes synchronous communication.
+Thus, the service WSDL exposes a single port declaring a <code>Register</code> operation.
+This operation takes an input specifying the details of the participant which is to be registered, including the participant protocol type.
+It returns a corresponding output response.</p>
+</div>
+<div id="example_wsc_registration" class="listingblock">
+<div class="title">Registration ServiceWSDL Interface</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Registration Service portType Declaration --&gt;</span> 
+<span class="tag">&lt;wsdl:portType</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">RegistrationCoordinatorPortType</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span> 
+  <span class="tag">&lt;wsdl:operation</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">Register</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span> 
+    <span class="tag">&lt;wsdl:input</span> <span class="attribute-name">message</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">wscoor:Register</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span> 
+    <span class="tag">&lt;wsdl:output</span> <span class="attribute-name">message</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">wscoor:RegisterResponse</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span> 
+  <span class="tag">&lt;/wsdl:operation&gt;</span> 
+<span class="tag">&lt;/wsdl:portType&gt;</span> </code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Once a participant is registered with a coordinator through the registration service, it receives coordination messages from the coordinator.
+Typical messages include such things as "prepare to complete" and "complete" messages if a two-phase protocol is used.
+Where the coordinator&#8217;s protocol supports it, participants can also send messages back to the coordinator.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_completion"><a class="anchor" href="#_completion"></a>Completion</h3>
+<div class="paragraph">
+<p>The role of terminator is generally filled by the client application.
+At an appropriate point, the client asks the coordinator to perform its particular coordination function with any registered participants, to drive the protocol through to its completion.
+After completion, the client application may be informed of an outcome for the activity.
+This outcome may take any form along the spectrum from simple success or failure notification, to complex structured data detailing the activity&#8217;s status.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_ws_transaction"><a class="anchor" href="#_ws_transaction"></a>WS-Transaction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><em>WS-Transaction (WS-T)</em> comprises the pair of transaction coordination protocols, <em>WS-Atomic Transaction (WS-AT)</em>, and <em>WS-Business Activity (WS-BA)</em>, which utilize the coordination framework provided by <em>WS-Coordination (WS-C)</em>.</p>
+</div>
+<div class="paragraph">
+<p><em>WS-Transactions</em> was developed to unify existing traditional transaction processing systems, allowing them to communicate reliably with one another without changes to the systems' own function.</p>
+</div>
+<div class="sect2">
+<h3 id="_ws_transaction_foundations"><a class="anchor" href="#_ws_transaction_foundations"></a>WS-Transaction Foundations</h3>
+<div class="paragraph">
+<p>WS-Transaction is layered upon the WS-Coordination protocol, as shown in <a href="#wsc_wst_interop">WS-Coordination, WS-Transaction, and WS-Business Activity</a>.</p>
+</div>
+<div id="wsc_wst_interop" class="imageblock text-center">
+<div class="content">
+<img src="images/xts-fig-wsc-wst-interop.png" alt="xts fig wsc wst interop">
+</div>
+<div class="title">Figure 3. WS-Coordination, WS-Transaction, and WS-Business Activity</div>
+</div>
+<div class="paragraph">
+<p>WS-C provides a generic framework for specific coordination protocols, like WS-Transaction, used in a modular fashion.
+WS-C provides only context management, allowing contexts to be created and activities to be registered with those contexts.
+WS-Transaction leverages the context management framework provided by WS-C in two ways.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>It extends the WS-C context to create a transaction context.</p>
+</li>
+<li>
+<p>It augments the activation and registration services with a number of additional services (<code>Completion</code>, <code>Volatile2PC</code>, <code>Durable2PC</code>, <code>BusinessAgreementWithParticipantCompletion</code>, and <code>BusinessAgreementWithCoordinatorCompletion</code>) and two protocol message sets (one for each of the transaction models supported in WS-Transaction), to build a fully-fledged transaction coordinator on top of the WS-C protocol infrastructure.</p>
+</li>
+<li>
+<p>An important aspect of WS-Transaction that differs from traditional transaction protocols is that a synchronous request/response model is not assumed.
+Sequences of one way messages are used to implement communications between the client/participant and the coordination services appropriate to the transaction&#8217;s coordination and participant protocols.
+This is significant because it means that the client and participant containers must deploy XTS service endpoints to receive messages from the coordinator service.</p>
+<div class="paragraph">
+<p>This requirement is visible in the details of the <code>Register</code> and <code>RegisterResponse</code> messages declared in the Registration Service WSDL in <a href="#example_wsc_registration">Registration ServiceWSDL Interface</a>.
+The <code>Register</code> message contains the URL of an endpoint in the client or web service container.
+This URL is used when a WS-Transaction coordination service wishes to dispatch a message to the client or web service.
+Similarly, the <code>RegisterResponse</code> message contains a URL iendtifying an endpoint for the protocol-specific WS-Transaction coordination service for which the client/web service is registered, allowing messages to be addressed to the transaction coordinator.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ws_transaction_architecture"><a class="anchor" href="#_ws_transaction_architecture"></a>WS-Transaction Architecture</h3>
+<div class="paragraph">
+<p>WS-Transaction distinguishes the transaction-aware web service in its role executing business-logic, from the web service acting as a participant in the transaction, communicating with and responding to its transaction coordinator.
+Transaction-aware web services deal with application clients using business-level protocols, while the participant handles the underlying WS-Transaction protocols, as shown in <a href="#ws_trans_global_view">WS-Transaction Global View</a>.</p>
+</div>
+<div id="ws_trans_global_view" class="imageblock text-center">
+<div class="content">
+<img src="images/xts-ws-trans-global-view.png" alt="xts ws trans global view">
+</div>
+<div class="title">Figure 4. WS-Transaction Global View</div>
+</div>
+<div class="paragraph">
+<p>A transaction-aware web service encapsulates the business logic or work that needs to be conducted within the scope of a transaction.
+This work cannot be confirmed by the application unless the transaction also commits.
+Thus, control is ultimately removed from the application and given to the transaction.</p>
+</div>
+<div class="paragraph">
+<p>The participant is the entity that, under the dictates of the transaction coordinator, controls the outcome of the work performed by the transaction-aware Web service.
+In <a href="#ws_trans_global_view">WS-Transaction Global View</a>, each web service is shown with one associated participant that manages the transaction protocol messages on behalf of its web service.
+<a href="#ws_trans_services_participants">WS-Transaction Web Services and Participants</a>, however, shows a close-up view of a single web service, and a client application with their associated participants.</p>
+</div>
+<div id="ws_trans_services_participants" class="imageblock text-center">
+<div class="content">
+<img src="images/xts-fig-ws-trans-services-participants.png" alt="xts fig ws trans services participants">
+</div>
+<div class="title">Figure 5. WS-Transaction Web Services and Participants</div>
+</div>
+<div class="paragraph">
+<p>The transaction-aware web service employs a back end database accessed via a JDBC driver, which sends SQL statements to the database for processing.
+However, those statements should only commit if the enclosing web service transaction does.
+For this to work, the web service must employ transaction bridging.
+Transaction bridging registers a participant with the coordinator for the web service transaction and creates a matching XA transaction within which it can invoke the driver to make tentative changes to the database.
+The web service ensures that service requests associated with a specific web service transaction are executed in the scope of the corresponding XA transaction, grouping changes common to a given transaction while isolating changes belonging to different transactions.
+The participant responds to prepare, commit, or rollback requests associated from the web service transaction coordinator by forwarding the same operations to the underlying XA transaction coordinator, ensuring that the local outcome in the database corresponds with the global outcome of the web service transaction as a whole.</p>
+</div>
+<div class="paragraph">
+<p>Things are less complex for the client.
+Through its API, the client application registers a participant with the transaction, and uses this participant to control termination of the transaction.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ws_transaction_models"><a class="anchor" href="#_ws_transaction_models"></a>WS-Transaction Models</h3>
+<div class="paragraph">
+<p>It has been established that traditional transaction models are not appropriate for Web Services.
+No one specific protocol is likely to be sufficient, given the wide range of situations where Web service transactions are likely to be used.
+The WS-Transaction specification proposes two distinct models, where each supports the semantics of a particular kind of B2B interaction.</p>
+</div>
+<div class="paragraph">
+<p>The following discussion presents the interactions between the client, web service and the transaction coordinator in great detail for expository purposes only.
+Most of this activity happens automatically behind the scenes.
+The actual APIs used to initiate and complete a transaction and to register a participant and drive it through the commit or abort process are described in the XTS API.</p>
+</div>
+<div class="sect3">
+<h4 id="_atomic_transactions"><a class="anchor" href="#_atomic_transactions"></a>Atomic Transactions</h4>
+<div class="paragraph">
+<p>An <em class="term">atomic transaction (AT)</em> is similar to traditional ACID transactions, and is designed to support short-duration interactions where ACID semantics are appropriate.
+Within the scope of an AT, web services typically employ bridging to allow them to access XA resources, such as databases and message queues, under the control of the web service transaction.
+When the transaction terminates, the participant propagates the outcome decision of the AT to the XA resources, and the appropriate commit or rollback actions are taken by each.</p>
+</div>
+<div class="paragraph">
+<p>All services and associated participants are expected to provide ACID semantics, and it is expected that any use of atomic transactions occurs in environments and situations where ACID is appropriate.
+Usually, this environment is a trusted domain, over short durations.</p>
+</div>
+<div class="olist arabic">
+<div class="title">Procedure: Atomic Transaction Process</div>
+<ol class="arabic">
+<li>
+<p>To begin an atomic transaction, the client application first locates a WS-C Activation Coordinator web service that supports WS-Transaction.</p>
+</li>
+<li>
+<p>The client sends a WS-C <em>CreateCoordinationContext</em> message to the service, specifying <a href="http://schemas.xmlsoap.org/ws/2004/10/wsat" class="bare">http://schemas.xmlsoap.org/ws/2004/10/wsat</a> as its coordination type.</p>
+</li>
+<li>
+<p>The client receives an appropriate WS-Transaction context from the activation service.</p>
+</li>
+<li>
+<p>The response to the <em>CreateCoordinationContext</em> message, the transaction context, has its <em>CoordinationType</em> element set to the WS-Atomic Transaction namespace, <a href="http://schemas.xmlsoap.org/ws/2004/10/wsat" class="bare">http://schemas.xmlsoap.org/ws/2004/10/wsat</a>.
+It also contains a reference to the atomic transaction coordinator endpoint, the WS-C Registration Service, where participants can be enlisted.</p>
+</li>
+<li>
+<p>The client normally proceeds to invoke Web Services and complete the transaction, either committing all the changes made by the web services, or rolling them back.
+In order to be able to drive this completion activity, the client must register itself as a participant for the <em>Completion</em> protocol, by sending a <em>Register</em> message to the Registration Service whose endpoint was returned in the Coordination Context.</p>
+</li>
+<li>
+<p>Once registered for Completion, the client application then interacts with Web Services to accomplish its business-level work.
+With each invocation of a business Web service, the client inserts the transaction context into a SOAP header block, such that each invocation is implicitly scoped by the transaction.
+The toolkits that support WS-Atomic Transaction-aware Web Services provide facilities to correlate contexts found in SOAP header blocks with back-end operations.
+This ensures that modifications made by the Web service are done within the scope of the same transaction as the client and subject to commit or rollback by the transaction coordinator.</p>
+</li>
+<li>
+<p>Once all the necessary application-level work is complete, the client can terminate the transaction, with the intent of making any changes to the service state permanent.
+The completion participant instructs the coordinator to try to commit or roll back the transaction.
+When the commit or roll-back operation completes, a status is returned to the participant to indicate the outcome of the transaction.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Although this description of the completion protocol seems straightforward, it hides the fact that in order to resolve the transaction to an outcome, several other participant protocols need to be followed.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Volatile2pc</dt>
+<dd>
+<p>The first of these protocols is the optional <em class="term">Volatile2PC</em> (2PC is an abbreviation referring to the two-phase commit).
+The Volatile2PC protocol is the WS-Atomic Transaction equivalent of the synchronization protocol discussed earlier.
+It is typically executed where a Web service needs to flush volatile (cached) state, which may be used to improve performance of an application, to a database prior to the transaction committing.
+Once flushed, the data is controlled by a two-phase aware participant.</p>
+<div class="paragraph">
+<p>When the completion participant initiates a <em>commit</em> operation, all Volatile2PC participants are informed that the transaction is about to complete, via the <em>prepare</em> message.
+The participants can respond with one of three messages: <em>prepared</em>, <em>aborted</em>, or <em>readonly</em>.
+A failure at this stage causes the transaction to roll back.</p>
+</div>
+</dd>
+<dt class="hdlist1">Durable2PC</dt>
+<dd>
+<p>The next protocol in the WS-Atomic Transaction is <em class="term">Durable2PC</em>.
+The Durable2PC protocol is at the core of WS-Atomic Transaction.
+It brings about the necessary consensus between participants in a transaction, so the transaction can safely be terminated.</p>
+<div class="paragraph">
+<p>The Durable2PC protocol ensures atomicity between participants, and is based on the classic technique of two-phase commit with presumed abort.</p>
+</div>
+</dd>
+</dl>
+</div>
+<div class="olist arabic">
+<div class="title">Procedure: Durable2PC Procedure</div>
+<ol class="arabic">
+<li>
+<p>During the first phase, when the coordinator sends the prepare message, a participant must make durable any state changes that occurred during the scope of the transaction, so these changes can either be rolled back or committed later.
+None of the original state information can be lost at this point, since the atomic transaction may still roll back.
+If the participant cannot <em>prepare</em>, it must inform the coordinator, by means of the <em>aborted</em> message.
+The transaction will ultimately roll back.
+If the participant is responsible for a service that did not change any of the transaction&#8217;s data, it can return the <em>readonly</em> message, causing it to be omitted from the second phase of the commit protocol.
+Otherwise, the <em>prepared</em> message is sent by the participant.</p>
+</li>
+<li>
+<p>If no failures occur during the first phase, Durable2PC proceeds to the second phase, in which the coordinator sends the <em>commit</em> message to participants.
+Participants then make permanent the tentative work done by their associated services, and send a <em>committed</em> message to the coordinator.
+If any failures occur, the coordinator sends the <em>rollback</em> message to all participants, causing them to discard tentative work done by their associated services, and delete any state information saved to persistent storage at <em>prepare</em>, if they have reached that stage.
+Participants respond to a rollback by sending an <em>aborted</em> message to the coordinator.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The semantics of the WS-Atomic Transaction protocol do not include the one-phase commit optimization.
+A full two-phase commit is always used, even where only a single participant is enlisted.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a href="#two_pc_participant_state_transitions">WS-Atomic Two-Phase Participant State Transitions</a> shows the state transitions of a WS-Atomic Transaction and the message exchanges between coordinator and participant.
+Messages generated by the coordinator are represented by solid lines, while the participants' messages use dashed lines.</p>
+</div>
+<div id="two_pc_participant_state_transitions" class="imageblock text-center">
+<div class="content">
+<img src="images/xts-fig-2pc-participant-state-transitions.png" alt="xts fig 2pc participant state transitions">
+</div>
+<div class="title">Figure 6. WS-Atomic Two-Phase Participant State Transitions</div>
+</div>
+<div class="paragraph">
+<p>Once the Durable2PC protocol completes, the <em>Completion</em> protocol that originally began the termination of the transaction can complete, and inform the client application whether the transaction was committed or rolled back.
+Additionally, the Volatile2PC protocol may complete.</p>
+</div>
+<div class="paragraph">
+<p>Like the <em>prepare</em> phase of Volatile2PC, the final phase is optional and can be used to inform participants about the transaction&#8217;s completion, so that they can release resources such as database connections.</p>
+</div>
+<div class="paragraph">
+<p>Any registered Volatile2PC participants are invoked after the transaction terminates, and are informed about the transaction&#8217;s completion state by the coordinator.
+Since the transaction has terminated, any failures of participants at this stage are ignored, since they have no impact on outcomes.</p>
+</div>
+<div class="paragraph">
+<p><a href="#fig_at_model">Context Creation</a> illustrates the intricate interweaving of individual protocols comprising the AT as a whole.</p>
+</div>
+<div id="fig_at_model" class="imageblock text-center">
+<div class="content">
+<img src="images/xts-fig-at-model.png" alt="xts fig at model">
+</div>
+<div class="title">Figure 7. Context Creation</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_business_activities"><a class="anchor" href="#_business_activities"></a>Business Activities</h4>
+<div class="paragraph">
+<p>Most B2B applications require transactional support in order to guarantee consistent outcome and correct execution.
+These applications often involve long-running computations, loosely coupled systems, and components that do not share data, location, or administration.
+It is difficult to incorporate atomic transactions within such architectures.</p>
+</div>
+<div class="paragraph">
+<p>For example, an online bookshop may reserve books for an individual for a specific period of time.
+However, if the individual does not purchase the books within that period, they become available again for purchase by other customers.
+Because it is not possible to have an infinite supply of stock, some online shops may seem, from the user&#8217;s perspective, to reserve items for them, while actually allow others to preempt the reservation.
+A user may discover, to his disappointment, that the item is no longer available.</p>
+</div>
+<div class="paragraph">
+<p>A <em>Business Activity (BA)</em> is designed specifically for these kinds of long-duration interactions, where it is impossible or impractical to exclusively lock resources.</p>
+</div>
+<div class="olist arabic">
+<div class="title">Procedure: BA Process Overview</div>
+<ol class="arabic">
+<li>
+<p>Services are requested to do work.</p>
+</li>
+<li>
+<p>Where those services have the ability to undo any work, they inform the BA, in case the BA later decides the cancel the work.
+If the BA suffers a failure. it can instruct the service to execute its <em>undo</em> behavior.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The key to BA is that how services do their work and provide compensation mechanisms is not the responsibility of the WS-BA specification.
+It is delegated to the service provider.</p>
+</div>
+<div class="paragraph">
+<p>The WS-BA defines a protocol for Web Services-based applications to enable existing business processing and work-flow systems to wrap their proprietary mechanisms and interoperate across implementations and business boundaries.</p>
+</div>
+<div class="paragraph">
+<p>Unlike the WS-AT protocol model, where participants inform the coordinator of their state only when asked, a child activity within a BA can specify its outcome to the coordinator directly, without waiting for a request.
+A participant may choose to exit the activity or may notify the coordinator of a failure at any point.
+This feature is useful when tasks fail, since the notification can be used to modify the goals and drive processing forward, without the need to wait until the end of the transaction to identify failures.
+A well-designed Business Activity should be proactive.</p>
+</div>
+<div class="paragraph">
+<p>The BA protocols employ a compensation-based transaction model.
+When a participant in a business activity completes its work, it may choose to exit the activity.
+This choice does not allow any subsequent rollback.
+Alternatively, the participant can complete its activity, signaling to the coordinator that the work it has done can be compensated if, at some later point, another participant notifies a failure to the coordinator.
+In this latter case, the coordinator asks each non-exited participant to compensate for the failure, giving them the opportunity to execute whatever compensating action they consider appropriate.
+For instance, the participant might credit a bank account which it previously debited.
+If all participants exit or complete without failure, the coordinator notifies each completed participant that the activity has been closed.</p>
+</div>
+<div class="paragraph">
+<p>Underpinning all of this are three fundamental assumptions, detailed in the <a href="#wsba_assumptions">Assumptions of WS-BA</a>.</p>
+</div>
+<div id="wsba_assumptions" class="ulist">
+<div class="title">Assumptions of WS-BA</div>
+<ul>
+<li>
+<p>All state transitions are reliably recorded, including application state and coordination metadata (the record of sent and received messages).</p>
+</li>
+<li>
+<p>All request messages are acknowledged, so that problems are detected as early as possible.
+This avoids executing unnecessary tasks and can also detect a problem earlier when rectifying it is simpler and less expensive.</p>
+</li>
+<li>
+<p>As with atomic transactions, a <em>response</em> is defined as a separate operation, not as the output of the request.
+Message I/O implementations typically have timeout requirements too short for BA responses.
+If the response is not received after a timeout, it is re-sent, repeatedly, until a response is received.
+The receiver discards all but one identical request received.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The BA model has two participant protocols: <em>BusinessAgreementWithParticipantCompletion</em> and <em>BusinessAgreementWithCoordinatorCompletion</em>.
+Unlike the AT protocols which are driven from the coordinator down to participants, this protocol takes the opposite approach.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">BusinessAgreementWithParticipantCompletion</dt>
+<dd>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>A participant is initially created in the Active state.</p>
+</li>
+<li>
+<p>If it finishes its work and it is no longer needed within the scope of the BA (such as when the activity operates on immutable data), the participant can unilaterally decide to exit, sending an <em>exited</em> message to the coordinator.
+However, if the participant finishes and wishes to continue in the BA, it must be able to compensate for the work it has performed.
+In this case, it sends a <em>completed</em> message to the coordinator and waits for the coordinator to notify it about the final outcome of the BA.
+This outcome is either a <em>close</em> message, meaning the BA has completed successfully, or a <em>compensate</em> message indicating that the participant needs to reverse its work.</p>
+</li>
+</ol>
+</div>
+</dd>
+<dt class="hdlist1">BusinessAgreementWithCoordinatorCompletion</dt>
+<dd>
+<p>The <em>BusinessAgreementWithCoordinatorCompletion</em> differs from the <em>BusinessAgreementWithParticipantCompletion</em> protocol in that the participant cannot autonomously decide to complete its participation in the BA, even if it can be compensated.</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Instead, the completion stage is driven by the client which created the BA, which sends a <em>completed</em> message to the coordinator.</p>
+</li>
+<li>
+<p>The coordinator sends a <em>complete</em> message to each participant, indicating that no further requests will be sent to the service associated with the participant.</p>
+</li>
+<li>
+<p>The participant continues on in the same manner as in the <em>BusinessAgreementWithParticipantCompletion</em> protocol.</p>
+</li>
+</ol>
+</div>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>The advantage of the BA model, compared to the AT model, is that it allows the participation of services that cannot lock resources for extended periods.</p>
+</div>
+<div class="paragraph">
+<p>While the full ACID semantics are not maintained by a BA, consistency can still be maintained through compensation.
+The task of writing correct compensating actions to preserve overall system consistency is the responsibility of the developers of the individual services under control of the BA.
+Such compensations may use backward error recovery, but forward recovery is more common.</p>
+</div>
+<div class="paragraph">
+<p><a href="#fig_bawpc_state_transitions">BusinessAgreementWithParticipantCompletion State Transitions</a> shows the state transitions of a WS-BA <em>BusinessAgreementWithParticipantCompletion</em> participant and the message exchanges between coordinator and participant.
+Messages generated by the coordinator are shown with solid lines, while the participants' messages are illustrated with dashed lines.</p>
+</div>
+<div id="fig_bawpc_state_transitions" class="imageblock text-center">
+<div class="content">
+<img src="images/xts-fig-bawpc-state-transitions.png" alt="xts fig bawpc state transitions">
+</div>
+<div class="title">Figure 8. BusinessAgreementWithParticipantCompletion State Transitions</div>
+</div>
+<div class="paragraph">
+<p><a href="#fig_bawcc_state_transitions">BusinessAgreementWithCoordinatorCompletion State Transitions</a> shows the state transitions of a WS-BA <em>BusinessAgreementWithCoordinatorCompletion</em> participant and the message exchanges between coordinator and participant.
+Messages generated by the coordinator are shown with solid lines, while the participants' messages are illustrated with dashed lines.</p>
+</div>
+<div id="fig_bawcc_state_transitions" class="imageblock text-center">
+<div class="content">
+<img src="images/xts-fig-bawcc-state-transitions.png" alt="xts fig bawcc state transitions">
+</div>
+<div class="title">Figure 9. BusinessAgreementWithCoordinatorCompletion State Transitions</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_application_messages"><a class="anchor" href="#_application_messages"></a>Application Messages</h3>
+<div class="paragraph">
+<p><em>Application messages</em> are the requests and responses sent between parties, that constitute the work of a business process.
+Any such messages are considered opaque by XTS, and there is no mandatory message format, protocol binding, or encoding style.
+This means that you are free to use any appropriate Web Services protocol.
+In XTS, the transaction context is propagated within the headers of SOAP messages.</p>
+</div>
+<div class="paragraph">
+<p>XTS ships with support for service developers building WS-Transactions-aware services on the WildFly Application Server.
+Interceptors are provided for automatic context handling at both client and service, which significantly simplifies development, allowing you to concentrate on writing the business logic without being sidetracked by the transactional infrastructure.
+The interceptors add and remove context elements to application messages, without altering the semantics of the messages themselves.
+Any service which understands what to do with a WS-C context can use it.
+Services which are not aware of WS-C, WS-Atomic Transaction and WS-Business Activity can ignore the context.
+XTS manages contexts without user intervention.</p>
+</div>
+<div class="sect3">
+<h4 id="_ws_c_ws_atomic_transaction_and_ws_business_activity_messages"><a class="anchor" href="#_ws_c_ws_atomic_transaction_and_ws_business_activity_messages"></a>WS-C, WS-Atomic Transaction, and WS-Business Activity Messages</h4>
+<div class="paragraph">
+<p>Although the application or service developer is rarely interested in the messages exchanged by the transactional infrastructure, it is useful to understand what kinds of exchanges occur so that the underlying model can be fitted in to an overall architecture.</p>
+</div>
+<div class="paragraph">
+<p>WS-Coordination, WS-Atomic Transaction and WS-Business Activity-specific messages are transported using SOAP messaging over HTTP.
+The types of messages that are propagated include instructions to perform standard transaction operations like <em>begin</em> and <em>prepare</em>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>XTS messages do not interfere with messages from the application, an application need not use the same transport as the transaction-specific messages.
+For example, a client application might deliver its application-specific messages using SOAP RPC over SMTP, even though the XTS messages are delivered using a different mechanism.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_summary"><a class="anchor" href="#_summary"></a>Summary</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>XTS provides a coordination infrastructure which allows transactions to run between services owned by different businesses, across the Internet.
+That infrastructure is based on the WS-C, WS-Atomic Transaction and WS-Business Activity specifications.
+It supports two kinds of transactions: atomic transactions and business activities, which can be combined in arbitrary ways to map elegantly onto the transactional requirements of the underlying problem.
+The use of the whole infrastructure is simple, because its functionality is exposed through a simple transactioning API.
+XTS provides everything necessary to keep application and transactional aspects of an application separate, and to ensure that a system&#8217;s use of transactions does not interfere with the functional aspects of the system itself.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>

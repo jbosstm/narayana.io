@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>ORB-specific Configurations</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>ORB-specific Configurations</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_jacorb">JacORB</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_jacorb"><a class="anchor" href="#_jacorb"></a>JacORB</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For JacORB to function correctly it needs a valid <code>jacorb.properties</code> or <code>.jacorb_properties</code> file in one of the following places, in searched order:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The classpath</p>
+</li>
+<li>
+<p>The home directory of the user running the Narayana Service.
+The home directory is retrieved using <code>System.getProperty(“user.home”);</code></p>
+</li>
+<li>
+<p>The current directory</p>
+</li>
+<li>
+<p>The <code>lib/</code> directory of the JDK used to run your application.
+This is retrieved using <code>System.getProperty(“java.home”);</code></p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>A template <code>jacorb.properties</code> file is located in the JacORB installation directory.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Within the JacORB properties file there are two important properties which must be tailored to suit your application.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>jacorb.poa.thread_pool_max</code></p>
+</li>
+<li>
+<p><code>jacorb.poa.thread_pool_min</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>These properties specify the minimum and maximum number of request processing threads that JacORB uses in its thread pool.
+If no threads are available, may block until a thread becomes available. For more information on configuring JacORB, refer to the JacORB documentation.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>JacORB includes its own implementation of the classes defined in the <code>CosTransactions.idl</code> file.
+Unfortunately these are incompatible with the version shipped with Narayana.
+Therefore, the Narayana jar files absolutely must appear in the CLASSPATH before any JacORB jars.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>When running the recovery manager, it should always use the same well-known port for each machine on which it runs.
+Do not use the <code>OAPort</code> property provided by JacORB unless the recovery manager has its own <code>jacorb.properties</code> file or the property is provided on the command line when starting the recovery manager.
+If the recovery manager and other components of Narayana share the same <code>jacorb.properties</code> file, use the <code>JTSEnvironmentBean.recoveryManagerPort</code> and <code>JTSEnvironmentBean.recoveryManagerAddress</code> properties.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>

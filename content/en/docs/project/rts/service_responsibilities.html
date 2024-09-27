@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>Service Responsibilities</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+/*! Stylesheet for CodeRay to loosely match GitHub themes | MIT License */
+pre.CodeRay{background:#f7f7f8}
+.CodeRay .line-numbers{border-right:1px solid;opacity:.35;padding:0 .5em 0 0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+.CodeRay span.line-numbers{display:inline-block;margin-right:.75em}
+.CodeRay .line-numbers strong{color:#000}
+table.CodeRay{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.CodeRay td{vertical-align:top;line-height:inherit}
+table.CodeRay td.line-numbers{text-align:right}
+table.CodeRay td.code{padding:0 0 0 .75em}
+.CodeRay .debug{color:#fff!important;background:navy!important}
+.CodeRay .annotation{color:#007}
+.CodeRay .attribute-name{color:navy}
+.CodeRay .attribute-value{color:#700}
+.CodeRay .binary{color:#509}
+.CodeRay .comment{color:#998;font-style:italic}
+.CodeRay .char{color:#04d}
+.CodeRay .char .content{color:#04d}
+.CodeRay .char .delimiter{color:#039}
+.CodeRay .class{color:#458;font-weight:bold}
+.CodeRay .complex{color:#a08}
+.CodeRay .constant,.CodeRay .predefined-constant{color:teal}
+.CodeRay .color{color:#099}
+.CodeRay .class-variable{color:#369}
+.CodeRay .decorator{color:#b0b}
+.CodeRay .definition{color:#099}
+.CodeRay .delimiter{color:#000}
+.CodeRay .doc{color:#970}
+.CodeRay .doctype{color:#34b}
+.CodeRay .doc-string{color:#d42}
+.CodeRay .escape{color:#666}
+.CodeRay .entity{color:#800}
+.CodeRay .error{color:#808}
+.CodeRay .exception{color:inherit}
+.CodeRay .filename{color:#099}
+.CodeRay .function{color:#900;font-weight:bold}
+.CodeRay .global-variable{color:teal}
+.CodeRay .hex{color:#058}
+.CodeRay .integer,.CodeRay .float{color:#099}
+.CodeRay .include{color:#555}
+.CodeRay .inline{color:#000}
+.CodeRay .inline .inline{background:#ccc}
+.CodeRay .inline .inline .inline{background:#bbb}
+.CodeRay .inline .inline-delimiter{color:#d14}
+.CodeRay .inline-delimiter{color:#d14}
+.CodeRay .important{color:#555;font-weight:bold}
+.CodeRay .interpreted{color:#b2b}
+.CodeRay .instance-variable{color:teal}
+.CodeRay .label{color:#970}
+.CodeRay .local-variable{color:#963}
+.CodeRay .octal{color:#40e}
+.CodeRay .predefined{color:#369}
+.CodeRay .preprocessor{color:#579}
+.CodeRay .pseudo-class{color:#555}
+.CodeRay .directive{font-weight:bold}
+.CodeRay .type{font-weight:bold}
+.CodeRay .predefined-type{color:inherit}
+.CodeRay .reserved,.CodeRay .keyword{color:#000;font-weight:bold}
+.CodeRay .key{color:#808}
+.CodeRay .key .delimiter{color:#606}
+.CodeRay .key .char{color:#80f}
+.CodeRay .value{color:#088}
+.CodeRay .regexp .delimiter{color:#808}
+.CodeRay .regexp .content{color:#808}
+.CodeRay .regexp .modifier{color:#808}
+.CodeRay .regexp .char{color:#d14}
+.CodeRay .regexp .function{color:#404;font-weight:bold}
+.CodeRay .string{color:#d20}
+.CodeRay .string .string .string{background:#ffd0d0}
+.CodeRay .string .content{color:#d14}
+.CodeRay .string .char{color:#d14}
+.CodeRay .string .delimiter{color:#d14}
+.CodeRay .shell{color:#d14}
+.CodeRay .shell .delimiter{color:#d14}
+.CodeRay .symbol{color:#990073}
+.CodeRay .symbol .content{color:#a60}
+.CodeRay .symbol .delimiter{color:#630}
+.CodeRay .tag{color:teal}
+.CodeRay .tag-special{color:#d70}
+.CodeRay .variable{color:#036}
+.CodeRay .insert{background:#afa}
+.CodeRay .delete{background:#faa}
+.CodeRay .change{color:#aaf;background:#007}
+.CodeRay .head{color:#f8f;background:#505}
+.CodeRay .insert .insert{color:#080}
+.CodeRay .delete .delete{color:#800}
+.CodeRay .change .change{color:#66f}
+.CodeRay .head .head{color:#f4f}
+</style>
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>Service Responsibilities</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_joining_the_transaction">Joining the Transaction</a>
+<ul class="sectlevel2">
+<li><a href="#_two_phase_aware_participants">Two Phase Aware Participants</a></li>
+<li><a href="#_two_phase_unaware_participants">Two Phase Unaware Participants</a></li>
+<li><a href="#_obtaining_the_participant_status">Obtaining the Participant Status</a></li>
+</ul>
+</li>
+<li><a href="#_leaving_the_transaction">Leaving the Transaction</a></li>
+<li><a href="#_2pc">Preparing and Committing Work</a></li>
+<li><a href="#_recovery">Recovery</a></li>
+<li><a href="#_pre_and_post_two_phase_commit_processing">Pre- and Post- Two-Phase Commit Processing</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Once a resource has the transaction or enlistment URI, it can register participation in the transaction (or, alternatively, as mentioned earlier it is possible for the client to register the service directly with the coordinator if it knows the services cancel and commit endpoints).
+Each participant must be uniquely identified to the transaction coordinator in order that the protocol can guarantee consistency and atomicity in the event of failure and recovery.
+The participant is free to use whatever URI structure it desires for uniquely identifying itself; in the rest of this manual we shall assume it is <code>/participant-resource</code> and refer to it as the <em>participant-resource</em> URI.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_joining_the_transaction"><a class="anchor" href="#_joining_the_transaction"></a>Joining the Transaction</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_two_phase_aware_participants"><a class="anchor" href="#_two_phase_aware_participants"></a>Two Phase Aware Participants</h3>
+<div class="paragraph">
+<p>A participant is registered with the <em>transaction-coordinator</em> using POST on the <em>participant-enlistment</em> URI obtained when the transaction was originally created.
+The request must include two link headers: one to uniquely identify the participant to the coordinator and one to provide a terminator resource (referred to as the <em>participant-terminator</em> URI) that the coordinator will use to terminate the participant.
+If the <em>rel</em> attributes of the link are not participant and terminator the implementation will return 400.
+Note, the following URIs are only examples, and an implementation is free to use whatever structure/format it likes:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="html">POST /transaction-coordinator/1234/participant
+HTTP/1.1
+From: foo@bar.com
+Link:<span class="tag">&lt;/participant-resource&gt;</span>; rel=”participant”,
+    <span class="tag">&lt;/participant-resource</span>/terminator<span class="error">&gt;</span>; rel=”terminator”
+
+Content-Length: 0</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Performing a HEAD on the <em>participant-resource</em> URI will return the terminator reference, as shown below:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="html">HEAD /participant-resource HTTP/1.1
+From: foo@bar.com
+
+HTTP/1.1 200 OK
+Link:<span class="tag">&lt;/participant-resource</span>/terminator<span class="error">&gt;</span>; rel=”terminator”</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the transaction is not <em>TransactionActive</em> when registration is attempted, then the implementation returns a 412 status code.
+If the implementation has seen this participant URI before then it returns 400.
+Otherwise the operation is considered a success and the implementation will return 201 and uses the Location header to give a participant specific URI that the participant may use later during prepare or for recovery purposes.
+The lifetime of this URI is the same as the <em>transaction-coordinator</em> URI.
+In the rest of this specification we shall refer to this as the <em>participant-recovery</em> URI (not to be confused with the <em>participant-resource</em> URI).
+An example response from the <em>transaction-coordinator</em> to a successful enlistment request is:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="html">HTTP/1.1 201 Created
+Location: /participant-recovery/1234</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_two_phase_unaware_participants"><a class="anchor" href="#_two_phase_unaware_participants"></a>Two Phase Unaware Participants</h3>
+<div class="paragraph">
+<p>In order for a participant to be enlisted with a transaction it must be transaction aware to fulfill the requirements placed on it to ensure data consistency in the presence of failures or concurrent access.
+However, it is not necessary that a participant be modified such that it has a terminator resource as outlined previously: it simply needs a way to tell the coordinator which resource(s) to communicate with when driving the two-phase protocol.
+This type of participant will be referred to as Two-Phase Unaware, though strictly speaking such a participant or service does need to understand the protocol as mentioned earlier.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>enlisting two-phase unaware participants is not a mandatory requirement on service writers.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>During enlistment a service must provide URIs for prepare, commit, rollback and optionally a commit-one-phase URI:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="html">POST /transaction-coordinator/1234/participant
+HTTP/1.1
+From: foo@bar.com
+Link:<span class="tag">&lt;/participant-resource&gt;</span>; rel=”participant”,
+    <span class="tag">&lt;/participant-resource</span>/prepare<span class="error">&gt;</span>; rel=”prepare”,
+    <span class="tag">&lt;/participant-resource</span>/commit<span class="error">&gt;</span>; rel=”commit”,
+    <span class="tag">&lt;/participant-resource</span>/rollback<span class="error">&gt;</span>; rel=”rollback”,
+    <span class="tag">&lt;/participant-resource</span>/commit-one-phase<span class="error">&gt;</span>; rel=”commit-one-phase”
+
+Content-Length: 0</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Performing a HEAD on a registered participant URI must return these references, as shown below:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="html">HEAD /participant-resource HTTP/1.1
+From: foo@bar.com
+
+HTTP/1.1 200 OK
+Link:<span class="tag">&lt;/participant-resource</span>/prepare<span class="error">&gt;</span>; rel=”prepare”,
+    <span class="tag">&lt;/participant-resource</span>/commit<span class="error">&gt;</span>; rel=”commit”,
+    <span class="tag">&lt;/participant-resource</span>/rollback<span class="error">&gt;</span>; rel=”rollback”,
+    <span class="tag">&lt;/participant-resource</span>/commit-one-phase<span class="error">&gt;</span>; rel=”commit-one-phase”</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A service that registers a participant must therefore either define a terminator relationship for the participant or the relationships/resources needed for the two-phase commit protocol.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_obtaining_the_participant_status"><a class="anchor" href="#_obtaining_the_participant_status"></a>Obtaining the Participant Status</h3>
+<div class="paragraph">
+<p>Performing an HTTP GET request on the <em>participant-resource</em> URI must return the current status of the participant in the same way as for the <em>transaction-coordinator</em> URI discussed earlier.
+Determining the status of a participant whose URI has been removed is similar to that discussed for the <em>transaction-coordinator</em> URI:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="html">GET /participant-resource HTTP/1.1
+Accept: application/txstatus</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>With an example response:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="html">HTTP/1.1 200 OK
+Content-Length: --
+Content-Type: application/txstatus
+
+txstatus=TransactionActive</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_leaving_the_transaction"><a class="anchor" href="#_leaving_the_transaction"></a>Leaving the Transaction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A participant can leave the transaction at any time by sending a DELETE request to the coordinator using the URI it obtained during registration (i.e., the <em>participant-recovery</em> URI).
+Alternatively, it can respond to a prepare request from the coordinator with content body containing <em>txstatus=TransactionReadOnly</em> (in which case the transaction coordinator will remove it from further participation in the transaction).
+Otherwise it is the participants responsibility to participate in the <a href="#_2pc">transaction termination protocol</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_2pc"><a class="anchor" href="#_2pc"></a>Preparing and Committing Work</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The coordinator drives the participant through the two-phase commit protocol by sending a PUT request to the <em>participant-terminator</em> URI, provided to the coordinator during enlistment, with the desired transaction outcome as the content ( <em>TransactionPrepared</em>, <em>TransactionCommitted</em>, <em>TransactionRolledBack</em> or <em>TransactionCommittedOnePhase</em>).
+For instance, here is how the prepare phase would be driven:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="html">PUT /participant-resource/terminator HTTP/1.1
+From: foo@bar.com
+Content-Type: application/txstatus
+Content-Length: --
+
+txstatus=TransactionPrepared</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If PUT is successful then the implementation returns 200.
+A subsequent GET on the URI will return the current status of the participant as described previously.
+It is not always necessary to enquire as to the status of the participant once the operation has been successful.</p>
+</div>
+<div class="paragraph">
+<p>If PUT fails, e.g., the participant cannot be prepared, then the service writer must return 409.
+Depending upon the point in the two-phase commit protocol where such a failure occurs the transaction will roll back, e.g., because we use presumed abort semantics, failures prior to the end of the prepare phase <strong>always</strong> result in a rollback.
+If the participant is not in the correct state for the requested operation, e.g., <em>TransactionPrepared</em> when it has already been prepared, then the service writer will return 412.</p>
+</div>
+<div class="paragraph">
+<p>If the transaction coordinator receives any response other than 200 then the transaction <strong>always</strong> rolls back.</p>
+</div>
+<div class="paragraph">
+<p>After a request to change the resource state using <em>TransactionRolledBack</em>, <em>TransactionCommitted</em> or <em>TransactionCommittedOnePhase</em>, any subsequent PUT request will return a 409 or 410 code.</p>
+</div>
+<div class="paragraph">
+<p>The usual rules of heuristic decisions apply here (i.e., the participant cannot forget the choice it made until it is told to by the coordinator).</p>
+</div>
+<div class="paragraph">
+<p>Performing a DELETE on the <em>participant-resource</em> URI will cause the participant to forget any heuristic decision it made on behalf of the transaction.
+If the operation succeeds then 200 will be returned and the implementation will delete the resource; a subsequent PUT or GET request returns 410.
+Any other response means the coordinator will keep retrying.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_recovery"><a class="anchor" href="#_recovery"></a>Recovery</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In general it is assumed that failed actors in this protocol, i.e., coordinator or participants, will recover on the same URI as they had prior to the failure.
+HTTP provides a number of options to support temporary or permanent changes of address, including 301 (Moved Permanently) and 307 (Temporary Redirect), if the actor is unable to recover on the same URI then requests to the original endpoints should return an HTTP status code of 301 (Moved Permanently), 307 (Temporary Redirect) is also acceptable.</p>
+</div>
+<div class="paragraph">
+<p>However, sometimes it is possible that a participant may crash and recover on a different URI, e.g., the original machine is unavailable, or that for expediency it is necessary to move recovery to a different machine.
+In that case it may be the case that the transaction coordinator is unable to complete the transaction, even during recovery.
+As a result this protocol defines a way for a recovering server to update the information maintained by the coordinator on behalf of these participants.</p>
+</div>
+<div class="paragraph">
+<p>If the recovering participant uses the <em>participant-recovery</em> URI returned by the coordinator during enlistment then a GET on the <em>participant-recovery</em> URI will return the participant resource and terminator as link headers that the participant used during the original registration.</p>
+</div>
+<div class="paragraph">
+<p>Performing a PUT on the <em>participant-recovery</em> URI will overwrite the old participant URI with the new one supplied.
+This operation is equivalent to re-enlisting the participant.
+This will also trigger off a recovery attempt on the associated transaction using the new participant URI.
+For example to update location URIs, a two phase aware participant would PUT the following document:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="html">PUT /participant-recovery/1234 HTTP/1.1
+From: foo@bar.com
+Link:<span class="tag">&lt;/new-participant-resource&gt;</span>; rel=”participant”,
+<span class="tag">&lt;/participant-resource</span>/new-terminator<span class="error">&gt;</span>; rel=”terminator”
+
+Content-Length: 0</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Similarly for a two phase unaware participant.</p>
+</div>
+<div class="paragraph">
+<p>If, after performing the PUT request to the <em>participant-recovery</em> URI, the participant is not asked to complete (within an implementation dependent period) then the protocol requires that the participant re-issue the PUT request.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_pre_and_post_two_phase_commit_processing"><a class="anchor" href="#_pre_and_post_two_phase_commit_processing"></a>Pre- and Post- Two-Phase Commit Processing</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Most modern transaction processing systems allow the creation of participants that do not take part in the two-phase commit protocol, but are informed before it begins and after it has completed.
+They are called Synchronizations, and are typically employed to flush volatile (cached) state, which may be being used to improve performance of an application, to a recoverable object or database prior to the transaction committing.</p>
+</div>
+<div class="paragraph">
+<p>This additional protocol is accomplished by supporting an additional two-phase commit protocol that encloses the protocol already discussed.
+This will be termed the Volatile Two Phase Commit protocol, as the participants involved in it are not required to be durable for the purposes of data consistency, whereas the other protocol will be termed the Durable Two Phase Commit protocol.
+The coordinator will not record any durable information on behalf of Volatile participants.</p>
+</div>
+<div class="paragraph">
+<p>In this enclosing protocol the Volatile prepare phase executes prior to the Durable prepare.
+The <em>transaction-coordinator</em> sends a PUT request to the registered <em>volatile-participant</em>: only if this prepare succeeds will the Durable protocol be executed.
+The <em>volatile-participant</em> has to indicate success by returning a 200 status code (any other code indicates failure).
+If the Durable protocol completes then this may be communicated to the Volatile participants through the commit or rollback phases.
+In this case the <em>transaction-coordinator</em> sends a PUT request to the registered <em>volatile-participant</em> with the outcome in the request body (using content type <em>application/txstatus</em>).
+However, because the coordinator does not maintain any information about these participants and the Durable protocol has completed, this is a best-effort approach only, i.e., such participants should not assume they will be informed about the transaction outcome.
+If that is a necessity then they should register with the Durable protocol instead.</p>
+</div>
+<div class="paragraph">
+<p>The primary difference between the Volatile and Durable protocols is that there is no recovery associated with the Volatile protocol so enlistment of volatile participants does not return a <em>participant-recovery</em> URI.
+In addition there can be no heuristic outcomes associated with the Volatile protocol.
+Once the Durable protocol has started no more registration in the Volatile protocol are allowed.
+And finally, there is no one-phase commit optimization for the Volatile protocol.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>

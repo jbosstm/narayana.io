@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>Selecting the JTA implementation</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="article">
+<div id="header">
+<h1>Selecting the JTA implementation</h1>
+</div>
+<div id="content">
+<div class="paragraph">
+<p>Two variants of the JTA implementation are accessible through the same interface.
+These are:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Purely local JTA</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Only non-distributed JTA transactions are executed. This is the only version available with the Narayana distribution.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Remote, CORBA-based JTA</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Executes distributed JTA transactions. This functionality is provided by the JTS distribution and requires a supported CORBA ORB. Consult the JTS Installation and Administration Guide for more information.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Both of these implementations are fully compatible with the transactional JDBC driver.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Set the property <code>JTAEnvironmentBean.jtaTMImplementation</code> to value <code>com.arjuna.ats.internal.jta.transaction.arjunacore.TransactionManagerImple</code>.</p>
+</li>
+<li>
+<p>Set the property <code>JTAEnvironmentBean.jtaUTImplementation</code> to value <code>com.arjuna.ats.internal.jta.transaction.arjunacore.UserTransactionImple</code>.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>These settings are the default values for the properties, so nothing needs to be changed to use the local implementation.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>

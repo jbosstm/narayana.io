@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>Starting and Stopping the Transaction Manager</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="article">
+<div id="header">
+<h1>Starting and Stopping the Transaction Manager</h1>
+</div>
+<div id="content">
+<div class="paragraph">
+<p>By default, the transaction manager starts up in an active state such that new transactions can be created immediately.
+If you wish to have more control over this it is possible to set the <code>CoordinatorEnvironmentBean.startDisabled</code> configuration option to <code>YES</code> and in which case no transactions can be created until the transaction manager is enabled via a call to method <code>TxControl.enable</code>).</p>
+</div>
+<div class="paragraph">
+<p>It is possible to stop the creation of new transactions at any time by calling method <code>TxControl.disable</code>.
+Transactions that are currently executing will not be affected.
+By default, recovery will be allowed to continue and the transaction system will still be available to manage recovery requests from other instances in a distributed environment.
+(See the Failure Recovery Guide for further details).
+However, if you wish to disable recovery as well as remove any resources it maintains, then you can pass <code>true</code> to method <code>TxControl.disable</code>; the default is to use <code>false</code>.</p>
+</div>
+<div class="paragraph">
+<p>If you wish to shut the system down completely then it may also be necessary to terminate the background transaction reaper (see the Programmers Guide for information about what the reaper does).
+In order to do this you may want to first prevent the creation of new transactions (if you are not creating transactions with timeouts then this step is not necessary) using method <code>TxControl.disable</code>.
+Then you should call method <code>TransactionReaper.terminate</code>.
+This method takes a Boolean parameter: if <code>true</code> then the method will wait for the normal timeout periods associated with any transactions to expire before terminating the transactions; if <code>false</code> then transactions will be forced to terminate (rollback or have their outcome set such that they can only ever rollback) immediately.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>if you intend to restart the recovery manager later after having terminated, it then you MUST use the <code>TransactionReapear.terminate</code> method with asynchronous behavior set to <code>false</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>

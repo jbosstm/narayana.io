@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>Constructing an OTS application</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+/*! Stylesheet for CodeRay to loosely match GitHub themes | MIT License */
+pre.CodeRay{background:#f7f7f8}
+.CodeRay .line-numbers{border-right:1px solid;opacity:.35;padding:0 .5em 0 0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+.CodeRay span.line-numbers{display:inline-block;margin-right:.75em}
+.CodeRay .line-numbers strong{color:#000}
+table.CodeRay{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.CodeRay td{vertical-align:top;line-height:inherit}
+table.CodeRay td.line-numbers{text-align:right}
+table.CodeRay td.code{padding:0 0 0 .75em}
+.CodeRay .debug{color:#fff!important;background:navy!important}
+.CodeRay .annotation{color:#007}
+.CodeRay .attribute-name{color:navy}
+.CodeRay .attribute-value{color:#700}
+.CodeRay .binary{color:#509}
+.CodeRay .comment{color:#998;font-style:italic}
+.CodeRay .char{color:#04d}
+.CodeRay .char .content{color:#04d}
+.CodeRay .char .delimiter{color:#039}
+.CodeRay .class{color:#458;font-weight:bold}
+.CodeRay .complex{color:#a08}
+.CodeRay .constant,.CodeRay .predefined-constant{color:teal}
+.CodeRay .color{color:#099}
+.CodeRay .class-variable{color:#369}
+.CodeRay .decorator{color:#b0b}
+.CodeRay .definition{color:#099}
+.CodeRay .delimiter{color:#000}
+.CodeRay .doc{color:#970}
+.CodeRay .doctype{color:#34b}
+.CodeRay .doc-string{color:#d42}
+.CodeRay .escape{color:#666}
+.CodeRay .entity{color:#800}
+.CodeRay .error{color:#808}
+.CodeRay .exception{color:inherit}
+.CodeRay .filename{color:#099}
+.CodeRay .function{color:#900;font-weight:bold}
+.CodeRay .global-variable{color:teal}
+.CodeRay .hex{color:#058}
+.CodeRay .integer,.CodeRay .float{color:#099}
+.CodeRay .include{color:#555}
+.CodeRay .inline{color:#000}
+.CodeRay .inline .inline{background:#ccc}
+.CodeRay .inline .inline .inline{background:#bbb}
+.CodeRay .inline .inline-delimiter{color:#d14}
+.CodeRay .inline-delimiter{color:#d14}
+.CodeRay .important{color:#555;font-weight:bold}
+.CodeRay .interpreted{color:#b2b}
+.CodeRay .instance-variable{color:teal}
+.CodeRay .label{color:#970}
+.CodeRay .local-variable{color:#963}
+.CodeRay .octal{color:#40e}
+.CodeRay .predefined{color:#369}
+.CodeRay .preprocessor{color:#579}
+.CodeRay .pseudo-class{color:#555}
+.CodeRay .directive{font-weight:bold}
+.CodeRay .type{font-weight:bold}
+.CodeRay .predefined-type{color:inherit}
+.CodeRay .reserved,.CodeRay .keyword{color:#000;font-weight:bold}
+.CodeRay .key{color:#808}
+.CodeRay .key .delimiter{color:#606}
+.CodeRay .key .char{color:#80f}
+.CodeRay .value{color:#088}
+.CodeRay .regexp .delimiter{color:#808}
+.CodeRay .regexp .content{color:#808}
+.CodeRay .regexp .modifier{color:#808}
+.CodeRay .regexp .char{color:#d14}
+.CodeRay .regexp .function{color:#404;font-weight:bold}
+.CodeRay .string{color:#d20}
+.CodeRay .string .string .string{background:#ffd0d0}
+.CodeRay .string .content{color:#d14}
+.CodeRay .string .char{color:#d14}
+.CodeRay .string .delimiter{color:#d14}
+.CodeRay .shell{color:#d14}
+.CodeRay .shell .delimiter{color:#d14}
+.CodeRay .symbol{color:#990073}
+.CodeRay .symbol .content{color:#a60}
+.CodeRay .symbol .delimiter{color:#630}
+.CodeRay .tag{color:teal}
+.CodeRay .tag-special{color:#d70}
+.CodeRay .variable{color:#036}
+.CodeRay .insert{background:#afa}
+.CodeRay .delete{background:#faa}
+.CodeRay .change{color:#aaf;background:#007}
+.CodeRay .head{color:#f8f;background:#505}
+.CodeRay .insert .insert{color:#080}
+.CodeRay .delete .delete{color:#800}
+.CodeRay .change .change{color:#66f}
+.CodeRay .head .head{color:#f4f}
+</style>
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>Constructing an OTS application</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_important_notes_for_narayana">Important notes for Narayana</a>
+<ul class="sectlevel2">
+<li><a href="#_initialization">Initialization</a></li>
+<li><a href="#_implicit_context_propagation_and_interposition">Implicit context propagation and interposition</a></li>
+</ul>
+</li>
+<li><a href="#_writing_applications_using_the_raw_ots_interfaces">Writing applications using the raw OTS interfaces</a></li>
+<li><a href="#_transaction_context_management">Transaction context management</a>
+<ul class="sectlevel2">
+<li><a href="#_a_transaction_originator_indirect_and_implicit">A transaction originator: indirect and implicit</a></li>
+<li><a href="#_transaction_originator_direct_and_explicit">Transaction originator: direct and explicit</a></li>
+</ul>
+</li>
+<li><a href="#_implementing_a_transactional_client">Implementing a transactional client</a></li>
+<li><a href="#_implementing_a_recoverable_server">Implementing a recoverable server</a>
+<ul class="sectlevel2">
+<li><a href="#_transactional_object">Transactional object</a></li>
+<li><a href="#_resource_object">Resource object</a></li>
+<li><a href="#_reliable_servers">Reliable servers</a></li>
+<li><a href="#_examples">Examples</a></li>
+</ul>
+</li>
+<li><a href="#_failure_models">Failure models</a>
+<ul class="sectlevel2">
+<li><a href="#_transaction_originator">Transaction originator</a></li>
+<li><a href="#_transactional_server">Transactional server</a></li>
+</ul>
+</li>
+<li><a href="#_summary">Summary</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_important_notes_for_narayana"><a class="anchor" href="#_important_notes_for_narayana"></a>Important notes for Narayana</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_initialization"><a class="anchor" href="#_initialization"></a>Initialization</h3>
+<div class="paragraph">
+<p>Narayana must be correctly initialized before you create any application object.
+To guarantee this, use the <code>initORB</code> and POA methods described in the <em>Orb Portability Guide</em>.
+Consult <em>the Orb Portability Guide</em> if you need direct use of the <code>ORB_init</code> and <code>create_POA</code> methods provided by the underlying ORB.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_implicit_context_propagation_and_interposition"><a class="anchor" href="#_implicit_context_propagation_and_interposition"></a>Implicit context propagation and interposition</h3>
+<div class="paragraph">
+<p>If you need implicit context propagation and interposition, initialize Narayana correctly before you create any objects.
+You can only use implicit context propagation on an ORB which supports filters and interceptors, or the <code>CosTSPortability</code> interface.
+You can set <code>OTS_CONTEXT_PROP_MODE</code> to <code>CONTEXT</code> or <code>INTERPOSITION</code>, depending on which functionality you need.
+If you are using the Narayana API, you need to use interposition.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_writing_applications_using_the_raw_ots_interfaces"><a class="anchor" href="#_writing_applications_using_the_raw_ots_interfaces"></a>Writing applications using the raw OTS interfaces</h2>
+<div class="sectionbody">
+<div class="ulist">
+<div class="title">Steps to participate in an OTS transaction</div>
+<ul>
+<li>
+<p>Create <code>Resource</code> and <code>SubtransactionAwareResource</code> objects for each object which will participate within the transaction or sub-transaction.
+These resources manage the persistence, concurrency control, and recovery for the object.
+The OTS invokes these objects during the prepare, commit, or abort phase of the transaction or sub-transaction, and the Resources perform the work of the application.</p>
+</li>
+<li>
+<p>Register <code>Resource</code> and <code>SubtransactionAwareResource</code> objects at the correct time within the transaction, and ensure that the object is only registered once within a given transaction.
+As part of registration, a <code>Resource</code> receives a reference to a <code>RecoveryCoordinator</code>.
+This reference must be made persistent, so that the transaction can recover in the event of a failure.</p>
+</li>
+<li>
+<p>Correctly propagate resources such as locks to parent transactions and <code>SubtransactionAwareResource</code> objects.</p>
+</li>
+<li>
+<p>Drive the crash recovery for each resource which was participating within the transaction, in the event of a failure.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The OTS does not provide any <code>Resource</code> implementations.
+You need to provide these implementations.
+The interfaces defined within the OTS specification are too low-level for most situations. Narayana is designed to make use of raw <em>Common Object Services (COS)</em> interfaces, but provides a higher-level API for building transactional applications and framework.
+This API automates much of the work involved with participating in an OTS transaction.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_transaction_context_management"><a class="anchor" href="#_transaction_context_management"></a>Transaction context management</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If you use implicit transaction propagation, ensure that appropriate objects support the <code>TransactionalObject</code> interface.
+Otherwise, you need to pass the transaction contexts as parameters to the relevant operations.</p>
+</div>
+<div class="sect2">
+<h3 id="_a_transaction_originator_indirect_and_implicit"><a class="anchor" href="#_a_transaction_originator_indirect_and_implicit"></a>A transaction originator: indirect and implicit</h3>
+<div class="listingblock">
+<div class="title">Indirect and implicit transaction originator</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">    ...
+    txn_crt.begin();
+    <span class="comment">// should test the exceptions that might be raised</span>
+    ...
+    <span class="comment">// the client issues requests, some of which involve</span>
+    <span class="comment">// transactional objects;</span>
+    BankAccount1.makeDeposit(deposit);
+    ...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A transaction originator uses indirect context management and implicit transaction propagation.
+<code>txn_crt</code> is a pseudo object supporting the <code>Current</code> interface.
+The client uses the <code>begin</code> operation to start the transaction, which becomes implicitly associated with the originator’s thread of control.</p>
+</div>
+<div class="paragraph">
+<p>The program commits the transaction associated with the client thread.
+The <code>report_heuristics</code> argument is set to <code>false</code>, so the Transaction Service makes no reports about possible heuristic decisions.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">    ...
+    txn_crt.commit(<span class="predefined-constant">false</span>);
+    ...</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_transaction_originator_direct_and_explicit"><a class="anchor" href="#_transaction_originator_direct_and_explicit"></a>Transaction originator: direct and explicit</h3>
+<div class="listingblock">
+<div class="title">Direct and explicit transaction originator</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">    ...
+    org.omg.CosTransactions.Control c;
+    org.omg.CosTransactions.Terminator t;
+    org.omg.CosTransactions.Coordinator co;
+    org.omg.CosTransactions.PropagationContext pgtx;
+
+    c = TFactory.create(<span class="integer">0</span>);
+    t = c.get_terminator();
+    pgtx = c.get_coordinator().get_txcontext();
+    ...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This transaction originator uses direct context management and explicit transaction propagation.
+The client uses a factory object supporting the <code>CosTransactions::TransactionFactory</code> interface to create a new transaction, and uses the returned <code>Control</code> object to retrieve the <code>Terminator</code> and <code>Coordinator</code> objects.</p>
+</div>
+<div class="paragraph">
+<p>The client issues requests, some of which involve transactional objects.
+This example uses explicit propagation of the context.
+The <code>Control</code> object reference is passed as an explicit parameter of the request.
+It is declared in the OMG IDL of the interface.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">...
+transactional_object.do_operation(arg, pgtx);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The transaction originator uses the <code>Terminator</code> object to commit the transaction.
+The <code>report_heuristics</code> argument is set to <code>false</code>, so the Transaction Service makes no reports about possible heuristic decisions.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">...
+t.commit(<span class="predefined-constant">false</span>);</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_implementing_a_transactional_client"><a class="anchor" href="#_implementing_a_transactional_client"></a>Implementing a transactional client</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>commit</code> operation of <code>Current</code> or the <code>Terminator</code> interface takes the <code>boolean</code> <code>report_heuristics</code> parameter.
+If the <code>report_heuristics</code> argument is <code>false</code>, the commit operation can complete as soon as the <code>Coordinator</code> makes the decision to commit or roll back the transaction.
+The application does not need to wait for the <code>Coordinator</code> to complete the commit protocol by informing all the participants of the outcome of the transaction.
+This can significantly reduce the elapsed time for the commit operation, especially where participant <code>Resource</code> objects are located on remote network nodes.
+However, no heuristic conditions can be reported to the application in this case.</p>
+</div>
+<div class="paragraph">
+<p>Using the <code>report_heuristics</code> option guarantees that the commit operation does not complete until the <code>Coordinator</code> completes the commit protocol with all <code>Resource</code> objects involved in the transaction.
+This guarantees that the application is informed of any non-atomic outcomes of the transaction, through one of the exceptions <code>HeuristicMixed</code> or <code>HeuristicHazard</code>.
+However, it increases the application-perceived elapsed time for the commit operation.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_implementing_a_recoverable_server"><a class="anchor" href="#_implementing_a_recoverable_server"></a>Implementing a recoverable server</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A Recoverable Server includes at least one transactional object and one resource object, each of which have distinct responsibilities.</p>
+</div>
+<div class="sect2">
+<h3 id="_transactional_object"><a class="anchor" href="#_transactional_object"></a>Transactional object</h3>
+<div class="paragraph">
+<p>The transactional object implements the transactional object&#8217;s operations and registers a <code>Resource</code> object with the <code>Coordinator</code>, so that the Recoverable Server&#8217;s resources, including any necessary recovery, can commit.</p>
+</div>
+<div class="paragraph">
+<p>The <code>Resource</code> object identifies the involvement of the Recoverable Server in a particular transaction.
+This requires a <code>Resource</code> object to only be registered in one transaction at a time.
+Register a different <code>Resource</code> object for each transaction in which a recoverable server is concurrently involved.
+A transactional object may receive multiple requests within the scope of a single transaction.
+It only needs to register its involvement in the transaction once.
+The <code>is_same_transaction</code> operation allows the transactional object to determine if the transaction associated with the request is one in which the transactional object is already registered.</p>
+</div>
+<div class="paragraph">
+<p>The <code>hash_transaction</code> operations allow the transactional object to reduce the number of transaction comparisons it has to make.
+All <code>Coordinators</code> for the same transaction return the same hash code.
+The <code>is_same_transaction</code> operation only needs to be called on <code>Coordinators</code> with the same hash code as the <code>Coordinator</code> of the current request.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_resource_object"><a class="anchor" href="#_resource_object"></a>Resource object</h3>
+<div class="paragraph">
+<p>A <code>Resource</code> object participates in the completion of the transaction, updates the resources of the Recoverable Server in accordance with the transaction outcome, and ensures termination of the transaction, including across failures.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_reliable_servers"><a class="anchor" href="#_reliable_servers"></a>Reliable servers</h3>
+<div class="paragraph">
+<p>A <em>Reliable Server</em> is a special case of a Recoverable Server.
+A Reliable Server can use the same interface as a Recoverable Server to ensure application integrity for objects that do not have recoverable state.
+In the case of a Reliable Server, the transactional object can register a <code>Resource</code> object that replies <code>VoteReadOnly</code> to <code>prepare</code> if its integrity constraints are satisfied.
+It replies <code>VoteRollback</code> if it finds a problem.
+This approach allows the server to apply integrity constraints which apply to the transaction as a whole, rather than to individual requests to the server.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_examples"><a class="anchor" href="#_examples"></a>Examples</h3>
+<div class="exampleblock">
+<div class="title">Example 1. Reliable server</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="C"><span class="comment">/*
+  BankAccount1 is an object with internal resources. It inherits from both the TransactionalObject and the Resource interfaces:
+*/</span>
+interface BankAccount1:CosTransactions::TransactionalObject, CosTransactions::Resource {
+    ...
+    <span class="directive">void</span> makeDeposit (in <span class="predefined-type">float</span> amt);
+    ...
+}
+<span class="comment">/* The corresponding Java class is: */</span>
+public class BankAccount1 {
+public <span class="directive">void</span> makeDeposit(<span class="predefined-type">float</span> amt);
+    ...
+}
+<span class="comment">/*
+  Upon entering, the context of the transaction is implicitly associated with the object’s thread. The pseudo object
+  supporting the Current interface is used to retrieve the Coordinator object associated with the transaction.
+*/</span>
+<span class="directive">void</span> makeDeposit (<span class="predefined-type">float</span> amt) {
+    org.omg.CosTransactions.Control c;
+    org.omg.CosTransactions.Coordinator co;
+    c = txn_crt.get_control();
+    co = c.get_coordinator();
+    ...
+<span class="comment">/*
+  Before registering the resource the object should check whether it has already been registered for the same
+  transaction. This is done using the hash_transaction and is_same_transaction operations.  that this object registers
+  itself as a resource. This imposes the restriction that the object may only be involved in one transaction at a
+  time. This is not the recommended way for recoverable objects to participate within transactions, and is only used as an
+  example.  If more parallelism is required, separate resource objects should be registered for involvement in the same
+  transaction.
+*/</span>
+    RecoveryCoordinator r;
+    r = co.register_resource(this);
+
+    <span class="comment">// performs some transactional activity locally</span>
+    balance = balance + f;
+    num_transactions++;
+    ...
+    <span class="comment">// end of transactional operation</span>
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Transactional object</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">/*  A BankAccount2 is an object with external resources that inherits from the TransactionalObject interface: */</span>
+<span class="type">interface</span> <span class="class">BankAccount2</span>: CosTransactions::TransactionalObject {
+    ...
+    void makeDeposit(in <span class="type">float</span> amt);
+    ...
+}
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">BankAccount2</span> {
+<span class="directive">public</span> <span class="type">void</span> makeDeposit(<span class="type">float</span> amt);
+    ...
+}
+<span class="comment">/*
+Upon entering, the context of the transaction is implicitly associated with the object’s thread. The makeDeposit
+operation performs some transactional requests on external, recoverable servers. The objects res1 and res2 are
+recoverable objects. The current transaction context is implicitly propagated to these objects.
+*/</span>
+<span class="type">void</span> makeDeposit(<span class="type">float</span> amt) {
+    balance = res1.get_balance(amt);
+    balance = balance + amt;
+    res1.set_balance(balance);
+    res2.increment_num_transactions();
+} <span class="comment">// end of transactional operation</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_failure_models"><a class="anchor" href="#_failure_models"></a>Failure models</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The Transaction Service provides atomic outcomes for transactions in the presence of application, system or communication failures.
+From the viewpoint of each user object role, two types of failure are relevant:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A local failure, which affects the object itself.</p>
+</li>
+<li>
+<p>An external failure, such as failure of another object or failure in the communication with an object.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The transaction originator and transactional server handle these failures in different ways.</p>
+</div>
+<div class="sect2">
+<h3 id="_transaction_originator"><a class="anchor" href="#_transaction_originator"></a>Transaction originator</h3>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Local failure</dt>
+<dd>
+<p>If a Transaction originator fails before the originator issues <code>commit</code>, the transaction is rolled back.
+If the originator fails after issuing commit and before the outcome is reported, the transaction can either commit or roll back, depending on timing.
+In this case, the transaction completes without regard to the failure of the originator.</p>
+</dd>
+<dt class="hdlist1">External failure</dt>
+<dd>
+<p>Any external failure which affects the transaction before the originator issues <code>commit</code> causes the transaction to roll back.
+The standard exception <code>TransactionRolledBack</code> is raised in the originator when it issues <code>commit</code>.</p>
+<div class="paragraph">
+<p>If a failure occurs after commit and before the outcome is reported, the client may not be informed of the outcome of the transaction.
+This depends on the nature of the failure, and the use of the <code>report_heuristics</code> option of <code>commit</code>.
+For example, the transaction outcome is not reported to the client if communication between the client and the <code>Coordinator</code> fails.</p>
+</div>
+<div class="paragraph">
+<p>A client can determine the outcome of the transaction by using method <code>get_status</code> on the <code>Coordinator</code>.
+However, this is not reliable because it may return the status <code>NoTransaction</code>, which is ambiguous.
+The transaction could have committed and been forgotten, or it could have rolled back and been forgotten.</p>
+</div>
+<div class="paragraph">
+<p>An originator is only guaranteed to know the transaction outcome in one of two ways.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>if its implementation includes a <code>Resource</code> object, so that it can participate in the two-phase commit procedure.</p>
+</li>
+<li>
+<p>The originator and <code>Coordinator</code> must be located in the same failure domain.</p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_transactional_server"><a class="anchor" href="#_transactional_server"></a>Transactional server</h3>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Local failure</dt>
+<dd>
+<p>If the Transactional Server fails, optional checks by a Transaction Service implementation may make the transaction to roll back.
+Without such checks, whether the transaction rolls back depends on whether the commit decision is already made, such as when an unchecked client invokes <code>commit</code> before receiving all replies from servers.</p>
+</dd>
+<dt class="hdlist1">External failure</dt>
+<dd>
+<p>Any external failure affecting the transaction during the execution of a Transactional Server causes the transaction to be rolled back.
+If the failure occurs while the transactional object’s method is executing, the failure has no effect on the execution of this method.
+The method may terminate normally, returning the reply to its client.
+Eventually the <code>TransactionRolledBack</code> exception is returned to a client issuing <code>commit</code>.</p>
+</dd>
+<dt class="hdlist1">Recoverable server</dt>
+<dd>
+<p>Behavior of a recoverable server when failures occur is determined by the two phase commit protocol between the <code>Coordinator</code> and the recoverable server’s <code>Resource</code> object.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_summary"><a class="anchor" href="#_summary"></a>Summary</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When you develop OTS applications which use the raw OTS interfaces, be aware of the following items:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Create <code>Resource</code> and <code>SubtransactionAwareResource</code> objects for each object which will participate within the transaction or sub-transaction.
+These resources handle the persistence, concurrency control, and recovery for the object.
+The OTS invokes these objects during the prepare, commit, and abort phases of the transaction or sub-transaction, and the <code>Resources</code> then perform all appropriate work.</p>
+</li>
+<li>
+<p>Register <code>Resource</code> and <code>SubtransactionAwareResource</code> objects at the correct time within the transaction, and ensure that the object is only registered once within a given transaction.
+As part of registration, a <code>Resource</code> receives a reference to a <code>RecoveryCoordinator</code>, which must be made persistent so that recovery can occur in the event of a failure.</p>
+</li>
+<li>
+<p>For nested transactions, make sure that any propagation of resources, such as locks to parent transactions, are done correctly.
+You also need to manage propagation of <code>SubtransactionAwareResource</code> objects to parents.</p>
+</li>
+<li>
+<p>in the event of failures, drive the crash recovery for each <code>Resource</code> which participates within the transaction.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The OTS does not provide any <code>Resource</code> implementations.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>

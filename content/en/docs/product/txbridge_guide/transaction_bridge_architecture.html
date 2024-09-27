@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>Transaction Bridge Architecture</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>Transaction <code>Bridge</code> Architecture</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_overview">Overview</a></li>
+<li><a href="#_shared_design_elements">Shared Design Elements</a></li>
+<li><a href="#_inbound_bridging">Inbound Bridging</a></li>
+<li><a href="#_outbound_bridging">Outbound Bridging</a></li>
+<li><a href="#_crash_recovery">Crash Recovery</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_overview"><a class="anchor" href="#_overview"></a>Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The transaction bridge resides in the package <code>org.jboss.jbossts.txbridge</code> and its <code>subpackages.</code>.
+It consists of two distinct sets of classes, one for bridging in each direction.</p>
+</div>
+<div class="paragraph">
+<p>The process of inflowing a WS-AT transaction context on a Web Service call into the container and converting it to a local JTA transaction context such that existing transactional JavaEE code (e.g. EJBs) may be called within its scope, is termed Inbound Transaction Bridging.
+When using inbound bridging, a parent WS-AT transaction coordinator has a subordinate JTA coordinator interposed into it via the transaction bridge.</p>
+</div>
+<div class="paragraph">
+<p>The process of outflowing a WS-AT transaction context on a call to a transactional Web Service from a business logic method operating in a JavaEE transaction scope, is termed Outbound Transaction Bridging.
+When using outbound bridging, a parent JTA transaction coordinator has a subordinate WS-AT coordinator interposed into it via the transaction bridge.</p>
+</div>
+<div class="paragraph">
+<p>For the purpose of understanding this naming convention, it is simplest to view the JTA as being local to the container in which it operates, whilst the Web Service protocol provides for transaction context propagation between servers.
+This is an accurate representation of the situation that exists where the local JTA version of Narayana is being used alongside Narayana XTS in an application server.
+However, it is an oversimplification of the situation where the JTS option is used.
+We will return to this case later.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="txbridge-guide-architecture.png" alt="txbridge guide architecture">
+</div>
+<div class="title">Figure 1. Simplified <code>Bridge</code> Architecture</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_shared_design_elements"><a class="anchor" href="#_shared_design_elements"></a>Shared Design Elements</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The design of the inbound and outbound bridges is conceptually very similar.
+Each provides the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A <code>BridgeManager</code>, essentially a factory singleton, providing a means of managing <code>Bridge</code> and resource/participant instances.
+The chief role of the <code>BridgeManager</code> is to ensure a distinct mapping of a parent transaction context to a single <code>Bridge</code> and resource/participant instance.</p>
+</li>
+<li>
+<p>A <code>Bridge</code>, which provides Thread to transaction context association and disassociation functions for the subordinate transaction.
+The <code>Bridge</code> is usually called from the <code>Handler</code>, but may optionally be driven directly.</p>
+</li>
+<li>
+<p>A <code>Handler</code>, which is registered into the JAX-WS processing pipeline to provide minimally invasive management of Thread to transaction context bindings via the <code>Bridge</code>, an appropriate instance of which it obtains from the <code>BridgeManager</code>.
+Whilst the bridge provides handlers only for JAX-WS, it&#8217;s possible to use these as a model for the implementation of JAX-RPC versions if desired.</p>
+</li>
+<li>
+<p>A <code>VolatileParticipant</code> and <code>DurableParticipant</code> (in the case of the InboundBridge) or <code>Synchronization</code> and <code>XAResource</code> (in the case of the OutboundBridge) which are enlisted into the parent transaction and wrap the Subordinate transaction coordinator, providing mapping of the transaction termination protocol operations.</p>
+</li>
+<li>
+<p>A <code>RecoveryManager</code>, which is responsible for automatically restoring the state of crashed transactions and allowing them to complete correctly.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_inbound_bridging"><a class="anchor" href="#_inbound_bridging"></a>Inbound Bridging</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The process flow when using the inbound bridge is as follows:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>A remote client starts a WS-AT transaction and invokes a transactional Web Service in the scope of that transaction.
+The inbound WS invocation therefore has SOAP headers containing the WS-AT transaction context.
+The coordinator used for this transaction is the root coordinator.
+It may be remote from either or both of the client and the service it is invoking.
+The client needs access to a WS-AT implementation, but not a JTA or the transaction bridge deployed.</p>
+</li>
+<li>
+<p>The call arrives at a web service container, which must have Narayana JTA or JTS, XTS and the transaction bridge deployed.
+The JAX-WS handler chain for the web service should have both the XTS WS-AT transaction header processor and the inbound bridge handler registered, such that they are invoked in that order.</p>
+</li>
+<li>
+<p>The transaction header processor takes the WS-AT transaction context from XML, creates a corresponding WS-AT TxContext and associates it to the Thread.
+The bridge handler calls the <code>InboundBridgeManager</code> to obtain an <code>InboundBridge</code> instance corresponding to the TxContext.</p>
+</li>
+<li>
+<p>As the <code>BridgeManager</code> is seeing the TxContext for the first time, it creates a new <code>Bridge</code> instance.
+It also creates a new <code>Bridge</code>, <code>VolatileParticipant</code>, and <code>DurableParticipant</code> and registers them with the WS-AT transaction coordinator.
+These <code>Participants</code> wrap a subordinate JTA transaction.</p>
+</li>
+<li>
+<p>The bridge header processor starts the bridge, which associates the JTA subordinate transaction context to the Thread.
+At this point the Thread has transaction contexts for both WS-AT and JTA.</p>
+</li>
+<li>
+<p>The JAX-WS pipeline processing continues, eventually calling whatever business logic is exposed.
+This may be e.g. an EJB using JSR-181 annotations.
+The business logic may use the JTA transaction in the normal manner e.g. enlisting Synchronizations and <code>XAResources</code> or performing other transactional activity either directly or though the usual JavaEE abstractions.</p>
+</li>
+<li>
+<p>On the return path, the bridge header processor disassociates the JTA transaction context from the Thread via the <code>Bridge</code>.
+The XTS context processor then does likewise for the WS-AT TxContext.</p>
+</li>
+<li>
+<p>On subsequent web services calls to the same or other web services from the same client, the process is repeated.
+However, the <code>BridgeManager</code> will, upon seeing the same WS-AT transaction context again, return the existing <code>Bridge</code> instance and not register further Participant instances.
+This allows substantially better performance than registering one Participant per web service invocation.</p>
+</li>
+<li>
+<p>Upon transaction termination by the client, the WS-AT transaction coordinator will drive the enlisted bridge <code>Participants</code> through the transaction termination protocol.
+The <code>Participants</code> maps these calls down to the JTA subtransaction coordinator, which in turn passes them on to any Synchronizations or <code>XAResources</code> enlisted in the transaction.
+This process is not visible to the business logic, except in so far as it may have registered its own Synchronizations, <code>XAResources</code> or <code>Participants</code> with the transaction.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_outbound_bridging"><a class="anchor" href="#_outbound_bridging"></a>Outbound Bridging</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The process flow when using the outbound bridge is as follows:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>A client starts a JTA transaction and invokes a remote transactional Web Service in the scope of that transaction.
+The client must have Narayana JTA (or JTS) and XTS deployed, as well as the transaction bridge.
+The coordinator used for the JTA transaction is the root coordinator.
+The server hosting the target web service needs a WS-AT transaction implementation but not a JTA or the transaction bridge.</p>
+</li>
+<li>
+<p>The outbound WS invocation flows though a handler chain that has the outbound transaction bridge handler and XTS header context processor registered, such that they are invoked in that order.</p>
+</li>
+<li>
+<p>The bridge handler calls the outbound bridge manager to obtain an outbound bridge instance corresponding to the JTA transaction context.
+As the <code>BridgeManager</code> is seeing the context for the first time, it creates a new <code>Bridge</code> instance.
+It also creates a <code>Synchronization</code> and <code>XAResource</code> instance to wrap the subordinate WS-AT transaction and registers these with the JTA transaction.</p>
+</li>
+<li>
+<p>The bridge handler starts the bridge, which associates the subordinate WS-AT transaction context to the Thread.
+The WS-AT header context processor then serializes this into XML in the headers of the outbound Web Services call.</p>
+</li>
+<li>
+<p>The receiving Web Service sees a WS-AT context and can work with it in the normal manner, without knowing it is a subordinate context.</p>
+</li>
+<li>
+<p>On the return path, the bridge handler disassociates the WS-AT TxContext from the Thread via the <code>Bridge</code>.</p>
+</li>
+<li>
+<p>On subsequent calls to the same or other transactional Web Services in the scope of the same JTA transaction, the process is repeated.
+However, the <code>BridgeManager</code> will, upon seeing the same JTA transaction context again, return the existing <code>Bridge</code> and not register another <code>Synchronization</code> or <code>XAResource</code> with the parent JTA transaction.
+This allows substantially better performance than registering once per web service invocation.</p>
+</li>
+<li>
+<p>Upon transaction termination by the client, the JTA transaction coordinator will drive the enlisted bridge <code>Synchronization</code> and <code>XAResource</code> through the transaction termination protocol.
+The <code>XAResource</code> maps these calls down to the WS-AT subtransaction coordinator, which in turn passes them on to any Volatile or Durable <code>Participants</code> enlisted in the transaction.
+This process is not visible to the business logic, except in so far as it may have registered its own <code>Participants</code>, <code>XAResources</code> or <code>Synchronizatons</code> with the transaction.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_crash_recovery"><a class="anchor" href="#_crash_recovery"></a>Crash Recovery</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The bridge includes independent crash recovery systems for the inbound and outbound sides.
+These are automatically installed and activated as part of the bridge deployment.
+They rely upon the recovery mechanisms in the JTA and XTS components, which are likewise deployed and activated by default as part of their respective components.</p>
+</div>
+<div class="paragraph">
+<p>It is the responsibility of the application(s) to use suitable <code>XAResources</code> (inbound) or <code>DurableParticipants</code> (outbound).
+In general the former will be from XA datasources or messaging systems, whilst the latter will be custom implementations.
+In either case it is important to ensure recovery is correctly configured for the resource manager(s) before using them in production, via the bridge or otherwise.
+The Narayana documentation set details crash recovery configuration, as does the application server administration guide.
+For resource manager specific information e.g. Oracle db permissions settings for recovery connections, please consult the vendor&#8217;s documentation.</p>
+</div>
+<div class="paragraph">
+<p>A bridged transaction will involve several distinct log writes, potentially on multiple hosts.
+Resolving the transaction may require more than one crash recovery cycle, due to ordering constrains on the events taking place during recovery.
+If a transaction fails to recover after all servers have been restored to service for more than two recovery cycles duration, the Narayana objectstore browser and server logs may be useful for diagnosing the issue.
+Where a transaction involves multiple bridges the number of recovery cycles required to resolve it may further increase.
+For systems requiring maximum availability it is therefore not recommended to span a transaction through more than one bridge.</p>
+</div>
+<div class="paragraph">
+<p>Note that the 1PC commit optimization should not be used with outbound bridged transactions in which the subordinate may contain more than one Participant.
+Even where only one Participant is used, crash recovery logs may not correctly reflect the actual transaction outcome.
+The 1PC optimization is on be default and may be disabled by setting <code>&lt;property name="commitOnePhase"&gt;false &lt;/property&gt;</code> on <code>CoordinatorEnvironmentBean</code>.</p>
+</div>
+<div class="paragraph">
+<p>See the 'Design Notes' appendix for detailed information on potential crash recovery scenarios and how each is handled.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>

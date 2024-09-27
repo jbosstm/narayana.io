@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>RTS</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+/*! Stylesheet for CodeRay to loosely match GitHub themes | MIT License */
+pre.CodeRay{background:#f7f7f8}
+.CodeRay .line-numbers{border-right:1px solid;opacity:.35;padding:0 .5em 0 0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+.CodeRay span.line-numbers{display:inline-block;margin-right:.75em}
+.CodeRay .line-numbers strong{color:#000}
+table.CodeRay{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.CodeRay td{vertical-align:top;line-height:inherit}
+table.CodeRay td.line-numbers{text-align:right}
+table.CodeRay td.code{padding:0 0 0 .75em}
+.CodeRay .debug{color:#fff!important;background:navy!important}
+.CodeRay .annotation{color:#007}
+.CodeRay .attribute-name{color:navy}
+.CodeRay .attribute-value{color:#700}
+.CodeRay .binary{color:#509}
+.CodeRay .comment{color:#998;font-style:italic}
+.CodeRay .char{color:#04d}
+.CodeRay .char .content{color:#04d}
+.CodeRay .char .delimiter{color:#039}
+.CodeRay .class{color:#458;font-weight:bold}
+.CodeRay .complex{color:#a08}
+.CodeRay .constant,.CodeRay .predefined-constant{color:teal}
+.CodeRay .color{color:#099}
+.CodeRay .class-variable{color:#369}
+.CodeRay .decorator{color:#b0b}
+.CodeRay .definition{color:#099}
+.CodeRay .delimiter{color:#000}
+.CodeRay .doc{color:#970}
+.CodeRay .doctype{color:#34b}
+.CodeRay .doc-string{color:#d42}
+.CodeRay .escape{color:#666}
+.CodeRay .entity{color:#800}
+.CodeRay .error{color:#808}
+.CodeRay .exception{color:inherit}
+.CodeRay .filename{color:#099}
+.CodeRay .function{color:#900;font-weight:bold}
+.CodeRay .global-variable{color:teal}
+.CodeRay .hex{color:#058}
+.CodeRay .integer,.CodeRay .float{color:#099}
+.CodeRay .include{color:#555}
+.CodeRay .inline{color:#000}
+.CodeRay .inline .inline{background:#ccc}
+.CodeRay .inline .inline .inline{background:#bbb}
+.CodeRay .inline .inline-delimiter{color:#d14}
+.CodeRay .inline-delimiter{color:#d14}
+.CodeRay .important{color:#555;font-weight:bold}
+.CodeRay .interpreted{color:#b2b}
+.CodeRay .instance-variable{color:teal}
+.CodeRay .label{color:#970}
+.CodeRay .local-variable{color:#963}
+.CodeRay .octal{color:#40e}
+.CodeRay .predefined{color:#369}
+.CodeRay .preprocessor{color:#579}
+.CodeRay .pseudo-class{color:#555}
+.CodeRay .directive{font-weight:bold}
+.CodeRay .type{font-weight:bold}
+.CodeRay .predefined-type{color:inherit}
+.CodeRay .reserved,.CodeRay .keyword{color:#000;font-weight:bold}
+.CodeRay .key{color:#808}
+.CodeRay .key .delimiter{color:#606}
+.CodeRay .key .char{color:#80f}
+.CodeRay .value{color:#088}
+.CodeRay .regexp .delimiter{color:#808}
+.CodeRay .regexp .content{color:#808}
+.CodeRay .regexp .modifier{color:#808}
+.CodeRay .regexp .char{color:#d14}
+.CodeRay .regexp .function{color:#404;font-weight:bold}
+.CodeRay .string{color:#d20}
+.CodeRay .string .string .string{background:#ffd0d0}
+.CodeRay .string .content{color:#d14}
+.CodeRay .string .char{color:#d14}
+.CodeRay .string .delimiter{color:#d14}
+.CodeRay .shell{color:#d14}
+.CodeRay .shell .delimiter{color:#d14}
+.CodeRay .symbol{color:#990073}
+.CodeRay .symbol .content{color:#a60}
+.CodeRay .symbol .delimiter{color:#630}
+.CodeRay .tag{color:teal}
+.CodeRay .tag-special{color:#d70}
+.CodeRay .variable{color:#036}
+.CodeRay .insert{background:#afa}
+.CodeRay .delete{background:#faa}
+.CodeRay .change{color:#aaf;background:#007}
+.CodeRay .head{color:#f8f;background:#505}
+.CodeRay .insert .insert{color:#080}
+.CodeRay .delete .delete{color:#800}
+.CodeRay .change .change{color:#66f}
+.CodeRay .head .head{color:#f4f}
+</style>
+</head>
+<body class="book toc2 toc-left">
+<div id="header">
+<h1>RTS</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_overview">1. Overview</a></li>
+<li><a href="#_transaction_model">2. Transaction Model</a>
+<ul class="sectlevel2">
+<li><a href="#_architecture">2.1. Architecture</a></li>
+<li><a href="#_state_transitions">2.2. State Transitions</a></li>
+<li><a href="#_the_transaction_manager_resource">2.3. The Transaction Manager Resource</a></li>
+</ul>
+</li>
+<li><a href="#client_responsibilities">3. Client Responsibilities</a>
+<ul class="sectlevel2">
+<li><a href="#_starting_a_transaction">3.1. Starting a Transaction</a></li>
+<li><a href="#_obtaining_the_transaction_status">3.2. Obtaining The Transaction Status</a></li>
+<li><a href="#_propagating_the_context">3.3. Propagating the Context</a></li>
+<li><a href="#_discovering_existing_transactions">3.4. Discovering Existing Transactions</a></li>
+<li><a href="#_ending_the_transaction">3.5. Ending the Transaction</a></li>
+</ul>
+</li>
+<li><a href="#_service_responsibilities">4. Service Responsibilities</a>
+<ul class="sectlevel2">
+<li><a href="#_joining_the_transaction">4.1. Joining the Transaction</a></li>
+<li><a href="#_leaving_the_transaction">4.2. Leaving the Transaction</a></li>
+<li><a href="#_2pc">4.3. Preparing and Committing Work</a></li>
+<li><a href="#_recovery">4.4. Recovery</a></li>
+<li><a href="#_pre_and_post_two_phase_commit_processing">4.5. Pre- and Post- Two-Phase Commit Processing</a></li>
+</ul>
+</li>
+<li><a href="#_container_integration">5. Container Integration</a>
+<ul class="sectlevel2">
+<li><a href="#_deploying_as_a_wildfly_subsystem">5.1. Deploying as a Wildfly Subsystem</a></li>
+<li><a href="#_deploying_into_a_servlet_container">5.2. Deploying into a Servlet Container</a></li>
+</ul>
+</li>
+<li><a href="#_examples">6. Examples</a>
+<ul class="sectlevel2">
+<li><a href="#_support_for_java_based_services">6.1. Support For Java based Services</a></li>
+</ul>
+</li>
+<li><a href="#_interoperating_with_other_transaction_models">7. Interoperating With Other Transaction Models</a>
+<ul class="sectlevel2">
+<li><a href="#_jta_bridge">7.1. JTA Bridge</a></li>
+<li><a href="#_web_services_transactions">7.2. Web Services Transactions</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_overview"><a class="anchor" href="#_overview"></a>1. Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This guide covers the REST interfaces to the Narayana Transaction Manager.
+The actual protocol implemented by RESTAT described in this book is taken from the draft RESTAT specification <a href="https://github.com/jbosstm/documentation/blob/master/rts/docs/REST-Atomic_v2_draft_8_comments_sept_4.pdf">https://github.com/jbosstm/documentation/blob/master/rest-tx/docs/RESTAT-v2-latest.pdf</a> . The specification is still evolving but has reached a stability level such that it can be used in real world environments.</p>
+</div>
+<div class="paragraph">
+<p>Atomic transactions are a well-known technique for guaranteeing consistency in the presence of failures.
+The ACID properties of atomic transactions (Atomicity, Consistency, Isolation, Durability) ensure that even in complex business applications consistency of state is preserved, despite concurrent accesses and failures.
+This is extremely useful fault-tolerance technique, especially when multiple, possibly remote resources are involved.</p>
+</div>
+<div class="paragraph">
+<p>Consistency is especially important in a web application with dynamic servers.
+When users navigate a web application, they are viewing snapshots of the server state.
+If the snapshot is computed within a transaction, the state returned to the user is consistent.
+For many applications this is important for otherwise the inconsistent view of the data could be confusing to the user.
+Many developers have the incorrect perception that they do not need transactions if all they are doing is reading a database.
+However, if you are doing multiple reads and you want them to be consistent, then you need to do them within a transaction.</p>
+</div>
+<div class="paragraph">
+<p>Furthermore, even in the simplest of system, a single user environment where all operations are idempotent, retrying requires the capability to remember the list of participating resources as well as the operations that must be re-transmitted, potentially many times.
+As we shall see, fortunately this is an inherent part of a transaction system, provided in a reliable manner such that it can tolerate its own failures as well as those that occur elsewhere within the environment.</p>
+</div>
+<div class="paragraph">
+<p>Although the Web and REST have progressed well without the need for transactions there are a class of applications where the use of transactions, or at least atomicity, would be beneficial.
+To support this need, we have created a RESTful interface to the Narayana transaction manager.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_transaction_model"><a class="anchor" href="#_transaction_model"></a>2. Transaction Model</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The REST Atomic Transaction (RESTAT) model uses a traditional two-phase commit protocol with the following optimizations:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Presumed rollback: the transaction coordinator need not record information about the participants in stable storage until it decides to commit, i.e., until after the prepare phase has completed successfully.
+A definitive answer that a transaction does not exist can be used to infer that it rolled back.</p>
+</li>
+<li>
+<p>One-phase: if the coordinator discovers that only a single participant is registered then it may omit the prepare phase.</p>
+</li>
+<li>
+<p>Read-only: a participant that is responsible for a service that did not modify any transactional data during the course of the transaction can indicate to the coordinator during prepare that it is a read-only participant and the coordinator can omit it from the second phase of the commit protocol.</p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_architecture"><a class="anchor" href="#_architecture"></a>2.1. Architecture</h3>
+<div class="paragraph">
+<p>The diagram below illustrates the various resources defined within the RESTAT protocol.
+We shall discuss each of these in the following sections.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/rts-architecture.png" alt="rts architecture">
+</div>
+<div class="title">Figure 1. Architecture</div>
+</div>
+<div class="paragraph">
+<p>These components are enumerated below and discussed in the following sections:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Transaction Manager: this is a factory resource that is responsible for creating new transactions.
+Once created, the transaction manager has no further role to play in the life of the transaction.</p>
+</li>
+<li>
+<p>Transaction Coordinator: this is a specific resource for the transaction.
+It drives the two-phase commit protocol and manages interactions with participants.</p>
+</li>
+<li>
+<p>Client: the user of transactions.</p>
+</li>
+<li>
+<p>Service: a transaction-aware service that performs work that may need to be coordinated with other such services elsewhere.</p>
+</li>
+<li>
+<p>Participant: a resource that manages the state changes performed by the service in the context of a transaction.
+The participant is driven through two-phase commit by the coordinator.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_state_transitions"><a class="anchor" href="#_state_transitions"></a>2.2. State Transitions</h3>
+<div class="paragraph">
+<p>A transaction coordinator and two-phase participant go through the state transitions shown:</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/rts-state_transitions.png" alt="rts state transitions">
+</div>
+<div class="title">Figure 2. StateTransitions</div>
+</div>
+<div class="paragraph">
+<p>As such, all of the resources in the protocol have statuses that can be represented as one of these values.
+Asking a resource to change its state from, say, Active to Committed, may drive it through all of the intermediate states and as a result trigger protocol specific events, such as driving the two-phase commit protocol.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_the_transaction_manager_resource"><a class="anchor" href="#_the_transaction_manager_resource"></a>2.3. The Transaction Manager Resource</h3>
+<div class="paragraph">
+<p>The transaction manager is represented by a URI (referred to as the <em>transaction-manager</em> URI).
+It enables clients to create new transaction resources and to query the list of current transactions.
+The actual URI depends upon how RESTAT is deployed and will be discussed later.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="client_responsibilities"><a class="anchor" href="#client_responsibilities"></a>3. Client Responsibilities</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The RESTAT client is responsible for creating and terminating transaction resources.</p>
+</div>
+<div class="sect2">
+<h3 id="_starting_a_transaction"><a class="anchor" href="#_starting_a_transaction"></a>3.1. Starting a Transaction</h3>
+<div class="paragraph">
+<p>Performing a POST on the <em>transaction-manager</em> URI with header as shown below will start a new transaction with a default timeout.
+A successful invocation returns a 201 HTTP status code and the Location header contains the URI of the newly created transaction resource, which we refer to as transaction-coordinator in the rest of this book.
+At least two related URLs will also be returned, one for use by the transaction terminator (typically referred to as the client) and one used for registering durable participation in the transaction (typically referred to as the server).
+These URIs are referred to as the transaction-terminator and <em>transaction-enlistment</em> URIs, respectively.
+Although uniform URL structures are used in the examples, these linked URLs can be of arbitrary format.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="html">POST /transaction-manager HTTP/1.1
+From: foo@bar.com</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The corresponding response would be:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="html">HTTP 1.1 201 Created
+Location: /transaction-coordinator/1234
+Link:<span class="tag">&lt;/transaction-coordinator</span>/1234/terminator<span class="error">&gt;</span>; rel=”terminator”,
+    <span class="tag">&lt;/transaction-coordinator</span>/1234/participant<span class="error">&gt;</span>; rel=”durable-participant”,
+    <span class="tag">&lt;/transaction-coordinator</span>/1234/vparticipant<span class="error">&gt;</span>; rel=”volatile-participant”</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The lifetime of the transaction resource can be controlled by including a timeout in milliseconds in the body of the POST request</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="html">POST /transaction-manager HTTP/1.1
+From: foo@bar.com
+Content-Type: text/plain
+Content-Length: --
+
+timeout=1000</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Performing a HEAD on the <em>transaction-coordinator</em> URI returns the same link information.</p>
+</div>
+<div class="paragraph">
+<p>Performing a DELETE on the <em>transaction-coordinator</em> or <em>transaction-enlistment</em> URIs are not allowed (and an attempt to do so will result in a 403 status code).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_obtaining_the_transaction_status"><a class="anchor" href="#_obtaining_the_transaction_status"></a>3.2. Obtaining The Transaction Status</h3>
+<div class="paragraph">
+<p>Performing a GET on the <em>transaction-coordinator</em> URI returns the current status of the transaction:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="html">GET /transaction-coordinator/1234 HTTP/1.1
+Accept: application/txstatus</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>With an example response:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="html">HTTP/1.1 200 OK
+Content-Length: --
+Content-Type: application/txstatus
+Link:<span class="tag">&lt;/transaction-coordinator</span>/1234/terminator<span class="error">&gt;</span>; rel=”terminator”,
+    <span class="tag">&lt;/transaction-coordinator</span>/1234/participant<span class="error">&gt;</span>; rel=”durable-participant”,
+    <span class="tag">&lt;/transaction-coordinator</span>/1234/vparticipant<span class="error">&gt;</span>; rel=”volatile-participant”
+
+txstatus=TransactionActive</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Additional information about the transaction, such as the number of participants and their individual URIs, is returned if the client specifies the application/txstatusext+xml media type.
+For full details of this extended media type please refer to the specification and to the xsd in the restat-util jar packaging ( <a href="https://github.com/jbosstm/narayana/tree/master/rts/at/util/src/main/resources/restat.xsd">https://github.com/jbosstm/narayana/tree/master/rts/at/util/src/main/resources/restat.xsd</a>).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_propagating_the_context"><a class="anchor" href="#_propagating_the_context"></a>3.3. Propagating the Context</h3>
+<div class="paragraph">
+<p>When making an invocation on a resource that needs to participate in a transaction, either the <em>transaction-coordinator</em> URI or the <em>transaction-enlistment</em> URI (<code>/transaction-coordinator/1234/participant</code> in the previous example) needs to be transmitted to the resource.
+Alternatively, if the client knows which endpoints the service will use to cancel or commit its work, it can do the registration and skip this requirement to propagate the context).
+If the context is to be propagated then the mechanism is private to the service writer but the following OPTIONAL approach is recommended:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The URI is passed as a Link header with the relevant service interaction.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If the RESTAT user follows this convention then we can provide tools to the service writer to automate transaction handling.
+For example, if the client wishes to make a transactional service request then it should include a link to the URI used for enlisting into a transaction (which the client may have obtained when it first created the transaction) as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="html">Link:<span class="tag">&lt;/transaction-coordinator</span>/1234/participant<span class="error">&gt;</span>; rel=”durable-participant”</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="html">Link:<span class="tag">&lt;/transaction-coordinator</span>/1234<span class="error">&gt;</span>; rel=”transaction-coordinator”</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and similarly if the client wants to pass the volatile participant URI to the invoked REST service.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_discovering_existing_transactions"><a class="anchor" href="#_discovering_existing_transactions"></a>3.4. Discovering Existing Transactions</h3>
+<div class="paragraph">
+<p>Performing a GET on the <em>transaction-manager</em> URI with media type <code>application/txlist</code> returns a list of all <em>transaction-coordinator</em> URIs known to the coordinator (active and in recovery).
+The returned response includes a link header with <em>rel</em> attribute <em>statistics</em> linking to a resource that contains statistical information such as the number of transactions that have committed and aborted.</p>
+</div>
+<div class="paragraph">
+<p>Performing a GET on the <em>transaction-manager</em> URI with media type <code>application/txstatusext+xml</code> returns extended information about the transaction-manager resource such as how long it has been up and all <em>transaction-coordinator</em> URIs.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ending_the_transaction"><a class="anchor" href="#_ending_the_transaction"></a>3.5. Ending the Transaction</h3>
+<div class="paragraph">
+<p>The client can PUT a document containing the desired transaction status to the <em>transaction-terminator</em> URI in order to control the outcome of the transaction.
+Upon termination, the resource and all associated resources are implicitly deleted.
+If the client wishes to commit the transaction it sends the following resource update request:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="html">PUT /transaction-coordinator/1234/terminator HTTP/1.1
+From: foo@bar.com
+Content-Type: application/txstatus
+Content-Length: --
+
+txstatus=TransactionCommitted</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The response body contains the transaction outcome.
+The state of the transaction resource must be <em>TransactionActive</em> for this operation to succeed otherwise a 412 status code is returned.</p>
+</div>
+<div class="paragraph">
+<p>The transaction may be told to rollback with the following PUT request:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="html">PUT /transaction-coordinator/1234/terminator HTTP/1.1
+From: foo@bar.com
+Content-Type: application/txstatus
+Content-Length: --
+
+txstatus=TransactionRolledBack</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_service_responsibilities"><a class="anchor" href="#_service_responsibilities"></a>4. Service Responsibilities</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Once a resource has the transaction or enlistment URI, it can register participation in the transaction (or, alternatively, as mentioned earlier it is possible for the client to register the service directly with the coordinator if it knows the services cancel and commit endpoints).
+Each participant must be uniquely identified to the transaction coordinator in order that the protocol can guarantee consistency and atomicity in the event of failure and recovery.
+The participant is free to use whatever URI structure it desires for uniquely identifying itself; in the rest of this manual we shall assume it is <code>/participant-resource</code> and refer to it as the <em>participant-resource</em> URI.</p>
+</div>
+<div class="sect2">
+<h3 id="_joining_the_transaction"><a class="anchor" href="#_joining_the_transaction"></a>4.1. Joining the Transaction</h3>
+<div class="sect3">
+<h4 id="_two_phase_aware_participants"><a class="anchor" href="#_two_phase_aware_participants"></a>4.1.1. Two Phase Aware Participants</h4>
+<div class="paragraph">
+<p>A participant is registered with the <em>transaction-coordinator</em> using POST on the <em>participant-enlistment</em> URI obtained when the transaction was originally created.
+The request must include two link headers: one to uniquely identify the participant to the coordinator and one to provide a terminator resource (referred to as the <em>participant-terminator</em> URI) that the coordinator will use to terminate the participant.
+If the <em>rel</em> attributes of the link are not participant and terminator the implementation will return 400.
+Note, the following URIs are only examples, and an implementation is free to use whatever structure/format it likes:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="html">POST /transaction-coordinator/1234/participant
+HTTP/1.1
+From: foo@bar.com
+Link:<span class="tag">&lt;/participant-resource&gt;</span>; rel=”participant”,
+    <span class="tag">&lt;/participant-resource</span>/terminator<span class="error">&gt;</span>; rel=”terminator”
+
+Content-Length: 0</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Performing a HEAD on the <em>participant-resource</em> URI will return the terminator reference, as shown below:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="html">HEAD /participant-resource HTTP/1.1
+From: foo@bar.com
+
+HTTP/1.1 200 OK
+Link:<span class="tag">&lt;/participant-resource</span>/terminator<span class="error">&gt;</span>; rel=”terminator”</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the transaction is not <em>TransactionActive</em> when registration is attempted, then the implementation returns a 412 status code.
+If the implementation has seen this participant URI before then it returns 400.
+Otherwise the operation is considered a success and the implementation will return 201 and uses the Location header to give a participant specific URI that the participant may use later during prepare or for recovery purposes.
+The lifetime of this URI is the same as the <em>transaction-coordinator</em> URI.
+In the rest of this specification we shall refer to this as the <em>participant-recovery</em> URI (not to be confused with the <em>participant-resource</em> URI).
+An example response from the <em>transaction-coordinator</em> to a successful enlistment request is:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="html">HTTP/1.1 201 Created
+Location: /participant-recovery/1234</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_two_phase_unaware_participants"><a class="anchor" href="#_two_phase_unaware_participants"></a>4.1.2. Two Phase Unaware Participants</h4>
+<div class="paragraph">
+<p>In order for a participant to be enlisted with a transaction it must be transaction aware to fulfill the requirements placed on it to ensure data consistency in the presence of failures or concurrent access.
+However, it is not necessary that a participant be modified such that it has a terminator resource as outlined previously: it simply needs a way to tell the coordinator which resource(s) to communicate with when driving the two-phase protocol.
+This type of participant will be referred to as Two-Phase Unaware, though strictly speaking such a participant or service does need to understand the protocol as mentioned earlier.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>enlisting two-phase unaware participants is not a mandatory requirement on service writers.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>During enlistment a service must provide URIs for prepare, commit, rollback and optionally a commit-one-phase URI:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="html">POST /transaction-coordinator/1234/participant
+HTTP/1.1
+From: foo@bar.com
+Link:<span class="tag">&lt;/participant-resource&gt;</span>; rel=”participant”,
+    <span class="tag">&lt;/participant-resource</span>/prepare<span class="error">&gt;</span>; rel=”prepare”,
+    <span class="tag">&lt;/participant-resource</span>/commit<span class="error">&gt;</span>; rel=”commit”,
+    <span class="tag">&lt;/participant-resource</span>/rollback<span class="error">&gt;</span>; rel=”rollback”,
+    <span class="tag">&lt;/participant-resource</span>/commit-one-phase<span class="error">&gt;</span>; rel=”commit-one-phase”
+
+Content-Length: 0</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Performing a HEAD on a registered participant URI must return these references, as shown below:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="html">HEAD /participant-resource HTTP/1.1
+From: foo@bar.com
+
+HTTP/1.1 200 OK
+Link:<span class="tag">&lt;/participant-resource</span>/prepare<span class="error">&gt;</span>; rel=”prepare”,
+    <span class="tag">&lt;/participant-resource</span>/commit<span class="error">&gt;</span>; rel=”commit”,
+    <span class="tag">&lt;/participant-resource</span>/rollback<span class="error">&gt;</span>; rel=”rollback”,
+    <span class="tag">&lt;/participant-resource</span>/commit-one-phase<span class="error">&gt;</span>; rel=”commit-one-phase”</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A service that registers a participant must therefore either define a terminator relationship for the participant or the relationships/resources needed for the two-phase commit protocol.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_obtaining_the_participant_status"><a class="anchor" href="#_obtaining_the_participant_status"></a>4.1.3. Obtaining the Participant Status</h4>
+<div class="paragraph">
+<p>Performing an HTTP GET request on the <em>participant-resource</em> URI must return the current status of the participant in the same way as for the <em>transaction-coordinator</em> URI discussed earlier.
+Determining the status of a participant whose URI has been removed is similar to that discussed for the <em>transaction-coordinator</em> URI:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="html">GET /participant-resource HTTP/1.1
+Accept: application/txstatus</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>With an example response:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="html">HTTP/1.1 200 OK
+Content-Length: --
+Content-Type: application/txstatus
+
+txstatus=TransactionActive</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_leaving_the_transaction"><a class="anchor" href="#_leaving_the_transaction"></a>4.2. Leaving the Transaction</h3>
+<div class="paragraph">
+<p>A participant can leave the transaction at any time by sending a DELETE request to the coordinator using the URI it obtained during registration (i.e., the <em>participant-recovery</em> URI).
+Alternatively, it can respond to a prepare request from the coordinator with content body containing <em>txstatus=TransactionReadOnly</em> (in which case the transaction coordinator will remove it from further participation in the transaction).
+Otherwise it is the participants responsibility to participate in the <a href="#_2pc">transaction termination protocol</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_2pc"><a class="anchor" href="#_2pc"></a>4.3. Preparing and Committing Work</h3>
+<div class="paragraph">
+<p>The coordinator drives the participant through the two-phase commit protocol by sending a PUT request to the <em>participant-terminator</em> URI, provided to the coordinator during enlistment, with the desired transaction outcome as the content ( <em>TransactionPrepared</em>, <em>TransactionCommitted</em>, <em>TransactionRolledBack</em> or <em>TransactionCommittedOnePhase</em>).
+For instance, here is how the prepare phase would be driven:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="html">PUT /participant-resource/terminator HTTP/1.1
+From: foo@bar.com
+Content-Type: application/txstatus
+Content-Length: --
+
+txstatus=TransactionPrepared</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If PUT is successful then the implementation returns 200.
+A subsequent GET on the URI will return the current status of the participant as described previously.
+It is not always necessary to enquire as to the status of the participant once the operation has been successful.</p>
+</div>
+<div class="paragraph">
+<p>If PUT fails, e.g., the participant cannot be prepared, then the service writer must return 409.
+Depending upon the point in the two-phase commit protocol where such a failure occurs the transaction will roll back, e.g., because we use presumed abort semantics, failures prior to the end of the prepare phase <strong>always</strong> result in a rollback.
+If the participant is not in the correct state for the requested operation, e.g., <em>TransactionPrepared</em> when it has already been prepared, then the service writer will return 412.</p>
+</div>
+<div class="paragraph">
+<p>If the transaction coordinator receives any response other than 200 then the transaction <strong>always</strong> rolls back.</p>
+</div>
+<div class="paragraph">
+<p>After a request to change the resource state using <em>TransactionRolledBack</em>, <em>TransactionCommitted</em> or <em>TransactionCommittedOnePhase</em>, any subsequent PUT request will return a 409 or 410 code.</p>
+</div>
+<div class="paragraph">
+<p>The usual rules of heuristic decisions apply here (i.e., the participant cannot forget the choice it made until it is told to by the coordinator).</p>
+</div>
+<div class="paragraph">
+<p>Performing a DELETE on the <em>participant-resource</em> URI will cause the participant to forget any heuristic decision it made on behalf of the transaction.
+If the operation succeeds then 200 will be returned and the implementation will delete the resource; a subsequent PUT or GET request returns 410.
+Any other response means the coordinator will keep retrying.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_recovery"><a class="anchor" href="#_recovery"></a>4.4. Recovery</h3>
+<div class="paragraph">
+<p>In general it is assumed that failed actors in this protocol, i.e., coordinator or participants, will recover on the same URI as they had prior to the failure.
+HTTP provides a number of options to support temporary or permanent changes of address, including 301 (Moved Permanently) and 307 (Temporary Redirect), if the actor is unable to recover on the same URI then requests to the original endpoints should return an HTTP status code of 301 (Moved Permanently), 307 (Temporary Redirect) is also acceptable.</p>
+</div>
+<div class="paragraph">
+<p>However, sometimes it is possible that a participant may crash and recover on a different URI, e.g., the original machine is unavailable, or that for expediency it is necessary to move recovery to a different machine.
+In that case it may be the case that the transaction coordinator is unable to complete the transaction, even during recovery.
+As a result this protocol defines a way for a recovering server to update the information maintained by the coordinator on behalf of these participants.</p>
+</div>
+<div class="paragraph">
+<p>If the recovering participant uses the <em>participant-recovery</em> URI returned by the coordinator during enlistment then a GET on the <em>participant-recovery</em> URI will return the participant resource and terminator as link headers that the participant used during the original registration.</p>
+</div>
+<div class="paragraph">
+<p>Performing a PUT on the <em>participant-recovery</em> URI will overwrite the old participant URI with the new one supplied.
+This operation is equivalent to re-enlisting the participant.
+This will also trigger off a recovery attempt on the associated transaction using the new participant URI.
+For example to update location URIs, a two phase aware participant would PUT the following document:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="html">PUT /participant-recovery/1234 HTTP/1.1
+From: foo@bar.com
+Link:<span class="tag">&lt;/new-participant-resource&gt;</span>; rel=”participant”,
+<span class="tag">&lt;/participant-resource</span>/new-terminator<span class="error">&gt;</span>; rel=”terminator”
+
+Content-Length: 0</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Similarly for a two phase unaware participant.</p>
+</div>
+<div class="paragraph">
+<p>If, after performing the PUT request to the <em>participant-recovery</em> URI, the participant is not asked to complete (within an implementation dependent period) then the protocol requires that the participant re-issue the PUT request.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_pre_and_post_two_phase_commit_processing"><a class="anchor" href="#_pre_and_post_two_phase_commit_processing"></a>4.5. Pre- and Post- Two-Phase Commit Processing</h3>
+<div class="paragraph">
+<p>Most modern transaction processing systems allow the creation of participants that do not take part in the two-phase commit protocol, but are informed before it begins and after it has completed.
+They are called Synchronizations, and are typically employed to flush volatile (cached) state, which may be being used to improve performance of an application, to a recoverable object or database prior to the transaction committing.</p>
+</div>
+<div class="paragraph">
+<p>This additional protocol is accomplished by supporting an additional two-phase commit protocol that encloses the protocol already discussed.
+This will be termed the Volatile Two Phase Commit protocol, as the participants involved in it are not required to be durable for the purposes of data consistency, whereas the other protocol will be termed the Durable Two Phase Commit protocol.
+The coordinator will not record any durable information on behalf of Volatile participants.</p>
+</div>
+<div class="paragraph">
+<p>In this enclosing protocol the Volatile prepare phase executes prior to the Durable prepare.
+The <em>transaction-coordinator</em> sends a PUT request to the registered <em>volatile-participant</em>: only if this prepare succeeds will the Durable protocol be executed.
+The <em>volatile-participant</em> has to indicate success by returning a 200 status code (any other code indicates failure).
+If the Durable protocol completes then this may be communicated to the Volatile participants through the commit or rollback phases.
+In this case the <em>transaction-coordinator</em> sends a PUT request to the registered <em>volatile-participant</em> with the outcome in the request body (using content type <em>application/txstatus</em>).
+However, because the coordinator does not maintain any information about these participants and the Durable protocol has completed, this is a best-effort approach only, i.e., such participants should not assume they will be informed about the transaction outcome.
+If that is a necessity then they should register with the Durable protocol instead.</p>
+</div>
+<div class="paragraph">
+<p>The primary difference between the Volatile and Durable protocols is that there is no recovery associated with the Volatile protocol so enlistment of volatile participants does not return a <em>participant-recovery</em> URI.
+In addition there can be no heuristic outcomes associated with the Volatile protocol.
+Once the Durable protocol has started no more registration in the Volatile protocol are allowed.
+And finally, there is no one-phase commit optimization for the Volatile protocol.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_container_integration"><a class="anchor" href="#_container_integration"></a>5. Container Integration</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The RESTAT protocol described here is implemented as a JAX-RS service, deploys as a Servlet 3.0 application and depends on the Narayana TM as the back-end transaction engine.
+JAX-RS is the Java language support for building REST based applications - it is both an annotation-based API for defining resources and a run-time for mapping HTTP requests to Java methods.
+Thus any container supporting these two requirements (servlet 3.0 and the Narayana TM) can be used.</p>
+</div>
+<div class="sect2">
+<h3 id="_deploying_as_a_wildfly_subsystem"><a class="anchor" href="#_deploying_as_a_wildfly_subsystem"></a>5.1. Deploying as a Wildfly Subsystem</h3>
+<div class="paragraph">
+<p>The RESTAT coordinator is integrated with the 8.0.0.Alpha3 and subsequent releases of the Wildfly application server ( <a href="http://www.wildfly.org/download/" class="bare">http://www.wildfly.org/download/</a> ) as a subsystem (called RTS) so you do not have to explicitly deploy it.
+You do, however, need to start the application server using an optional server configuration:</p>
+</div>
+<div class="paragraph">
+<p>change directory to where the application server is installed
+* Linux</p>
+</div>
+<div class="paragraph">
+<p>+</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>./bin/standalone.sh --server-config=../../docs/examples/configs/standalone-rts.xml</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Windows</p>
+<div class="listingblock">
+<div class="content">
+<pre>bin\standalone.bat --server-config=..\..\docs\examples\configs\standalone-rts.xml</pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For this mode of deployment the <em>transaction-manager</em> URI is <a href="http://&lt;host&gt;:&lt;port&gt;/rest-at-coordinator/tx/transaction-manager" class="bare">http://&lt;host&gt;:&lt;port&gt;/rest-at-coordinator/tx/transaction-manager</a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_deploying_into_a_servlet_container"><a class="anchor" href="#_deploying_into_a_servlet_container"></a>5.2. Deploying into a Servlet Container</h3>
+<div class="paragraph">
+<p>For other versions of the application server you will need to deploy the coordinator as a war archive using the standard war deployment mechanism appropriate to your particular container.
+The archive is contained in the bin folder of the narayana download (restat-web.war).
+If you are building from source the archive is located in <code>rts/at/webservice/target/restat-web-&lt;version&gt;.war</code>.</p>
+</div>
+<div class="paragraph">
+<p>For this mode of deployment the <em>transaction-manager</em> URI is <code><a href="http://&lt;host&gt;:&lt;port&gt;/rest-tx/tx/transaction-manager" class="bare">http://&lt;host&gt;:&lt;port&gt;/rest-tx/tx/transaction-manager</a></code></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_examples"><a class="anchor" href="#_examples"></a>6. Examples</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The quickstarts contained in the release bundles or in the quickstart repo (<code><a href="https://github.com/jbosstm/quickstart" class="bare">https://github.com/jbosstm/quickstart</a></code>) contain examples of all the features provided by RESTAT.
+The unit tests in the source bundle are also a good resource for further examples.</p>
+</div>
+<div class="sect2">
+<h3 id="_support_for_java_based_services"><a class="anchor" href="#_support_for_java_based_services"></a>6.1. Support For Java based Services</h3>
+<div class="paragraph">
+<p>For REST services written in Java there is a Utility class called org.jboss.jbossts.star.util.TxSupport in the source bundle (or is available at <a href="https://github.com/jbosstm/narayana" class="bare">https://github.com/jbosstm/narayana</a> ) which contains a variety of methods which help service writers to conform to the specification.
+The majority of the RESTAT quickstarts use this utility API.</p>
+</div>
+<div class="paragraph">
+<p>Alternatively, there is a RESTAT integration API for service writers.
+This API takes care of transaction enlistment and handles the responsibility for listening for transaction completion requests on HTTP endpoints from the transaction coordinator.
+Normally when a services wishes to join an existing transaction it sends a message to the coordinator containing HTTP endpoints on which it will be notified when the transaction progresses through its prepare and commit stages.
+The integration API simplifies this task and instead the service enlists a participant which implements a callback interface (<code>org.jboss.narayana.rest.integration.api.ParticipantsManager</code>).
+The API will then invoke the callback transparently (to the service) when the completion protocol begins executing.
+This makes managing participants much cleaner for the service writer.
+The service writer should implement the interface <code>org.jboss.narayana.rest.integration.api.Participant</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">interface</span> <span class="class">Participant</span> {
+    Vote prepare();
+    <span class="type">void</span> commit() <span class="directive">throws</span> HeuristicException;
+    <span class="type">void</span> commitOnePhase();
+    <span class="type">void</span> rollback() <span class="directive">throws</span> HeuristicException;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and register this implementation with the participant service manager:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">ParticipantsManagerFactory.getInstance().enlist(...);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The getInstance method on the <code>ParticipantsManagerFactory</code> returns an instance of the interface <code>ParticipantsManager</code> which is global to the (JAX-RS) application:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">interface</span> <span class="class">ParticipantsManager</span> {
+    ...
+    String enlist(<span class="predefined-type">String</span> applicationId,
+    <span class="predefined-type">String</span> participantEnlistmentURL,
+    Participant participant);
+    <span class="type">void</span> registerDeserializer(<span class="predefined-type">String</span> applicationId,
+    ParticipantDeserializer deserializer);
+    <span class="type">void</span> reportHeuristic(<span class="predefined-type">String</span> participantId,
+    HeuristicType heuristicType);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The participantEnlistmentURL in the enlist method corresponds to a running REST transaction which the service acquires during normal interactions with service clients.
+To register for completion callbacks the service writer registers an interface using the enlist method and passes in an implementation of Participant.
+For full details of this interface please refer to the javadoc for <code>org.jboss.narayana.rest.integration.api.ParticipantsManager</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Now when a service client terminates a transaction the services' callback methods will be invoked by the RESTAT coordinator which may or may not be running locally (since these are distributed transactions).
+It is interesting to note that the wildfly application server is a modular container so subsystems and applications run in their own class loaders.
+In the event of failures a recovery system will need to recreate participant callback registrations in order to complete any pending transaction and therefore will no longer have access to the original class.
+The service writer must help the recovery system in this task via the registerDeserializer call.
+The final method on the interface (reportHeuristic) is to allow services to independently abort or commit work before being asked to via the callback interface.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>For full details of this interface please refer to the javadoc for <code>org.jboss.narayana.rest.integration.api.ParticipantsManager</code></p>
+</div>
+<div class="paragraph">
+<p>The accessibility of the <code>ParticipantsManagerFactory</code> from your application depends upon whether the container contains the RTS subsystem.
+Versions of the wildfly application server from <code>8.0.0.Alpha3</code> onwards contain this subsystem so your manifest should declare a dependency on it by adding the line "Dependencies: org.jboss.narayana.rts" to the <code>MANIFEST.MF</code> file in your archive.
+For other containers you should register the dependency programatically.
+The quickstarts contain examples of how to do this for the embedded Resteasy and Jersey JAX-RS containers (look for classes called JaxrsServer in the quickstart source for <code>rts/at/service/service2 and rts/at/recovery/recovery2</code>).</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_interoperating_with_other_transaction_models"><a class="anchor" href="#_interoperating_with_other_transaction_models"></a>7. Interoperating With Other Transaction Models</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Narayana in general supports a number of different transaction models other than the one described in this book.
+Of particular importance are the standard ones supported by the standards, namely JTA and Web Services Transactions.</p>
+</div>
+<div class="sect2">
+<h3 id="_jta_bridge"><a class="anchor" href="#_jta_bridge"></a>7.1. JTA Bridge</h3>
+<div class="sect3">
+<h4 id="_inbound_bridge"><a class="anchor" href="#_inbound_bridge"></a>7.1.1. Inbound Bridge</h4>
+<div class="paragraph">
+<p>REST-AT to JTA bridge (also called inbound bridge) allows JTA resources to be enlisted in REST-AT transaction.
+Therefore, tools such as JPA and JMS can be used by JAX-RS endpoints and their XA resources will participate in the REST-AT transaction together with RESTful participants.</p>
+</div>
+<div class="paragraph">
+<p>This functionality is provided by Wildfly RTS subsytem.
+Therefore, modular dependency on org.jboss.narayana.rts has to be defined in deployment&#8217;s manifest file.
+In order to enable bridging, service writer has to annotate either JAX-RS resource class or specific JAX-RS resource method with one of two annotations: <code>jakarta.ejb.TransactionAttribute</code>, <code>jakarta.transaction.Transactional</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Path</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">/</span><span class="delimiter">&quot;</span></span>)
+<span class="directive">public</span> <span class="type">class</span> <span class="class">JAXRSResource</span> {
+    <span class="annotation">@GET</span>
+    <span class="directive">public</span> <span class="type">void</span> get() {
+    <span class="comment">// Do work witout JTA.</span>
+    }
+
+    <span class="annotation">@POST</span>
+    <span class="annotation">@TransactionAttribute</span>
+    <span class="directive">public</span> <span class="type">void</span> post() {
+    <span class="comment">// Do work with JTA.</span>
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Path</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">/</span><span class="delimiter">&quot;</span></span>)
+<span class="annotation">@Transactional</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">JAXRSResource</span> {
+    <span class="annotation">@GET</span>
+    <span class="directive">public</span> <span class="type">void</span> get() {
+    <span class="comment">// Do work with JTA.</span>
+    }
+
+    <span class="annotation">@POST</span>
+    <span class="directive">public</span> <span class="type">void</span> post() {
+    <span class="comment">// Do work with JTA.</span>
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>REST-AT transaction context does not provide timeout.
+When REST-AT transaction is bridged to JTA then the bridged JTA transaction is created with the default timeout defined by the container.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_outbound_bridge"><a class="anchor" href="#_outbound_bridge"></a>7.1.2. Outbound Bridge</h4>
+<div class="paragraph">
+<p>Enabling RESTAT participants to participate in a JTA transaction.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Outbound bridging is not currently implemented</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_web_services_transactions"><a class="anchor" href="#_web_services_transactions"></a>7.2. Web Services Transactions</h3>
+<div class="paragraph">
+<p>WS includes two transaction models referred to as WSAT and WSBA.
+WSAT integration with JTA is documented in the Transaction Bridging section of the product guide (<code><a href="http://narayana.io/docs/product/index.html#txbridge" class="bare">http://narayana.io/docs/product/index.html#txbridge</a></code>).
+By using this bridge in conjunction with the RESTAT JTA bridge full interoperability between RESTAT and WSAT can be realised.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>RESTAT outbound bridging is not currently supported so interoperability is one way only.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>

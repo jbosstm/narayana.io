@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>Transaction Processing Overview</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>Transaction Processing Overview</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_defining_a_transaction">Defining a transaction</a></li>
+<li><a href="#_commit_protocol">Commit protocol</a></li>
+<li><a href="#_transactional_proxies">Transactional proxies</a></li>
+<li><a href="#_nested_transactions">Nested transactions</a></li>
+<li><a href="#_the_object_transaction_service_ots">The Object Transaction Service (OTS)</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_defining_a_transaction"><a class="anchor" href="#_defining_a_transaction"></a>Defining a transaction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A transaction is a unit of work that encapsulates multiple database actions such that that either all the encapsulated actions fail or all succeed.</p>
+</div>
+<div class="paragraph">
+<p>Transactions ensure data integrity when an application interacts with multiple datasources.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<div class="title">Practical Example</div>
+<p>If you subscribe to a newspaper using a credit card, you are using a transactional system.
+Multiple systems are involved, and each of the systems needs the ability to roll back its work, and cause the entire transaction to roll back if necessary.
+For instance, if the newspaper&#8217;s subscription system goes offline halfway through your transaction, you don&#8217;t want your credit card to be charged.
+If the credit card is over its limit, the newspaper doesn&#8217;t want your subscription to go through.
+In either of these cases, the entire transaction should fail of any part of it fails.
+Neither you as the customer, nor the newspaper, nor the credit card processor, wants an unpredictable (indeterminate) outcome to the transaction.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>This ability to roll back an operation if any part of it fails is what Narayana is all about.
+This guide assists you in writing transactional applications to protect your data.</p>
+</div>
+<div class="paragraph">
+<p>"Transactions" in this guide refers to atomic transactions, and embody the "all-or-nothing" concept outlined above.
+Transactions are used to guarantee the consistency of data in the presence of failures.
+Transactions fulfill the requirements of ACID: Atomicity, Consistency, Isolation, Durability.</p>
+</div>
+<div class="dlist">
+<div class="title">ACID Properties</div>
+<dl>
+<dt class="hdlist1">Atomicity</dt>
+<dd>
+<p>The transaction completes successfully (commits) or if it fails (aborts) all of its effects are undone (rolled back).</p>
+</dd>
+<dt class="hdlist1">Consistency</dt>
+<dd>
+<p>Transactions produce consistent results and preserve application specific invariants.</p>
+</dd>
+<dt class="hdlist1">Isolation</dt>
+<dd>
+<p>Intermediate states produced while a transaction is executing are not visible to others.
+Furthermore, transactions appear to execute serially, even if they are actually executed concurrently.</p>
+</dd>
+<dt class="hdlist1">Durability</dt>
+<dd>
+<p>The effects of a committed transaction are never lost (except by a catastrophic failure).</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>A transaction can be terminated in two ways: committed or aborted (rolled back).
+When a transaction is committed, all changes made within it are made durable (forced on to stable storage, e.g., disk).
+When a transaction is aborted, all of the changes are undone.
+Atomic actions can also be nested; the effects of a nested action are provisional upon the commit/abort of the outermost (top-level) atomic action.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_commit_protocol"><a class="anchor" href="#_commit_protocol"></a>Commit protocol</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A two-phase commit protocol guarantees that all of the transaction participants either commit or abort any changes made.
+<a href="#_img_commit_protocol">Two-Phase Commit</a> illustrates the main aspects of the commit protocol.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>During phase 1, the action coordinator, <code>C</code>, attempts to communicate with all of the action participants, <code>A</code> and <code>B</code>, to determine whether they will commit or abort.</p>
+</li>
+<li>
+<p>An abort reply from any participant acts as a veto, causing the entire action to abort.</p>
+</li>
+<li>
+<p>Based upon these (lack of) responses, the coordinator chooses to commit or abort the action.</p>
+</li>
+<li>
+<p>If the action will commit, the coordinator records this decision on stable storage, and the protocol enters phase 2, where the coordinator forces the participants to carry out the decision.
+The coordinator also informs the participants if the action aborts.</p>
+</li>
+<li>
+<p>When each participant receives the coordinator’s phase-one message, it records sufficient information on stable storage to either commit or abort changes made during the action.</p>
+</li>
+<li>
+<p>After returning the phase-one response, each participant who returned a commit response must remain blocked until it has received the coordinator’s phase-two message.</p>
+</li>
+<li>
+<p>Until they receive this message, these resources are unavailable for use by other actions.
+If the coordinator fails before delivery of this message, these resources remain blocked.
+However, if crashed machines eventually recover, crash recovery mechanisms can be employed to unblock the protocol and terminate the action.</p>
+</li>
+</ul>
+</div>
+<div id="_img_commit_protocol" class="imageblock">
+<div class="content">
+<img src="images/jts-img-2phase.png" alt="jts img 2phase">
+</div>
+<div class="title">Figure 1. Two-Phase Commit</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_transactional_proxies"><a class="anchor" href="#_transactional_proxies"></a>Transactional proxies</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The action coordinator maintains a transaction context where resources taking part in the action need to be registered.
+Resources must obey the transaction commit protocol to guarantee ACID properties.
+Typically, the resource provides specific operations which the action can invoke during the commit/abort protocol.
+However, some resources may not be able to be transactional in this way.
+This may happen if you have legacy code which cannot be modified.
+Transactional proxies allow you to use these anomalous resources within an action.</p>
+</div>
+<div class="paragraph">
+<p>The proxy is registered with, and manipulated by, the action as though it were a transactional resource, and the proxy performs implementation specific work to make the resource it represents transactional.
+The proxy must participate within the commit and abort protocols.
+Because the work of the proxy is performed as part of the action, it is guaranteed to be completed or undone despite failures of the action coordinator or action participants.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_nested_transactions"><a class="anchor" href="#_nested_transactions"></a>Nested transactions</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Given a system that provides transactions for certain operations, you can combine them to form another operation, which is also required to be a transaction.
+The resulting transaction’s effects are a combination of the effects of its constituent transactions.
+This paradigm creates the concept of nested subtransactions, and the resulting combined transaction is called the enclosing transaction.
+The enclosing transaction is sometimes referred to as the parent of a nested (or child) transaction.
+It can also be viewed as a hierarchical relationship, with a top-level transaction consisting of several subordinate transactions.</p>
+</div>
+<div class="paragraph">
+<p>An important difference exists between nested and top-level transactions.</p>
+</div>
+<div class="paragraph">
+<p>The effect of a nested transaction is provisional upon the commit/roll back of its enclosing transactions.
+The effects are recovered if the enclosing transaction aborts, even if the nested transaction has committed.</p>
+</div>
+<div class="paragraph">
+<p>Sub-transactions are a useful mechanism for two reasons:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">fault-isolation</dt>
+<dd>
+<p>If a sub-transaction rolls back, perhaps because an object it is using fails, the enclosing transaction does not need to roll back.</p>
+</dd>
+<dt class="hdlist1">modularity</dt>
+<dd>
+<p>If a transaction is already associated with a call when a new transaction begins, the new transaction is nested within it.
+Therefore, if you know that an object requires transactions, you can them within the object.
+If the object’s methods are invoked without a client transaction, then the object’s transactions are top-level.
+Otherwise, they are nested within the scope of the client&#8217;s transactions.
+Likewise, a client does not need to know whether an object is transactional.
+It can begin its own transaction.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_object_transaction_service_ots"><a class="anchor" href="#_the_object_transaction_service_ots"></a>The Object Transaction Service (OTS)</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The CORBA architecture, as defined by the OMG, is a standard which promotes the construction of interoperable applications that are based upon the concepts of distributed objects.
+The architecture principally contains the following components:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Object Request Broker (ORB)</dt>
+<dd>
+<p>Enables objects to transparently send and receive requests in a distributed, heterogeneous environment.
+This component is the core of the OMG reference model.</p>
+</dd>
+<dt class="hdlist1">Object Services</dt>
+<dd>
+<p>A collection of services that support functions for using and implementing objects.
+Such services are necessary for the construction of any distributed application.
+The Object Transaction Service (OTS) is the most relevant to Narayana.</p>
+</dd>
+<dt class="hdlist1">Common Facilities</dt>
+<dd>
+<p>Other useful services that applications may need, but which are not considered to be fundamental.
+Desktop management and help facilities fit this category.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>The CORBA architecture allows both implementation and integration of a wide variety of object systems.
+In particular, applications are independent of the location of an object and the language in which an object is implemented, unless the interface the object explicitly supports reveals such details.
+As defined in the OMG CORBA Services documentation, <em>object services</em> are defined as a collection of services (interfaces and objects) that support the basic functions for using and implementing objects.
+These services are necessary to construct distributed application, and are always independent of an application domain.
+The standards specify several core services including naming, event management, persistence, concurrency control and transactions.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The OTS specification allows, but does not require, nested transactions.
+Narayana is a fully compliant version of the OTS version 1.1 draft 5, and support nested transactions.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The transaction service provides interfaces that allow multiple distributed objects to cooperate in a transaction, committing or rolling back their changes as a group.
+However, the OTS does not require all objects to have transactional behavior.
+An object&#8217;s support of transactions can be none at all, for some operations, or fully.
+Transaction information may be propagated between client and server explicitly, or implicitly.
+You have fine-grained control over an object&#8217;s support of transactions.
+If your objects supports partial or complete transactional behavior, it needs interfaces derived from interface <code>TransactionalObject</code>.</p>
+</div>
+<div class="paragraph">
+<p>The Transaction Service specification also distinguishes between recoverable objects and transactional objects.
+Recoverable objects are those that contain the actual state that may be changed by a transaction and must therefore be informed when the transaction commits or aborts to ensure the consistency of the state changes.
+This is achieved be registering appropriate objects that support the Resource interface (or the derived <code>SubtransactionAwareResource</code> interface) with the current transaction.
+Recoverable objects are also by definition transactional objects.</p>
+</div>
+<div class="paragraph">
+<p>In contrast, a simple transactional object does not necessarily need to be recoverable if its state is actually implemented using other recoverable objects.
+A simple transactional object does not need to participate the commit protocol used to determine the outcome of the transaction since it maintains no state information of its own.</p>
+</div>
+<div class="paragraph">
+<p>The OTS is a protocol engine that guarantees obedience to transactional behavior.
+It does not directly support all of the transaction properties, but relies on some cooperating services:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Persistence/Recovery Service</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Supports properties of atomicity and durability.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Concurrency Control Service</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Supports the isolation properties.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>You are responsible for using the appropriate services to ensure that transactional objects have the necessary ACID properties.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>

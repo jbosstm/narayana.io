@@ -1,0 +1,1712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>Introduction to the OTS</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+/*! Stylesheet for CodeRay to loosely match GitHub themes | MIT License */
+pre.CodeRay{background:#f7f7f8}
+.CodeRay .line-numbers{border-right:1px solid;opacity:.35;padding:0 .5em 0 0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+.CodeRay span.line-numbers{display:inline-block;margin-right:.75em}
+.CodeRay .line-numbers strong{color:#000}
+table.CodeRay{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.CodeRay td{vertical-align:top;line-height:inherit}
+table.CodeRay td.line-numbers{text-align:right}
+table.CodeRay td.code{padding:0 0 0 .75em}
+.CodeRay .debug{color:#fff!important;background:navy!important}
+.CodeRay .annotation{color:#007}
+.CodeRay .attribute-name{color:navy}
+.CodeRay .attribute-value{color:#700}
+.CodeRay .binary{color:#509}
+.CodeRay .comment{color:#998;font-style:italic}
+.CodeRay .char{color:#04d}
+.CodeRay .char .content{color:#04d}
+.CodeRay .char .delimiter{color:#039}
+.CodeRay .class{color:#458;font-weight:bold}
+.CodeRay .complex{color:#a08}
+.CodeRay .constant,.CodeRay .predefined-constant{color:teal}
+.CodeRay .color{color:#099}
+.CodeRay .class-variable{color:#369}
+.CodeRay .decorator{color:#b0b}
+.CodeRay .definition{color:#099}
+.CodeRay .delimiter{color:#000}
+.CodeRay .doc{color:#970}
+.CodeRay .doctype{color:#34b}
+.CodeRay .doc-string{color:#d42}
+.CodeRay .escape{color:#666}
+.CodeRay .entity{color:#800}
+.CodeRay .error{color:#808}
+.CodeRay .exception{color:inherit}
+.CodeRay .filename{color:#099}
+.CodeRay .function{color:#900;font-weight:bold}
+.CodeRay .global-variable{color:teal}
+.CodeRay .hex{color:#058}
+.CodeRay .integer,.CodeRay .float{color:#099}
+.CodeRay .include{color:#555}
+.CodeRay .inline{color:#000}
+.CodeRay .inline .inline{background:#ccc}
+.CodeRay .inline .inline .inline{background:#bbb}
+.CodeRay .inline .inline-delimiter{color:#d14}
+.CodeRay .inline-delimiter{color:#d14}
+.CodeRay .important{color:#555;font-weight:bold}
+.CodeRay .interpreted{color:#b2b}
+.CodeRay .instance-variable{color:teal}
+.CodeRay .label{color:#970}
+.CodeRay .local-variable{color:#963}
+.CodeRay .octal{color:#40e}
+.CodeRay .predefined{color:#369}
+.CodeRay .preprocessor{color:#579}
+.CodeRay .pseudo-class{color:#555}
+.CodeRay .directive{font-weight:bold}
+.CodeRay .type{font-weight:bold}
+.CodeRay .predefined-type{color:inherit}
+.CodeRay .reserved,.CodeRay .keyword{color:#000;font-weight:bold}
+.CodeRay .key{color:#808}
+.CodeRay .key .delimiter{color:#606}
+.CodeRay .key .char{color:#80f}
+.CodeRay .value{color:#088}
+.CodeRay .regexp .delimiter{color:#808}
+.CodeRay .regexp .content{color:#808}
+.CodeRay .regexp .modifier{color:#808}
+.CodeRay .regexp .char{color:#d14}
+.CodeRay .regexp .function{color:#404;font-weight:bold}
+.CodeRay .string{color:#d20}
+.CodeRay .string .string .string{background:#ffd0d0}
+.CodeRay .string .content{color:#d14}
+.CodeRay .string .char{color:#d14}
+.CodeRay .string .delimiter{color:#d14}
+.CodeRay .shell{color:#d14}
+.CodeRay .shell .delimiter{color:#d14}
+.CodeRay .symbol{color:#990073}
+.CodeRay .symbol .content{color:#a60}
+.CodeRay .symbol .delimiter{color:#630}
+.CodeRay .tag{color:teal}
+.CodeRay .tag-special{color:#d70}
+.CodeRay .variable{color:#036}
+.CodeRay .insert{background:#afa}
+.CodeRay .delete{background:#faa}
+.CodeRay .change{color:#aaf;background:#007}
+.CodeRay .head{color:#f8f;background:#505}
+.CodeRay .insert .insert{color:#080}
+.CodeRay .delete .delete{color:#800}
+.CodeRay .change .change{color:#66f}
+.CodeRay .head .head{color:#f4f}
+</style>
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>Introduction to the OTS</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_defining_the_ots">Defining the OTS</a></li>
+<li><a href="#_action_programming_models">Action programming models</a></li>
+<li><a href="#_interfaces">Interfaces</a></li>
+<li><a href="#_transaction_factory">Transaction factory</a>
+<ul class="sectlevel2">
+<li><a href="#_ots_configuration_file">OTS configuration file</a></li>
+<li><a href="#_name_service">Name service</a></li>
+<li><a href="#_resolve_initial_references">resolve_initial_references</a></li>
+<li><a href="#_overriding_the_default_location_mechanisms">Overriding the default location mechanisms</a></li>
+</ul>
+</li>
+<li><a href="#_transaction_timeouts">Transaction timeouts</a></li>
+<li><a href="#_transaction_contexts">Transaction contexts</a>
+<ul class="sectlevel2">
+<li><a href="#_nested_transactions">Nested transactions</a></li>
+<li><a href="#_transaction_propagation">Transaction propagation</a></li>
+<li><a href="#_examples">Examples</a></li>
+</ul>
+</li>
+<li><a href="#_transaction_controls">Transaction controls</a>
+<ul class="sectlevel2">
+<li><a href="#_control_jbossts_specifics">Narayana specifics</a></li>
+</ul>
+</li>
+<li><a href="#_the_terminatorinterface">The <code class="interface">Terminator</code>interface</a>
+<ul class="sectlevel2">
+<li><a href="#_narayana_specifics">Narayana specifics</a></li>
+</ul>
+</li>
+<li><a href="#_the_coordinator_interface">The <code>Coordinator</code> interface</a>
+<ul class="sectlevel2">
+<li><a href="#_narayana_specifics_2">Narayana specifics</a></li>
+</ul>
+</li>
+<li><a href="#_heuristics">Heuristics</a></li>
+<li><a href="#_current"><code>Current</code></a>
+<ul class="sectlevel2">
+<li><a href="#_current_jbossts_specific">Narayana specifics</a></li>
+</ul>
+</li>
+<li><a href="#_resource">Resource</a></li>
+<li><a href="#_subtransactionawareresource">SubtransactionAwareResource</a>
+<ul class="sectlevel2">
+<li><a href="#_narayana_specifics_3">Narayana specifics</a></li>
+</ul>
+</li>
+<li><a href="#_the_synchronization_interface">The <code>Synchronization</code> interface</a>
+<ul class="sectlevel2">
+<li><a href="#_narayana_specifics_4">Narayana specifics</a></li>
+</ul>
+</li>
+<li><a href="#_transactions_and_registered_resources">Transactions and registered resources</a></li>
+<li><a href="#_the_transactionalobject_interface">The <code>TransactionalObject</code> interface</a></li>
+<li><a href="#_interposition">Interposition</a></li>
+<li><a href="#_recoverycoordinator">RecoveryCoordinator</a></li>
+<li><a href="#_checked_transaction_behavior">Checked transaction behavior</a>
+<ul class="sectlevel2">
+<li><a href="#_narayana_specifics_5">Narayana specifics</a></li>
+</ul>
+</li>
+<li><a href="#_summary_of_narayana_implementation_decisions">Summary of Narayana implementation decisions</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Basic Narayana programming involves using the OTS interfaces provided in the <code>CosTransactions</code> module, which is specified in <code>CosTransactions.idl</code>.
+This chapter is based on the <code>OTS Specification1</code>, specifically with the aspects of OTS that are valuable for developing OTS applications using Narayana.
+Where relevant, each section describes Narayana implementation decisions and runtime choices available to you.
+These choices are also summarized at the end of this chapter.
+Subsequent chapters illustrate using these interfaces to construct transactional applications.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_defining_the_ots"><a class="anchor" href="#_defining_the_ots"></a>Defining the OTS</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The raw <code>CosTransactions</code> interfaces reside in package <code>org.omg.CosTransactions</code>.
+The Narayana implementations of these interfaces reside in package <code>com.arjuna.CosTransactions</code> and its sub-packages.</p>
+</div>
+<div class="paragraph">
+<p>You can override many run-time decisions of Narayana Java properties specified at run-time.
+The property names are mentioned in the <code>com.arjuna.ats.jts.common.Environment</code> class.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/jts-ots_architecture.png" alt="jts ots architecture">
+</div>
+<div class="title">Figure 1. OTS architecture</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_action_programming_models"><a class="anchor" href="#_action_programming_models"></a>Action programming models</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A client application program can manage a transaction using direct or indirect context management.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>Indirect context management</em> means that an application uses the pseudo-object <code>Current</code>, provided by the Transaction Service, to associate the transaction context with the application thread of control.</p>
+</li>
+<li>
+<p>For <em>direct context management</em>, an application manipulates the <code>Control</code> object and the other objects associated with the transaction.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>An object may require transactions to be either explicitly or implicitly propagated to its operations.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>Explicit propagation</em> means that an application propagates a transaction context by passing objects defined by the Transaction Service as explicit parameters.
+Typically the object is the <code>PropagationContext</code> structure.</p>
+</li>
+<li>
+<p><em>Implicit propagation</em> means that requests are implicitly associated with the client’s transaction, by sharing the client&#8217;s transaction context.
+The context is transmitted to the objects without direct client intervention.
+Implicit propagation depends on indirect context management, since it propagates the transaction context associated with the <code>Current</code> pseudo-object.
+An object that supports implicit propagation should not receive any Transaction Service object as an explicit parameter.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>A client may use one or both forms of context management, and may communicate with objects that use either method of transaction propagation.
+This results in four ways in which client applications may communicate with transactional objects:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Direct Context Management/Explicit Propagation</dt>
+<dd>
+<p>The client application directly accesses the <code>Control</code> object, and the other objects which describe the state of the transaction.
+To propagate the transaction to an object, the client must include the appropriate Transaction Service object as an explicit parameter of an operation.
+Typically, the object is the <code>PropagationContext</code> structure.</p>
+</dd>
+<dt class="hdlist1">Indirect Context Management/Implicit Propagation</dt>
+<dd>
+<p>The client application uses operations on the <code>Current</code> pseudo-object to create and control its transactions.
+When it issues requests on transactional objects, the transaction context associated with the current thread is implicitly propagated to the object.</p>
+</dd>
+<dt class="hdlist1">Indirect Context Management/Explicit Propagation</dt>
+<dd>
+<p>for an implicit model application to use explicit propagation, it can get access to the Control using the get_control operation on the <code>Current</code> pseudo object.
+It can then use a Transaction Service object as an explicit parameter to a transactional object; for efficiency reasons this should be the PropagationContext structure, obtained by calling get_txcontext on the appropriate <code>Coordinator</code> reference.
+This is explicit propagation.</p>
+</dd>
+<dt class="hdlist1">Direct Context Management/Implicit Propagation</dt>
+<dd>
+<p>A client that accesses the Transaction Service objects directly can use the <code>resume</code> pseudo-object operation to set the implicit transaction context associated with its thread.
+This way, the client can invoke operations of an object that requires implicit propagation of the transaction context.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>The main difference between direct and indirect context management is the effect on the invoking thread’s transaction context.
+Indirect context management causes the thread’s transaction context to be modified automatically by the OTS.
+For instance, if method <code>begin</code> is called, the thread’s notion of the current transaction is modified to the newly-created transaction.
+When the transaction is terminated, the transaction previously associated with the thread, if one existed, is restored as the thread’s context.
+This assumes that subtransactions are supported by the OTS implementation.</p>
+</div>
+<div class="paragraph">
+<p>If you use direct management, no changes to the thread&#8217;s transaction context are made by the OTS, leaving the responsibility to you.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_interfaces"><a class="anchor" href="#_interfaces"></a>Interfaces</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Interfaces</caption>
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Function</th>
+<th class="tableblock halign-left valign-top">Used by</th>
+<th class="tableblock halign-left valign-top">Direct context mgmt</th>
+<th class="tableblock halign-left valign-top">Indirect context mgmt</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create a transaction</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Transaction originator</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Factory::create</code><br>
+<code>Control::get_terminator</code><br>
+<code>Control::get_coordinator</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>begin</code><br>
+<code>set_timeout</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Terminate a transaction</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Transaction originator<br>
+(implicit)<br>
+All<br>
+(explicit)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Terminator::commit</code><br>
+<code>Terminator::rollback</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>commit rollback</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rollback transaction</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Server</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Terminator::rollback_only</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rollback_only</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Propagation of transaction to server</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Server</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Declaration of method parameter</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TransactionalObject</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Client control of transaction propagation to server</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">All</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Request parameters</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>get_control</code><br>
+<code>suspend</code><br>
+<code>resume</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Register with a transaction</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Recoverable Server</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Coordinator::register_resource</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">N/A</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Miscellaneous</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">All</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>Coordinator::get_status</code><br>
+<code>Coordinator::get_transaction_name</code><br>
+<code>Coordinator::is_same_transaction</code><br>
+<code>Coordinator::hash_transaction</code><br>
+<code>get_status</code><br>
+<code>get_transaction_name</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">N/A</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>For clarity, sub-transaction operations are not shown</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_transaction_factory"><a class="anchor" href="#_transaction_factory"></a>Transaction factory</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>TransactionFactory</code> interface allows the transaction originator to begin a top-level transaction.
+sub-transactions must be created using the <code>begin</code> method of <code>Current</code>, or the <code>create_subtransaction</code> method of the parent’s <code>Coordinator</code>).
+Operations on the factory and <code>Coordinator</code> to create new transactions use direct context management, and therefore do not modify the calling thread’s transaction context.</p>
+</div>
+<div class="paragraph">
+<p>The <code>create</code> operation creates a new top-level transaction and returns its <code>Control</code> object, which you can use to manage or control participation in the new transaction.
+Method <code>create</code> takes a parameter that is an application-specific timeout value, in seconds.
+If the transaction does not complete before this timeout elapses, it is rolled back.
+If the parameter is <code>0</code>, no application-specific timeout is established.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>sub-transactions do not have a timeout associated with them.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The Transaction Service implementation allows the <code>TransactionFactory</code> to be a separate server from the application, shared by transactions clients, and which manages transactions on their behalf.
+However, the specification also allows the TransactionFactory to be implemented by an object within each transactional client.
+This is the default implementation used by Narayana, because it removes the need for a separate service to be available in order for transactional applications to execute, and therefore reduces a point of failure.</p>
+</div>
+<div class="paragraph">
+<p>If your applications require a separate transaction manager, set the <code>OTS_TRANSACTION_MANAGER</code> environment variable to the value <code>YES</code>.
+The system locates the transaction manager server in a manner specific to the ORB being used.
+The server can be located in a number of ways.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Registration with a name server.</p>
+</li>
+<li>
+<p>Addition to the ORB’s initial references, using a Narayana specific references file.</p>
+</li>
+<li>
+<p>The ORB’s specific location mechanism, if applicable.</p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_ots_configuration_file"><a class="anchor" href="#_ots_configuration_file"></a>OTS configuration file</h3>
+<div class="paragraph">
+<p>Similar to the <code>resolve_initial_references</code>, Narayana supports an initial reference file where you can store references for specific services, and use these references at runtime.
+The file, <code>CosServices.cfg</code>, consists of two columns, separated by a single space.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The service name, which is <code>TransactionService</code> in the case of the OTS server</p>
+</li>
+<li>
+<p>The IOR</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>CosServices.cfg</code> is usually located in the <code>etc/</code> directory of the Narayana installation.
+The OTS server automatically registers itself in this file, creating it if necessary, if you use the configuration file mechanism.
+Stale information is also automatically removed.
+The Transaction Service locates <code>CosServices.cfg</code> at runtime, using the <code>OrbPortabilityEnvironmentBean</code> properties <code>initialReferencesRoot</code> and <code>InitialReferencesFile</code>.
+<code>initialReferencesRoot</code> names a directory, and defaults to the current working directory.
+<code>initialReferencesFile</code> refers to a file within the <code>initialReferencesRoot</code>, and defaults to the name <code>CosServices.cfg</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_name_service"><a class="anchor" href="#_name_service"></a>Name service</h3>
+<div class="paragraph">
+<p>If your ORB supports a name service, and you configure Narayana to use it, the transaction manager is automatically registered with it.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_resolve_initial_references"><a class="anchor" href="#_resolve_initial_references"></a>resolve_initial_references</h3>
+<div class="paragraph">
+<p>Narayana does not support <code>resolve_initial_references</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_overriding_the_default_location_mechanisms"><a class="anchor" href="#_overriding_the_default_location_mechanisms"></a>Overriding the default location mechanisms</h3>
+<div class="paragraph">
+<p>You can override the default location mechanism with the <code>RESOLVE_SERVICE</code> property variable, which can have any of three possible values.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CONFIGURATION_FILE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This is the default option, and directs the system to use the <code>CosServices.cfg</code> file.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NAME_SERVICE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Narayana tries to use a name service to locate the transaction factory. If the ORB does not support the name service mechanism, Narayana throws an exception.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BIND_CONNECT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Narayana uses the ORB-specific bind mechanism. If the ORB does not support such a mechanism, Narayana throws an exception.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>If <code>RESOLVE_SERVICE</code> is specified when running the transaction factory, the factory registers itself with the specified resolution mechanism.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_transaction_timeouts"><a class="anchor" href="#_transaction_timeouts"></a>Transaction timeouts</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>As of Narayana 4.5, transaction timeouts are unified across all transaction components and are controlled by <code>ArjunaCore</code>.
+Refer to the <em>ArjunaCore Development Guide</em> for more information.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_transaction_contexts"><a class="anchor" href="#_transaction_contexts"></a>Transaction contexts</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Transaction contexts are fundamental to the OTS architecture.
+Each thread is associated with a context in one of three ways.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The thread has no associated transaction.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A transaction ID</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The thread is associated with a transaction.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Contexts may be shared across multiple threads.
+In the presence of nested transactions, a context remembers the stack of transactions started within the environment, so that the context of the thread can be restored to the state before the nested transaction started, when the nested transaction ends.
+Threads most commonly use object <code>Current</code> to manipulate transactional information, which is represented by <code>Control</code> objects.
+<code>Current</code> is the broker between a transaction and <code>Control</code> objects.</p>
+</div>
+<div class="paragraph">
+<p>Your application can manage transaction contexts either directly or indirectly.
+In the direct approach, the transaction originator issues a request to a <code>TransactionFactory</code> to begin a new top-level transaction.
+The factory returns a <code>Control</code> object that enables both a <code>Terminator</code> interface and a <code>Coordinator</code> interface.
+<code>Terminator</code> ends a transaction.
+<code>Coordinator</code> associates a thread with a transaction, or begins a nested transaction.
+You need to pass each interface as an explicit parameter in invocations of operations, because creating a transaction with them does not change a thread&#8217;s current context.
+If you use the factory, and need to set the current context for a thread to the context which its control object returns, use the <code>resume</code> method of interface <code>Current</code>.</p>
+</div>
+<div class="listingblock">
+<div class="title">Interfaces <code>Terminator</code>, <code>Coordinator</code>, and <code>Control</code></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="C">interface Terminator {
+    <span class="directive">void</span> commit (in boolean report_heuristics) raises (HeuristicMixed, HeuristicHazard);
+    <span class="directive">void</span> rollback ();
+}
+
+interface Coordinator {
+    Status get_status ();
+    Status get_parent_status ();
+    Status get_top_level_status ();
+
+    RecoveryCoordinator register_resource (in Resource r) raises (Inactive);
+    Control create_subtransaction () raises (SubtransactionsUnavailable, Inactive);
+
+    <span class="directive">void</span> rollback_only () raises (Inactive);
+
+    ...
+}
+
+interface Control {
+    Terminator get_terminator () raises (Unavailable);
+    Coordinator get_coordinator () raises (Unavailable);
+}
+
+interface TransactionFactory {
+    Control create (in <span class="predefined-type">unsigned</span> <span class="predefined-type">long</span> time_out);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When the factory creates a transaction, you can specify a timeout value in seconds.
+If the transaction times out, it is subject to possible roll-back.
+Set the timeout to <code>0</code> to disable application-specific timeout.</p>
+</div>
+<div class="paragraph">
+<p>The <code>Current</code> interface handles implicit context management.
+Implicit context management provides simplified transaction management functionality, and automatically creates nested transactions as required.
+Transactions created using <code>Current</code> do not alter a thread’s current transaction context.</p>
+</div>
+<div class="listingblock">
+<div class="title">Interface <code>Current</code></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="C">interface Current : CORBA::Current {
+    <span class="directive">void</span> begin () raises (SubtransactionsUnavailable);
+    <span class="directive">void</span> commit (in boolean report_heuristics) raises (NoTransaction, HeuristicMixed, HeuristicHazard);
+    <span class="directive">void</span> rollback () raises (NoTransaction);
+    <span class="directive">void</span> rollback_only () raises (NoTransaction);
+    ...
+    Control get_control ();
+    Control suspend ();
+    <span class="directive">void</span> resume (in Control which) raises (InvalidControl);
+}</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_nested_transactions"><a class="anchor" href="#_nested_transactions"></a>Nested transactions</h3>
+<div class="paragraph">
+<p>sub-transactions are a useful mechanism for two reasons:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">fault-tolerance</dt>
+<dd>
+<p>If a sub-transaction rolls back, the enclosing transaction does not also need to roll back.
+This preserves as much of the work done so far, as possible.</p>
+</dd>
+<dt class="hdlist1">modularity</dt>
+<dd>
+<p>Indirect transaction management does not require special syntax for creating subtransactions.
+Begin a transaction, and if another transaction is associated with the calling thread, the new transaction is nested within the existing one.
+If you know that an object requires transactions, you can use them within the object.
+If the object&#8217;s methods are invoked without a client transaction, the object&#8217;s transaction is top-level.
+Otherwise, it is nested within the client&#8217;s transaction.
+A client does not need to know whether an object is transactional.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>The outermost transaction of the hierarchy formed by nested transactions is called the top-level transaction.
+The inner components are called subtransactions.
+Unlike top-level transactions, the commits of subtransactions depend upon the commit/rollback of the enclosing transactions.
+Resources acquired within a sub-transaction should be inherited by parent transactions when the top-level transaction completes.
+If a sub-transaction rolls back, it can release its resources and undo any changes to its inherited resources.</p>
+</div>
+<div class="paragraph">
+<p>In the OTS, subtransactions behave differently from top-level transactions at commit time.
+Top-level transactions undergo a two-phase commit protocol, but nested transactions do not actually perform a commit protocol themselves.
+When a program commits a nested transaction, it only informs registered resources of its outcome.
+If a resource cannot commit, an exception is thrown, and the OTS implementation can ignore the exception or roll back the sub-transaction.
+You cannot roll back a sub-transaction if any resources have been informed that the transaction committed.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_transaction_propagation"><a class="anchor" href="#_transaction_propagation"></a>Transaction propagation</h3>
+<div class="paragraph">
+<p>The OTS supports both implicit and explicit propagation of transactional behavior.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Implicit propagation means that an operation signature specifies no transactional behavior, and each invocation automatically sends transaction context associated with the calling thread.</p>
+</li>
+<li>
+<p>Explicit propagation means that applications must define their own mechanism for propagating transactions.
+This has the following features:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>A client to control if its transaction is propagated with any operation invocation.</p>
+</li>
+<li>
+<p>A client can invoke operations on both transactional and non-transactional objects within a transaction.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Transaction context management and transaction propagation are different things that may be controlled independently of each other.
+Mixing of direct and indirect context management with implicit and explicit transaction propagation is supported.
+Using implicit propagation requires cooperation from the ORB.
+The client must send current context associated with the thread with any operation invocations, and the server must extract them before calling the targeted operation.</p>
+</div>
+<div class="paragraph">
+<p>If you need implicit context propagation, ensure that Narayana is correctly initialized before you create objects.
+Both client and server must agree to use implicit propagation.
+To use implicit context propagation, your ORB needs to support filters or interceptors, or the <code>CosTSPortability</code> interface.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Implicit context propagation</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property variable <code>OTS_CONTEXT_PROP_MODE</code> set to <code>CONTEXT</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Interposition</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property variable <code>OTS_CONTEXT_PROP_MODE</code> set to <code>INTERPOSITION</code>.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Interposition is required to use the Narayana Advanced API.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_examples"><a class="anchor" href="#_examples"></a>Examples</h3>
+<div class="exampleblock">
+<div class="title">Example 1. Simple transactional client using direct context management and explicit transaction propagation</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">{
+  ...
+  org.omg.CosTransactions.Control c;
+  org.omg.CosTransactions.Terminator t;
+  org.omg.CosTransactions.PropagationContext pgtx;
+
+  <span class="comment">// create top-level action</span>
+  c = transFact.create(<span class="integer">0</span>);
+
+  pgtx = c.get_coordinator().get_txcontext();
+  ...
+  <span class="comment">// explicit propagation</span>
+  trans_object.operation(arg, pgtx);
+  ...
+  <span class="comment">// get terminator</span>
+  t = c.get_terminator();
+  <span class="comment">// so it can be used to commit</span>
+  t.commit(<span class="predefined-constant">false</span>);
+  ...
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The next example rewrites the same program to use indirect context management and implicit propagation.
+This example is considerably simpler, because the application only needs to start and either commit or abort actions.</p>
+</div>
+<div class="listingblock">
+<div class="title">Indirect context management and implicit propagation</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">{
+   ...
+   <span class="comment">// create new action</span>
+   current.begin();
+   ...
+   <span class="comment">// implicit propagation</span>
+   trans_object2.operation(arg);
+   ...
+
+   <span class="comment">// simple commit</span>
+   current.commit(<span class="predefined-constant">false</span>);
+   ...
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The last example illustrates the flexibility of OTS by using both direct and indirect context management in conjunction with explicit and implicit transaction propagation.</p>
+</div>
+<div class="listingblock">
+<div class="title">Direct and direct context management with explicitly and implicit propagation</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">{
+  ...
+  org.omg.CosTransactions.Control c;
+  org.omg.CosTransactions.Terminator t;
+  org.omg.CosTransactions.PropagationContext pgtx;
+
+  <span class="comment">// create top-level action</span>
+  c = transFact.create(<span class="integer">0</span>);
+  pgtx = c.get_coordinator().get_txcontext();
+
+  <span class="comment">// set implicit context</span>
+  current.resume(c);
+  ...
+  <span class="comment">// explicit propagation</span>
+  trans_object.operation(arg, pgtx);
+  <span class="comment">// implicit propagation</span>
+  trans_object2.operation(arg);
+  ...
+  <span class="comment">// oops! rollback</span>
+  current.rollback();
+  ...
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_transaction_controls"><a class="anchor" href="#_transaction_controls"></a>Transaction controls</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>Control</code> interface allows a program to explicitly manage or propagate a transaction context.
+An object supporting the <code>Control</code> interface is associated with one specific transaction.
+The <code>Control</code> interface supports two operations: <code>get_terminator</code> and <code>get_coordinator</code>.
+<code>get_terminator</code> returns an instance of the <code>Terminator</code> interface.
+<code>get_coordinator</code> returns an instance of the <code>Coordinator</code> interface.
+Both of these methods throw the <code>Unavailable</code> exception if the <code>Control</code> cannot provide the requested object.
+The OTS implementation can restrict the ability to use the <code>Terminator</code> and <code>Coordinator</code> in other execution environments or threads.
+At a minimum, the creator must be able to use them.</p>
+</div>
+<div class="paragraph">
+<p>Obtain the <code>Control</code> object for a transaction when it is created either by using either the <code>TransactionFactory</code> or <code>create_subtransaction</code> methods defined by the <code>Coordinator</code> interface.
+Obtain a <code>Control</code> for the transaction associated with the current thread using the <code>get_control</code> or <code>suspend</code> methods defined by the <code>Current</code> interface.</p>
+</div>
+<div class="sect2">
+<h3 id="_control_jbossts_specifics"><a class="anchor" href="#_control_jbossts_specifics"></a>Narayana specifics</h3>
+<div class="paragraph">
+<p>The transaction creator must be able to use its <code>Control</code>, but the OTS implementation decides whether other threads can use <code>Control</code>.
+Narayana places no restrictions the users of the <code>Control</code>.</p>
+</div>
+<div class="paragraph">
+<p>The OTS specification does not provide a means to indicate to the transaction system that information and objects associated with a given transaction can be purged from the system.
+In Narayana, the <code>Current</code> interface destroys all information about a transaction when it terminates.
+For that reason, do not use any <code>Control</code> references to the transaction after it commits or rolls back.</p>
+</div>
+<div class="paragraph">
+<p>However, if the transaction is terminated using the <code>Terminator</code> interface, it is up to the programmer to signal that the transaction information is no longer required: this can be done using the <code>destroyControl</code> method of the OTS class in the <code>com.arjuna.CosTransactions</code> package.
+Once the program has indicated that the transaction information is no longer required, the same restrictions on using <code>Control</code> references apply as described above.
+If <code>destroyControl</code> is not called then transaction information will persist until garbage collected by the Java runtime.</p>
+</div>
+<div class="paragraph">
+<p>In Narayana, you can propagate <code>Coordinators</code> and <code>Terminators</code> between execution environments.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_terminatorinterface"><a class="anchor" href="#_the_terminatorinterface"></a>The <code class="interface">Terminator</code>interface</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>Terminator</code> interface supports <code>commit</code> and <code>rollback</code> operations.
+Typically, the transaction originator uses these operations.
+Each object supporting the <code>Terminator</code> interface is associated with a single transaction.
+Direct context management via the <code>Terminator</code> interface does not change the client thread’s notion of the current transaction.</p>
+</div>
+<div class="paragraph">
+<p>The <code>commit</code> operation attempts to commit the transaction.
+To successfully commit, the transaction must not be marked <code>rollback only</code>, and all of its must participants agree to commit.
+Otherwise, the <code>TRANSACTION_ROLLEDBACK</code> exception is thrown.
+If the <code>report_heuristics</code> parameter is <code>true</code>, the Transaction Service reports inconsistent results using the <code>HeuristicMixed</code> and <code>HeuristicHazard</code> exceptions.</p>
+</div>
+<div class="paragraph">
+<p>When a transaction is committed, the coordinator drives any registered <code>Resources</code> using their <code>prepare</code> or <code>commit</code> methods.
+These Resources are responsible to ensure that any state changes to recoverable objects are made permanent, to guarantee the ACID properties.</p>
+</div>
+<div class="paragraph">
+<p>When <code>rollback</code> is called, the registered <code>Resources</code> need to guarantee that all changes to recoverable objects made within the scope of the transaction, and its descendants, is undone.
+All resources locked by the transaction are made available to other transactions, as appropriate to the degree of isolation the resources enforce.</p>
+</div>
+<div class="sect2">
+<h3 id="_narayana_specifics"><a class="anchor" href="#_narayana_specifics"></a>Narayana specifics</h3>
+<div class="paragraph">
+<p>See <a href="#_control_jbossts_specifics">Narayana specifics</a> for how long <code>Terminator</code> references remain valid after a transaction terminates.</p>
+</div>
+<div class="paragraph">
+<p>When a transaction is committing, it must make certain state changes persistent, so that it can recover if a failure occurs, and continue to commit, or rollback.
+To guarantee ACID properties, flush these state changes to the persistence store implementation before the transaction proceeds to commit.
+Otherwise, the application may assume that the transaction has committed, when the state changes may still volatile storage, and may be lost by a subsequent hardware failure.
+By default, Narayana makes sure that such state changes are flushed.
+However, these flushes can impose a significant performance penalty to the application.
+To prevent transaction state flushes, set the <code>TRANSACTION_SYNC</code> variable to <code>OFF</code>.
+Obviously, do this at your own risk.</p>
+</div>
+<div class="paragraph">
+<p>When a transaction commits, if only a single resource is registered, the transaction manager does not need to perform the two-phase protocol.
+A single phase commit is possible, and the outcome of the transaction is determined by the resource.
+In a distributed environment, this optimization represents a significant performance improvement.
+As such, Narayana defaults to performing single phase commit in this situation.
+Override this behavior at runtime by setting the <code>COMMIT_ONE_PHASE</code> property variable to <code>NO</code>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_coordinator_interface"><a class="anchor" href="#_the_coordinator_interface"></a>The <code>Coordinator</code> interface</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>Coordinator</code> interface is returned by the <code>get_coordinator</code> method of the <code>Control</code> interface.
+It supports the operations resources need to participate in a transaction.
+These participants are usually either recoverable objects or agents of recoverable objects, such as subordinate coordinators.
+Each object supporting the <code>Coordinator</code> interface is associated with a single transaction.
+Direct context management via the <code>Coordinator</code> interface does not change the client thread’s notion of the current transaction.
+You can terminate transaction directly, through the <code>Terminator</code> interface.
+In that case, trying to terminate the transaction a second time using <code>Current</code> causes an exception to be thrown for the second termination attempt.</p>
+</div>
+<div class="paragraph">
+<p>The operations supported by the <code>Coordinator</code> interface of interest to application programmers are:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. Operations supported by the <code>Coordinator</code> interface</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>get_status</code><br>
+<code>get_parent_status</code><br>
+<code>get_top_level_status</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Return the status of the associated transaction. At any given time a transaction can have one of the following status values representing its progress:</p>
+<p class="tableblock"><code><strong>StatusActive</strong></code>
+The transaction is currently running, and has not been asked to prepare or marked for rollback.<br>
+<code><strong>StatusMarkedRollback</strong></code>
+The transaction is marked for rollback.<br>
+<code><strong>StatusPrepared</strong></code>
+The transaction has been prepared, which means that all subordinates have responded <code>VoteCommit</code>.<br>
+<code><strong>StatusCommitted</strong></code>
+The transaction has committed. It is likely that heuristics exist. Otherwise, the transaction would have been destroyed and <code>StatusNoTransaction</code> returned.<br>
+<code><strong>StatusRolledBack</strong></code>
+The transaction has rolled back. It is likely that heuristics exist. Otherwise. the transaction would have been destroyed and StatusNoTransaction returned.<br>
+<code><strong>StatusUnknown</strong></code>
+The Transaction Service cannot determine the current status of the transaction. This is a transient condition, and a subsequent invocation should return a different status.<br>
+<code><strong>StatusNoTransaction</strong></code>
+No transaction is currently associated with the target object. This occurs after a transaction completes.<br>
+<code><strong>StatusPreparing</strong></code>
+The transaction is in the process of preparing and the final outcome is not known.<br>
+<code><strong>StatusCommitting</strong></code>
+The transaction is in the process of committing.<br>
+<code><strong>StatusRollingBack</strong></code>
+The transaction is in the process of rolling back.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>is_same_transaction and others</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">You can use these operations for transaction comparison. Resources may use these various operations to guarantee that they are registered only once with a specific transaction.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>hash_transaction</code><br>
+<code>hash_top_level_tran</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns a hash code for the specified transaction.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>register_resource</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Registers the specified Resource as a participant in the transaction. The <code>Inactive</code> exception is raised if the transaction is already prepared. The <code>TRANSACTION_ROLLEDBACK</code> exception is raised if the transaction is marked <code>rollback only</code>. If the <code>Resource</code> is a <code>SubtransactionAwareResource</code> and the transaction is a sub-transaction, this operation registers the resource with this transaction and indirectly with the top-level transaction when the sub-transaction’s ancestors commit. Otherwise, the resource is only registered with the current transaction. This operation returns a <code>RecoveryCoordinator</code> which this <code>Resource</code> can use during recovery. No ordering of registered Resources is implied by this operation. If <code>A</code> is registered after <code>B</code>, the OTS can operate on them in any order when the transaction terminates. Therefore, do not assume such an ordering exists in your implementation.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>register_subtran_aware</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Registers the specified sub-transaction-aware resource with the current transaction, so that it know when the sub-transaction commits or rolls back. This method cannot register the resource as a participant in the top-level transaction. The <code>NotSubtransaction</code> exception is raised if the current transaction is not a sub-transaction. As with <code>register_resource</code>, no ordering is implied by this operation.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>register_synchronization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Registers the <code>Synchronization</code> object with the transaction so that will be invoked before <code>prepare</code> and after the transaction completes. <code>Synchronizations</code> can only be associated with top-level transactions, and the <code>SynchronizationsUnavailable</code> exception is raised if you try to register a <code>Synchronization</code> with a sub-transaction. As with <code>register_resource</code>, no ordering is implied by this operation.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rollback_only</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marks the transaction so that the only possible outcome is for it to rollback. The Inactive exception is raised if the transaction has already been prepared/completed.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>create_subtransaction</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A new sub-transaction is created. Its parent is the current transaction. The <code>Inactive</code> exception is raised if the current transaction has already been prepared or completed. If you configure the Transaction Service without sub-transaction support, the <code>SubtransactionsUnavailable</code> exception is raised.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect2">
+<h3 id="_narayana_specifics_2"><a class="anchor" href="#_narayana_specifics_2"></a>Narayana specifics</h3>
+<div class="paragraph">
+<p>See <a href="#_control_jbossts_specifics">Narayana specifics</a> to control how long <code>Coordinator</code> references remain valid after a transaction terminates.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>To disable subtransactions, set set the <code>OTS_SUPPORT_SUBTRANSACTIONS</code> property variable to <code>NO</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_heuristics"><a class="anchor" href="#_heuristics"></a>Heuristics</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The OTS permits individual resources to make heuristic decisions.
+<em>Heuristic</em> decisions are unilateral decisions made by one or more participants to commit or abort the transaction, without waiting for the consensus decision from the transaction service.
+Use heuristic decisions with care and only in exceptional circumstances, because they can lead to a loss of integrity in the system.
+If a participant makes a heuristic decision, an appropriate exception is raised during commit or abort processing.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 3. Possible heuristic outcomes</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>HeuristicRollback</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Raised on an attempt to commit, to indicate that the resource already unilaterally rolled back the transaction.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>HeuristicCommit</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Raised on an attempt to roll back, to indicate that the resource already unilaterally committed the transaction.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>HeuristicMixed</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Indicates that a heuristic decision has been made. Some updates committed while others rolled back.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>HeuristicHazard</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Indicates that a heuristic decision may have been made, and the outcome of some of the updates is unknown. For those updates which are known, they either all committed or all rolled back.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>HeuristicMixed takes priority over HeuristicHazard.
+Heuristic decisions are only reported back to the originator if the <code>report_heuristics</code> argument is set to <code>true</code> when you invoke the commit operation.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_current"><a class="anchor" href="#_current"></a><code>Current</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>Current</code> interface defines operations that allow a client to explicitly manage the association between threads and transactions, using indirect context management.
+It defines operations that simplify the use of the Transaction Service.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 4. Methods of <code>Current</code></caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>begin</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Creates a new transaction and associates it with the current thread. If the client thread is currently associated with a transaction, and the OTS implementation supported nested transactions, the new transaction becomes a sub-transaction of that transaction. Otherwise, the new transaction is a top-level transaction. If the OTS implementation does not support nested transactions, the <code>SubtransactionsUnavailable</code> exception is thrown. The thread’s notion of the current context is modified to be this transaction.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>commit</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Commits the transaction. If the client thread does not have permission to commit the transaction, the standard exception <code>NO_PERMISSION</code> is raised. The effect is the same as performing the <code>commit</code> operation on the corresponding <code>Terminator</code> object. The client thread&#8217;s transaction context is returned to its state before the <code>begin</code> request was initiated.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rollback</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rolls back the transaction. If the client thread does not have permission to terminate the transaction, the standard exception <code>NO_PERMISSION</code> is raised. The effect is the same as performing the <code>rollback</code> operation on the corresponding <code>Terminator</code> object. The client thread&#8217;s transaction context is returned to its state before the <code>begin</code> request was initiated.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rollback_only</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Limits the transaction&#8217;s outcome to rollback only. If the transaction has already been terminated, or is in the process of terminating, an appropriate exception is thrown.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>get_status</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns the status of the current transaction, or exception <code>StatusNoTransaction</code> if no transaction is associated with the thread.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>set_timeout</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Modifies the timeout associated with top-level transactions for subsequent <code>begin</code> requests, for this thread only. Subsequent transactions are subject to being rolled back if they do not complete before the specified number of seconds elapses. Default timeout values for transactions without explicitly-set timeouts are implementation-dependent. Narayana uses a value of <code>0</code>, which results in transactions never timing out. There is no interface in the OTS for obtaining the current timeout associated with a thread. However, Narayana provides additional support for this. See <a href="#_current_jbossts_specific">Narayana specifics</a>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>get_control</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Obtains a <code>Control</code> object representing the current transaction. If the client thread is not associated with a transaction, a null object reference is returned. The operation is not dependent on the state of the transaction. It does not raise the <code>TRANSACTION_ROLLEDBACK</code> exception.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>suspend</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Obtains an object representing a transaction&#8217;s context. If the client thread is not associated with a transaction, a null object reference is returned. You can pass this object to the <code>resume</code> operation to re-establish this context in a thread. The operation is not dependent on the state of the transaction. It does not raise the <code>TRANSACTION_ROLLEDBACK</code> exception. When this call returns, the current thread has no transaction context associated with it.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>resume</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Associates the client thread with a transaction. If the parameter is a null object reference, the client thread becomes associated with no transaction. The thread loses association with any previous transactions.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="imageblock">
+<div class="content">
+<img src="images/jts-top_level_transaction_current.png" alt="jts top level transaction current">
+</div>
+<div class="title">Figure 2. Creation of a top-level transaction using <code>Current</code></div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/jts-subtransaction_current.png" alt="jts subtransaction current">
+</div>
+<div class="title">Figure 3. Creation of a transaction using <code>Current</code></div>
+</div>
+<div class="sect2">
+<h3 id="_current_jbossts_specific"><a class="anchor" href="#_current_jbossts_specific"></a>Narayana specifics</h3>
+<div class="paragraph">
+<p>Ideally, you should Obtain <code>Current</code> by using the life-cycle service factory finder.
+However, very few ORBs support this. Narayana provides method <code>get_current</code> of <code>Current</code> for this purpose.
+This class hides any ORB-specific mechanisms required for obtaining <code>Current</code>.</p>
+</div>
+<div class="paragraph">
+<p>If no timeout value is associated with <code>Current</code>, Narayana associates no timeout with the transaction.
+The current OTS specification does not provide a means whereby the timeout associated with transaction creation can be obtained.
+However, Narayana <code>Current</code> supports a <code>get_timeout</code> method.</p>
+</div>
+<div class="paragraph">
+<p>By default, the Narayana implementation of <code>Current</code> does not use a separate <code>TransactionFactory</code> server when creating new top-level transactions.
+Each transactional client has a <code>TransactionFactory</code> co-located with it.
+Override this by setting the <code>OTS_TRANSACTION_MANAGER</code> variable to <code>YES</code>.</p>
+</div>
+<div class="paragraph">
+<p>The transaction factory is located in the <code>bin/</code> directory of the Narayana distribution.
+Start it by executing the OTS script.
+<code>Current</code> locates the factory in a manner specific to the ORB: using the name service, through <code>resolve_initial_references</code>, or via the <code>CosServices.cfg</code> file.
+The <code>CosServices.cfg</code> file is similar to <code>resolve_initial_references</code>, and is automatically updated when the transaction factory is started on a particular machine.
+Copy the file to each Narayana instance which needs to share the same transaction factory.</p>
+</div>
+<div class="paragraph">
+<p>If you do not need sub-transaction support, set the <code>OTS_SUPPORT_SUBTRANSACTIONS</code> property variable to <code>NO</code>.
+The <code>setCheckedAction</code> method overrides the <code>CheckedAction</code> implementation associated with each transaction created by the thread.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_resource"><a class="anchor" href="#_resource"></a>Resource</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The Transaction Service uses a two-phase commit protocol to complete a top-level transaction with each registered resource.</p>
+</div>
+<div class="listingblock">
+<div class="title">Completing a top-level transaction</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="type">interface</span> <span class="class">Resource</span> {
+    Vote prepare ();
+    <span class="type">void</span> rollback () raises (HeuristicCommit, HeuristicMixed, HeuristicHazard);
+    <span class="type">void</span> commit () raises (NotPrepared, HeuristicRollback, HeuristicMixed, HeuristicHazard);
+    <span class="type">void</span> commit_one_phase () raises (HeuristicRollback, HeuristicMixed, HeuristicHazard);
+    <span class="type">void</span> forget ();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>Resource</code> interface defines the operations invoked by the transaction service.
+Each <code>Resource</code> object is implicitly associated with a single top-level transaction.
+Do not register a <code>Resource</code> with the same transaction more than once.
+When you tell a <code>Resource</code> to <code>prepare</code>, <code>commit</code>, or <code>abort</code>, it must do so on behalf of a specific transaction.
+However, the <code>Resource</code> methods do not specify the transaction identity.
+It is implicit, since a <code>Resource</code> can only be registered with a single transaction.</p>
+</div>
+<div class="paragraph">
+<p>Transactional objects must use the <code>register_resource</code> method to register objects supporting the <code>Resource</code> interface with the current transaction.
+An object supporting the <code>Coordinator</code> interface is either passed as a parameter in the case of explicit propagation, or retrieved using operations on the <code>Current</code> interface in the case of implicit propagation.
+If the transaction is nested, the <code>Resource</code> is not informed of the sub-transaction’s completion, and is registered with its parent upon commit.</p>
+</div>
+<div class="paragraph">
+<p>This example assumes that transactions are only nested two levels deep, for simplicity.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/jts-resource_nested_transactions.png" alt="jts resource nested transactions">
+</div>
+<div class="title">Figure 4. <code>Resource</code> and nested transactions</div>
+</div>
+<div class="paragraph">
+<p>Do not register a given <code>Resource</code> with the same transaction more than once, or it will receive multiple termination calls.
+When a <code>Resource</code> is directed to <code>prepare</code>, <code>commit</code>, or <code>abort</code>, it needs to link these actions to a specific transaction.
+Because <code>Resource</code> methods do not specify the transaction identity, but can only be associated with a single transaction, you can infer the identity.</p>
+</div>
+<div class="paragraph">
+<p>A single <code>Resource</code> or group of <code>Resources</code> guarantees the ACID properties for the recoverable object they represent.
+A Resource&#8217;s work depends on the phase of its transaction.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">prepare</dt>
+<dd>
+<p>If none of the persistent data associated with the resource is modified by the transaction, the Resource can return <code>VoteReadOnly</code> and forget about the transaction.
+It does not need to know the outcome of the second phase of the commit protocol, since it hasn&#8217;t made any changes.</p>
+<div class="paragraph">
+<p>If the resource can write, or has already written, all the data needed to commit the transaction to stable storage, as well as an indication that it has prepared the transaction, it can return <code>VoteCommit</code>.
+After receiving this response, the Transaction Service either commits or rolls back.
+To support recovery, the resource should store the <code>RecoveryCoordinator</code> reference in stable storage.</p>
+</div>
+<div class="paragraph">
+<p>The resource can return <code>VoteRollback</code> under any circumstances.
+After returning this response, the resource can forget the transaction.</p>
+</div>
+<div class="paragraph">
+<p>The <code>Resource</code> reports inconsistent outcomes using the <code>HeuristicMixed</code> and <code>HeuristicHazard</code> exceptions.
+One example is that a <code>Resource</code> reports that it can commit and later decides to roll back.
+Heuristic decisions must be made persistent and remembered by the <code>Resource</code> until the transaction coordinator issues the <code>forget</code> method.
+This method tells the <code>Resource</code> that the heuristic decision has been noted, and possibly resolved.</p>
+</div>
+</dd>
+<dt class="hdlist1">rollback</dt>
+<dd>
+<p>The resource should undo any changes made as part of the transaction.
+Heuristic exceptions can be used to report heuristic decisions related to the resource.
+If a heuristic exception is raised, the resource must remember this outcome until the forget operation is performed so that it can return the same outcome in case rollback is performed again.
+Otherwise, the resource can forget the transaction.</p>
+</dd>
+<dt class="hdlist1">commit</dt>
+<dd>
+<p>If necessary, the resource should commit all changes made as part of this transaction.
+As with <code>rollback</code>, it can raise heuristic exceptions.
+The <code>NotPrepared</code> exception is raised if the resource has not been prepared.</p>
+</dd>
+<dt class="hdlist1">commit_one_phase</dt>
+<dd>
+<p>Since there can be only a single resource, the <code>HeuristicHazard</code> exception reports heuristic decisions related to that resource.</p>
+</dd>
+<dt class="hdlist1">forget</dt>
+<dd>
+<p>Performed after the resource raises a heuristic exception.
+After the coordinator determines that the heuristic situation is addressed, it issues <code>forget</code> on the resource.
+The resource can forget all knowledge of the transaction.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_subtransactionawareresource"><a class="anchor" href="#_subtransactionawareresource"></a>SubtransactionAwareResource</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Recoverable objects that need to participate within a nested transaction may support the <code>SubtransactionAwareResource</code> interface, a specialization of the <code>Resource</code> interface.</p>
+</div>
+<div class="listingblock">
+<div class="title">Interface <code>SubtransactionAwareResource</code></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="C">interface SubtransactionAwareResource : Resource {
+    <span class="directive">void</span> commit_subtransaction (in Coordinator parent);
+    <span class="directive">void</span> rollback_subtransaction ();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A recoverable object is only informed of the completion of a nested transaction if it registers a <code>SubtransactionAwareResource</code>.
+Register the object with either the <code>register_resource</code> of the <code>Coordinator</code> interface, or the <code>register_subtran_aware</code> method of the <code>Current</code> interface.
+A recoverable object registers Resources to participate within the completion of top-level transactions, and <code>SubtransactionAwareResources</code> keep track of the completion of subtransactions.
+The <code>commit_subtransaction</code> method uses a reference to the parent transaction to allow sub-transaction resources to register with these transactions.</p>
+</div>
+<div class="paragraph">
+<p><code>SubtransactionAwareResources</code> find out about the completion of a transaction after it terminates.
+They cannot affect the outcome of the transaction.
+Different OTS implementations deal with exceptions raised by <code>SubtransactionAwareResources</code> in implementation-specific ways.</p>
+</div>
+<div class="paragraph">
+<p>Use method <code>register_resource</code> or method <code>register_subtran_aware</code> to register a <code>SubtransactionAwareResource</code> with a transaction using.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">register_resource</dt>
+<dd>
+<p>If the transaction is a sub-transaction, the resource is informed of its completion, and automatically registered with the sub-transaction’s parent if the parent commits.</p>
+</dd>
+<dt class="hdlist1">register_subtran_aware</dt>
+<dd>
+<p>If the transaction is not a sub-transaction, an exception is thrown.
+Otherwise, the resource is informed when the sub-transaction completes.
+Unlike <code>register_resource</code>, the resource is not propagated to the sub-transaction’s parent if the transaction commits.
+If you need this propagation, re-register using the supplied parent parameter.</p>
+</dd>
+</dl>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/jts-register_subtran_aware.png" alt="jts register subtran aware">
+</div>
+<div class="title">Figure 5. Method <code>register_subtran_aware</code></div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/jts-register_resource.png" alt="jts register resource">
+</div>
+<div class="title">Figure 6. Method <code>register_resource</code></div>
+</div>
+<div class="paragraph">
+<p>In either case, the resource cannot affect the outcome of the transaction completion.
+It can only act on the transaction&#8217;s decision, after the decision is made.
+However, if the resource cannot respond appropriately, it can raise an exception.
+Thee OTS handles these exceptions in an implementation-specific way.</p>
+</div>
+<div class="sect2">
+<h3 id="_narayana_specifics_3"><a class="anchor" href="#_narayana_specifics_3"></a>Narayana specifics</h3>
+<div class="paragraph">
+<p>A <code>SubtransactionAwareResource</code> which raises an exception to the commitment of a transaction may create inconsistencies within the transaction if other <code>SubtransactionAwareResources</code> think the transaction committed.
+To prevent this possibility of inconsistency, Narayana forces the enclosing transaction to abort if an exception is raised.</p>
+</div>
+<div class="paragraph">
+<p>Narayana also provides extended sub-transaction aware resources to overcome this, and other problems.
+See Section for further details.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_synchronization_interface"><a class="anchor" href="#_the_synchronization_interface"></a>The <code>Synchronization</code> interface</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If an object needs notification before a transaction commits, it can register an object which is an implements the <code>Synchronization</code> interface, using the <code>register_synchronization</code> operation of the <code>Coordinator</code> interface.
+<code>Synchronizations</code> flush volatile state data to a recoverable object or database before the transaction commits.
+You can only associate <code>Synchronizations</code> with top-level transactions.
+If you try to associate a <code>Synchronization</code> to a nested transaction, an exception is thrown.
+Each object supporting the <code>Synchronization</code> interface is associated with a single top-level transaction.</p>
+</div>
+<div class="listingblock">
+<div class="title"><code>Synchronizations</code></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="C">interface Synchronization : TransactionalObject {
+    <span class="directive">void</span> before_completion ();
+    <span class="directive">void</span> after_completion (in Status s);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The method <code>before_completion</code> is called before the two-phase commit protocol starts, and <code>after_completion</code> is called after the protocol completes.
+The final status of the transaction is given as a parameter to <code>after_completion</code>. If <code>before_completion</code> raises an exception, the transaction rolls back.
+Any exceptions thrown by <code>after_completion</code> do not affect the transaction outcome.</p>
+</div>
+<div class="paragraph">
+<p>The OTS only requires <code>Synchronizations</code> to be invoked if the transaction commits.
+If it rolls back, registered <code>Synchronizations</code> are not informed.</p>
+</div>
+<div class="paragraph">
+<p>Given the previous description of <code>Control</code>, <code>Resource</code>, <code>SubtransactionAwareResource</code>, and <code>Synchronization</code>, the following UML relationship diagram can be drawn:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/jts-interface_relationship.png" alt="Relationship between `Control`" width="`Resource`" height="`SubtransactionAwareResource`">
+</div>
+<div class="title">Figure 7. Relationship between <code>Control</code>, <code>Resource</code>, <code>SubtransactionAwareResource</code>, and <code>Synchronization</code></div>
+</div>
+<div class="sect2">
+<h3 id="_narayana_specifics_4"><a class="anchor" href="#_narayana_specifics_4"></a>Narayana specifics</h3>
+<div class="paragraph">
+<p><code>Synchronizations</code> must be called before the top-level transaction commit protocol starts, and after it completes.
+By default, if the transaction is instructed to roll back, the <code>Synchronizations</code> associated with the transaction is not contacted.
+To override this, and call <code>Synchronizations</code> regardless of the transaction&#8217;s outcome, set the <code>OTS_SUPPORT_ROLLBACK_SYNC</code> property variable to <code>YES</code>.</p>
+</div>
+<div class="paragraph">
+<p>If you use distributed transactions and interposition, a local proxy for the top-level transaction coordinator is created for any recipient of the transaction context.
+The proxy looks like a <code>Resource</code> or <code>SubtransactionAwareResource</code>, and registers itself as such with the actual top-level transaction coordinator.
+The local recipient uses it to register <code>Resources</code> and <code>Synchronizations</code> locally.</p>
+</div>
+<div class="paragraph">
+<p>The local proxy can affect how <code>Synchronizations</code> are invoked during top-level transaction commit.
+Without the proxy, all <code>Synchronizations</code> are invoked before any Resource or <code>SubtransactionAwareResource</code> objects are processed.
+However, with interposition, only those <code>Synchronizations</code> registered locally to the transaction coordinator are called.
+<code>Synchronizations</code> registered with remote participants are only called when the interposed proxy is invoked.
+The local proxy may only be invoked after locally-registered Resource or <code>SubtransactionAwareResource</code> objects are invoked.
+With the <code>OTS_SUPPORT_INTERPOSED_SYNCHRONIZATION</code> property variable set to <code>YES</code>, all <code>Synchronizations</code> are invoked before any Resource or <code>SubtransactionAwareResource</code>, no matter where they are registered.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_transactions_and_registered_resources"><a class="anchor" href="#_transactions_and_registered_resources"></a>Transactions and registered resources</h2>
+<div class="sectionbody">
+<div class="imageblock">
+<div class="content">
+<img src="images/jts-control_and_resources.png" alt="Relationship between a transaction `Control` and the resources registered with it">
+</div>
+<div class="title">Figure 8. Relationship between a transaction <code>Control</code> and the resources registered with it</div>
+</div>
+<div class="paragraph">
+<p>In <a href="#_subtransaction_commit">Sub-transaction commit</a>, a sub-transaction with both <code>Resource</code> and <code>SubtransactionAwareResource</code> objects commits.
+The <code>SubtransactionAwareResources</code> were registered using <code>register_subtran_aware</code>.
+The <code>Resources</code> do not know the sub-transaction terminated, but the <code>SubtransactionAwareResources</code> do.
+Only the <code>Resources</code> are automatically propagated to the parent transaction.</p>
+</div>
+<div id="_subtransaction_commit" class="imageblock">
+<div class="content">
+<img src="images/jts-sub-transaction_commit.png" alt="jts sub transaction commit">
+</div>
+<div class="title">Figure 9. Sub-transaction commit</div>
+</div>
+<div class="paragraph">
+<p><a href="#_subtransaction_rollback">Sub-transaction rollback</a> illustrates the impact of a sub-transaction rolling back.
+Any registered resources are discarded, and all <code>SubtransactionAwareResources</code> are informed of the transaction outcome.</p>
+</div>
+<div id="_subtransaction_rollback" class="imageblock">
+<div class="content">
+<img src="images/jts-sub-transaction_rollback.png" alt="jts sub transaction rollback">
+</div>
+<div class="title">Figure 10. Sub-transaction rollback</div>
+</div>
+<div class="paragraph">
+<p><a href="#_top_level_commit">Top-level commit</a> shows the activity diagram for committing a top-level transaction.
+sub-transactions within the top-level transaction which have also successfully committed propagate <code>SubtransactionAwareResources</code> to the top-level transaction.
+These <code>SubtransactionAwareResources</code> then participate within the two-phase commit protocol.
+Any registered <code>Synchronizations</code> are contacted before <code>prepare</code> is called.
+Because of indirect context management, when the transaction commits, the transaction service changes the invoking thread’s transaction context.</p>
+</div>
+<div id="_top_level_commit" class="imageblock">
+<div class="content">
+<img src="images/jts-top-level-commit.png" alt="jts top level commit">
+</div>
+<div class="title">Figure 11. Top-level commit</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/jts-top-level-rollback.png" alt="Top-level rollback">
+</div>
+<div class="title">Figure 12. Top-level rollback</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_transactionalobject_interface"><a class="anchor" href="#_the_transactionalobject_interface"></a>The <code>TransactionalObject</code> interface</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>TransactionalObject</code> interface indicates to an object that it is transactional.
+By supporting this interface, an object indicates that it wants to associate the transaction context associated with the client thread with all operations on its interface.
+The <code>TransactionalObject</code> interface defines no operations.</p>
+</div>
+<div class="paragraph">
+<p>OTS specifications do not require an OTS to initialize the transaction context of every request handler.
+It is only a requirement if the interface supported by the target object is derived from <code>TransactionalObject</code>.
+Otherwise, the initial transaction context of the thread is undefined.
+A transaction service implementation can raise the <code>TRANSACTION_REQUIRED</code> exception if a <code>TransactionalObject</code> is invoked outside the scope of a transaction.</p>
+</div>
+<div class="paragraph">
+<p>In a single-address space application, transaction contexts are implicitly shared between clients and objects, regardless of whether or not the objects support the <code>TransactionalObject</code> interface.
+To preserve distribution transparency, where implicit transaction propagation is supported, you can direct Narayana to always propagate transaction contexts to objects.
+The default is only to propagate if the object is a <code>TransactionalObject</code>.
+Set the <code>OTS_ALWAYS_PROPAGATE_CONTEXT</code> property variable to <code>NO</code> to override this behavior.</p>
+</div>
+<div class="paragraph">
+<p>By default, Narayana does not require objects which support the <code>TransactionalObject</code> interface to invoked within the scope of a transaction.
+The object determines whether it should be invoked within a transaction.
+If so, it must throw the <code>TransactionRequired</code> exception.
+Override this default by setting the <code>OTS_NEED_TRAN_CONTEXT</code> shell environment variable to <code>YES</code>.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Make sure that the settings for <code>OTS_ALWAYS_PROPAGATE_CONTEXT</code> and <code>OTS_NEED_TRAN_CONTEXT</code> are identical at the client and the server.
+If they are not identical at both ends, your application may terminate abnormally.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_interposition"><a class="anchor" href="#_interposition"></a>Interposition</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>OTS objects supporting interfaces such as the <code>Control</code> interface are standard CORBA objects.
+When an interface is passed as a parameter in an operation call to a remote server, only an object reference is passed.
+This ensures that any operations that the remote server performs on the interface are correctly performed on the real object.
+However, this can have substantial penalties for the application, because of the overhead of remote invocation.
+For example, when the server registers a <code>Resource</code> with the current transaction, the invocation might be remote to the originator of the transaction.</p>
+</div>
+<div class="paragraph">
+<p>To avoid this overhead, your OTS may support interposition.
+This permits a server to create a local control object which acts as a local coordinator, and fields registration requests that would normally be passed back to the originator.
+This coordinator must register itself with the original coordinator, so that it can correctly participate in the commit protocol.
+Interposed coordinators form a tree structure with their parent coordinators.</p>
+</div>
+<div class="paragraph">
+<p>To use interposition, ensure that Narayana is correctly initialized before creating objects.
+Also, the client and server must both use interposition.
+Your ORB must support filters or interceptors, or the <code>CosTSPortability</code> interface, since interposition requires the use of implicit transaction propagation.
+To use interposition, set the <code>OTS_CONTEXT_PROP_MODE</code> property variable to <code>INTERPOSITION</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Interposition is not required if you use the Narayana advanced API.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_recoverycoordinator"><a class="anchor" href="#_recoverycoordinator"></a>RecoveryCoordinator</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A reference to a <code>RecoveryCoordinator</code> is returned as a result of successfully calling <code>register_resource</code> on the transaction&#8217;s <code>Coordinator</code>.
+Each <code>RecoveryCoordinator</code> is implicitly associated with a single <code>Resource</code>.
+It can drive the <code>Resource</code> through recovery procedures in the event of a failure which occurs during the transaction.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/jts-resource-and-recoverycoordinator.png" alt="jts resource and recoverycoordinator">
+</div>
+<div class="title">Figure 13. <code>Resource</code> and <code>RecoveryCoordinator</code></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_checked_transaction_behavior"><a class="anchor" href="#_checked_transaction_behavior"></a>Checked transaction behavior</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The OTS supports both checked and unchecked transaction behavior.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A transaction will not commit until all transactional objects involved in the transaction have completed their transactional requests.</p>
+</li>
+<li>
+<p>Only the transaction originator can commit the transaction</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Checked transactional behavior is typical transaction behavior, and is widely implemented.
+Checked behavior requires implicit propagation, because explicit propagation prevents the OTS from tracking which objects are involved in the transaction.</p>
+</div>
+<div class="paragraph">
+<p>Unchecked behavior allows you to implement relaxed models of atomicity.
+Any use of explicit propagation implies the possibility of unchecked behavior, since you as the programmer are in control of the behavior.
+Even if you use implicit propagation, a server may unilaterally abort or commit the transaction using the <code>Current</code> interface, causing unchecked behavior.</p>
+</div>
+<div class="paragraph">
+<p>Some OTS implementations enforce checked behavior for the transactions they support, to provide an extra level of transaction integrity.
+The checks ensure that all transactional requests made by the application complete their processing before the transaction is committed.
+A checked Transaction Service guarantees that commit fails unless all transactional objects involved in the transaction complete the processing of their transactional requests.
+Rolling back the transaction does not require such as check, since all outstanding transactional activities will eventually roll back if they are not directed to commit.</p>
+</div>
+<div class="paragraph">
+<p>There are many possible implementations of checking in a Transaction Service.
+One provides equivalent function to that provided by the request and response inter-process communication models defined by X/Open.
+The X/Open Transaction Service model of checking widely implemented.
+It describes the transaction integrity guarantees provided by many existing transaction systems.
+These transaction systems provide the same level of transaction integrity for object-based applications, by providing a Transaction Service interface that implements the X/Open checks.</p>
+</div>
+<div class="paragraph">
+<p>In X/Open, completion of the processing of a request means that the object has completed execution of its method and replied to the request.
+The level of transaction integrity provided by a Transaction Service implementing the X/Open model provides equivalent function to that provided by the XATMI and TxRPC interfaces defined by X/Open for transactional applications.
+X/Open DTP Transaction Managers are examples of transaction management functions that implement checked transaction behavior.</p>
+</div>
+<div class="paragraph">
+<p>This implementation of checked behavior depends on implicit transaction propagation.
+When implicit propagation is used, the objects involved in a transaction at any given time form a tree, called the request tree for the transaction.
+The beginner of the transaction is the root of the tree.
+Requests add nodes to the tree, and replies remove the replying node from the tree.
+Synchronous requests, or the checks described below for deferred synchronous requests, ensure that the tree collapses to a single node before commit is issued.</p>
+</div>
+<div class="paragraph">
+<p>If a transaction uses explicit propagation, the Transaction Service has no way to know which objects are or will be involved in the transaction.
+Therefore, the use of explicit propagation is not permitted by a Transaction Service implementation that enforces X/Open-style checked behavior.</p>
+</div>
+<div class="paragraph">
+<p>Applications that use synchronous requests exhibit checked behavior.
+If your application uses deferred synchronous requests, all clients and objects need to be under the control of a checking Transaction Service.
+In that case, the Transaction Service can enforce checked behavior, by applying a <code>reply</code> check and a <code>committed</code> check.
+The Transaction Service must also apply a <code>resume</code> check, so that the transaction is only resumed by applications in the correct part of the request tree.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>reply</code> check</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Before an object replies to a transactional request, a check is made to ensure that the object has received replies to all the deferred synchronous requests that propagated the transaction in the original request. If this condition is not met, an exception is raised and the transaction is marked as rollback-only. A Transaction Service may check that a reply is issued within the context of the transaction associated with the request.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>commit</code> check</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Before a commit can proceed, a check is made to ensure that the commit request for the transaction is being issued from the same execution environment that created the transaction, and that the client issuing commit has received replies to all the deferred synchronous requests it made that propagated the transaction.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>resume</code> check</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Before a client or object associates a transaction context with its thread of control, a check is made to ensure that this transaction context was previously associated with the execution environment of the thread. This association would exist if the thread either created the transaction or received it in a transactional operation.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect2">
+<h3 id="_narayana_specifics_5"><a class="anchor" href="#_narayana_specifics_5"></a>Narayana specifics</h3>
+<div class="paragraph">
+<p>Where support from the ORB is available, Narayana supports X/Open checked transaction behavior.
+However, unless the <code>OTS_CHECKED_TRANSACTIONS</code> property variable is set to <code>YES</code>, checked transactions are disabled.
+This is the default setting.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Checked transactions are only possible with a co-located transaction manager.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>In a multi-threaded application, multiple threads may be associated with a transaction during its lifetime, sharing the context.
+In addition, if one thread terminates a transaction, other threads may still be active within it.
+In a distributed environment, it can be difficult to guarantee that all threads have finished with a transaction when it terminates.
+By default, Narayana issues a warning if a thread terminates a transaction when other threads are still active within it, but allow the transaction termination to continue.
+You can choose to block the thread which is terminating the transaction until all other threads have disassociated themselves from its context, or use other methods to solve the problem.
+Narayana provides the <code>com.arjuna.ats.arjuna.coordinator.CheckedAction</code> class, which allows you to override the thread and transaction termination policy.
+Each transaction has an instance of this class associated with it, and you can implement the class on a per-transaction basis.</p>
+</div>
+<div class="listingblock">
+<div class="title"><code>CheckedAction</code> implementation</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">CheckedAction</span> {
+<span class="directive">public</span> CheckedAction ();
+
+<span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> check (<span class="type">boolean</span> isCommit, Uid actUid, BasicList list);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When a thread attempts to terminate the transaction and there active threads exist within it, the system invokes the <code>check</code> method on the transaction’s <code>CheckedAction</code> object.
+The parameters to the check method are:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isCommit</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Indicates whether the transaction is in the process of committing or rolling back.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>actUid</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The transaction identifier.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>list</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A list of all of the threads currently marked as active within this transaction.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>When <code>check</code> returns, the transaction termination continues.
+Obviously the state of the transaction at this point may be different from that when check was called.</p>
+</div>
+<div class="paragraph">
+<p>Set the <code>CheckedAction</code> instance associated with a given transaction with the <code>setCheckedAction</code> method of <code>Current</code>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_summary_of_narayana_implementation_decisions"><a class="anchor" href="#_summary_of_narayana_implementation_decisions"></a>Summary of Narayana implementation decisions</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Any execution environment (thread, process) can use a transaction <code>Control</code>.</p>
+</li>
+<li>
+<p><code>Control</code> s, <code>Coordinator</code> s, and <code>Terminator</code> s are valid for use for the duration of the transaction if implicit transaction control is used, via <code>Current</code>.
+If you use explicit control, via the <code>TransactionFactory</code> and <code>Terminator</code>, then use the destroyControl method of the OTS class in <code>com.arjuna.CosTransactions</code> to signal when the information can be garbage collected.</p>
+</li>
+<li>
+<p>You can propagate <code>Coordinator</code> s and <code>Terminator</code> s between execution environments.</p>
+</li>
+<li>
+<p>If you try to commit a transaction when there are still active subtransactions within it, Narayana rolls back the parent and the subtransactions.</p>
+</li>
+<li>
+<p>Narayana includes full support for nested transactions.
+However, if a resource raises an exception to the commitment of a sub-transaction after other resources have previously been told that the transaction committed, Narayana forces the enclosing transaction to abort.
+This guarantees that all resources used within the sub-transaction are returned to a consistent state.
+You can disable support for sub-transactions by setting the <code>OTS_SUPPORT_SUBTRANSACTIONS</code> variable to <code>NO</code>.</p>
+</li>
+<li>
+<p>Obtain <code>Current</code> from the <code>get_current</code> method of the OTS.</p>
+</li>
+<li>
+<p>A timeout value of zero seconds is assumed for a transaction if none is specified using <code>set_timeout</code>.</p>
+</li>
+<li>
+<p>by default, <code>Current</code> does not use a separate transaction manager server by default.
+Override this behavior by setting the <code>OTS_TRANSACTION_MANAGER</code> environment variable.
+Location of the transaction manager is ORB-specific.</p>
+</li>
+<li>
+<p>Checked transactions are disabled by default.
+To enable them, set the <code>OTS_CHECKED_TRANSACTIONS</code> property to <code>YES</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>

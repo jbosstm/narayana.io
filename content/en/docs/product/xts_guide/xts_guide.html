@@ -1,0 +1,2182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>XTS Guide</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+/*! Stylesheet for CodeRay to loosely match GitHub themes | MIT License */
+pre.CodeRay{background:#f7f7f8}
+.CodeRay .line-numbers{border-right:1px solid;opacity:.35;padding:0 .5em 0 0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+.CodeRay span.line-numbers{display:inline-block;margin-right:.75em}
+.CodeRay .line-numbers strong{color:#000}
+table.CodeRay{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.CodeRay td{vertical-align:top;line-height:inherit}
+table.CodeRay td.line-numbers{text-align:right}
+table.CodeRay td.code{padding:0 0 0 .75em}
+.CodeRay .debug{color:#fff!important;background:navy!important}
+.CodeRay .annotation{color:#007}
+.CodeRay .attribute-name{color:navy}
+.CodeRay .attribute-value{color:#700}
+.CodeRay .binary{color:#509}
+.CodeRay .comment{color:#998;font-style:italic}
+.CodeRay .char{color:#04d}
+.CodeRay .char .content{color:#04d}
+.CodeRay .char .delimiter{color:#039}
+.CodeRay .class{color:#458;font-weight:bold}
+.CodeRay .complex{color:#a08}
+.CodeRay .constant,.CodeRay .predefined-constant{color:teal}
+.CodeRay .color{color:#099}
+.CodeRay .class-variable{color:#369}
+.CodeRay .decorator{color:#b0b}
+.CodeRay .definition{color:#099}
+.CodeRay .delimiter{color:#000}
+.CodeRay .doc{color:#970}
+.CodeRay .doctype{color:#34b}
+.CodeRay .doc-string{color:#d42}
+.CodeRay .escape{color:#666}
+.CodeRay .entity{color:#800}
+.CodeRay .error{color:#808}
+.CodeRay .exception{color:inherit}
+.CodeRay .filename{color:#099}
+.CodeRay .function{color:#900;font-weight:bold}
+.CodeRay .global-variable{color:teal}
+.CodeRay .hex{color:#058}
+.CodeRay .integer,.CodeRay .float{color:#099}
+.CodeRay .include{color:#555}
+.CodeRay .inline{color:#000}
+.CodeRay .inline .inline{background:#ccc}
+.CodeRay .inline .inline .inline{background:#bbb}
+.CodeRay .inline .inline-delimiter{color:#d14}
+.CodeRay .inline-delimiter{color:#d14}
+.CodeRay .important{color:#555;font-weight:bold}
+.CodeRay .interpreted{color:#b2b}
+.CodeRay .instance-variable{color:teal}
+.CodeRay .label{color:#970}
+.CodeRay .local-variable{color:#963}
+.CodeRay .octal{color:#40e}
+.CodeRay .predefined{color:#369}
+.CodeRay .preprocessor{color:#579}
+.CodeRay .pseudo-class{color:#555}
+.CodeRay .directive{font-weight:bold}
+.CodeRay .type{font-weight:bold}
+.CodeRay .predefined-type{color:inherit}
+.CodeRay .reserved,.CodeRay .keyword{color:#000;font-weight:bold}
+.CodeRay .key{color:#808}
+.CodeRay .key .delimiter{color:#606}
+.CodeRay .key .char{color:#80f}
+.CodeRay .value{color:#088}
+.CodeRay .regexp .delimiter{color:#808}
+.CodeRay .regexp .content{color:#808}
+.CodeRay .regexp .modifier{color:#808}
+.CodeRay .regexp .char{color:#d14}
+.CodeRay .regexp .function{color:#404;font-weight:bold}
+.CodeRay .string{color:#d20}
+.CodeRay .string .string .string{background:#ffd0d0}
+.CodeRay .string .content{color:#d14}
+.CodeRay .string .char{color:#d14}
+.CodeRay .string .delimiter{color:#d14}
+.CodeRay .shell{color:#d14}
+.CodeRay .shell .delimiter{color:#d14}
+.CodeRay .symbol{color:#990073}
+.CodeRay .symbol .content{color:#a60}
+.CodeRay .symbol .delimiter{color:#630}
+.CodeRay .tag{color:teal}
+.CodeRay .tag-special{color:#d70}
+.CodeRay .variable{color:#036}
+.CodeRay .insert{background:#afa}
+.CodeRay .delete{background:#faa}
+.CodeRay .change{color:#aaf;background:#007}
+.CodeRay .head{color:#f8f;background:#505}
+.CodeRay .insert .insert{color:#080}
+.CodeRay .delete .delete{color:#800}
+.CodeRay .change .change{color:#66f}
+.CodeRay .head .head{color:#f4f}
+</style>
+</head>
+<body class="book toc2 toc-left">
+<div id="header">
+<h1>XTS Guide</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_introduction">1. Introduction</a>
+<ul class="sectlevel2">
+<li><a href="#_managing_service_based_processes">1.1. Managing service-Based Processes</a></li>
+<li><a href="#_servlets">1.2. Servlets</a></li>
+<li><a href="#_soap">1.3. SOAP</a></li>
+<li><a href="#_web_services_description_language_wdsl">1.4. Web Services Description Language (WDSL)</a></li>
+</ul>
+</li>
+<li><a href="#_getting_started">2. Getting Started</a>
+<ul class="sectlevel2">
+<li><a href="#_enablexts_on_wildfly_application_server">2.1. EnableXTS on WildFly Application Server</a></li>
+<li><a href="#_working_with_ws_at">2.2. Working With WS-AT</a></li>
+<li><a href="#_working_with_ws_ba">2.3. Working With WS-BA</a></li>
+<li><a href="#ref_transactioncontextpropagation">2.4. Configuration of The Transaction Context Propagation</a></li>
+<li><a href="#_summary">2.5. Summary</a></li>
+</ul>
+</li>
+<li><a href="#sec_xts_api">3. The XTS API</a>
+<ul class="sectlevel2">
+<li><a href="#_participants">3.1. Participants</a></li>
+<li><a href="#_api_for_the_atomic_transaction_protocol">3.2. API for the Atomic Transaction Protocol</a></li>
+<li><a href="#_api_for_the_business_activity_protocol">3.3. API for the Business Activity Protocol</a></li>
+</ul>
+</li>
+<li><a href="#_stand_alone_coordination">4. Stand-Alone Coordination</a>
+<ul class="sectlevel2">
+<li><a href="#_introduction_2">4.1. Introduction</a></li>
+<li><a href="#_configuring_the_activation_coordinator">4.2. Configuring the Activation Coordinator</a></li>
+</ul>
+</li>
+<li><a href="#_participant_crash_recovery">5. Participant Crash Recovery</a>
+<ul class="sectlevel2">
+<li><a href="#_ws_at_recovery">5.1. WS-AT Recovery</a></li>
+<li><a href="#_ws_ba_recovery">5.2. WS-BA Recovery</a></li>
+</ul>
+</li>
+<li><a href="#_web_service_transaction_service_xts_management">6. Web Service Transaction Service (XTS) Management</a>
+<ul class="sectlevel2">
+<li><a href="#_transaction_manager_overview">6.1. Transaction manager overview</a></li>
+<li><a href="#_configuring_the_transaction_manager">6.2. Configuring the transaction manager</a></li>
+<li><a href="#_deployment_descriptors">6.3. Deployment descriptors</a></li>
+</ul>
+</li>
+<li><a href="#_quickstarts_overview">7. Quickstarts Overview</a>
+<ul class="sectlevel2">
+<li><a href="#ref_wsatmultiservice">7.1. WS-AT Multi-Service</a></li>
+<li><a href="#ref_wsatmultihop">7.2. WS-AT Multi-Hop</a></li>
+<li><a href="#_xts_with_ssl">7.3. XTS with SSL</a></li>
+<li><a href="#_raw_xts_api_demo">7.4. Raw XTS API Demo</a></li>
+<li><a href="#ref_compensationsnontransactionalresource">7.5. Non-transactional Resource with Compensating Transactions API</a></li>
+<li><a href="#ref_compensationstravelagent">7.6. Travel Agent with Compensating Transactions API</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_introduction"><a class="anchor" href="#_introduction"></a>1. Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <em>XML Transaction Service (XTS)</em> component of Narayana supports the coordination of private and public Web Services in a business transaction.
+Therefore, to understand XTS, you must be familiar with Web Services, and also understand something about transactions.
+This chapter introduces XTS and provides a brief overview of the technologies that form the Web Services standard.
+Additionally, this chapter explores some of the fundamentals of transactioning technology and how it can be applied to Web Services.
+Much of the content presented in this chapter is detailed throughout this guide.
+However, only overview information about Web Services is provided.
+If you are new to creating Web services, please consult your Web Services platform documentation.</p>
+</div>
+<div class="paragraph">
+<p>Narayana provides the XTS component as a transaction solution for Web Services.
+Using XTS, business partners can coordinate complex business transactions in a controlled and reliable manner.
+The XTS API supports a transactional coordination model based on the <em>WS-Coordination</em>, <em>WS-Atomic Transaction</em>, and <em>WS-Business Activity</em> specifications.</p>
+</div>
+<div class="ulist">
+<div class="title">Protocols Included in XTS* WS-Coordination (WS-C) is a generic coordination framework developed by IBM, Microsoft and BEA.</div>
+<ul>
+<li>
+<p>WS-Atomic Transaction (WS-AT) and WS-Business Activity (WS-BA) together comprise the WS-Transaction (WS-T) transaction protocols that utilize this framework.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Narayana implements versions 1.1, and 1.2 of these three specifications.
+Version specifications are available from <a href="http://www.oasis-open.org/specs/" class="bare">http://www.oasis-open.org/specs/</a> .</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The 1.1, and 1.2 specifications only differ in a small number of details.
+The rest of this document employs version 1.1 of these specifications when providing explanations and example code.
+On the few occasions where the modifications required to adapt these to the 1.1 specifications are not obvious, an explanatory note is provided.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><em>Web Services</em> are modular, reusable software components that are created by exposing business functionality through a Web service interface.
+Web Services communicate directly with other Web Services using standards-based technologies such as SOAP and HTTP.
+These standards-based communication technologies enable customers, suppliers, and trading partners to access Web Services, independent of hardware operating system, or programming environment.
+The result is a vastly improved collaboration environment as compared to today&#8217;s EDI and <em>business-to-business (B2B)</em> solutions, an environment where businesses can expose their current and future business applications as Web Services that can be easily discovered and accessed by external partners.</p>
+</div>
+<div class="paragraph">
+<p>Web Services, by themselves, are not fault-tolerant.
+In fact, some of the reasons that the Web Services model is an attractive development solution are also the same reasons that service-based applications may have drawbacks.</p>
+</div>
+<div class="ulist">
+<div class="title">Properties of Web Services</div>
+<ul>
+<li>
+<p>Application components that are exposed as Web Services may be owned by third parties, which provides benefits in terms of cost of maintenance, but drawbacks in terms of having exclusive control over their behavior.</p>
+</li>
+<li>
+<p>Web Services are usually remotely located, increasing risk of failure due to increased network travel for invocations.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Applications that have high dependability requirements need a method of minimizing the effects of errors that may occur when an application consumes Web Services.
+One method of safeguarding against such failures is to interact with an application&#8217;s Web Services within the context of a <em>transaction</em>.
+A transaction is a unit of work which is completed entirely, or in the case of failures is reversed to some agreed consistent state.
+The goal, in the event of a failure, is normally to appear as if the work had never occurred in the first place.
+With XTS, transactions can span multiple Web Services, meaning that work performed across multiple enterprises can be managed with transactional support.</p>
+</div>
+<div class="sect2">
+<h3 id="_managing_service_based_processes"><a class="anchor" href="#_managing_service_based_processes"></a>1.1. Managing service-Based Processes</h3>
+<div class="paragraph">
+<p>XTS allows you to create transactions that drive complex business processes, spanning multiple Web Services.
+Current Web Services standards do not address the requirements for a high-level coordination of services.
+This is because in today&#8217;s Web Services applications, which use single request/response interactions, coordination is typically not a problem.
+However, for applications that engage multiple services among multiple business partners, coordinating and controlling the resulting interactions is essential.
+This becomes even more apparent when you realize that you generally have little in the way of formal guarantees when interacting with third-party Web Services.</p>
+</div>
+<div class="paragraph">
+<p>XTS provides the infrastructure for coordinating services during a business process.
+By organizing processes as transactions, business partners can collaborate on complex business interactions in a reliable manner, insuring the integrity of their data - usually represented by multiple changes to a database – but without the usual overheads and drawbacks of directly exposing traditional transaction-processing engines directly onto the web.
+<a href="#example_application">An Evening On the Town</a> demonstrates how an application may manage service-based processes as transactions:</p>
+</div>
+<div id="example_application" class="paragraph">
+<div class="title">An Evening On the Town</div>
+<p>The application in question allows a user to plan a social evening.
+This application is responsible for reserving a table at a restaurant, and reserving tickets to a show.
+Both activities are paid for using a credit card.
+In this example, each service represents exposed Web Services provided by different service providers.
+XTS is used to envelop the interactions between the theater and restaurant services into a single (potentially) long-running business transaction.
+The business transaction must insure that seats are reserved both at the restaurant and the theater.
+If one event fails the user has the ability to decline both events, thus returning both services back to their original state.
+If both events are successful, the user&#8217;s credit card is charged and both seats are booked.
+As you may expect, the interaction between the services must be controlled in a reliable manner over a period of time.
+In addition, management must span several third-party services that are remotely deployed.</p>
+</div>
+<div class="paragraph">
+<p>Without the backing of a transaction, an undesirable outcome may occur.
+For example, the user credit card may be charged, even if one or both of the bookings fail.</p>
+</div>
+<div class="paragraph">
+<p><a href="#example_application">An Evening On the Town</a> describes the situations where XTS excels at supporting business processes across multiple enterprises.
+This example is further refined throughout this guide, and appears as a standard demonstrator (including source code) with the XTS distribution.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_servlets"><a class="anchor" href="#_servlets"></a>1.2. Servlets</h3>
+<div class="paragraph">
+<p>The WS-Coordination, WS-Atomic Transaction, and WS-Business Activity protocols are based on one-way interactions of entities rather than traditional synchronous request/response RPC-style interactions.
+One group of entities, called transaction participants, invoke operations on other entities, such as the transaction coordinator, in order to return responses to requests.
+The programming model is based on peer-to-peer relationships, with the result that all services, whether they are participants, coordinators or clients, must have an <em>active component</em> that allows them to receive unsolicited messages.</p>
+</div>
+<div class="paragraph">
+<p>In XTS, the active component is achieved through deployment of JaxWS endpoints.
+Each XTS endpoint that is reachable through SOAP/XML is published via JaxWS, without developer intevention.
+The only requirement is that transactional client applications and transactional web services must reside within a domain capable of hosting JaxWS endpoints, such as an application server.
+WildFly Application Server can provide this functionality.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_soap"><a class="anchor" href="#_soap"></a>1.3. SOAP</h3>
+<div class="paragraph">
+<p>SOAP has emerged as the de facto message format for XML-based communication in the Web Services arena.
+It is a lightweight protocol that allows the user to define the content of a message and to provide hints as to how recipients should process that message.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_web_services_description_language_wdsl"><a class="anchor" href="#_web_services_description_language_wdsl"></a>1.4. Web Services Description Language (WDSL)</h3>
+<div class="paragraph">
+<p><em class="term">Web Services Description Language (WSDL)</em> is an XML-based language used to define Web service interfaces.
+An application that consumes a Web service parses the service&#8217;s WSDL document to discover the location of the service, the operations that the service supports, the protocol bindings the service supports (SOAP, HTTP, etc), and how to access them.
+For each operation, WSDL describes the format that the client must follow.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_getting_started"><a class="anchor" href="#_getting_started"></a>2. Getting Started</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_enablexts_on_wildfly_application_server"><a class="anchor" href="#_enablexts_on_wildfly_application_server"></a>2.1. EnableXTS on WildFly Application Server</h3>
+<div class="paragraph">
+<p>XTS, which is the Web Services component of Narayana, provides WS-AT and WS-BA support for Web Services hosted on the WildFly Application Server.
+XTS is available as an optional SubSystem, enabled using the <code>standalone-xts.xml</code> configuration.</p>
+</div>
+<div class="olist arabic">
+<div class="title">Procedure: Starting WildFly Application Server with XTS Enabled</div>
+<ol class="arabic">
+<li>
+<p>Change to the WildFly Application Server directory:</p>
+<div class="paragraph">
+<p><code>cd $JBOSS_HOME</code></p>
+</div>
+</li>
+<li>
+<p>Copy the example XTS configuration into the configurations directory:</p>
+<div class="paragraph">
+<p><code>cp docs/examples/configs/standalone-xts.xml standalone/configuration</code></p>
+</div>
+</li>
+<li>
+<p>Start WildFly Application Server, specifying the xts configuration:</p>
+<div class="paragraph">
+<p>Linux:</p>
+</div>
+<div class="paragraph">
+<p><code>bin/standalone.sh --server-config=standalone-xts.xml</code></p>
+</div>
+<div class="paragraph">
+<p>Windows:</p>
+</div>
+<div class="paragraph">
+<p><code>bin\standalone.bat --server-config=standalone-xts.xml</code></p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_working_with_ws_at"><a class="anchor" href="#_working_with_ws_at"></a>2.2. Working With WS-AT</h3>
+<div class="sect3">
+<h4 id="ref_createwsatclient"><a class="anchor" href="#ref_createwsatclient"></a>2.2.1. Creating Client Applications</h4>
+<div class="paragraph">
+<p>XTS integrates WS-AT transactions with JTA.
+To invoke a web service inside a WS-AT transaction, simply start a new JTA transaction and invoke the web service.
+By default, XTS will create a WS-AT context and pass it with your request.
+See our quickstarts for an example: <a href="quickstarts_overview.html#ref_wsatmultiservice">WS-AT Multi-Service</a> and <a href="quickstarts_overview.html#ref_wsatmultihop">WS-AT Multi-Hop</a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="ref_createwsatservice"><a class="anchor" href="#ref_createwsatservice"></a>2.2.2. Creating Transactional Web Services</h4>
+<div class="paragraph">
+<p>Similarly to the client-side, the service-side is also integrated with JTA.
+To make your web service WS-AT compliant, annotate your web service class or method with the EJB 3 <code>jakarta.ejb.TransactionAttribute</code> annotation or the JTA <code>jakarta.transaction.Transactional annotation</code>.
+XTS will automatically translate WS-AT context, received with the request, to JTA.
+See our quickstarts for an example: <a href="quickstarts_overview.html#ref_wsatmultiservice">WS-AT Multi-Service</a> and <a href="quickstarts_overview.html#ref_wsatmultihop">WS-AT Multi-Hop</a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_using_raw_xts_api"><a class="anchor" href="#_using_raw_xts_api"></a>2.2.3. Using Raw XTS API</h4>
+<div class="paragraph">
+<p>Sometimes more control is needed over the client and the server applications.
+Also JTA transactions are not always wanted in the application.
+In such case it is possible to create client and service applications using the Raw XTS API.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>This is not a recommended way to work with WS-AT.
+Please take a look at <a href="#ref_createwsatclient">Creating Client Applications</a> and <a href="#ref_createwsatservice">Creating Transactional Web Services</a> for the recommended and easier XTS usage for WS-AT applications.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_creating_client_applications"><a class="anchor" href="#_creating_client_applications"></a>Creating Client Applications</h5>
+<div class="paragraph">
+<p>There are two aspects to a client application using Raw XTS, the transaction declaration aspects, and the business logic.
+The business logic includes the invocation of Web Services.</p>
+</div>
+<div class="paragraph">
+<p>Transaction declaration aspects are handled automatically with the XTS client API.
+This API provides simple transaction directives such as <code>begin</code>, <code>commit</code>, and <code>rollback</code>, which the client application can use to initialize, manage, and terminate transactions.
+Internally, this API uses SOAP to invoke operations on the various WS-C and WS-AT services, in order to create a coordinator and drive the transaction to completion.</p>
+</div>
+<div class="sect5">
+<h6 id="_user_transactions"><a class="anchor" href="#_user_transactions"></a>User Transactions</h6>
+<div class="paragraph">
+<p>A client uses the <code>UserTransactionFactory</code> and <code>UserTransaction</code> classes to create and manage WS-AT transactions.
+These classes provide a simple API which operates in a manner similar to the JTA API.
+A WS-AT transaction is started and associated with the client thread by calling the <code>begin</code> method of the <code>UserTransaction</code> class.
+The transaction can be committed by calling the <code>commit</code> method, and rolled back by calling the <code>rollback</code> method.</p>
+</div>
+<div class="paragraph">
+<p>More complex transaction management, such as suspension and resumption of transactions, is supported by the <code>TransactionManagerFactory</code> and <code>TransactionManager</code> classes.</p>
+</div>
+<div class="paragraph">
+<p>Full details of the WS-AT APIs are provided in <a href="xts_api.html#sec_xts_api">the XTS API</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="ref_wsatrawcreatingtransactionalwebservices"><a class="anchor" href="#ref_wsatrawcreatingtransactionalwebservices"></a>Creating Transactional Web Services</h5>
+<div class="paragraph">
+<p>The two parts to implementing a Web service using XTS are the transaction management and the business logic.</p>
+</div>
+<div class="paragraph">
+<p>The bulk of the transaction management aspects are organized in a clear and easy-to-implement model by means of the XTS&#8217;s <em>Participant API</em>, provides a structured model for negotiation between the web service and the transaction coordinator.
+It allows the web service to manage its own local transactional data, in accordance with the needs of the business logic, while ensuring that its activities are in step with those of the client and other services involved in the transaction.
+Internally, this API uses SOAP to invokes operations on the various WS-C and WS-AT services, to drive the transaction to completion.</p>
+</div>
+<div class="paragraph">
+<p>A <em>participant</em> is a software entity which is driven by the transaction manager on behalf of a Web service.
+When a web service wants to participate in a particular transaction, it must enroll a participant to act as a proxy for the service in subsequent negotiations with the coordinator.
+The participant implements an API appropriate to the type of transaction it is enrolled in, and the participant model selected when it is enrolled.
+For example, a <code>Durable2PC</code> participant, as part of a WS-Atomic Transaction, implements the <code>Durable2PCParticipant</code> interface.
+The use of participants allows the transactional control management aspects of the Web service to be factored into the participant implementation, while staying separate from the rest of the Web service&#8217;s business logic and private transactional data management.</p>
+</div>
+<div class="paragraph">
+<p>The creation of participants is not trivial, since they ultimately reflect the state of a Web service&#8217;s back-end processing facilities, an aspect normally associated with an enterprise&#8217;s own IT infrastructure.
+Implementations must use one of the following interfaces: <code>com.arjuna.wst11.Durable2PCParticipant</code>, <code>com.arjuna.wst11.Volatile2PCParticipant</code>.</p>
+</div>
+<div class="paragraph">
+<p>A full description of XTS&#8217;s participant features is provided in <a href="xts_api.html#sec_xts_api">the XTS API</a>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_working_with_ws_ba"><a class="anchor" href="#_working_with_ws_ba"></a>2.3. Working With WS-BA</h3>
+<div class="sect3">
+<h4 id="_creating_client_applications_2"><a class="anchor" href="#_creating_client_applications_2"></a>2.3.1. Creating Client Applications</h4>
+<div class="paragraph">
+<p>There are two aspects to a client application using XTS, the transaction declaration aspects, and the business logic.
+The business logic includes the invocation of Web Services.</p>
+</div>
+<div class="paragraph">
+<p>Transaction declaration aspects are handled automatically with the XTS client API.
+This API provides simple transaction directives such as <code>begin</code>, <code>close</code>, and <code>cancel</code>, which the client application can use to initialize, manage, and terminate transactions.
+Internally, this API uses SOAP to invoke operations on WS-BA services, in order to create a coordinator and drive the transaction to completion.</p>
+</div>
+<div class="sect4">
+<h5 id="_business_activities"><a class="anchor" href="#_business_activities"></a>Business Activities</h5>
+<div class="paragraph">
+<p>A client creates and manages Business Activities using the <code>UserBusinessActivityFactory</code> and <code>UserBusinessActivity</code> classes.
+A WS-BA activity is started and associated with the client thread by calling the <code>begin</code> method of the <code>UserBusinessActivity</code> class.
+A client can terminate a business activity by calling the <code>close</code> method, and cancel it by calling the <code>cancel</code> method.</p>
+</div>
+<div class="paragraph">
+<p>If any of the Web Services invoked by the client register for the <code>BusinessActivityWithCoordinatorCompletion</code> protocol, the client can call the <code>completed</code> method before calling the <code>close</code> method, to notify the services that it has finished making service invocations in the current activity.</p>
+</div>
+<div class="paragraph">
+<p>More complex business activity management, such as suspension and resumption of business activities, is supported by the <code>BusinessActivityManagerFactory</code> and <code>BusinessActivityManager</code> classes.</p>
+</div>
+<div class="paragraph">
+<p>Full details of the WS-BA APIs are provided in <a href="xts_api.html#sec_xts_api">the XTS API</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_creating_transactional_web_services"><a class="anchor" href="#_creating_transactional_web_services"></a>2.3.2. Creating Transactional Web Services</h4>
+<div class="paragraph">
+<p>The theory behind creating WS-BA web services is similar to the WS-AT Raw API <a href="#ref_wsatrawcreatingtransactionalwebservices">Creating Transactional Web Services</a>.
+However, different participant classes are used: <code>com.arjuna.wst11.BusinessAgreementWithParticipantCompletionParticipant</code> , or <code>com.arjuna.wst11.BusinessAgreementWithCoordinatorCompletionParticipant</code>.</p>
+</div>
+<div class="paragraph">
+<p>A full description of XTS&#8217;s participant features is provided in <a href="xts_api.html#sec_xts_api">the XTS API</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_new_compensating_transactions_api"><a class="anchor" href="#_new_compensating_transactions_api"></a>2.3.3. New Compensating Transactions API</h4>
+<div class="paragraph">
+<p>There is a new Compensating Transactions API available to work with WS-BA applications.
+Please consult our quickstarts how to use it: <a href="quickstarts_overview.html#ref_compensationsnontransactionalresource">non-transactional resource with compensating transactions API</a> and <a href="quickstarts_overview.html#ref_compensationstravelagent">travel agent with compensating transactions API</a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="ref_transactioncontextpropagation"><a class="anchor" href="#ref_transactioncontextpropagation"></a>2.4. Configuration of The Transaction Context Propagation</h3>
+<div class="paragraph">
+<p>You can enable transaction propagation for all Web service calls that are invoked within a JTA, WS-AT or WS-BA transaction.
+This is done with the <code>default-context-propagation</code> property in the XTS subsystem config of the <code>standalone-xts.xml</code>.</p>
+</div>
+<div class="paragraph">
+<p>As this is enabled by default (for <code>standalone-xts.xml</code>), calls to all Web services that support WS-AT or WS-BA will automatically receive the transaction context allowing them to participate in the distributed transaction.</p>
+</div>
+<div class="paragraph">
+<p>The transaction context is simply ignored if the service does not support WS-AT or WS-BA.
+This is done by setting <code>MustUnderstand="false"</code> on the <code>CoordinationContext</code> SOAP header.
+Unfortunately, this may cause issues when invoking WS-AT or WS-BA enabled Web services on other vendors' application servers.
+This is because the WS-Coordination specification states that <code>MustUnderstand</code> must be set to true.
+If you are affected by this issue, you will need to explicitly enable the transaction propagation for every port.</p>
+</div>
+<div class="paragraph">
+<p>The default context propagation policy can also be overridden on a per Web Service port basis.
+This allows the developer to easily state which Web Service clients must and must-not propagate the transaction context.
+This is done through the standard JAX-WS WebServiceFeature facility.
+A JAX-WS <code>WebServiceFeature</code> allows meta-information to be added to a port that describe cross-cutting behaviour, such as logging, security or compression.
+In our case we use the <a href="xts_api.html#ref_jtaoverwsatfeature">JTAOverWSATFeature</a> and <a href="xts_api.html#ref_wstxfeature">WSTXFeature</a> features.</p>
+</div>
+<div class="paragraph">
+<p><a href="xts_api.html#ref_jtaoverwsatfeature">JTAOverWSATFeature</a> states that any JTA, WS-AT, or WS-BA transactions should be distributed via calls on this client.
+This feature is recommended to use, if you have a JTA transactions which should be propagated.</p>
+</div>
+<div class="paragraph">
+<p><a href="xts_api.html#ref_wstxfeature">WSTXFeature</a> states that any WS-AT or WS-BA transaction should be distributed via calls on this client.
+You should use this feature, if you use Raw XTS or WS-BA APIs.</p>
+</div>
+<div class="paragraph">
+<p>Calls to the service will fail if the Web service does not support WS-AT or WS-BA (in this case, XTS sets <code>MustUnderstand=true</code> on the <code>CoordinationContext</code> SOAP header as the developer has explicitly stated that it is required).</p>
+</div>
+<div class="paragraph">
+<p>The developer may also state that the transaction must-not be distributed over calls to this Web service.
+This is done by setting the <a href="xts_api.html#ref_jtaoverwsatfeature">JTAOverWSATFeature</a> or <a href="xts_api.html#ref_wstxfeature">WSTXFeature</a> feature to disabled.</p>
+</div>
+<div class="paragraph">
+<p>The use of <a href="xts_api.html#ref_jtaoverwsatfeature">JTAOverWSATFeature</a> and <a href="xts_api.html#ref_wstxfeature">WSTXFeature</a> overrides whatever default context propagation is set to in the <code>standalone-xts.xml</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_summary"><a class="anchor" href="#_summary"></a>2.5. Summary</h3>
+<div class="paragraph">
+<p>This chapter gives a high-level overview of each of the major software pieces used by the Web Services transactions component of Narayana.
+The Web Services transaction manager provided by Narayana is the hub of the architecture and is the only piece of software that user-level software does not bind to directly.
+XTS provides header-processing infrastructure for use with Web Services transactions contexts for both client applications and Web Services.
+XTS provides a simple interface for developing transaction participants, along with the necessary document-handling code.</p>
+</div>
+<div class="paragraph">
+<p>This chapter is only an overview, and does not address the more difficult and subtle aspects of programming Web Services.
+For fuller explanations of the components, please continue reading.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="sec_xts_api"><a class="anchor" href="#sec_xts_api"></a>3. The XTS API</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This chapter discusses the XTS API.
+You can use this information to write client and server applications which consume transactional Web Services and coordinate back-end systems.</p>
+</div>
+<div class="sect2">
+<h3 id="_participants"><a class="anchor" href="#_participants"></a>3.1. Participants</h3>
+<div class="sect3">
+<h4 id="_overview"><a class="anchor" href="#_overview"></a>3.1.1. Overview</h4>
+<div class="paragraph">
+<p>The <code>participant</code> is the entity that performs the work pertaining to transaction management on behalf of the business services involved in an application.
+The Web service (in the example code, a theater booking system) contains some business logic to reserve a seat and inquire about availability, but it needs to be supported by something that maintains information in a durable manner.
+Typically this is a database, but it could be a file system, NVRAM, or other storage mechanism.</p>
+</div>
+<div class="paragraph">
+<p>Although the service may talk to the back-end database directly, it cannot commit or undo any changes, since committing and rolling back are ultimately under the control of a transaction.
+For the transaction to exercise this control, it must communicate with the database.
+In XTS, participant does this communication, as shown in <a href="#fig_participant_backend_control">Transactions, Participants, and Back-End Transaction Control</a>.</p>
+</div>
+<div id="fig_participant_backend_control" class="imageblock text-center">
+<div class="content">
+<img src="images/xts-guide-fig-participant-backend-control.png" alt="xts guide fig participant backend control">
+</div>
+<div class="title">Figure 1. Transactions, Participants, and Back-End Transaction Control</div>
+</div>
+<div class="sect4">
+<h5 id="_atomic_transaction"><a class="anchor" href="#_atomic_transaction"></a>Atomic Transaction</h5>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>This section is relevant for WS-AT applications only if Raw XTS API is used.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>All Atomic Transaction participants are instances of the <a href="#ref_durable2pcparticipant"><code>Durable2PCParticipant</code></a> or <a href="#ref_volatile2pcparticipant"><code>Volatile2PCParticipant</code></a> .</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_business_activity"><a class="anchor" href="#_business_activity"></a>Business Activity</h5>
+<div class="paragraph">
+<p>All Business Activity participants are instances one or the other of the interfaces described in <a href="#ref_businessagreementwithparticipantcompletion"><code>BusinessAgreementWithParticipantCompletionParticipant</code></a> or <a href="#ref_businessagreementwithcoordinatorcompletion"><code>BusinessAgreementWithCoordinatorCompletion</code></a> interface.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_participant_creation_and_deployment"><a class="anchor" href="#_participant_creation_and_deployment"></a>3.1.2. Participant Creation and Deployment</h4>
+<div class="paragraph">
+<p>The participant provides the plumbing that drives the transactional aspects of the service.
+This section discusses the specifics of Participant programming and usage.</p>
+</div>
+<div class="sect4">
+<h5 id="_implementing_participants"><a class="anchor" href="#_implementing_participants"></a>Implementing Participants</h5>
+<div class="paragraph">
+<p>Implementing a participant is a relatively straightforward task.
+However, depending on the complexity of the transactional infrastructure that the participant needs to manage, the task can vary greatly in complexity and scope.
+Your implementation needs to implement one of the interfaces found under <code>com.arjuna.wst</code>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_deploying_participants"><a class="anchor" href="#_deploying_participants"></a>Deploying Participants</h5>
+<div class="paragraph">
+<p>Transactional web services and transactional clients are regular Jakarta EE applications and can be deployed into the application server in the same way as any other Jakarta EE application.
+The XTS Subsystem exports all the client and web service API classes needed to manage transactions and enroll and manage participant web services.
+It provides implementations of all the WS-C and WS-T coordination services, not just the coordinator services.
+In particular, it exposes the client and web service participant endpoints which are needed to receive incoming messages originating from the coordinator.</p>
+</div>
+<div class="paragraph">
+<p>Normally, a transactional application client and the transaction web service it invokes will be deployed in different application servers.
+As long as XTS is enabled on each of these containers it will transparently route coordination messages from clients or web services to their coordinator and vice versa.
+When the client begins a transaction by default it creates a context using the coordination services in its local container.
+The context holds a reference to the local Registration Service which means that any web services enlisted in the transaction enrol with the coordination services in the same container.</p>
+</div>
+<div class="paragraph">
+<p>The coordinator does not need to reside in the same container as the client application.
+By configuring the client deployment appropriately it is possible to use the coordinator services co-located with one of the web services or even to use services deployed in a separate, dedicated container.
+See Chapter 8 Stand-Alone Coordination for details of how to configure a coordinator located in a different container to the client.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>In previous releases, the XTS and Transaction Manager <code>.jar</code>, <code>.war</code> and configuration files needed to be bundled with the application.
+This deployment method is no longer supported in the WildFly Application Server as XTS is pre-installed as a SubSystem.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_api_for_the_atomic_transaction_protocol"><a class="anchor" href="#_api_for_the_atomic_transaction_protocol"></a>3.2. API for the Atomic Transaction Protocol</h3>
+<div class="sect3">
+<h4 id="ref_durable2pcparticipant"><a class="anchor" href="#ref_durable2pcparticipant"></a>3.2.1. <code>Durable2PCParticipant</code></h4>
+<div class="paragraph">
+<p>All participants which support <code>Durable2PC</code> protocol have to implement <code>com.arjuna.wst.Durable2PCParticipant</code> interface.</p>
+</div>
+<div class="dlist">
+<div class="title"><code>Durable2PCParticipant</code> Methods</div>
+<dl>
+<dt class="hdlist1">prepare</dt>
+<dd>
+<p>The participant should perform any work necessary, so that it can either <code>commit</code> or <code>roll back</code> the work performed by the Web service under the scope of the transaction.
+The implementation is free to do whatever it needs to in order to fulfill the implicit contract between it and the coordinator.</p>
+<div class="paragraph">
+<p>The participant indicates whether it can <code>prepare</code> by returning an instance of <a href="#ref_vote">Vote</a>.</p>
+</div>
+</dd>
+<dt class="hdlist1"><code>commit</code></dt>
+<dd>
+<p>The participant should make its work permanent.
+How it accomplishes this depends upon its implementation.
+For instance, in the theater example, the reservation of the ticket is committed.
+If <code>commit</code> processing cannot complete, the participant should throw a <code>SystemException</code> error, potentially leading to a heuristic outcome for the transaction.</p>
+</dd>
+<dt class="hdlist1"><code>rollback</code></dt>
+<dd>
+<p>The participant should undo its work.
+If <code>rollback</code> processing cannot complete, the participant should throw a <code>SystemException</code> error, potentially leading to a heuristic outcome for the transaction.</p>
+</dd>
+<dt class="hdlist1"><code>unknown</code></dt>
+<dd>
+<p>This method has been deprecated and is slated to be removed from XTS in the future.</p>
+</dd>
+<dt class="hdlist1"><code>error</code></dt>
+<dd>
+<p>In rare cases when recovering from a system crash, it may be impossible to complete or <code>roll back</code> a previously prepared participant, causing the <code>error</code> operation to be invoked.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect3">
+<h4 id="ref_volatile2pcparticipant"><a class="anchor" href="#ref_volatile2pcparticipant"></a>3.2.2. <code>Volatile2PCParticipant</code></h4>
+<div class="paragraph">
+<p>All participants which support <code>Volatile2PC</code> protocol have to implement <code>com.arjuna.wst.Volatile2PCParticipant</code> interface.</p>
+</div>
+<div class="dlist">
+<div class="title"><code>Volatile2PCParticipant</code> Methods</div>
+<dl>
+<dt class="hdlist1"><code>prepare</code></dt>
+<dd>
+<p>The participant should perform any work necessary to flush any volatile data created by the Web service under the scope of the transaction, to the system store.
+The implementation is free to do whatever it needs to in order to fulfill the implicit contract between it and the coordinator.</p>
+<div class="paragraph">
+<p>The participant indicates whether it can <code>prepare</code> by returning an instance of <a href="#ref_vote">Vote</a>.</p>
+</div>
+</dd>
+<dt class="hdlist1"><code>commit</code></dt>
+<dd>
+<p>The participant should perform any cleanup activities required, in response to a successful transaction <code>commit</code>.
+These cleanup activities depend upon its implementation.
+For instance, it may flush cached backup copies of data modified during the transaction.
+In the unlikely event that <code>commit</code> processing cannot complete, the participant should throw a <code>SystemException</code> error.
+This will not affect the outcome of the transaction but will cause an error to be logged.
+This method may not be called if a crash occurs during <code>commit</code> processing.</p>
+</dd>
+<dt class="hdlist1"><code>rollback</code></dt>
+<dd>
+<p>The participant should perform any cleanup activities required, in response to a transaction <code>abort</code>.
+In the unlikely event that <code>rollback</code> processing cannot complete, the participant should throw a <code>SystemException</code> error.
+This will not affect the outcome of the transaction but will cause an error to be logged.
+This method may not be called if a crash occurs during <code>commit</code> processing.</p>
+</dd>
+<dt class="hdlist1"><code>unknown</code></dt>
+<dd>
+<p>This method is deprecated and will be removed in a future release of XTS.</p>
+</dd>
+<dt class="hdlist1"><code>error</code></dt>
+<dd>
+<p>This method should never be called, since volatile participants are not involved in recovery processing.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect3">
+<h4 id="ref_vote"><a class="anchor" href="#ref_vote"></a>3.2.3. Vote</h4>
+<div class="paragraph">
+<p>During the two-phase commit protocol, a participant is asked to vote on whether it can prepare to confirm the work that it controls.
+It must return an instance of one of the subtypes of <code>com.arjuna.wst.Vote</code>.</p>
+</div>
+<div class="dlist">
+<div class="title">Subclasses of <code>com.arjuna.wst.Vote</code></div>
+<dl>
+<dt class="hdlist1"><code>Prepared</code></dt>
+<dd>
+<p>Indicates that the participant can prepare if the coordinator requests it.
+Nothing has been committed, because the participant does not know the final outcome of the transaction.</p>
+</dd>
+<dt class="hdlist1"><code>Aborted</code></dt>
+<dd>
+<p>The participant cannot prepare, and has rolled back.
+The participant should not expect to get a second phase message.</p>
+</dd>
+<dt class="hdlist1"><code>ReadOnly</code></dt>
+<dd>
+<p>The participant has not made any changes to state, and it does not need to know the final outcome of the transaction.
+Essentially the participant is resigning from the transaction.</p>
+</dd>
+</dl>
+</div>
+<div class="listingblock">
+<div class="title">Example Implementation of 2PC Participant&#8217;s `prepare`method</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> Vote prepare() <span class="directive">throws</span> WrongStateException, SystemException {
+    <span class="comment">// Some participant logic here</span>
+
+    <span class="keyword">if</span> (<span class="comment">/* some condition based on the outcome of the business logic */</span>) {
+        <span class="comment">// Vote to confirm</span>
+        <span class="keyword">return</span> <span class="keyword">new</span> com.arjuna.wst.Prepared();
+    } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="comment">/*another condition based on the outcome of the business logic*/</span>) {
+        <span class="comment">// Resign</span>
+        <span class="keyword">return</span> <span class="keyword">new</span> com.arjuna.wst.ReadOnly();
+    } <span class="keyword">else</span> {
+        <span class="comment">// Vote to cancel</span>
+        <span class="keyword">return</span> <span class="keyword">new</span> com.arjuna.wst.Aborted();
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_txcontext"><a class="anchor" href="#_txcontext"></a>3.2.4. TXContext</h4>
+<div class="paragraph">
+<p><code>com.arjuna.mw.wst.TxContext</code> is an opaque representation of a transaction context.
+It returns one of two possible values, as listed below.</p>
+</div>
+<div class="dlist">
+<div class="title">TxContext Return Values</div>
+<dl>
+<dt class="hdlist1"><code>valid</code></dt>
+<dd>
+<p>Indicates whether the contents are valid.</p>
+</dd>
+<dt class="hdlist1"><code>equals</code></dt>
+<dd>
+<p>Can be used to compare two instances for equality.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect3">
+<h4 id="ref_usertransaction"><a class="anchor" href="#ref_usertransaction"></a>3.2.5. UserTransaction</h4>
+<div class="paragraph">
+<p><code>com.arjuna.mw.wst11.UserTransaction</code> is the class that clients typically employ.
+Before a client can begin a new atomic transaction, it must first obtain a <code>UserTransaction</code> from the <code>UserTransactionFactory</code>.
+This class isolates the user from the underlying protocol-specific aspects of the XTS implementation.
+A <code>UserTransaction</code> does not represent a specific transaction.
+Instead, it provides access to an implicit per-thread transaction context, similar to the <code>UserTransaction</code> in the JTA specification.
+All of the <code>UserTransaction</code> methods implicitly act on the current thread of control.</p>
+</div>
+<div class="dlist">
+<div class="title">`UserTransaction`Methods</div>
+<dl>
+<dt class="hdlist1"><code>begin</code></dt>
+<dd>
+<p>Used to begin a new transaction and associate it with the invoking thread.</p>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Parameters</div>
+<dl>
+<dt class="hdlist1"><code>timeout</code></dt>
+<dd>
+<p>This optional parameter, measured in milliseconds, specifies a time interval after which the newly created transaction may be automatically rolled back by the coordinator</p>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Exceptions</div>
+<dl>
+<dt class="hdlist1"><code>WrongStateException</code></dt>
+<dd>
+<p>A transaction is already associated with the thread.</p>
+</dd>
+<dt class="hdlist1"><code>commit</code></dt>
+<dd>
+<p><code>Volatile2PC</code> and <code>Durable2PC</code> participants enrolled in the transaction are requested first to prepare and then to <code>commit</code> their changes.
+If any of the participants fails to prepare in the first phase then all other participants are requested to <code>abort</code>.</p>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Exceptions</div>
+<dl>
+<dt class="hdlist1"><code>UnknownTransactionException</code></dt>
+<dd>
+<p>No transaction is associated with the invoking thread.</p>
+</dd>
+<dt class="hdlist1"><code>TransactionRolledBackException</code></dt>
+<dd>
+<p>The transaction was rolled back either because of a timeout or because a participant was unable to <code>commit</code>.</p>
+</dd>
+<dt class="hdlist1"><code>rollback</code></dt>
+<dd>
+<p>Terminates the transaction.
+Upon completion, the <code>rollback</code> method disassociates the transaction from the current leaving it unassociated with any transactions.</p>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Exceptions</div>
+<dl>
+<dt class="hdlist1"><code>UnknownTransactionException</code></dt>
+<dd>
+<p>No transaction is associated with the invoking thread.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_usertransactionfactory"><a class="anchor" href="#_usertransactionfactory"></a>3.2.6. UserTransactionFactory</h4>
+<div class="paragraph">
+<p>Call the <code>getUserTransaction</code> method to obtain a <a href="#ref_usertransaction">UserTransaction</a> instance from a <code>UserTransactionFactory</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="ref_transactionmanager"><a class="anchor" href="#ref_transactionmanager"></a>3.2.7. TransactionManager</h4>
+<div class="paragraph">
+<p>Defines the interaction between a transactional web service and the underlying transaction service implementation.
+A <code>TransactionManager</code> does not represent a specific transaction.
+Instead, it provides access to an implicit per-thread transaction context.</p>
+</div>
+<div class="dlist">
+<div class="title">Methods</div>
+<dl>
+<dt class="hdlist1"><code>currentTransaction</code></dt>
+<dd>
+<p>Returns a <code>TxContext</code> for the current transaction, or null if there is no context.
+Use the <code>currentTransaction</code> method to determine whether a web service has been invoked from within an existing transaction.
+You can also use the returned value to enable multiple threads to execute within the scope of the same transaction.
+Calling the <code>currentTransaction</code> method does not disassociate the current thread from the transaction.</p>
+</dd>
+<dt class="hdlist1"><code>suspend</code></dt>
+<dd>
+<p>Dissociates a thread from any transaction.
+This enables a thread to do work that is not associated with a specific transaction.</p>
+<div class="paragraph">
+<p>The <code>suspend</code> method returns a <code>TxContext</code> instance, which is a handle on the transaction.</p>
+</div>
+</dd>
+<dt class="hdlist1"><code>resume</code></dt>
+<dd>
+<p>Associates or re-associates a thread with a transaction, using its <code>TxContext</code>.
+Prior to association or re-association, the thread is disassociated from any transaction with which it may be currently associated.
+If the <code>TxContext</code> is null, then the thread is associated with no transaction.
+In this way, the result is the same as if the <code>suspend</code> method were used instead.</p>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Parameters</div>
+<dl>
+<dt class="hdlist1">txContext</dt>
+<dd>
+<p>A TxContext instance as return by <code>suspend</code>, identifying the transaction to be resumed.</p>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Exceptions</div>
+<dl>
+<dt class="hdlist1"><code>UnknownTransactionException</code></dt>
+<dd>
+<p>The transaction referred to by the <code>TxContext</code> is invalid in the scope of the invoking thread.</p>
+</dd>
+<dt class="hdlist1"><code>enlistForVolitaleTwoPhase</code></dt>
+<dd>
+<p>Enroll the specified participant with the current transaction, causing it to participate in the <code>Volatile2PC</code> protocol.
+You must pass a unique identifier for the participant.</p>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Parameters</div>
+<dl>
+<dt class="hdlist1">participant</dt>
+<dd>
+<p>An implementation of interface <code>Volatile2PCParticipant</code> whose prepare, <code>commit</code> and <code>abort</code> methods are called when the corresponding coordinator message is received.</p>
+</dd>
+<dt class="hdlist1">id</dt>
+<dd>
+<p>A unique identifier for the participant.
+The value of this String should differ for each enlisted participant.
+It should also be possible for a given identifier to determine that the participant belongs to the enlisting web service rather than some other web service deployed to the same container.</p>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Exceptions</div>
+<dl>
+<dt class="hdlist1">UnknownTransactionException</dt>
+<dd>
+<p>No transaction is associated with the invoking thread.</p>
+</dd>
+<dt class="hdlist1"><code>WrongStateException</code></dt>
+<dd>
+<p>The transaction is not in a state that allows participants to be enrolled.
+For instance, it may be in the process of terminating.</p>
+</dd>
+<dt class="hdlist1"><code>enlistForDurableTwoPhase</code></dt>
+<dd>
+<p>Enroll the specified participant with the current transaction, causing it to participate in the <code>Durable2PC</code> protocol.
+You must pass a unique identifier for the participant.</p>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Exceptions</div>
+<dl>
+<dt class="hdlist1">UnknownTransactionException</dt>
+<dd>
+<p>No transaction is associated with the invoking thread.</p>
+</dd>
+<dt class="hdlist1"><code>WrongStateException</code></dt>
+<dd>
+<p>The transaction is not in a state that allows participants to be enrolled.
+For instance, it may be in the process of terminating.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_transactionmanagerfactory"><a class="anchor" href="#_transactionmanagerfactory"></a>3.2.8. <code>TransactionManagerFactory</code></h4>
+<div class="paragraph">
+<p>Use the <code>getTransactionManager</code> method to obtain a <a href="#ref_transactionmanager">TransactionManager</a> from a <code>TransactionManagerFactory</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="ref_wstxfeature"><a class="anchor" href="#ref_wstxfeature"></a>3.2.9. WSTXFeature</h4>
+<div class="paragraph">
+<p>Use this JAX-WS feature to enable or disable WS-AT context propagation for specific port.
+Pass an instance of this feature when creating web service port.</p>
+</div>
+<div class="dlist">
+<div class="title">Methods</div>
+<dl>
+<dt class="hdlist1"><code>WSTXFeature</code></dt>
+<dd>
+<p><code>WSTXFeature</code> created with default constructor will enable WS-AT context propagation.</p>
+</dd>
+<dt class="hdlist1"><code>WSTXFeature</code></dt>
+<dd>
+<p>Parametrised constructor will either enabled or disable WS-AT context propagation.</p>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Parameters</div>
+<dl>
+<dt class="hdlist1"><code>enabled</code></dt>
+<dd>
+<p>Boolean value saying to either enable or disable WS-AT context propagation.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect3">
+<h4 id="ref_jtaoverwsatfeature"><a class="anchor" href="#ref_jtaoverwsatfeature"></a>3.2.10. JTAOverWSATFeature</h4>
+<div class="paragraph">
+<p>Use this JAX-WS feature to enable or disable JTA context propagation for specific port.
+Pass an instance of this feature when creating web service port.</p>
+</div>
+<div class="dlist">
+<div class="title">Methods</div>
+<dl>
+<dt class="hdlist1"><code>JTAOverWSATFeature</code></dt>
+<dd>
+<p><code>JTAOverWSATFeature</code> created with default constructor will enable JTA context propagation.</p>
+</dd>
+<dt class="hdlist1"><code>JTAOverWSATFeature</code></dt>
+<dd>
+<p>Parametrised constructor will either enabled or disable JTA context propagation.</p>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Parameters</div>
+<dl>
+<dt class="hdlist1"><code>enabled</code></dt>
+<dd>
+<p>Boolean value saying to either enable or disable JTA context propagation.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_api_for_the_business_activity_protocol"><a class="anchor" href="#_api_for_the_business_activity_protocol"></a>3.3. API for the Business Activity Protocol</h3>
+<div class="sect3">
+<h4 id="_compatibility"><a class="anchor" href="#_compatibility"></a>3.3.1. Compatibility</h4>
+<div class="paragraph">
+<p>Previous implementations of XTS locate the Business Activity Protocol classes in the <code>com.arjuna.mw.wst</code> package.
+In the current implementation, these classes are located in the <code>com.arjuna.mw.wst11</code> package.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="ref_businessagreementwithparticipantcompletion"><a class="anchor" href="#ref_businessagreementwithparticipantcompletion"></a>3.3.2. <code>BusinessAgreementWithParticipantCompletionParticipant</code></h4>
+<div class="paragraph">
+<p>Participant which support business agreement with participant completion protocol have to implement <code>com.arjuna.wst.BusinessAgreementWithParticipantCompletionParticipant</code> interface.</p>
+</div>
+<div class="dlist">
+<div class="title"><code>BusinessAgreementWithParticipantCompletion</code> Methods</div>
+<dl>
+<dt class="hdlist1"><code>close</code></dt>
+<dd>
+<p>The transaction has completed successfully.
+The participant has previously informed the coordinator that it was ready to complete.</p>
+</dd>
+<dt class="hdlist1"><code>cancel</code></dt>
+<dd>
+<p>The transaction has canceled, and the participant should undo any work.
+The participant cannot have informed the coordinator that it has completed.</p>
+</dd>
+<dt class="hdlist1"><code>compensate</code></dt>
+<dd>
+<p>The transaction has canceled.
+The participant previously informed the coordinator that it had finished work but could compensate later if required, and it is now requested to do so.
+If compensation cannot be performed, the participant should throw a <code>FaultedException</code> error, potentially leading to a heuristic outcome for the transaction.
+If compensation processing cannot complete because of a transient condition then the participant should throw a <code>SystemException</code> error, in which case the compensation action may be retried or the transaction may finish with a heuristic outcome.</p>
+</dd>
+<dt class="hdlist1"><code>status</code></dt>
+<dd>
+<p>Return the status of the participant.</p>
+</dd>
+<dt class="hdlist1"><code>unknown</code></dt>
+<dd>
+<p>This method is deprecated and will be removed a future XTS release.</p>
+</dd>
+<dt class="hdlist1"><code>error</code></dt>
+<dd>
+<p>In rare cases when recovering from a system crash, it may be impossible to compensate a previously-completed participant.
+In such cases the <code>error</code> operation is invoked.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect3">
+<h4 id="ref_businessagreementwithcoordinatorcompletion"><a class="anchor" href="#ref_businessagreementwithcoordinatorcompletion"></a>3.3.3. <code>BusinessAgreementWithCoordinatorCompletion</code></h4>
+<div class="paragraph">
+<p>Participant which support business agreement with coordinator completion protocol have to implement <code>com.arjuna.wst.BusinessAgreementWithCoordinatorCompletionParticipant</code> interface.</p>
+</div>
+<div class="dlist">
+<div class="title"><code>BusinessAgreementWithCoordinatorCompletion</code> Methods</div>
+<dl>
+<dt class="hdlist1"><code>close</code></dt>
+<dd>
+<p>The transaction completed successfully.
+The participant previously informed the coordinator that it was ready to complete.</p>
+</dd>
+<dt class="hdlist1"><code>cancel</code></dt>
+<dd>
+<p>The transaction canceled, and the participant should undo any work.</p>
+</dd>
+<dt class="hdlist1"><code>compensate</code></dt>
+<dd>
+<p>The transaction canceled.
+The participant previously informed the coordinator that it had finished work but could compensate later if required, and it is now requested to do so.
+In the unlikely event that compensation cannot be performed the participant should throw a <code>FaultedException</code> error, potentially leading to a heuristic outcome for the transaction.
+If compensation processing cannot complete because of a transient condition, the participant should throw a <code>SystemException</code> error, in which case the compensation action may be retried or the transaction may finish with a heuristic outcome.</p>
+</dd>
+<dt class="hdlist1"><code>complete</code></dt>
+<dd>
+<p>The coordinator is informing the participant all work it needs to do within the scope of this business activity has been completed and that it should make permananent any provisional changes it has made.</p>
+</dd>
+<dt class="hdlist1"><code>status</code></dt>
+<dd>
+<p>Returns the status of the participant.</p>
+</dd>
+<dt class="hdlist1"><code>unknown</code></dt>
+<dd>
+<p>This method is deprecated and will be removed in a future release of XTS.</p>
+</dd>
+<dt class="hdlist1"><code>error</code></dt>
+<dd>
+<p>In rare cases when recovering from a system crash, it may be impossible to compensate a previously completed participant.
+In such cases, the <code>error</code> method is invoked.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_baparticipantmanager"><a class="anchor" href="#_baparticipantmanager"></a>3.3.4. <code>BAParticipantManager</code></h4>
+<div class="paragraph">
+<p>In order for the Business Activity protocol to work correctly, the participants must be able to autonomously notify the coordinator about changes in their status.
+Unlike the Atomic Transaction protocol, where all interactions between the coordinator and participants are instigated by the coordinator when the transaction terminates, the <code>BAParticipantManager</code> interaction pattern requires the participant to be able to talk to the coordinator at any time during the lifetime of the business activity.</p>
+</div>
+<div class="paragraph">
+<p>Whenever a participant is registered with a business activity, it receives a handle on the coordinator.
+This handle is an instance of interface <code>com.arjuna.wst11.BAParticipantManager</code>.</p>
+</div>
+<div class="dlist">
+<div class="title"><code>BAParticipantManager</code> Methods</div>
+<dl>
+<dt class="hdlist1">exit</dt>
+<dd>
+<p>The participant uses the method <code>exit</code> to inform the coordinator that is has left the activity.
+It will not be informed when and how the business activity terminates.
+This method may only be invoked while the participant is in the <code>active</code> state (or the <code>completing</code> state, in the case of a participant registered for the <code>ParticipantCompletion</code> protocol).
+If it is called when the participant is in any other state, a <code>WrongStateException</code> error is thrown.
+An <code>exit</code> does not stop the activity as a whole from subsequently being closed or canceled/compensated, but only ensures that the exited participant is no longer involved in completion, close or compensation of the activity.</p>
+</dd>
+<dt class="hdlist1">completed</dt>
+<dd>
+<p>The participant has completed its work, but wishes to continue in the business activity, so that it will eventually be informed when, and how, the activity terminates.
+The participant may later be asked to compensate for the work it has done or learn that the activity has been closed.</p>
+</dd>
+<dt class="hdlist1">fault</dt>
+<dd>
+<p>The participant encountered an error during normal activation and has done whatever it can to compensate the activity.
+The <code>fault</code> method places the business activity into a mandatory <code>cancel-only</code> mode.
+The faulted participant is no longer involved in completion, close or compensation of the activity.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect3">
+<h4 id="ref_userbusinessactivity"><a class="anchor" href="#ref_userbusinessactivity"></a>3.3.5. <code>UserBusinessActivity</code></h4>
+<div class="paragraph">
+<p><code>com.arjuna.wst11.UserBusinessActivity</code> is the class that most clients employ.
+A client begins a new business activity by first obtaining a <code>UserBusinessActivity</code> from the <code>UserBusinessActivityFactory</code>.
+This class isolates them from the underlying protocol-specific aspects of the XTS implementation.
+A <code>UserBusinessActivity</code> does not represent a specific business activity.
+Instead, it provides access to an implicit per-thread activity.
+Therefore, all of the <code>UserBusinessActivity</code> methods implicitly act on the current thread of control.</p>
+</div>
+<div class="dlist">
+<div class="title">Methods</div>
+<dl>
+<dt class="hdlist1"><code>begin</code></dt>
+<dd>
+<p>Begins a new activity, associating it with the invoking thread.</p>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Parameters</div>
+<dl>
+<dt class="hdlist1">timeout</dt>
+<dd>
+<p>The interval, in milliseconds, after which an activity times out.
+Optional.</p>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Exceptions</div>
+<dl>
+<dt class="hdlist1"><code>WrongStateException</code></dt>
+<dd>
+<p>The thread is already associated with a business activity.</p>
+</dd>
+<dt class="hdlist1"><code>close</code></dt>
+<dd>
+<p>First, all Coordinator Completion participants enlisted in the activity are requested to complete the activity.
+Next all participants, whether they enlisted for Coordinator or Participant Completion, are requested to close the activity.
+If any of the Coordinator Completion participants fails to complete at the first stage then all completed participants are asked to compensate the activity while any remaining uncompleted participants are requested to cancel the activity.</p>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Exceptions</div>
+<dl>
+<dt class="hdlist1"><code>UnknownTransactionException</code></dt>
+<dd>
+<p>No activity is associated with the invoking thread.</p>
+</dd>
+<dt class="hdlist1"><code>TransactionRolledBackException</code></dt>
+<dd>
+<p>The activity has been cancelled because one of the Coordinator Completion participants failed to complete.
+This exception may also be thrown if one of the Participant Completion participants has not completed before the client calls close.</p>
+</dd>
+<dt class="hdlist1"><code>cancel</code></dt>
+<dd>
+<p>Terminates the business activity.
+All Participant Completion participants enlisted in the activity which have already completed are requested to compensate the activity.
+All uncompleted Participant Completion participants and all Coordinator Completion participants are requested to cancel the activity.</p>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Exceptions</div>
+<dl>
+<dt class="hdlist1"><code>UnknownTransactionException</code></dt>
+<dd>
+<p>No activity is associated with the invoking thread.
+Any participants that previous completed are directed to compensate their work.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_userbusinessactivityfactory"><a class="anchor" href="#_userbusinessactivityfactory"></a>3.3.6. UserBusinessActivityFactory</h4>
+<div class="paragraph">
+<p>Use the <code>getUserBusinessActivity</code> method to obtain a <a href="#ref_userbusinessactivity"><code>UserBusinessActivity</code></a> instance from a <code>userBusinessActivityFactory</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="ref_businessactivitymanager"><a class="anchor" href="#ref_businessactivitymanager"></a>3.3.7. BusinessActivityManager</h4>
+<div class="paragraph">
+<p><code>com.arjuna.mw.wst11.BusinessActivityManager</code> is the class that web services typically employ.
+Defines how a web service interacts with the underlying business activity service implementation.
+A <code>BusinessActivityManager</code> does not represent a specific activity.
+Instead, it provides access to an implicit per-thread activity.</p>
+</div>
+<div class="dlist">
+<div class="title">Methods</div>
+<dl>
+<dt class="hdlist1"><code>currentTransaction</code></dt>
+<dd>
+<p>Returns the <code>TxContext</code> for the current business activity, or <code>NULL</code> if there is no <code>TxContext</code>.
+The returned value can be used to enable multiple threads to execute within the scope of the same business activity.
+Calling the <code>currenTransaction</code> method does not dissociate the current thread from its activity.</p>
+</dd>
+<dt class="hdlist1"><code>suspend</code></dt>
+<dd>
+<p>Dissociates a thread from any current business activity, so that it can perform work not associated with a specific activity.
+The <code>suspend</code> method returns a <code>TxContext</code> instance, which is a handle on the activity.
+The thread is then no longer associated with any activity.</p>
+</dd>
+<dt class="hdlist1"><code>resume</code></dt>
+<dd>
+<p>Associates or re-associates a thread with a business activity, using its <code>TxContext</code>.
+Before associating or re-associating the thread, it is disassociated from any business activity with which it is currently associated.
+If the <code>TxContext</code> is <code>NULL</code>, the thread is disassociated with all business activities, as though the <code>suspend</code> method were called.</p>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Parameters</div>
+<dl>
+<dt class="hdlist1"><code>txContext</code></dt>
+<dd>
+<p>A TxContext instance as returned by <code>suspend</code>, identifying the transaction to be resumed.</p>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Exceptions</div>
+<dl>
+<dt class="hdlist1"><code>UnknownTransactionException</code></dt>
+<dd>
+<p>The business activity to which the <code>TxContext</code> refers is invalid in the scope of the invoking thread.</p>
+</dd>
+<dt class="hdlist1"><code>enlistForBusinessAgreementWithParticipantCompletion</code></dt>
+<dd>
+<p>Enroll the specified participant with current business activity, causing it to participate in the <code>BusinessAgreementWithParticipantCompletion</code> protocol.
+A unique identifier for the participant is also required.</p>
+<div class="paragraph">
+<p>The return value is an instance of BAParticipantManager which can be used to notify the coordinator of changes in the participant state.
+In particular, since the participant is enlisted for the Participant Completion protcol it is expected to call the completed method of this returned instance when it has completed all the work it expects to do in this activity and has made all its changes permanent.
+Alternatively, if the participant does not need to perform any compensation actions should some other participant fail it can leave the activity by calling the exit method of the returned <code>BAParticipantManager</code> instance.</p>
+</div>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Parameters</div>
+<dl>
+<dt class="hdlist1">participant</dt>
+<dd>
+<p>An implementation of interface <code>BusinessAgreementWithParticipantCompletionParticipant</code> whose <code>close</code>, <code>cancel</code>, and <code>compensate</code> methods are called when the corresponding coordinator message is received.</p>
+</dd>
+<dt class="hdlist1"><code>id</code></dt>
+<dd>
+<p>A unique identifier for the participant.
+The value of this String should differ for each enlisted participant.
+It should also be possible for a given identifier to determine that the participant belongs to the enlisting web service rather than some other web service deployed to the same container.</p>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Exceptions</div>
+<dl>
+<dt class="hdlist1"><code>UnknownTransactionException</code></dt>
+<dd>
+<p>No transaction is associated with the invoking thread.</p>
+</dd>
+<dt class="hdlist1"><code>WrongStateException</code></dt>
+<dd>
+<p>The transaction is not in a state where new participants may be enrolled, such as when it is terminating.</p>
+</dd>
+<dt class="hdlist1"><code>enlistForBusinessAgreementWithCoordinatorCompletion</code></dt>
+<dd>
+<p>Enroll the specified participant with current activity, causing it to participate in the <code>BusinessAgreementWithCoordinatorCompletion</code> protocol.
+A unique identifier for the participant is also required.</p>
+<div class="paragraph">
+<p>The return value is an instance of <code>BAParticipantManager</code> which can be used to notify the coordinator of changes in the participant state.
+Note that in this case it is an error to call the <code>completed</code> method of this returned instance.
+With the Coordinator Completion protocol the participant is expected to wait until its <code>completed</code> method is called before it makes all its changes permanent.
+Alternatively, if the participant determiens that it has no changes to make, it can leave the activity by calling the <code>exit</code> method of the returned <code>BAParticipantManager</code> instance.</p>
+</div>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Parameters</div>
+<dl>
+<dt class="hdlist1">participant</dt>
+<dd>
+<p>An implementation of interface <code>BusinessAgreementWithCoordinatorCompletionParticipant</code> whose completed, close, cancel and compensate methods are called when the corresponding coordinator message is received.</p>
+</dd>
+<dt class="hdlist1"><code>id</code></dt>
+<dd>
+<p>A unique identifier for the participant.
+The value of this String should differ for each enlisted participant.
+It should also be possible for a given identifier to determine that the participant belongs to the enlisting web service rather than some other web service deployed to the same container.</p>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Exceptions</div>
+<dl>
+<dt class="hdlist1"><code>UnknownTransactionException</code></dt>
+<dd>
+<p>No transaction is associated with the invoking thread.</p>
+</dd>
+<dt class="hdlist1"><code>WrongStateException</code></dt>
+<dd>
+<p>The transaction is not in a state where new participants may be enrolled, such as when it is terminating.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_businessactivitymanagerfactory"><a class="anchor" href="#_businessactivitymanagerfactory"></a>3.3.8. <code>BusinessActivityManagerFactory</code></h4>
+<div class="paragraph">
+<p>Use the <code>getBusinessActivityManager</code> method to obtain a <a href="#ref_businessactivitymanager">BusinessActivityManager</a> instance from a <code>BusinessActivityManagerFactory</code>.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_stand_alone_coordination"><a class="anchor" href="#_stand_alone_coordination"></a>4. Stand-Alone Coordination</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_introduction_2"><a class="anchor" href="#_introduction_2"></a>4.1. Introduction</h3>
+<div class="paragraph">
+<p>By default, coordination contexts are obtained from the local coordinator.
+Therefore, WS-AT transactions or WS-BA activities created by a locally-deployed client application are supplied with a context which identifies the Registration Service running on the client&#8217;s machine.
+Any Web Services invoked by the client are coordinated by the Transaction Protocol services running on the client&#8217;s host.
+This is the case whether the Web Services are running locally or remotely.
+Such a configuration is called <em>local coordination</em>.</p>
+</div>
+<div class="paragraph">
+<p>You can reconfigure this setting globally for all clients, causing context creation requests to be redirected to an Activation Coordinator Service running on a remote host.
+Normally, the rest of the coordination process is executed from the remote host.
+This configuration is called <em>stand-alone coordination</em>.</p>
+</div>
+<div class="ulist">
+<div class="title">Reasons for Choosing a Stand-Alone Coordinator</div>
+<ul>
+<li>
+<p>Efficiency: if a client application invokes Web Services on a remote WildFly Application Server, coordinating the transaction from the remote server might be more efficient, since the protocol-specific messages between the coordinator and the participants do not need to travel over the network.</p>
+</li>
+<li>
+<p>Reliability: if the coordinator service runs on a dedicated host, there is no danger of failing applications or services affecting the coordinator and causing failures for unrelated transactions.</p>
+</li>
+<li>
+<p>A third reason might be to use a coordination service provided by a third party vendor.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_configuring_the_activation_coordinator"><a class="anchor" href="#_configuring_the_activation_coordinator"></a>4.2. Configuring the Activation Coordinator</h3>
+<div class="paragraph">
+<p>The simplest way to configure a stand-alone coordinator is to provide a complete URL for the remote coordinator.
+This can be done by changing the 'url' property of the 'xts-environment' element of the XTS Subsystem configuration in the <code>standalone-xts.xml</code>.
+<a href="#example_xts_subsystem.xml">Example <code>standalone-xts.xml</code> configuration settings</a> shows the snippet of XML that you should change.</p>
+</div>
+<div id="example_xts_subsystem.xml" class="listingblock">
+<div class="title">Example <code>standalone-xts.xml</code> configuration settings</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="preprocessor">&lt;?xml version='1.0' encoding='UTF-8'?&gt;</span>
+
+<span class="tag">&lt;server</span> <span class="attribute-name">xmlns</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">urn:jboss:domain:1.4</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+    . . .
+    <span class="tag">&lt;subsystem</span> <span class="attribute-name">xmlns</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">urn:jboss:domain:xts:1.0</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+        <span class="tag">&lt;xts-environment</span> <span class="attribute-name">url</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://${jboss.bind.address:127.0.0.1}:8080/ws-c11/ActivationService</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+        . . .
+    <span class="tag">&lt;/subsystem&gt;</span>
+<span class="tag">&lt;/server&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The XTS module (<code>_modules/system/layers/base/org/jboss/xts/main/jbossxts-${XTS_VERSION}.jar</code>) in the WildFly Application Server includes a configuration file, <code>xts-properties.xml</code>, in the root of the jar.
+These properties can be edited and then re-packaged in the jar.
+The changes will take affect on next boot of the WildFly Application Server.
+<a href="#example_xts_properties.xml">Example _xts-properties.xml_configuration settings</a> shows a fragment of this file which details the options for changing the coordinator URL.</p>
+</div>
+<div id="example_xts_properties.xml" class="listingblock">
+<div class="title">Example _xts-properties.xml_configuration settings</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="preprocessor">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="doctype">&lt;!DOCTYPE properties SYSTEM &quot;http://java.sun.com/dtd/properties.dtd&quot;&gt;</span>
+<span class="tag">&lt;properties&gt;</span>
+    . . .
+    <span class="comment">&lt;!-- coordinator URL
+        the following entries are used in the client container only to
+        identify the URL used to address the ActivationCoordinator service.
+        This is the XTS service which is contacted when a begin operation
+        is invoked to start a  WS-AT or WS-BA transaction.
+
+        If a full URL is provide then it will be used as given.
+        Otherwise a URL will be constructed using any URL components
+        such as scheme, host etc which have been specified as properties
+        and defaulting any remaining unspecified properties.
+        if no URL or components are specified the URL defaults to that
+        of the local coordinator service.
+    --&gt;</span>
+
+    <span class="comment">&lt;!-- 1.1 properties : only set if you want to use a non-local coordinator
+    --&gt;</span>
+    <span class="comment">&lt;!--
+    &lt;entry key=&quot;org.jboss.jbossts.xts11.coordinatorURL&quot;&gt;http://localhost:8080/ws-c11/ActivationService&lt;/entry&gt;
+    &lt;entry key=&quot;org.jboss.jbossts.xts11.coordinator.scheme&quot;&gt;http&lt;/entry&gt;
+    &lt;entry key=&quot;org.jboss.jbossts.xts11.coordinator.address&quot;&gt;localhost&lt;/entry&gt;
+    &lt;entry key=&quot;org.jboss.jbossts.xts11.coordinator.port&quot;&gt;8080&lt;/entry&gt;
+    &lt;entry key=&quot;org.jboss.jbossts.xts11.coordinator.path&quot;&gt;ws-c11/ActivationService&lt;/entry&gt;
+    --&gt;</span>
+<span class="tag">&lt;/properties&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can also specify the individual elements of the URL using the properties <code>coordinator.scheme</code>, <code>coordinator.address</code>, and so forth.
+These values only apply when the <code>coordinator.url</code> is not set.
+The URL is constructed by combining the specified values with default values for any missing elements.
+This is particularly useful for two specific use cases.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The first case is where the client is expected to use an XTS coordinator deployed in another WildFly Application Server.
+If, for example, this WildFly Application Server is bound to address <code>10.0.1.99</code> , setting property <code>coordinator.address</code> to <code>10.0.1.99</code> is normally all that is required to configure the coordinator URL to identity the remote WildFly Application Server&#8217;s coordination service.
+If the Web service on the remote WildFly Application Server were reset to <code>9090</code> then it would also be necessary to set property <code>coordinator.port</code> to this value.</p>
+</li>
+<li>
+<p>The second common use case is where communications between client and coordinator, and between participant and coordinator, must use secure connections.
+If property <code>coordinator.scheme</code> is set to value <code>https</code>, the client&#8217;s request to begin a transaction is sent to the coordinator service over a secure https connection.
+The XTS coordinator and participant services will ensure that all subsequent communications between coordinator and client or coordinator and web services also employ secure https connections.
+Note that this requires configuring the trust stores in the WildFly Application Server running the client, coordinator and participant web services with appropriate trust certificates.</p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The property names have been abbreviated in order to fit into the table.
+They should each start with prefix <code>org.jboss.jbossts.xts11.coordinator</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Command-Line Options Passed with the <code>-DParameter</code>, Ordered by Priority</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Category</th>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Format</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Absolute URL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code class="var">...coordinatorURL</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://coord.host:coord.port/ws-c11/ActivationService" class="bare">http://coord.host:coord.port/ws-c11/ActivationService</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Coordinator Scheme, Host, Port, and Path</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>...coordinator.scheme</code>,
+<code>...coordinator.address</code>,
+<code>...coordinator.port</code>,
+<code>...coordinator.path</code>,</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>http</code>, <code>server.bind.address</code>, <code>jboss.web.bind.port</code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_participant_crash_recovery"><a class="anchor" href="#_participant_crash_recovery"></a>5. Participant Crash Recovery</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A key requirement of a transaction service is to be resilient to a system crash by a host running a participant, as well as the host running the transaction coordination services.
+Crashes which happen before a transaction terminates or before a business activity completes are relatively easy to accommodate.
+The transaction service and participants can adopt a <code>presumed abort</code> policy.</p>
+</div>
+<div class="olist arabic">
+<div class="title">Procedure: Presumed Abort Policy</div>
+<ol class="arabic">
+<li>
+<p>If the coordinator crashes, it can assume that any transaction it does not know about is invalid, and reject a participant request which refers to such a transaction.</p>
+</li>
+<li>
+<p>If the participant crashes, it can forget any provisional changes it has made, and reject any request from the coordinator service to prepare a transaction or complete a business activity.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Crash recovery is more complex if the crash happens during a transaction commit operation, or between completing and closing a business activity.
+The transaction service must ensure as far as possible that participants arrive at a consistent outcome for the transaction.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">WS-AT Transaction</dt>
+<dd>
+<p>The transaction needs to commit all provisional changes or roll them all back to the state before the transaction started.</p>
+</dd>
+<dt class="hdlist1">WS-Business Activity Transaction</dt>
+<dd>
+<p>All participants need to close the activity or cancel the activity, and run any required compensating actions.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>On the rare occasions where such a consensus cannot be reached, the transaction service must log and report transaction failures.</p>
+</div>
+<div class="paragraph">
+<p>XTS includes support for automatic recovery of WS-AT and WS-BA transactions, if either or both of the coordinator and participant hosts crashes.
+The XTS recovery manager begins execution on coordinator and participant hosts when the XTS service restarts.
+On a coordinator host, the recovery manager detects any WS-AT transactions which have prepared but not committed, as well as any WS-BA transactions which have completed but not yet closed.
+It ensures that all their participants are rolled forward in the first case, or closed in the second.</p>
+</div>
+<div class="paragraph">
+<p>On a participant host, the recovery manager detects any prepared WS-AT participants which have not responded to a transaction rollback, and any completed WS-BA participants which have not yet responded to an activity cancel request, and ensures that the former are rolled back and the latter are compensated.
+The recovery service also allows for recovery of subordinate WS-AT transactions and their participants if a crash occurs on a host where an interposed WS-AT coordinator has been employed.</p>
+</div>
+<div class="sect2">
+<h3 id="_ws_at_recovery"><a class="anchor" href="#_ws_at_recovery"></a>5.1. WS-AT Recovery</h3>
+<div class="sect3">
+<h4 id="_ws_at_coordinator_crash_recovery"><a class="anchor" href="#_ws_at_coordinator_crash_recovery"></a>5.1.1. WS-AT Coordinator Crash Recovery</h4>
+<div class="paragraph">
+<p>The WS-AT coordination service tracks the status of each participant in a transaction as the transaction progresses through its two-phase commit.
+When all participants have been sent a <code>prepare</code> message and have responded with a <code>prepared</code> message, the coordinator writes a log record storing each participant&#8217;s details, indicating that the transaction is ready to complete.
+If the coordinator service crashes after this point has been reached, completion of the two-phase commit protocol is still guaranteed, by reading the log file after reboot and sending a <code>commit</code> message to each participant.
+Once all participants have responded to the <code>commit</code> with a <code>committed</code> message, the coordinator can safely delete the log entry.</p>
+</div>
+<div class="paragraph">
+<p>Since the <code>prepared</code> messages returned by the participants imply that they are ready to commit their provisional changes and make them permanent, this type of recovery is safe.
+Additionally, the coordinator does not need to account for any commit messages which may have been sent before the crash, or resend messages if it crashes several times.
+The XTS participant implementation is resilient to redelivery of the <code>commit</code> messages.
+If the participant has implemented the recovery functions described in <a href="#ws_at_recovery_api">WS-AT Participant Crash Recovery APIs</a>, the coordinator can guarantee delivery of <code>commit</code> messages if both it crashes, and one or more of the participant service hosts also crash, at the same time.</p>
+</div>
+<div class="paragraph">
+<p>If the coordination service crashes before the <code>prepare</code> phase completes, the presumed abort protocol ensures that participants are rolled back.
+After system restart, the coordination service has the information about about all the transactions which could have entered the <code>commit</code> phase before the reboot, since they have entries in the log.
+It also knows about any active transactions started after the reboot.
+If a participant is waiting for a response, after sending its <code>prepared</code> message, it automatically re-sends the <code>prepared</code> message at regular intervals.
+When the coordinator detects a transaction which is not active and has no entry in the log file after the reboot, it instructs the participant to abort, ensuring that the web service gets a chance to roll back any provisional state changes it made on behalf of the transaction.</p>
+</div>
+<div class="paragraph">
+<p>A web service may decide to unilaterally commit or roll back provisional changes associated with a given participant, if configured to time-out after a specified length of time without a response.
+In this situation, the the web service should record this action and log a message to persistent storage.
+When the participant receives a request to commit or roll back, it should throw an exception if its unilateral decision action does not match the requested action.
+The coordinator detects the exception and logs a message marking the outcome as heuristic.
+It also saves the state of the transaction permanently in the transaction log, to be inspected and reconciled by an administrator.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_ws_at_participant_crash_recovery"><a class="anchor" href="#_ws_at_participant_crash_recovery"></a>5.1.2. WS-AT Participant Crash Recovery</h4>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>This part is relevant only if Raw XTS API is used.
+JTA integration does the recovery automatically.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>WS-AT participants associated with a transactional web service do not need to be involved in crash recovery if the Web service&#8217;s host machine crashes before the participant is told to prepare.
+The coordinator will assume that the transaction has aborted, and the Web service can discard any information associated with unprepared transactions when it reboots.</p>
+</div>
+<div class="paragraph">
+<p>When a participant is told to <code>prepare</code>, the Web service is expected to save to persistent storage the transactional state it needs to commit or roll back the transaction.
+The specific information it needs to save is dependent on the implementation and business logic of the Web Service.
+However, the participant must save this state before returning a <code>prepared</code> vote from the <code>prepare</code> call.
+If the participant cannot save the required state, or there is some other problem servicing the request made by the client, it must return an <code>aborted</code> vote.</p>
+</div>
+<div class="paragraph">
+<p>The XTS participant services running on a Web Service&#8217;s host machine cooperate with the Web service implementation to facilitate participant crash recovery.
+These participant services are responsible for calling the participant&#8217;s <code>prepare</code>, <code>commit</code>, and <code>rollback</code> methods.
+The XTS implementation tracks the local state of every enlisted participant.
+If the <code>prepare</code> call returns a <code>prepared</code> vote, the XTS implementation ensures that the participant state is logged to the local transaction log before forwarding a <code>prepared</code> message to the coordinator.</p>
+</div>
+<div class="paragraph">
+<p>A participant log record contains information identifying the participant, its transaction, and its coordinator.
+This is enough information to allow the rebooted XTS implementation to reinstate the participant as active and to continue communication with the coordinator, as though the participant had been enlisted and driven to the prepared state.
+However, a participant instance is still necessary for the commit or rollback process to continue.</p>
+</div>
+<div class="paragraph">
+<p>Full recovery requires the log record to contain information needed by the Web service which enlisted the participant.
+This information must allow it to recreate an equivalent participant instance, which can continue the <code>commit</code> process to completion, or roll it back if some other Web Service fails to <code>prepare</code> . This information might be as simple as a String key which the participant can use to locate the data it made persistent before returning its Prepared vote.
+It may be as complex as a serialized object tree containing the original participant instance and other objects created by the Web service.</p>
+</div>
+<div class="paragraph">
+<p>If a participant instance implements the relevant interface, the XTS implementation will append this participant recovery state to its log record before writing it to persistent storage.
+In the event of a crash, the participant recovery state is retrieved from the log and passed to the Web Service which created it.
+The Web Service uses this state to create a new participant, which the XTS implementation uses to drive the transaction to completion.
+Log records are only deleted after the participant&#8217;s <code>commit</code> or <code>rollback</code> method is called.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If a crash happens just before or just after a <code>commit</code> method is called, a <code>commit</code> or <code>rollback</code> method may be called twice.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect4">
+<h5 id="ws_at_recovery_api"><a class="anchor" href="#ws_at_recovery_api"></a>WS-AT Participant Crash Recovery APIs</h5>
+<div class="sect5">
+<h6 id="_saving_participant_recovery_state"><a class="anchor" href="#_saving_participant_recovery_state"></a>Saving Participant Recovery State</h6>
+<div class="paragraph">
+<p>When a Business Activity participant web service completes its work, it may want to save the information which will be required later to close or compensate actions performed during the activity.
+The XTS implementation automatically acquires this information from the participant as part of the completion process and writes it to a participant log record.
+This ensures that the information can be restored and used to recreate a copy of the participant even if the web service container crashes between the complete and close or compensate operations.</p>
+</div>
+<div class="paragraph">
+<p>For a Participant Completion participant, this information is acquired when the web service invokes the <code>completed</code> method of the <code>BAParticipantManager</code> instance returned from the call which enlisted the participant.
+For a Coordinator Completion participant this occurs immediately after the call to it&#8217;s <code>completed</code> method returns.
+This assumes that the <code>completed</code> method does not throw an exception or call the participant manager&#8217;s <code>cannotComplete</code> or <code>fail</code> method.</p>
+</div>
+<div class="paragraph">
+<p>A participant may signal that it is capable of performing recovery processing, by implementing the <code>java.lang.Serializable</code> interface.
+An alternative is to implement the <a href="#example_persistableatparticipant"><code>PersistableATParticipant</code> Interface</a>.</p>
+</div>
+<div id="example_persistableatparticipant" class="listingblock">
+<div class="title"><code>PersistableATParticipant</code> Interface</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">interface</span> <span class="class">PersistableATParticipant</span> {
+    <span class="type">byte</span><span class="type">[]</span> getRecoveryState() <span class="directive">throws</span> <span class="exception">Exception</span>;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If a participant implements the <code>Serializable</code> interface, the XTS participant services implementation uses the serialization API to create a version of the participant which can be appended to the participant log entry.
+If it implements the <code>PersistableATParticipant</code> interface, the XTS participant services implementation call the <code>getRecoveryState</code> method to obtain the state to be appended to the participant log entry.</p>
+</div>
+<div class="paragraph">
+<p>If neither of these APIs is implemented, the XTS implementation logs a warning message and proceeds without saving any recovery state.
+In the event of a crash on the host machine for the Web service during commit, the transaction cannot be recovered and a heuristic outcome may occur.
+This outcome is logged on the host running the coordinator services.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_recovering_participants_at_reboot"><a class="anchor" href="#_recovering_participants_at_reboot"></a>Recovering Participants at Reboot</h6>
+<div class="paragraph">
+<p>A Web service must register with the XTS implementation when it is deployed, and unregister when it is undeployed, in order to participate in recovery processing.
+Registration is performed using class <code>XTSATRecoveryManager</code> defined in package <code>org.jboss.jbossts.xts.recovery.participant.at</code>.</p>
+</div>
+<div class="listingblock">
+<div class="title">Registering for Recovery</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="directive">abstract</span> <span class="type">class</span> <span class="class">XTSATRecoveryManager</span> {
+    ...
+
+    public <span class="directive">static</span> XTSATRecoveryManager getRecoveryManager();
+
+    <span class="directive">public</span> <span class="type">void</span> registerRecoveryModule(XTSATRecoveryModule module);
+
+    <span class="directive">public</span> <span class="directive">abstract</span> <span class="type">void</span> unregisterRecoveryModule(XTSATRecoveryModule module)
+            <span class="directive">throws</span> <span class="exception">NoSuchElementException</span>;
+    ...
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The Web service must provide an implementation of interface <code>XTSBARecoveryModule</code> in package <code>org.jboss.jbossts.xts.recovery.participant.ba</code>, as an argument to the <code>register</code> and <code>unregister</code> calls.
+This instance identifies saved participant recovery records and recreates new, recovered participant instances:</p>
+</div>
+<div class="listingblock">
+<div class="title"><code>XTSBARecoveryModule</code> Interface</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">interface</span> <span class="class">XTSATRecoveryModule</span> {
+    <span class="directive">public</span> Durable2PCParticipant
+    deserialize(<span class="predefined-type">String</span> id, <span class="predefined-type">ObjectInputStream</span> stream)
+            <span class="directive">throws</span> <span class="exception">Exception</span>;
+
+    <span class="directive">public</span> Durable2PCParticipant
+    recreate(<span class="predefined-type">String</span> id, <span class="type">byte</span><span class="type">[]</span> recoveryState)
+            <span class="directive">throws</span> <span class="exception">Exception</span>;
+
+    <span class="directive">public</span> <span class="type">void</span> endScan();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If a participant&#8217;s recovery state was saved using serialization, the recovery module&#8217;s <code>deserialize</code> method is called to recreate the participant.
+Normally, the recovery module is required to read, cast, and return an object from the supplied input stream.
+If a participant&#8217;s recovery state was saved using the <code>PersistableATParticipant</code> interface, the recovery module&#8217;s <code>recreate</code> method is called to recreate the participant from the byte array it provided when the state was saved.</p>
+</div>
+<div class="paragraph">
+<p>The XTS implementation cannot identify which participants belong to which recovery modules.
+A module only needs to return a participant instance if the recovery state belongs to the module&#8217;s Web service.
+If the participant was created by another Web service, the module should return <code>null</code>.
+The participant identifier, which is supplied as argument to the <code>deserialize</code> or <code>recreate</code> method, is the identifier used by the Web service when the original participant was enlisted in the transaction.
+Web Services participating in recovery processing should ensure that participant identifiers are unique per service.
+If a module recognizes that a participant identifier belongs to its Web service, but cannot recreate the participant, it should throw an exception.
+This situation might arise if the service cannot associate the participant with any transactional information which is specific to the business logic.</p>
+</div>
+<div class="paragraph">
+<p>Even if a module relies on serialization to create the participant recovery state saved by the XTS implementation, it still must be registered by the application.
+The <code>deserialization</code> operation must employ a class loader capable of loading classes specific to the Web service.
+XTS fulfills this requirement by devolving responsibility for the <code>deserialize</code> operation to the recovery module.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ws_ba_recovery"><a class="anchor" href="#_ws_ba_recovery"></a>5.2. WS-BA Recovery</h3>
+<div class="sect3">
+<h4 id="_ws_ba_coordinator_crash_recovery"><a class="anchor" href="#_ws_ba_coordinator_crash_recovery"></a>5.2.1. WS-BA Coordinator Crash Recovery</h4>
+<div class="paragraph">
+<p>The WS-BA coordination service implementation tracks the status of each participant in an activity as the activity progresses through completion and closure.
+A transition point occurs during closure, once all <code>CoordinatorCompletion</code> participants receive a <code>complete</code> message and respond with a <code>completed</code> message.
+At this point, all <code>ParticipantCompletion</code> participants should have sent a <code>completed</code> message.
+The coordinator writes a log record storing the details of each participant, and indicating that the transaction is ready to close.
+If the coordinator service crashes after the log record is written, the <code>close</code> operation is still guaranteed to be successful.
+The coordinator checks the log after the system reboots and re-sends a <code>close</code> message to all participants.
+After all participants respond to the <code>close</code> with a <code>closed</code> message, the coordinator can safely delete the log entry.</p>
+</div>
+<div class="paragraph">
+<p>The coordinator does not need to account for any <code>close</code> messages sent before the crash, nor resend messages if it crashes several times.
+The XTS participant implementation is resilient to redelivery of <code>close</code> messages.
+Assuming that the participant has implemented the recovery functions described below, the coordinator can even guarantee delivery of <code>close</code> messages if both it, and one or more of the participant service hosts, crash simultaneously.</p>
+</div>
+<div class="paragraph">
+<p>If the coordination service crashes before it has written the log record, it does not need to explicitly compensate any completed participants.
+The presumed abort protocol ensures that all completed participants are eventually sent a <code>compensate</code> message.
+Recovery must be initiated from the participant side.</p>
+</div>
+<div class="paragraph">
+<p>A log record does not need to be written when an activity is being canceled.
+If a participant does not respond to a <code>cancel</code> or <code>compensate</code> request, the coordinator logs a warning and continues.
+The combination of the presumed abort protocol and participant-led recovery ensures that all participants eventually get canceled or compensated, as appropriate, even if the participant host crashes.</p>
+</div>
+<div class="paragraph">
+<p>If a completed participant does not detect a response from its coordinator after resending its <code>completed</code> response a suitable number of times, it switches to sending <code>getstatus</code> messages, to determine whether the coordinator still knows about it.
+If a crash occurs before writing the log record, the coordinator has no record of the participant when the coordinator restarts, and the <code>getstatus</code> request returns a fault.
+The participant recovery manager automatically compensates the participant in this situation, just as if the activity had been canceled by the client.</p>
+</div>
+<div class="paragraph">
+<p>After a participant crash, the participant recovery manager detects the log entries for each completed participant.
+It sends <code>getstatus</code> messages to each participant&#8217;s coordinator host, to determine whether the activity still exists.
+If the coordinator has not crashed and the activity is still running, the participant switches back to resending <code>completed</code> messages, and waits for a <code>close</code> or <code>compensate</code> response.
+If the coordinator has also crashed or the activity has been canceled, the participant is automatically canceled.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_ws_ba_participant_crash_recovery_apis"><a class="anchor" href="#_ws_ba_participant_crash_recovery_apis"></a>5.2.2. WS-BA Participant Crash Recovery APIs</h4>
+<div class="sect4">
+<h5 id="_saving_participant_recovery_state_2"><a class="anchor" href="#_saving_participant_recovery_state_2"></a>Saving Participant Recovery State</h5>
+<div class="paragraph">
+<p>A participant may signal that it is capable of performing recovery processing, by implementing the <code>java.lang.Serializable</code> interface.
+An alternative is to implement the <a href="#example_persistablebaparticipant">`PersistableBAParticipant`Interface</a>.</p>
+</div>
+<div id="example_persistablebaparticipant" class="listingblock">
+<div class="title">`PersistableBAParticipant`Interface</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">interface</span> <span class="class">PersistableBAParticipant</span> {
+    <span class="type">byte</span><span class="type">[]</span> getRecoveryState() <span class="directive">throws</span> <span class="exception">Exception</span>;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If a participant implements the <code>Serializable</code> interface, the XTS participant services implementation uses the serialization API to create a version of the participant which can be appended to the participant log entry.
+If the participant implements the <code>PersistableBAParticipant</code>, the XTS participant services implementation call the <code>getRecoveryState</code> method to obtain the state, which is appended to the participant log entry.</p>
+</div>
+<div class="paragraph">
+<p>If neither of these APIs is implemented, the XTS implementation logs a warning message and proceeds without saving any recovery state.
+If the Web service&#8217;s host machine crashes while the activity is being closed, the activity cannot be recovered and a heuristic outcome will probably be logged on the coordinator&#8217;s host machine.
+If the activity is canceled, the participant is not compensated and the coordinator host machine may log a heuristic outcome for the activity.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_recovering_participants_at_reboot_2"><a class="anchor" href="#_recovering_participants_at_reboot_2"></a>Recovering Participants at Reboot</h5>
+<div class="paragraph">
+<p>A Web service must register with the XTS implementation when it is deployed, and unregister when it is undeployed, so it can take part in recovery processing.</p>
+</div>
+<div class="paragraph">
+<p>Registration is performed using the <code>XTSBARecoveryManager</code>, defined in the <code>org.jboss.jbossts.xts.recovery.participant.ba</code> package.</p>
+</div>
+<div class="listingblock">
+<div class="title"><code>XTSBARecoveryManager</code> Class</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="directive">abstract</span> <span class="type">class</span> <span class="class">XTSBARecoveryManager</span> {
+    ...
+
+    public <span class="directive">static</span> XTSBARecoveryManager getRecoveryManager();
+
+    <span class="directive">public</span> <span class="type">void</span> registerRecoveryModule(XTSBARecoveryModule module);
+
+    <span class="directive">public</span> <span class="directive">abstract</span> <span class="type">void</span> unregisterRecoveryModule(XTSBARecoveryModule module)
+            <span class="directive">throws</span> <span class="exception">NoSuchElementException</span>;
+    ...
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The Web service must provide an implementation of the <code>XTSBARecoveryModule</code> in the <code>org.jboss.jbossts.xts.recovery.participant.ba</code>, as an argument to the <code>register</code> and <code>unregister</code> calls.
+This instance identifies saved participant recovery records and recreates new, recovered participant instances:</p>
+</div>
+<div class="listingblock">
+<div class="title">`XTSBARecoveryModule`Interface</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">interface</span> <span class="class">XTSBARecoveryModule</span> {
+    <span class="directive">public</span> BusinessAgreementWithParticipantCompletionParticipant
+    deserializeParticipantCompletionParticipant(<span class="predefined-type">String</span> id,
+                                                <span class="predefined-type">ObjectInputStream</span> stream)
+            <span class="directive">throws</span> <span class="exception">Exception</span>;
+
+    <span class="directive">public</span> BusinessAgreementWithParticipantCompletionParticipant
+    recreateParticipantCompletionParticipant(<span class="predefined-type">String</span> id,
+                                             <span class="type">byte</span><span class="type">[]</span> recoveryState)
+            <span class="directive">throws</span> <span class="exception">Exception</span>;
+
+    <span class="directive">public</span> BusinessAgreementWithCoordinatorCompletionParticipant
+    deserializeCoordinatorCompletionParticipant(<span class="predefined-type">String</span> id,
+                                                <span class="predefined-type">ObjectInputStream</span> stream)
+            <span class="directive">throws</span> <span class="exception">Exception</span>;
+
+    <span class="directive">public</span> BusinessAgreementWithCoordinatorCompletionParticipant
+    recreateCoordinatorCompletionParticipant(<span class="predefined-type">String</span> id,
+                                             <span class="type">byte</span><span class="type">[]</span> recoveryState)
+            <span class="directive">throws</span> <span class="exception">Exception</span>;
+
+    <span class="directive">public</span> <span class="type">void</span> endScan();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If a participant&#8217;s recovery state was saved using serialization, one of the recovery module&#8217;s <code>deserialize</code> methods is called, so that it can recreate the participant.
+Which method to use depends on whether the saved participant implemented the <code>ParticipantCompletion</code> protocol or the <code>CoordinatorCompletion</code> protocol.
+Normally, the recovery module reads, casts and returns an object from the supplied input stream.
+If a participant&#8217;s recovery state was saved using the <code>PersistableBAParticipant</code> interface, one of the recovery module&#8217;s <code>recreate</code> methods is called, so that it can recreate the participant from the byte array provided when the state was saved.
+The method to use depends on which protocol the saved participant implemented.</p>
+</div>
+<div class="paragraph">
+<p>The XTS implementation does not track which participants belong to which recovery modules.
+A module is only expected to return a participant instance if it can identify that the recovery state belongs to its Web service.
+If the participant was created by some other Web service, the module should return <code>null</code>.
+The participant identifier supplied as an argument to the <code>deserialize</code> or <code>recreate</code> calls is the identifier used by the Web service when the original participant was enlisted in the transaction.
+Web Services which participate in recovery processing should ensure that the participant identifiers they employ are unique per service.
+If a module recognizes a participant identifier as belonging to its Web service, but cannot recreate the participant, it throws an exception.
+This situation might arise if the service cannot associate the participant with any transactional information specific to business logic.</p>
+</div>
+<div class="paragraph">
+<p>A module must be registered by the application, even when it relies upon serialization to create the participant recovery state saved by the XTS implementation.
+The <code>deserialization</code> operation must employ a class loader capable of loading Web service-specific classes.
+The XTS implementation achieves this by delegating responsibility for the <code>deserialize</code> operation to the recovery module.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_securing_web_service_state_changes"><a class="anchor" href="#_securing_web_service_state_changes"></a>Securing Web Service State Changes</h5>
+<div class="paragraph">
+<p>When a BA participant completes, it is expected to commit changes to the web service state made during the activity.
+The web service usually also needs to persist these changes to a local storage device.
+This leaves open a window where the persisted changes may not be guarded with the necessary compensation information.
+The web service container may crash after the changes to the service state have been written but before the XTS implementation is able to acquire the recovery state and write a recovery log record for the participant.
+Participants may close this window by employing a two phase update to the local store used to persist the web service state.</p>
+</div>
+<div class="paragraph">
+<p>A participant which needs to persist changes to local web service state should implement interface <code>ConfirmCompletedParticipant</code> in package <code>com.arjuna.wst11</code>.
+This signals to the XTS implementation that it expects confirmation after a successful write of the participant recovery record, allowing it to roll forward provisionally persisted changes to the web service state.
+Delivery of this confirmation can be guaranteed even if the web service container crashes after writing the participant log record.
+Conversely, if a recovery record cannot be written because of a fault or a crash prior to writing, the provisional changes can be guaranteed to be rolled back.</p>
+</div>
+<div class="listingblock">
+<div class="title"><code>ConfirmCompletedParticipant</code> Interface</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">interface</span> <span class="class">ConfirmCompletedParticipant</span> {
+    <span class="directive">public</span> <span class="type">void</span> confirmCompleted(<span class="type">boolean</span> confirmed);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When the participant is ready to complete, it should prepare its persistent changes by temporarily locking access to the relevant state in the local store and writing the changed data to disk, retaining both the old and new versions of the service state.
+For a Participant Completion participant, this prepare operation should be done just before calling the participant manager&#8217;s <code>completed</code> method.
+For a Coordinator Completion participant, it should be done just before returning from the call to the participant&#8217;s <code>completed</code> method.
+After writing the participant log record, the XTS implementation calls the participant&#8217;s <code>confirmCompleted</code> method, providing value <code>true</code> as the argument.
+The participant should respond by installing the provisional state changes and releasing any locks.
+If the log record cannot be written, the XTS implementation calls the participant&#8217;s <code>confirmCompleted</code> method, providing value <code>false</code> as the argument.
+The participant should respond by restoring the original state values and releasing any locks.</p>
+</div>
+<div class="paragraph">
+<p>If a crash occurs before the call to <code>confirmCompleted</code>, the application&#8217;s recovery module can make sure that the provisional changes to the web service state are rolled forward or rolled back as appropriate.
+The web service must identify all provisional writes to persistent state before it starts serving new requests or processing recovered participants.
+It must reobtain any locks required to ensure that the state is not changed by new transactions.
+When the recovery module recovers a participant from the log, its compensation information is available.
+If the participant still has prepared changes, the recovery code must call <code>confirmCompleted</code>, passing value true.
+This allows the participant to finish the <code>complete</code> operation.
+The XTS implementation then forwards a <code>completed</code> message to the coordinator, ensuring that the participant is subsequently notified either to close or to compensate.
+At the end of the first recovery scan, the recovery module may find some prepared changes on disk which are still unaccounted for.
+This means that the participant recovery record is not available.
+The recovery module should restore the original state values and release any locks.
+The XTS implementation responds to coordinator requests regarding the participant with an <code>unknown participant</code> fault, forcing the activity as a whole to be rolled back.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_web_service_transaction_service_xts_management"><a class="anchor" href="#_web_service_transaction_service_xts_management"></a>6. Web Service Transaction Service (XTS) Management</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The basic building blocks of a transactional Web Services application include the application itself, the Web services that the application consumes, the Transaction Manager, and the transaction participants which support those Web services.
+Although it is likely that different developers will be responsible for each piece, the concepts are presented here so that you can see the whole picture.
+Often, developers produce services, or applications that consume services, and system administrators run the transaction-management infrastructure.</p>
+</div>
+<div class="sect2">
+<h3 id="_transaction_manager_overview"><a class="anchor" href="#_transaction_manager_overview"></a>6.1. Transaction manager overview</h3>
+<div class="paragraph">
+<p>The transaction manager is a Web service which coordinates XTS transactions.
+It is the only software component in XTS that is designed to be run directly as a network service, rather than to support end-user code.
+The transaction manager runs as a JAXM request/response Web service.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>When starting up an application server instance that has XTS transaction manager deployed within it, you may see various <code>error</code> messages in the console or log.
+For example, <code>16:53:38,850 ERROR [STDERR] Message Listener Service: started, message listener jndi name activationcoordinator</code>.
+These are for information purposes only and are not actual errors.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_configuring_the_transaction_manager"><a class="anchor" href="#_configuring_the_transaction_manager"></a>6.2. Configuring the transaction manager</h3>
+<div class="paragraph">
+<p>You can configure the Transaction Manager and related infrastructure by using two properties files.
+The <code>standalone-xts.xml</code> file contains the common configuration options.
+More advanced options can be configured in the <code>xts-properties.xml_</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The XTS module (<code>modules/system/layers/base/org/jboss/xts/main/jbossxts-${XTS_VERSION}.jar</code>)
+in the WildFly Application Server
+includes the configuration file, <code>xts-properties.xml</code>,
+in the root of the jar.
+These properties can be edited and then
+re-packaged in the jar.
+The changes will take affect on next boot of the WildFly Application Server.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_deployment_descriptors"><a class="anchor" href="#_deployment_descriptors"></a>6.3. Deployment descriptors</h3>
+<div class="paragraph">
+<p>In general, changing the contents of the various deployment descriptors used by XTS is not necessary.
+However, if you do need to modify them they are all included in <code>modules/system/layers/base/org/jboss/xts/main/jbossxts-${XTS_VERSION}.jar</code>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_quickstarts_overview"><a class="anchor" href="#_quickstarts_overview"></a>7. Quickstarts Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There are multiple quickstarts provided on Narayana GitHub repository which should give you a better understanding of how to use our software.
+This chapter will give you a brief overview where to find them and what technologies they demonstrate.</p>
+</div>
+<div class="sect2">
+<h3 id="ref_wsatmultiservice"><a class="anchor" href="#ref_wsatmultiservice"></a>7.1. WS-AT Multi-Service</h3>
+<div class="paragraph">
+<p>Quickstart URL: <a href="https://github.com/jbosstm/quickstart/tree//XTS/wsat-jta-multi_service" class="bare">https://github.com/jbosstm/quickstart/tree//XTS/wsat-jta-multi_service</a></p>
+</div>
+<div class="paragraph">
+<p>This quickstart uses JTA to manage WS-AT applications.
+The quickstart is composed of a client (the test) and two Web services (<code>FirstServiceAT</code> and <code>SecondServiceAT</code>).
+Both services are invoked by the test from within the same JTA transaction.</p>
+</div>
+<div class="paragraph">
+<p>The Client begins a JTA transaction and then invokes an operation on each service.
+Transaction context propagation is enabled by default.
+Therefore XTS automatically bridges the JTA transaction to a WS-AT transaction before each invocation is made.</p>
+</div>
+<div class="paragraph">
+<p>Each service uses JPA to persist its data (the value of a counter).
+Therefore, the service class is annotated with <code>jakarta.ejb.TransactionAttribute</code> which tells XTS to automatically bridge WS-AT transaction to JTA.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="ref_wsatmultihop"><a class="anchor" href="#ref_wsatmultihop"></a>7.2. WS-AT Multi-Hop</h3>
+<div class="paragraph">
+<p>Quickstart URL: <a href="https://github.com/jbosstm/quickstart/tree//XTS/wsat-jta-multi_hop" class="bare">https://github.com/jbosstm/quickstart/tree//XTS/wsat-jta-multi_hop</a></p>
+</div>
+<div class="paragraph">
+<p>This quickstart uses JTA to manage WS-AT applications.
+The quickstart is composed of a client (the test) and two Web services (<code>FirstServiceAT</code> and <code>SecondServiceAT</code>).</p>
+</div>
+<div class="paragraph">
+<p>The Client begins a JTA transaction and then invokes an operation on <code>FirstServiceAT</code>.
+Transaction context propagation is enabled by default.
+Therefore XTS automatically bridges the JTA transaction to a WS-AT transaction before the invocation is made.</p>
+</div>
+<div class="paragraph">
+<p><code>FirstServiceAT</code> uses JPA to persist its data.
+Therefore, the service class is annotated with <code>jakarta.ejb.TransactionAttribute</code> which tells XTS to automatically bridge WS-AT transaction to JTA.
+The <code>FirstServiceAT</code> Web Service updates some local data and then invokes the <code>SecondServiceAT</code> Web services.</p>
+</div>
+<div class="paragraph">
+<p>Similarly, to when invoking <code>FirstServiceAT</code>, the JTA transaction is bridged to a WS-AT transaction when invoking <code>SecondServiceAT</code>.
+<code>SecondServiceAT</code> also uses JPA for persistence, so the incoming WS-AT transaction is again bridged to JTA.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_xts_with_ssl"><a class="anchor" href="#_xts_with_ssl"></a>7.3. XTS with SSL</h3>
+<div class="paragraph">
+<p>Quickstart URL: <a href="https://github.com/jbosstm/quickstart/tree//XTS/ssl" class="bare">https://github.com/jbosstm/quickstart/tree//XTS/ssl</a></p>
+</div>
+<div class="paragraph">
+<p>This example walks you through the steps required to setup two servers (client and server) that communicate via Web services over a secure connection.
+The example show how this can be done for WS-Atomic Transaction, but the same applies for WS Business Activity.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_raw_xts_api_demo"><a class="anchor" href="#_raw_xts_api_demo"></a>7.4. Raw XTS API Demo</h3>
+<div class="paragraph">
+<p>Quickstart URL: <a href="https://github.com/jbosstm/quickstart/tree//XTS/raw-xts-api-demo" class="bare">https://github.com/jbosstm/quickstart/tree//XTS/raw-xts-api-demo</a></p>
+</div>
+<div class="paragraph">
+<p>This example demonstrates the whole range of XTS possibilities, including WS-AT and WS-BA.</p>
+</div>
+<div class="paragraph">
+<p>This example uses the Raw XTS API.
+It is only recommended for scenarios where the WS-AT to JTA integration is not appropriate; or where the Compensating Transactions API support for WS-BA is not appropriate.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="ref_compensationsnontransactionalresource"><a class="anchor" href="#ref_compensationsnontransactionalresource"></a>7.5. Non-transactional Resource with Compensating Transactions API</h3>
+<div class="paragraph">
+<p>Quickstart URL: <a href="https://github.com/jbosstm/quickstart/tree//compensating-transactions/non-transactional_resource" class="bare">https://github.com/jbosstm/quickstart/tree//compensating-transactions/non-transactional_resource</a></p>
+</div>
+<div class="paragraph">
+<p>This example demonstrates the simple use case of our API for developing applications that use Compensating Transactions.
+It shows how a non-transactional activity (such as sending an email, or printing a document) can be coordinated in a compensating transaction.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="ref_compensationstravelagent"><a class="anchor" href="#ref_compensationstravelagent"></a>7.6. Travel Agent with Compensating Transactions API</h3>
+<div class="paragraph">
+<p>Quickstart URL: <a href="https://github.com/jbosstm/quickstart/tree//compensating-transactions/travel-agent" class="bare">https://github.com/jbosstm/quickstart/tree//compensating-transactions/travel-agent</a></p>
+</div>
+<div class="paragraph">
+<p>This example demonstrates the more complex use case of our API for developing applications that use Compensating Transactions.
+It shows how a long running compensating transaction can be composed of a series of short-running ACID transactions.
+The example also involves multiple organisations and forms a distributed transaction over Web Services.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>

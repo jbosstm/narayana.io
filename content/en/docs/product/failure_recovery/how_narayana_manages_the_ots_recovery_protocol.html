@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>How Narayana manages the OTS Recovery Protocol</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>How Narayana manages the OTS Recovery Protocol</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_recovery_protocol_in_ots_overview">Recovery Protocol in OTS - Overview</a></li>
+<li><a href="#_recoverycoordinator_in_narayana"><code>RecoveryCoordinator</code> in Narayana</a>
+<ul class="sectlevel2">
+<li><a href="#_understanding_poa">Understanding POA</a></li>
+</ul>
+</li>
+<li><a href="#_the_default_recoverycoordinator_in_jacorb">The default <code>RecoveryCoordinator</code> in JacOrb</a>
+<ul class="sectlevel2">
+<li><a href="#_how_does_it_work">How Does it work</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_recovery_protocol_in_ots_overview"><a class="anchor" href="#_recovery_protocol_in_ots_overview"></a>Recovery Protocol in OTS - Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To manage recovery in case of failure, the OTS specification has defined a recovery protocol.
+Transaction&#8217;s participants in a doubt status could use the <code>RecoveryCoordinator</code> to determine the status of the transaction.
+According to that transaction status, those participants can take appropriate decision either by roll backing or committing.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/failure-recovery-fig3-resource-recoverycoordinator.png" alt="failure recovery fig3 resource recoverycoordinator">
+</div>
+<div class="title">Figure 1. Resource and <code>RecoveryCoordinator</code> relationship</div>
+</div>
+<div class="paragraph">
+<p>A reference to a <code>RecoveryCoordinator</code> is returned as a result of successfully calling <code>register_resource</code> on the transaction Coordinator.
+This object, which is implicitly associated with a single Resource, can be used to drive the Resource through recovery procedures in the event of a failure occurring during the transaction.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_recoverycoordinator_in_narayana"><a class="anchor" href="#_recoverycoordinator_in_narayana"></a><code>RecoveryCoordinator</code> in Narayana</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>On each resource registration a <code>RecoveryCoordinator</code> Object is expected to be created and returned to the application that invoked the register_resource operation.
+Behind each CORBA object there should be an object implementation or Servant object, in POA terms, which performs operations made on a <code>RecoveryCoordinator</code> object.
+Rather than to create a <code>RecoveryCoordinator</code> object with its associated servant on each register_resource, Narayana enhances performance by avoiding the creation of servants but it relies on a default <code>RecoveryCoordinator</code> object with it&#8217;s associated default servant to manage all <code>replay_completion</code> invocations.</p>
+</div>
+<div class="paragraph">
+<p>In the next sections we first give an overview of the Portable Object Adapter architecture, then we describe how this architecture is used to provide <code>RecoveryCoordinator</code> creation with optimization as explained above.</p>
+</div>
+<div class="sect2">
+<h3 id="_understanding_poa"><a class="anchor" href="#_understanding_poa"></a>Understanding POA</h3>
+<div class="paragraph">
+<p>Basically, the Portable Object Adapter, or POA is an object that intercepts a client request and identifies the object that satisfies the client request.
+The Object is then invoked and the response is returned to the client.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/failure-recovery-fig4-overview-of-poa.png" alt="failure recovery fig4 overview of poa">
+</div>
+<div class="title">Figure 2. Overview of the POA</div>
+</div>
+<div class="paragraph">
+<p>The object that performs the client request is referred as a servant, which provides the implementation of the CORBA object requested by the client.
+A servant provides the implementation for one or more CORBA object references.
+To retreive a servant, each POA maintains an Active Object Map that maps all objects that have been activated in the POA to a servant.
+For each incoming request, the POA looks up the object reference in the Active Object Map and tries to find the responsible servant.
+If none is found, the request is either delegated to a default servant, or a servant manager is invoked to activate or locate an appropriate servant.
+In addition to the name space for the objects, which are identified by Object Ids, a POA also provides a name space for POAs.
+A POA is created as a child of an existing POA, which forms a hierarchy starting with the root POA.</p>
+</div>
+<div class="paragraph">
+<p>Each POA has a set of policies that define its characteristics.
+When creating a new POA, the default set of policies can be used or different values can be assigned that suit the application requirements.
+The POA specification defines:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Thread policy – Specifies the threading model to be used by the POA.
+Possible values are:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ORB_CTRL_MODEL</code> – (default) The POA is responsible for assigning requests to threads.</p>
+</li>
+<li>
+<p><code>SINGLE_THREAD_MODEL</code> – the POA processes requests sequentially</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Lifespan policy - specifies the lifespan of the objects implemented in the POA.
+The lifespan policy can have the following values:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>TRANSIENT</code> (Default) Objects implemented in the POA cannot outlive the process in which they are first created.
+Once the POA is deactivated, an <code>OBJECT_NOT_EXIST</code> exception occurs when attempting to use any object references generated by the POA.</p>
+</li>
+<li>
+<p><code>PERSISTENT</code> Objects implemented in the POA can outlive the process in which they are first created.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Object ID Uniqueness policy - allows a single servant to be shared by many abstract objects.
+The Object ID Uniqueness policy can have the following values:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>UNIQUE_ID</code> (Default) Activated servants support only one Object ID.</p>
+</li>
+<li>
+<p><code>MULTIPLE_ID</code> Activated servants can have one or more Object IDs.
+The Object ID must be determined within the method being invoked at run time.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>ID Assignment policy - specifies whether object IDs are generated by server applications or by the POA.
+The ID Assignment policy can have the following values:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>USER_ID</code> is for persistent objects, and</p>
+</li>
+<li>
+<p><code>SYSTEM_ID</code> is for transient objects</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Servant Retention policy - specifies whether the POA retains active servants in the Active Object Map.
+The Servant Retention policy can have the following values:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>RETAIN</code> (Default) The POA tracks object activations in the Active Object Map.
+<code>RETAIN</code> is usually used with ServantActivators or explicit activation methods on POA.</p>
+</li>
+<li>
+<p><code>NON_RETAIN</code> The POA does not retain active servants in the Active Object Map.
+<code>NON_RETAIN</code> is typically used with ServantLocators.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Request Processing policy - specifies how requests are processed by the POA.</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>USE_ACTIVE_OBJECT_MAP</code> (Default) If the Object ID is not listed in the Active Object Map, an <code>OBJECT_NOT</code> <code>_EXIST</code> exception is returned.
+The POA must also use the RETAIN policy with this value.</p>
+</li>
+<li>
+<p><code>USE_DEFAULT_SERVANT</code> If the Object ID is not listed in the Active Object Map or the <code>NON_RETAIN</code> policy is set, the request is dispatched to the default servant.
+If no default servant has been registered, an OBJ_ADAPTER exception is returned.
+The POA must also use the MULTIPLE_ID policy with this value.</p>
+</li>
+<li>
+<p><code>USE_SERVANT_MANAGER</code> If the Object ID is not listed in the Active Object Map or the <code>NON_RETAIN</code> policy is set, the servant manager is used to obtain a servant.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Implicit Activation policy - specifies whether the POA supports implicit activation of servants.
+The Implicit Activation policy can have the following values:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>IMPLICIT_ACTIVATION</code> The POA supports implicit activation of servants.
+Servants can be activated by converting them to an object reference with org.omg.PortableServer.POA.servant_to_reference() or by invoking _this()on the servant.
+The POA must also use the SYSTEM_ID and RETAIN policies with this value.</p>
+</li>
+<li>
+<p><code>NO_IMPLICIT_ACTIVATION</code> (Default) The POA does not support implicit activation of servants.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>It appears that to redirect <code>replay_completion</code> invocations to a default servant we need to create a POA with the Request Processing policy assigned with the value set to <code>USE_DEFAULT_SERVANT</code>.
+However to reach that default Servant we should first reach the POA that forward the request to the default servant.
+Indeed, the ORB uses a set of information to retrieve a POA; these information are contained in the object reference used by the client.
+Among these information there are the IP address and the port number where resides the server and also the POA name.
+To perform <code>replay_completion</code> invocations, the solution adopted by Narayana is to provide one Servant, per machine, and located in the <code>RecoveryManager</code> process, a separate process from client or server applications.
+The next section explains how the indirection to a default Servant located on a separate process is provided for JacORB.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_default_recoverycoordinator_in_jacorb"><a class="anchor" href="#_the_default_recoverycoordinator_in_jacorb"></a>The default <code>RecoveryCoordinator</code> in JacOrb</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>JacORB does not define additional policies to redirect any request on a <code>RecoveryCoordinator</code> object to a default servant located in the Recovery Manager process.
+However it provides a set of APIs that allows building object references with specific IP address, port number and POA name in order to reach the appropriate default servant.</p>
+</div>
+<div class="sect2">
+<h3 id="_how_does_it_work"><a class="anchor" href="#_how_does_it_work"></a>How Does it work</h3>
+<div class="paragraph">
+<p>When the Recovery Manager is launched it seeks in the configuration the <code>RecoveryActivator</code> that need be loaded.
+Once done it invokes the <code>startRCservice</code> method of each loaded instances.
+As seen in in the previous chapter (Recovery Manager ) the class to load that implements the <code>RecoveryActivator</code> interface is the class <code>RecoveryEnablement</code>.
+This generic class, located in the package <code>com.arjuna.ats.internal.jts.orbspecific.recovery</code>, hides the nature of the ORB being used by the application (JacORB).
+The following figure illustrates the behavior of the <code>RecoveryActivator</code> that leads to the creation of the default servant that performs <code>replay_completion</code> invocations requests.</p>
+</div>
+<div class="paragraph">
+<p>In addition to the creation of the default servant, an object reference to a <code>RecoveryCoordinator</code> object is created and stored in the ObjectStore.
+As we will see this object reference will be used to obtain its IP address, port number and POA name and assign them to any <code>RecoveryCoordinator</code> object reference created on register_resource.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/failure-recovery-fig5-recoverymanager.png" alt="failure recovery fig5 recoverymanager">
+</div>
+<div class="title">Figure 3. Recovery Manager</div>
+</div>
+<div class="paragraph">
+<p>When an application registers a resource with a transaction, a <code>RecoveryCoordinator</code> object reference is expected to be returned.
+To build that object reference, the Transaction Service uses the <code>RecoveryCoordinator</code> object reference created within the Recovery Manager as a template.
+The new object reference contains practically the same information to retrieve the default servant (IP address, port number, POA name, etc.), but the Object ID is changed; now, it contains the Transaction ID of the transaction in progress and also the Process ID of the process that is creating the new <code>RecoveryCoordinator</code> object reference, as illustrated in <a href="#resource_registration">Resource registration and returned <code>RecoveryCoordinator</code> Object reference build from a referencestored in the ObjectStore.</a>.</p>
+</div>
+<div id="resource_registration" class="imageblock text-center">
+<div class="content">
+<img src="images/failure-recovery-fig6-resourceregistration.png" alt="failure recovery fig6 resourceregistration">
+</div>
+<div class="title">Figure 4. Resource registration and returned <code>RecoveryCoordinator</code> Object reference build from a referencestored in the ObjectStore.</div>
+</div>
+<div class="paragraph">
+<p>Since a <code>RecoveryCoordintaor</code> object reference returned to an application contains all information to retrieve the POA then the default servant located in the Recovery Manager, all <code>replay_completion</code> invocation, per machine, are forwarded to the same default <code>RecoveryCoordinator</code> that is able to retreive the Object ID from the incoming request to extract the transaction identifier and the process identifier needed to determine the status of the requested transaction.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>REST-AT Transaction Statuses</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body id="_transaction_statuses" class="article">
+<div id="header">
+<h1>REST-AT Transaction Statuses</h1>
+</div>
+<div id="content">
+<div class="paragraph">
+<p>Resources return the following status values in response to GET requests on the appropriate <code>transaction-coordinator</code> or <code>participant-resource</code> URI:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">TransactionRollbackOnly</dt>
+<dd>
+<p>the status of the endpoint is that it will roll back eventually.</p>
+</dd>
+<dt class="hdlist1">TransactionRollingBack</dt>
+<dd>
+<p>the endpoint is in the process of rolling back.
+If the recipient has already rolled back then it must return a 410 error code.</p>
+</dd>
+<dt class="hdlist1">TransactionRolledBack</dt>
+<dd>
+<p>the endpoint has rolled back.</p>
+</dd>
+<dt class="hdlist1">TransactionCommitting</dt>
+<dd>
+<p>the endpoint is in the process of committing.
+This does not mean that the final outcome will be Committed.
+If the recipient has already committed then it must return a 410 error code.</p>
+</dd>
+<dt class="hdlist1">TransactionCommitted</dt>
+<dd>
+<p>the endpoint has committed.</p>
+</dd>
+<dt class="hdlist1">TransactionCommittedOnePhase</dt>
+<dd>
+<p>the recipient has committed the transaction without going through a prepare phase.
+If the recipient has previously been asked to prepare then it must return a 412 error code.
+If the recipient has already terminated, then it must return a 410 error code.</p>
+</dd>
+<dt class="hdlist1">TransactionHeuristicRollback</dt>
+<dd>
+<p>all of the participants rolled back when they were asked to commit.</p>
+</dd>
+<dt class="hdlist1">TransactionHeuristicCommit</dt>
+<dd>
+<p>all of the participants committed when they were asked to rollback.</p>
+</dd>
+<dt class="hdlist1">TransactionHeuristicHazard</dt>
+<dd>
+<p>some of the participants rolled back, some committed and the outcome of others is indeterminate.</p>
+</dd>
+<dt class="hdlist1">TransactionHeuristicMixed</dt>
+<dd>
+<p>some of the participants rolled back whereas the remainder committed.</p>
+</dd>
+<dt class="hdlist1">TransactionPreparing</dt>
+<dd>
+<p>the endpoint is preparing.</p>
+</dd>
+<dt class="hdlist1">TransactionPrepared</dt>
+<dd>
+<p>the endpoint has prepared.</p>
+</dd>
+<dt class="hdlist1">TransactionActive</dt>
+<dd>
+<p>the transaction is active, i.e., has not begun to terminate.</p>
+</dd>
+<dt class="hdlist1">TransactionStatusUnknown</dt>
+<dd>
+<p>the status of the transaction is unknown</p>
+</dd>
+</dl>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>

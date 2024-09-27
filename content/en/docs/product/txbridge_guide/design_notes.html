@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>Design Notes</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>Design Notes</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_general_points">General Points</a></li>
+<li><a href="#_crash_recovery_considerations">Crash Recovery Considerations</a>
+<ul class="sectlevel2">
+<li><a href="#_inbound_crash_recovery">Inbound Crash Recovery</a></li>
+<li><a href="#_outbound_crash_recovery">Outbound Crash Recovery</a></li>
+</ul>
+</li>
+<li><a href="#_test_framework">Test framework</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_general_points"><a class="anchor" href="#_general_points"></a>General Points</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This section records key design points relating to the bridge implementation.
+The target audience for this section is software engineers maintaining or extending the transaction bridge implementation.
+It is unlikely to contain material useful to users, except in so far as they wish to contribute to the project.
+An in-depth knowledge of Narayana internals may be required to make sense of some parts of this appendix.</p>
+</div>
+<div class="paragraph">
+<p>The <code>txbridge</code> is written as far as possible as a user application layered on top of the JTA and XTS implementations.
+It accesses these underlying components through standard or supported APIs as far as possible.
+For example, <code>XAResource</code> is favored over <code>AbstractRecord</code>, the JCA standard <code>XATerminator</code> is used for driving subordinates and so on.
+This facilitates modularity and portability.</p>
+</div>
+<div class="paragraph">
+<p>It follows that functionality required by the bridge should first be evaluated for inclusion in one of the underlying modules, as experience has shown it is often also useful for other user applications.
+For example, improvements to allows subordinate termination code portability between JTA and JTS, and support for subordinate crash recovery have benefited from this approach.
+The <code>txbridge</code> remains a thin layer on top of this functionality, containing only purpose specific code.</p>
+</div>
+<div class="paragraph">
+<p>The 'loops and diamonds' problem boils down to providing deterministic, bi-directional 1:1 mapping between an Xid (which is fixed length) and a WS-AT context (which is unbounded length in the spec, although bounded for instances created by the XTS).
+Consistent hashing techniques get you so far with independent operation, but the only 100% solution is to have a shared service on the network providing the mapping lookup.
+Naturally this then becomes a single point of failure as well as a scalability issue.
+For some scenarios it may be possible to use interceptors to propagate the Xid on the web services call as extra data, instead of trying to reproduce the mapping at the other end.
+Unfortunately XA does not provide for this kind of extensibility, although CORBA does, leading to the possibility of solving the issue without a centralized approach in mixed JTS+WS-AT environments.</p>
+</div>
+<div class="paragraph">
+<p>Requiring a tx context on all calls is a bit limiting, but JBossWS native lacks a WS-Policy implementation.
+Things may change with the move to CXF.
+This is really a wider issue with XTS, not just the bridge.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_crash_recovery_considerations"><a class="anchor" href="#_crash_recovery_considerations"></a>Crash Recovery Considerations</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>As usual with transactions, it&#8217;s the crash recovery that provides for the most complexity.
+Recovery for the inbound and outbound sides is handled independently.
+Because of event ordering between recovery modules (JTA, XTS), it requires two complete cycles to resolve some of these crash recovery situations.</p>
+</div>
+<div class="sect2">
+<h3 id="_inbound_crash_recovery"><a class="anchor" href="#_inbound_crash_recovery"></a>Inbound Crash Recovery</h3>
+<div class="paragraph">
+<p>An inbound transaction involves at least four log writes.
+Top down (i.e. in reverse order of log creation) these are: The WS-AT coordinator log (assumed here to be XTS, but may be 3rd party), the XTS Participant log in the receiving server, the JCA Subordinate transaction log and at least one XA Resource Manager log (which are 3rd party e.g. Oracle).</p>
+</div>
+<div class="paragraph">
+<p>There is no separate log created by the <code>txbridge</code>.
+The XTS Participant log inlines the Serializable <code>BridgeDurableParticipant</code> via its writeObject method.
+Recorded state includes its identity (the Xid) and the identity of the separately logged JTA subordinate tx (a Uid).</p>
+</div>
+<div class="paragraph">
+<p>XTS is responsible for the top level coordinator log.
+Narayana is responsible for the JTA subordinate tx log and 3rd party RMs are each responsible for their own.</p>
+</div>
+<div class="paragraph">
+<p>The following situations may exist at recovery time, according to the point in time at which the crash occurred:</p>
+</div>
+<div class="paragraph">
+<p>RM log only: In this case, the <code>InboundBridgeRecoveryManager&#8217;s `XAResourceOrphanFilter</code> implementation will be invoked via Narayana <code>XARecoveryModule</code>, will recognize the orphaned Xids by their formatId (which they inherit from the JCA subordinate, which the <code>txbridge</code> previously created with a specially constructed inflowed Xid) and will vote to have the <code>XARecoveryModule</code> roll them back as no corresponding JCA subordinate log exists, so presumed abort applies.</p>
+</div>
+<div class="paragraph">
+<p>RM log and JTA subordinate tx log: The <code>InboundBridgeRecoverytManager&#8217;s scan of indoubt subordinate JTA transactions identifies the JTA subordinate as being orphaned and rolls it back, which in turn causes the rollback of the RM&#8217;s `XAResource</code>.</p>
+</div>
+<div class="paragraph">
+<p>RM log, JTA subordinate log and XTS Participant log: XTS is responsible for detecting that the Participant is orphaned (by re-sending Prepared to the Coordinator and receiving 'unknown tx' back) and initiating rollback under the presumed abort convention.</p>
+</div>
+<div class="paragraph">
+<p>WS-AT coordinator log and all downstream logs: The coordinator re-sends Commit to the Participant and the transaction completes.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_outbound_crash_recovery"><a class="anchor" href="#_outbound_crash_recovery"></a>Outbound Crash Recovery</h3>
+<div class="paragraph">
+<p>An outbound transaction involves log writes for the JTA parent transaction and the XTS <code>BridgeWrapper</code> coordinator.
+There is not a separate log created by the <code>txbridge</code>.
+The JTA tx log inlines the Serializable <code>BridgeXAResource</code> via its writeObject method.
+Recorded state includes the JTA tx id and <code>BridgeWrapper</code> id String.
+In addition a Web Service participating in the subordinate transaction will create a log.
+Assuming it&#8217;s XTS, the participant side log will inline any <code>Serializable Durable2PCParticipant</code>, effectively forming the RM log.</p>
+</div>
+<div class="paragraph">
+<p>The following situations may exist at recovery time, according to the point in time at which the crash occurred:</p>
+</div>
+<div class="paragraph">
+<p>RM log (i.e. XTS Participant log, inlining <code>Serializable Durable2PCParticipant</code>) only: XTS is responsible for detecting that the Participant is orphaned (its direct parent, the subordinate coordinator, is missing) and rolling it back.
+The bridge recovery code is not involved – XTS recovery deserializes and drives any app DurableParticipants directly.</p>
+</div>
+<div class="paragraph">
+<p>RM log and XTS subordinate log: The <code>DurableParticipant</code>(s) (i.e. client side) and XTS subordinate coordinator / <code>BridgeWrapper</code> (i.e. server side) and reinstantiated by XTS.
+The <code>BridgeWrapper</code>, being subordinate to a missing parent, must be identified and explicitly rolledback by the bridge recovery code.
+The bridge recovery manager is itself a RecoveryModule, thus invoked periodically to perform this task.
+It identified its own <code>BridgeWrapper</code> instance from amongst all those awaiting recovery by means of an id prefix specific to the <code>txbridge</code> code.
+See <code>JBTM-725</code> for further details.</p>
+</div>
+<div class="paragraph">
+<p>RM log, XTS subordinate log and JTA parent log (with inlined <code>BridgeXAResource</code>): Top down recovery by the JTA recovery module drives tx to completion, taking the normal JTA parent&#8594;`BridgeXAResource`&#8594;XTS subordinate&#8594;`DurableParticipant` path.
+Note that if the bridge is the only <code>XAResource</code> in the parent, the JTA must have 1PC commit optimization disabled or it won&#8217;t write a log for recovery.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_test_framework"><a class="anchor" href="#_test_framework"></a>Test framework</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The test suite for the <code>txbridge</code> is split along two axis.
+Firstly, the inbound and outbound sides of the bridge have their own test suites in a parallel code package hierarchy.
+These are largely mirrors, containing tests which have matching intent but different implementation details.
+Secondly, the tests are split between those for normal execution and those for crash recovery.</p>
+</div>
+<div class="paragraph">
+<p>The tests use a framework consisting of a basic servlet acting as client (the code pre-dates the availability of XTS lightweight client), a basic web service as server and a set of utility classes implementing the appropriate interfaces (<code>Participant</code>/<code>Synchronization</code>/<code>XAResource</code>).
+These classes contain the bare minimum of test logic.
+In order to make the tests as easy to understand and modify as possible, an attempt is made to capture the entirety of the test logic within the junit test function instead of splitting it over the framework classes.
+To facilitate this, extensive use is made of byteman and its associated dtest library, which provides basic distributed mock-like execution tracing and configuration.
+You probably need to take a detour and read the dtest docs before proceeding further.</p>
+</div>
+<div class="paragraph">
+<p>The basic tests all follow the same pattern: make a call through the bridge, following different logic paths in each test, and verify that the test resources see the expected method calls.
+For example, in a test that runs a transaction successfully, expect to see commit called on enlisted resources and rollback not called.
+For a test that configures the prepare to fail, expect to see rollback called and commit not called.
+The tests verify behavior in the presence of 'expected' errors e.g. prepare failures, but generally don&#8217;t cover unexpected failures e.g. exceptions thrown from commit.</p>
+</div>
+<div class="paragraph">
+<p>Test normal execution targets in the <code>tests/build.xml</code> assume the server is started manually with byteman installed and has XTS, <code>txbridge</code> and the test artifacts deployed.
+Note that it also contains targets that may be called to achieve the last of these steps.</p>
+</div>
+<div class="paragraph">
+<p>The crash rec tests start (and subsequently restart) the server automatically, but assume the that XTS, <code>txbridge</code> and the test artifacts are deployed.
+To manage the server they need to be provided with <code>JBOSS_HOME</code> and <code>JAVA_HOME</code> values in the <code>build.xml</code>.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>

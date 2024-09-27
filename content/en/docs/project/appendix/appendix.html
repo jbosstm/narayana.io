@@ -1,0 +1,3344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>Appendixes</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+/*! Stylesheet for CodeRay to loosely match GitHub themes | MIT License */
+pre.CodeRay{background:#f7f7f8}
+.CodeRay .line-numbers{border-right:1px solid;opacity:.35;padding:0 .5em 0 0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+.CodeRay span.line-numbers{display:inline-block;margin-right:.75em}
+.CodeRay .line-numbers strong{color:#000}
+table.CodeRay{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.CodeRay td{vertical-align:top;line-height:inherit}
+table.CodeRay td.line-numbers{text-align:right}
+table.CodeRay td.code{padding:0 0 0 .75em}
+.CodeRay .debug{color:#fff!important;background:navy!important}
+.CodeRay .annotation{color:#007}
+.CodeRay .attribute-name{color:navy}
+.CodeRay .attribute-value{color:#700}
+.CodeRay .binary{color:#509}
+.CodeRay .comment{color:#998;font-style:italic}
+.CodeRay .char{color:#04d}
+.CodeRay .char .content{color:#04d}
+.CodeRay .char .delimiter{color:#039}
+.CodeRay .class{color:#458;font-weight:bold}
+.CodeRay .complex{color:#a08}
+.CodeRay .constant,.CodeRay .predefined-constant{color:teal}
+.CodeRay .color{color:#099}
+.CodeRay .class-variable{color:#369}
+.CodeRay .decorator{color:#b0b}
+.CodeRay .definition{color:#099}
+.CodeRay .delimiter{color:#000}
+.CodeRay .doc{color:#970}
+.CodeRay .doctype{color:#34b}
+.CodeRay .doc-string{color:#d42}
+.CodeRay .escape{color:#666}
+.CodeRay .entity{color:#800}
+.CodeRay .error{color:#808}
+.CodeRay .exception{color:inherit}
+.CodeRay .filename{color:#099}
+.CodeRay .function{color:#900;font-weight:bold}
+.CodeRay .global-variable{color:teal}
+.CodeRay .hex{color:#058}
+.CodeRay .integer,.CodeRay .float{color:#099}
+.CodeRay .include{color:#555}
+.CodeRay .inline{color:#000}
+.CodeRay .inline .inline{background:#ccc}
+.CodeRay .inline .inline .inline{background:#bbb}
+.CodeRay .inline .inline-delimiter{color:#d14}
+.CodeRay .inline-delimiter{color:#d14}
+.CodeRay .important{color:#555;font-weight:bold}
+.CodeRay .interpreted{color:#b2b}
+.CodeRay .instance-variable{color:teal}
+.CodeRay .label{color:#970}
+.CodeRay .local-variable{color:#963}
+.CodeRay .octal{color:#40e}
+.CodeRay .predefined{color:#369}
+.CodeRay .preprocessor{color:#579}
+.CodeRay .pseudo-class{color:#555}
+.CodeRay .directive{font-weight:bold}
+.CodeRay .type{font-weight:bold}
+.CodeRay .predefined-type{color:inherit}
+.CodeRay .reserved,.CodeRay .keyword{color:#000;font-weight:bold}
+.CodeRay .key{color:#808}
+.CodeRay .key .delimiter{color:#606}
+.CodeRay .key .char{color:#80f}
+.CodeRay .value{color:#088}
+.CodeRay .regexp .delimiter{color:#808}
+.CodeRay .regexp .content{color:#808}
+.CodeRay .regexp .modifier{color:#808}
+.CodeRay .regexp .char{color:#d14}
+.CodeRay .regexp .function{color:#404;font-weight:bold}
+.CodeRay .string{color:#d20}
+.CodeRay .string .string .string{background:#ffd0d0}
+.CodeRay .string .content{color:#d14}
+.CodeRay .string .char{color:#d14}
+.CodeRay .string .delimiter{color:#d14}
+.CodeRay .shell{color:#d14}
+.CodeRay .shell .delimiter{color:#d14}
+.CodeRay .symbol{color:#990073}
+.CodeRay .symbol .content{color:#a60}
+.CodeRay .symbol .delimiter{color:#630}
+.CodeRay .tag{color:teal}
+.CodeRay .tag-special{color:#d70}
+.CodeRay .variable{color:#036}
+.CodeRay .insert{background:#afa}
+.CodeRay .delete{background:#faa}
+.CodeRay .change{color:#aaf;background:#007}
+.CodeRay .head{color:#f8f;background:#505}
+.CodeRay .insert .insert{color:#080}
+.CodeRay .delete .delete{color:#800}
+.CodeRay .change .change{color:#66f}
+.CodeRay .head .head{color:#f4f}
+</style>
+</head>
+<body class="book toc2 toc-left">
+<div id="header">
+<h1>Appendixes</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_object_store_implementations">Appendix A: Object store implementations</a>
+<ul class="sectlevel2">
+<li><a href="#_the_objectstore">The ObjectStore</a></li>
+</ul>
+</li>
+<li><a href="#_core_class_definitions">Appendix B: Core Class Definitions</a></li>
+<li><a href="#_idl_definitions">Appendix C: IDL definitions</a></li>
+<li><a href="#_transaction_statuses">Appendix D: REST-AT Transaction Statuses</a></li>
+<li><a href="#_qa_testsuite">Appendix E: QA Testsuite</a>
+<ul class="sectlevel2">
+<li><a href="#_jdbcresources_01_02">JDBCResources 01 &amp; 02</a></li>
+<li><a href="#_jdbcresources_03_04">JDBCResources 03 &amp; 04</a></li>
+<li><a href="#_currenttests">CurrentTests</a></li>
+<li><a href="#_otsserver">OTSServer</a></li>
+<li><a href="#_aitresources">AITResources</a></li>
+<li><a href="#_crashrecovery">CrashRecovery</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_object_store_implementations"><a class="anchor" href="#_object_store_implementations"></a>Appendix A: Object store implementations</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_the_objectstore"><a class="anchor" href="#_the_objectstore"></a>The ObjectStore</h3>
+<div class="paragraph">
+<p>This appendix examines the various ArjunaCore object store implementations and gives guidelines for creating other implementations and plugging into an application.</p>
+</div>
+<div class="paragraph">
+<p>This release of Narayana contains several different implementations of a basic object store.
+Each serves a particular purpose and is generally optimized for that purpose.
+Each of the implementations implements the <code>ObjectStoreAPI</code> interface, which defines the minimum operations which must be provided for an object store implementation to be used by the Transaction Service.
+You can override the default object store implementation at runtime by setting the <code>com.arjuna.ats.arjuna.objectstore.objectStoreType</code> property variable to one of the types described below.</p>
+</div>
+<div class="listingblock">
+<div class="title">Class <code>StateStatus</code></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">/*
+ * This is the base class from which all object store types are derived.
+ * Note that because object store instances are stateless, to improve
+ * efficiency we try to only create one instance of each type per process.
+ * Therefore, the create and destroy methods are used instead of new
+ * and delete. If an object store is accessed via create it *must* be
+ * deleted using destroy. Of course it is still possible to make use of
+ * new and delete directly and to create instances on the stack.
+ */</span>
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">StateStatus</span> {
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> OS_ORIGINAL;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> OS_SHADOW;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> OS_UNCOMMITTED;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> OS_UNCOMMITTED_HIDDEN;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> OS_UNKNOWN;
+}
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">StateType</span> {
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> OS_COMMITTED;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> OS_COMMITTED_HIDDEN;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> OS_HIDDEN;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> OS_INVISIBLE;
+}
+
+<span class="directive">public</span> <span class="directive">abstract</span> <span class="type">class</span> <span class="class">ObjectStore</span> <span class="directive">implements</span> BaseStore, ParticipantStore, RecoveryStore, TxLog {
+    <span class="directive">public</span> ObjectStore(<span class="predefined-type">String</span> osRoot);
+
+    <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> printState(<span class="predefined-type">PrintStream</span> strm, <span class="type">int</span> res);
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> allObjUids(<span class="predefined-type">String</span> s, InputObjectState buff) <span class="directive">throws</span> ObjectStoreException;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> allObjUids(<span class="predefined-type">String</span> s, InputObjectState buff, <span class="type">int</span> m) <span class="directive">throws</span> ObjectStoreException;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> allTypes(InputObjectState buff) <span class="directive">throws</span> ObjectStoreException;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">int</span> currentState(Uid u, <span class="predefined-type">String</span> tn) <span class="directive">throws</span> ObjectStoreException;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> commit_state(Uid u, <span class="predefined-type">String</span> tn) <span class="directive">throws</span> ObjectStoreException;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> hide_state(Uid u, <span class="predefined-type">String</span> tn) <span class="directive">throws</span> ObjectStoreException;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> reveal_state(Uid u, <span class="predefined-type">String</span> tn) <span class="directive">throws</span> ObjectStoreException;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> InputObjectState read_committed(Uid u, <span class="predefined-type">String</span> tn) <span class="directive">throws</span> ObjectStoreException;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> InputObjectState read_uncommitted(Uid u, <span class="predefined-type">String</span> tn) <span class="directive">throws</span> ObjectStoreException;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> remove_committed(Uid u, <span class="predefined-type">String</span> tn) <span class="directive">throws</span> ObjectStoreException;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> remove_uncommitted(Uid u, <span class="predefined-type">String</span> tn) <span class="directive">throws</span> ObjectStoreException;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> write_committed(Uid u, <span class="predefined-type">String</span> tn, OutputObjectState buff) <span class="directive">throws</span> ObjectStoreException;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> write_uncommitted(Uid u, <span class="predefined-type">String</span> tn, OutputObjectState buff) <span class="directive">throws</span> ObjectStoreException;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Narayana programmers do not usually need to interact with any of the object store implementations directly, apart from possibly creating them in the first place.
+Even this is not necessary if the default store type is used, since Narayana creates stores as necessary.
+All stores manipulate instances of the class <code>ObjectState</code>.
+These instances are named using a <code>type</code> (via the object&#8217;s <code>type()</code> operation) and a <em class="path">Uid</em> .</p>
+</div>
+<div class="paragraph">
+<p>For atomic actions purposes, object states in the store can be principally in two distinct states: <code>OS_COMMITTED</code> or <code>OS_UNCOMMITTED</code>.
+An object state starts in the <code>OS_COMMITTED</code> state, but when it is modified under the control of an atomic action, a new second object state may be written that is in the <code>OS_UNCOMMITTED</code> state.
+If the action commits, this second object state replaces the original and becomes <code>OS_COMMITTED</code>.
+If the action aborts, this second object state is discarded.
+All of the implementations provided with this release handle these state transitions by making use of shadow copies of object states.
+However, any other implementation that maintains this abstraction is permissible.</p>
+</div>
+<div class="paragraph">
+<p>Object states may become hidden, and thus inaccessible, under the control of the crash recovery system.</p>
+</div>
+<div class="paragraph">
+<p>You can browse the contents of a store through the <code>allTypes</code> and <code>allObjUids</code> operations. <code>allTypes</code> returns an <code>InputObjectState</code> containing all of the type names of all objects in a store, terminated by a <code>null</code> name.
+<code>allObjUids</code> returns an <code>InputObjectState</code> containing all of the <code>Uids</code> of all objects of a given type, terminated by the special <code>Uid.nullUid()</code>.</p>
+</div>
+<div class="sect3">
+<h4 id="_persistent_object_stores"><a class="anchor" href="#_persistent_object_stores"></a>Persistent object stores</h4>
+<div class="paragraph">
+<p>This section briefly describes the characteristics and optimizations of each of the supplied implementations of the persistent object store.
+Persistent object states are mapped onto the structure of the file system supported by the host operating system.</p>
+</div>
+<div class="sect4">
+<h5 id="_common_functionality"><a class="anchor" href="#_common_functionality"></a>Common functionality</h5>
+<div class="paragraph">
+<p>In addition to the features mentioned earlier, all of the supplied persistent object stores obey the following rules:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Each object state is stored in its own file, which is named using the Uid of the object.</p>
+</li>
+<li>
+<p>The type of an object, as given by the <code>type()</code> operation, determines the directory into which the object is placed.</p>
+</li>
+<li>
+<p>All of the stores have a common root directory that is determined when Narayana is configured.
+This directory name is automatically prepended to any store-specific root information.</p>
+</li>
+<li>
+<p>All stores also have the notion of a localized root directory that is automatically prepended to the type of the object to determine the ultimate directory name.
+The localized root name is specified when the store is created.
+The default name is <code>defaultStore</code>.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="text">&lt;ObjectStore root Directory from configure&gt;     &lt;filename&gt;/JBossTS/ObjectStore/&lt;/filename&gt;
+   &lt;ObjectStore Type1&gt;                          &lt;filename&gt;FragmentedStore/&lt;/filename&gt;
+      &lt;Default root&gt;                            &lt;filename&gt;defaultStore/&lt;/filename&gt;
+         &lt;StateManager&gt;                         &lt;filename&gt;StateManager&lt;/filename&gt;
+            &lt;LockManager&gt;                       &lt;filename&gt;LockManager/&lt;/filename&gt;
+               &lt;User Types&gt;
+      &lt;Localised root 2&gt;                        &lt;filename&gt;myStore/&lt;/filename&gt;
+         &lt;StateManager&gt;                         &lt;filename&gt;StateManager/&lt;/filename&gt;
+
+   &lt;ObjectStore Type2&gt;                          &lt;filename&gt;ActionStore/&lt;/filename&gt;
+         &lt;Default root&gt;                         &lt;filename&gt;defaultStore/&lt;/filename&gt;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_the_shadowing_store"><a class="anchor" href="#_the_shadowing_store"></a>The shadowing store</h5>
+<div class="paragraph">
+<p>The shadowing store is the original version of the object store, which was provided in prior releases.
+It is implemented by the class <code>ShadowingStore</code>.
+It is simple but slow.
+It uses pairs of files to represent objects.
+One file is the shadow version and the other is the committed version.
+Files are opened, locked, operated upon, unlocked, and closed on every interaction with the object store.
+This causes a lot of I/O overhead.</p>
+</div>
+<div class="paragraph">
+<p>If you are overriding the object store implementation, the type of this object store is <code>ShadowingStore</code>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_no_file_level_locking"><a class="anchor" href="#_no_file_level_locking"></a>No file-level locking</h5>
+<div class="paragraph">
+<p>Since transactional objects are concurrency-controlled through <code>LockManager</code>, you do not need to impose additional locking at the file level.
+The basic ShadowingStore implementation handles file-level locking.
+Therefore, the default object store implementation for Narayana, <em class="path">ShadowNoFileLockStore</em>, relies upon user-level locking.
+This enables it to provide better performance than the <em class="path">ShadowingStore</em> implementation.</p>
+</div>
+<div class="paragraph">
+<p>If you are overriding the object store implementation, the type of this object store is <code>ShadowNoFileLockStore</code>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_the_hashed_store"><a class="anchor" href="#_the_hashed_store"></a>The hashed store</h5>
+<div class="paragraph">
+<p>The HashedStore has the same structure for object states as the ShadowingStore, but has an alternate directory structure that is better suited to storing large numbers of objects of the same type.
+Using this store, objects are scattered among a set of directories by applying a hashing function to the object&#8217;s Uid.
+By default, 255 sub-directories are used.
+However, you can override this by setting the <code>ObjectStoreEnvironmentBean.hashedDirectories</code> environment variable accordingly.</p>
+</div>
+<div class="paragraph">
+<p>If you are overriding the object store implementation, the type of this object store is <code>HashedStore</code>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_the_jdbc_store"><a class="anchor" href="#_the_jdbc_store"></a>The JDBC store</h5>
+<div class="paragraph">
+<p>The JDBCStore uses a JDBC database to save persistent object states.
+When used in conjunction with the Transactional Objects for Java API, nested transaction support is available.
+In the current implementation, all object states are stored as <em class="term">Binary Large Objects (BLOBs)</em> within the same table.
+The limitation on object state size imposed by using BLOBs is <code>64k</code>.
+If you try to store an object state which exceeds this limit, an error is generated and the state is not stored.
+The transaction is subsequently forced to roll back.</p>
+</div>
+<div class="paragraph">
+<p>When using the JDBC object store, the application must provide an implementation of the <code>JDBCAccess</code> interface, located in the <code>com.arjuna.ats.arjuna.objectstore</code> package:</p>
+</div>
+<div class="listingblock">
+<div class="title">Interface <code>JDBCAccess</code></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">interface</span> <span class="class">JDBCAccess</span> {
+    <span class="directive">public</span> <span class="predefined-type">Connection</span> getConnection() <span class="directive">throws</span> <span class="exception">SQLException</span>;
+
+    <span class="directive">public</span> <span class="type">void</span> putConnection(<span class="predefined-type">Connection</span> conn) <span class="directive">throws</span> <span class="exception">SQLException</span>;
+
+    <span class="directive">public</span> <span class="type">void</span> initialise(<span class="predefined-type">Object</span><span class="type">[]</span> objName);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The implementation of this class is responsible for providing the <code>Connection</code> which the JDBC ObjectStore uses to save and restore object states:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>getConnection</code></dt>
+<dd>
+<p>Returns the Connection to use.
+This method is called whenever a connection is required, and the implementation should use whatever policy is necessary for determining what connection to return.
+This method need not return the same <code>Connection</code> instance more than once.</p>
+</dd>
+<dt class="hdlist1">putConnection</dt>
+<dd>
+<p>Returns one of the <code>Connections</code> acquired from <code>getConnection</code>.
+Connections are returned if any errors occur when using them.</p>
+</dd>
+<dt class="hdlist1">initialise</dt>
+<dd>
+<p>Used to pass additional arbitrary information to the implementation.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>The JDBC object store initially requests the number of <code>Connections</code> defined in the <code>ObjectStoreEnvironmentBean.jdbcPoolSizeInitial</code> property and will use no more than defined in the <code>ObjectStoreEnvironmentBean.jdbcPoolSizeMaximum</code> property.</p>
+</div>
+<div class="paragraph">
+<p>The implementation of the <code>JDBCAccess</code> interface to use should be set in the <code>ObjectStoreEnvironmentBean.jdbcUserDbAccessClassName</code> property variable.</p>
+</div>
+<div class="paragraph">
+<p>If overriding the object store implementation, the type of this object store is <code>JDBCStore</code>.</p>
+</div>
+<div class="paragraph">
+<p>A JDBC object store can be used for managing the transaction log.
+In this case, the transaction log implementation should be set to <code>JDBCActionStore</code> and the <code>JDBCAccess</code> implementation must be provided via the <code>ObjectStoreEnvironmentBean.jdbcTxDbAccessClassName</code> property variable.
+In this case, the default table name is <em class="path">JBossTSTxTable</em> .</p>
+</div>
+<div class="paragraph">
+<p>You can use the same <code>JDBCAccess</code> implementation for both the user object store and the transaction log.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_the_cached_store"><a class="anchor" href="#_the_cached_store"></a>The cached store</h5>
+<div class="paragraph">
+<p>This object store uses the hashed object store, but does not read or write states to the persistent backing store immediately.
+It maintains the states in a volatile memory cache and either flushes the cache periodically or when it is full.
+The failure semantics associated with this object store are different from the normal persistent object stores, because a failure could result in states in the cache being lost.</p>
+</div>
+<div class="paragraph">
+<p>If overriding the object store implementation, the type of this object store is <code>CacheStore</code>.</p>
+</div>
+<div class="dlist">
+<div class="title">Configuration Properties</div>
+<dl>
+<dt class="hdlist1">ObjectStoreEnvironmentBean.cacheStoreHash</dt>
+<dd>
+<p>sets the number of internal stores to hash the states over.
+The default value is 128.</p>
+</dd>
+<dt class="hdlist1">ObjectStoreEnvironmentBean.cacheStoreSize</dt>
+<dd>
+<p>the maximum size the cache can reach before a flush is triggered.
+The default is 10240 bytes.</p>
+</dd>
+<dt class="hdlist1">ObjectStoreEnvironmentBean.cacheStoreRemovedItems</dt>
+<dd>
+<p>the maximum number of removed items that the cache can contain before a flush is triggered.
+By default, calls to remove a state that is in the cache will simply remove the state from the cache, but leave a blank entry (rather than remove the entry immediately, which would affect the performance of the cache).
+When triggered, these entries are removed from the cache.
+The default value is twice the size of the hash.</p>
+</dd>
+<dt class="hdlist1">ObjectStoreEnvironmentBean.cacheStoreWorkItems</dt>
+<dd>
+<p>the maximum number of items that are allowed to build up in the cache before it is flushed.
+The default value is 100.
+<code>ObjectStoreEnvironmentBean.cacheStoreScanPeriod</code> sets the time in milliseconds for periodically flushing the cache.
+The default is 120 seconds.</p>
+</dd>
+<dt class="hdlist1">ObjectStoreEnvironmentBean.cacheStoreSync</dt>
+<dd>
+<p>determines whether flushes of the cache are sync-ed to disk.
+The default is <code>OFF</code>.
+To enable, set to <code>ON</code>.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_logstore"><a class="anchor" href="#_logstore"></a>LogStore</h5>
+<div class="paragraph">
+<p>This implementation is based on a traditional transaction log.
+All transaction states within the same process (VM instance) are written to the same log (file), which is an append-only entity.
+When transaction data would normally be deleted, at the end of the transaction, a <em class="path">delete</em> record is added to the log instead.
+Therefore, the log just keeps growing.
+Periodically a thread runs to prune the log of entries that have been deleted.</p>
+</div>
+<div class="paragraph">
+<p>A log is initially given a maximum capacity beyond which it cannot grow.
+After it reaches this size, the system creates a new log for transactions that could not be accommodated in the original log.
+The new log and the old log are pruned as usual.
+During the normal execution of the transaction system, there may be an arbitrary number of log instances.
+These should be garbage collected by the system,(or the recovery sub-system, eventually.</p>
+</div>
+<div class="paragraph">
+<p>Check the Configuration Options table for how to configure the LogStore.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_core_class_definitions"><a class="anchor" href="#_core_class_definitions"></a>Appendix B: Core Class Definitions</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This appendix contains an overview of those classes that the application programmer will typically use.
+The aim of this appendix is to provide a quick reference guide to these classes for use when writing applications in ArjunaCore.
+For clarity only the public and protected interfaces of the classes will be given.</p>
+</div>
+<div class="listingblock">
+<div class="title">Class <code class="class">LockManager</code></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">LockResult</span> {
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> GRANTED;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> REFUSED;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> RELEASED;
+};
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">ConflictType</span> {
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> CONFLICT;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> COMPATIBLE;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> PRESENT;
+};
+
+<span class="directive">public</span> <span class="directive">abstract</span> <span class="type">class</span> <span class="class">LockManager</span> <span class="directive">extends</span> StateManager {
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> defaultRetry;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> defaultTimeout;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> waitTotalTimeout;
+
+    <span class="directive">protected</span> LockManager();
+
+    <span class="directive">protected</span> LockManager(<span class="type">int</span> ot);
+
+    <span class="directive">protected</span> LockManager(<span class="type">int</span> ot, <span class="type">int</span> objectModel);
+
+    <span class="directive">protected</span> LockManager(Uid storeUid);
+
+    <span class="directive">protected</span> LockManager(Uid storeUid, <span class="type">int</span> ot);
+
+    <span class="directive">protected</span> LockManager(Uid storeUid, <span class="type">int</span> ot, <span class="type">int</span> objectModel);
+
+    <span class="directive">public</span> <span class="directive">final</span> <span class="directive">synchronized</span> <span class="type">boolean</span> releaselock(Uid lockUid);
+
+    <span class="directive">public</span> <span class="directive">final</span> <span class="directive">synchronized</span> <span class="type">int</span> setlock(<span class="predefined-type">Lock</span> toSet);
+
+    <span class="directive">public</span> <span class="directive">final</span> <span class="directive">synchronized</span> <span class="type">int</span> setlock(<span class="predefined-type">Lock</span> toSet, <span class="type">int</span> retry);
+
+    <span class="directive">public</span> <span class="directive">final</span> <span class="directive">synchronized</span> <span class="type">int</span> setlock(<span class="predefined-type">Lock</span> toSet, <span class="type">int</span> retry, <span class="type">int</span> sleepTime);
+
+    <span class="directive">public</span> <span class="type">void</span> print(<span class="predefined-type">PrintStream</span> strm);
+
+    <span class="directive">public</span> <span class="predefined-type">String</span> type();
+
+    <span class="directive">public</span> <span class="type">boolean</span> save_state(OutputObjectState os, <span class="type">int</span> ObjectType);
+
+    <span class="directive">public</span> <span class="type">boolean</span> restore_state(InputObjectState os, <span class="type">int</span> ObjectType);
+
+    <span class="directive">protected</span> <span class="type">void</span> terminate();
+};</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Class <code class="class">StateManager</code></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">ObjectStatus</span> {
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> PASSIVE;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> PASSIVE_NEW;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> ACTIVE;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> ACTIVE_NEW;
+};
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">ObjectType</span> {
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> RECOVERABLE;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> ANDPERSISTENT;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> NEITHER;
+};
+
+<span class="directive">public</span> <span class="directive">abstract</span> <span class="type">class</span> <span class="class">StateManager</span> {
+    <span class="directive">protected</span> StateManager();
+
+    <span class="directive">protected</span> StateManager(<span class="type">int</span> ot);
+
+    <span class="directive">protected</span> StateManager(<span class="type">int</span> ot, <span class="type">int</span> objectModel);
+
+    <span class="directive">protected</span> StateManager(Uid objUid);
+
+    <span class="directive">protected</span> StateManager(Uid objUid, <span class="type">int</span> ot);
+
+    <span class="directive">protected</span> StateManager(Uid objUid, <span class="type">int</span> ot, <span class="type">int</span> objectModel);
+
+    <span class="directive">public</span> <span class="type">boolean</span> restore_state(InputObjectState os, <span class="type">int</span> ot);
+
+    <span class="directive">public</span> <span class="type">boolean</span> save_state(OutputObjectState os, <span class="type">int</span> ot);
+
+    <span class="directive">public</span> <span class="predefined-type">String</span> type();
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> activate();
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> activate(<span class="predefined-type">String</span> rootName);
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> deactivate();
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> deactivate(<span class="predefined-type">String</span> rootName);
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> deactivate(<span class="predefined-type">String</span> rootName, <span class="type">boolean</span> commit);
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">int</span> status();
+
+    <span class="directive">public</span> <span class="directive">final</span> Uid get_uid();
+
+    <span class="directive">public</span> <span class="type">void</span> destroy();
+
+    <span class="directive">public</span> <span class="type">void</span> print(<span class="predefined-type">PrintStream</span> strm);
+
+    <span class="directive">protected</span> <span class="type">void</span> terminate();
+
+    <span class="directive">protected</span> <span class="directive">synchronized</span> <span class="directive">final</span> <span class="type">void</span> modified();
+};</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Classes <code class="class">OutputObjectState</code>and <code class="class">InputObjectState</code></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="type">class</span> <span class="class">OutputObjectState</span> <span class="directive">extends</span> OutputBuffer {
+    <span class="directive">public</span> OutputObjectState(Uid newUid, <span class="predefined-type">String</span> typeName);
+
+    <span class="directive">public</span> <span class="type">boolean</span> notempty();
+
+    <span class="directive">public</span> <span class="type">int</span> size();
+
+    <span class="directive">public</span> Uid stateUid();
+
+    <span class="directive">public</span> <span class="predefined-type">String</span> type();
+};
+
+<span class="type">class</span> <span class="class">InputObjectState</span> <span class="directive">extends</span> ObjectState {
+    <span class="directive">public</span> OutputObjectState(Uid newUid, <span class="predefined-type">String</span> typeName, <span class="type">byte</span><span class="type">[]</span> b);
+
+    <span class="directive">public</span> <span class="type">boolean</span> notempty();
+
+    <span class="directive">public</span> <span class="type">int</span> size();
+
+    <span class="directive">public</span> Uid stateUid();
+
+    <span class="directive">public</span> <span class="predefined-type">String</span> type();
+};</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Classes <code class="class">OutputBuffer</code>and <code class="class">InputBuffer</code></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">OutputBuffer</span> {
+    <span class="directive">public</span> OutputBuffer();
+
+    <span class="directive">public</span> <span class="directive">final</span> <span class="directive">synchronized</span> <span class="type">boolean</span> valid();
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">byte</span><span class="type">[]</span> buffer();
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">int</span> length();
+
+    <span class="comment">/* pack operations for standard Java types */</span>
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> packByte(<span class="type">byte</span> b) <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> packBytes(<span class="type">byte</span><span class="type">[]</span> b) <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> packBoolean(<span class="type">boolean</span> b) <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> packChar(<span class="type">char</span> c) <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> packShort(<span class="type">short</span> s) <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> packInt(<span class="type">int</span> i) <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> packLong(<span class="type">long</span> l) <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> packFloat(<span class="type">float</span> f) <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> packDouble(<span class="type">double</span> d) <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> packString(<span class="predefined-type">String</span> s) <span class="directive">throws</span> <span class="exception">IOException</span>;
+};
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">InputBuffer</span> {
+    <span class="directive">public</span> InputBuffer();
+
+    <span class="directive">public</span> <span class="directive">final</span> <span class="directive">synchronized</span> <span class="type">boolean</span> valid();
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">byte</span><span class="type">[]</span> buffer();
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">int</span> length();
+
+    <span class="comment">/* unpack operations for standard Java types */</span>
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">byte</span> unpackByte() <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">byte</span><span class="type">[]</span> unpackBytes() <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> unpackBoolean() <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">char</span> unpackChar() <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">short</span> unpackShort() <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">int</span> unpackInt() <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">long</span> unpackLong() <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">float</span> unpackFloat() <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">double</span> unpackDouble() <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="predefined-type">String</span> unpackString() <span class="directive">throws</span> <span class="exception">IOException</span>;
+};</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Class <code class="class">Uid</code></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">Uid</span> <span class="directive">implements</span> <span class="predefined-type">Cloneable</span> {
+    <span class="directive">public</span> Uid();
+
+    <span class="directive">public</span> Uid(Uid copyFrom);
+
+    <span class="directive">public</span> Uid(<span class="predefined-type">String</span> uidString);
+
+    <span class="directive">public</span> Uid(<span class="predefined-type">String</span> uidString, <span class="type">boolean</span> errorsOk);
+
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">synchronized</span> Uid nullUid();
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> pack(OutputBuffer packInto) <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> unpack(InputBuffer unpackFrom) <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="type">void</span> print(<span class="predefined-type">PrintStream</span> strm);
+
+    <span class="directive">public</span> <span class="predefined-type">String</span> toString();
+
+    <span class="directive">public</span> <span class="predefined-type">Object</span> clone() <span class="directive">throws</span> <span class="exception">CloneNotSupportedException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> copy(Uid toCopy) <span class="directive">throws</span> UidException;
+
+    <span class="directive">public</span> <span class="type">boolean</span> equals(Uid u);
+
+    <span class="directive">public</span> <span class="type">boolean</span> notEquals(Uid u);
+
+    <span class="directive">public</span> <span class="type">boolean</span> lessThan(Uid u);
+
+    <span class="directive">public</span> <span class="type">boolean</span> greaterThan(Uid u);
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="directive">final</span> <span class="type">boolean</span> valid();
+};</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Class <code class="class">AtomicAction</code></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">AtomicAction</span> {
+    <span class="directive">public</span> AtomicAction();
+
+    <span class="directive">public</span> <span class="type">void</span> begin() <span class="directive">throws</span> SystemException, SubtransactionsUnavailable,
+            NoTransaction;
+
+    <span class="directive">public</span> <span class="type">void</span> commit(<span class="type">boolean</span> report_heuristics) <span class="directive">throws</span> SystemException,
+            NoTransaction, HeuristicMixed,
+            HeuristicHazard, TransactionRolledBack;
+
+    <span class="directive">public</span> <span class="type">void</span> rollback() <span class="directive">throws</span> SystemException, NoTransaction;
+
+    <span class="directive">public</span> <span class="predefined-type">Control</span> control() <span class="directive">throws</span> SystemException, NoTransaction;
+
+    <span class="directive">public</span> Status get_status() <span class="directive">throws</span> SystemException;
+
+    <span class="comment">/* Allow action commit to be supressed */</span>
+    <span class="directive">public</span> <span class="type">void</span> rollbackOnly() <span class="directive">throws</span> SystemException, NoTransaction;
+
+    <span class="directive">public</span> <span class="type">void</span> registerResource(Resource r) <span class="directive">throws</span> SystemException, Inactive;
+
+    <span class="directive">public</span> <span class="type">void</span> registerSubtransactionAwareResource(SubtransactionAwareResource sr)
+            <span class="directive">throws</span> SystemException, NotSubtransaction;
+
+    <span class="directive">public</span> <span class="type">void</span> registerSynchronization(Synchronization s) <span class="directive">throws</span> SystemException,
+            Inactive;
+};</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_idl_definitions"><a class="anchor" href="#_idl_definitions"></a>Appendix C: IDL definitions</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Because of differences between ORBs, and errors in certain ORBs, the idl available with Narayana may differ from that shown below.
+You should always inspect the idl files prior to implementation to determine what, if any, differences exist.</p>
+</div>
+<div class="listingblock">
+<div class="title">CosTransactions.idl</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="C"><span class="preprocessor">#ifndef</span> COSTRANSACTIONS_IDL_
+<span class="preprocessor">#define</span> COSTRANSACTIONS_IDL_
+module CosTransactions {
+    <span class="keyword">enum</span> Status {
+        StatusActive, StatusMarkedRollback, StatusPrepared,
+        StatusCommitted, StatusRolledback, StatusUnknown,
+        StatusPreparing, StatusCommitting, StatusRollingBack,
+        StatusNoTransaction
+    };
+
+    <span class="keyword">enum</span> Vote { VoteCommit, VoteRollback, VoteReadOnly };
+    <span class="comment">// Standard exceptions - some Orb supports them</span>
+    exception TransactionRequired {};
+    exception TransactionRolledBack {};
+    exception InvalidTransaction {};
+    <span class="comment">// Heuristic exceptions</span>
+    exception HeuristicRollback {};
+    exception HeuristicCommit {};
+    exception HeuristicMixed {};
+    exception HeuristicHazard {};
+    <span class="comment">// Exception from ORB</span>
+    exception WrongTransaction {};
+    <span class="comment">// Other transaction related exceptions</span>
+    exception SubtransactionsUnavailable {};
+    exception NotSubtransaction {};
+    exception Inactive {};
+    exception NotPrepared {};
+    exception NoTransaction {};
+    exception InvalidControl {};
+    exception Unavailable {};
+    exception SynchronizationUnavailable {};
+    <span class="comment">// Forward references for later interfaces</span>
+    interface Control;
+    interface Terminator;
+    interface Coordinator;
+    interface Resource;
+    interface RecoveryCoordinator;
+    interface SubtransactionAwareResource;
+    interface TransactionFactory;
+    interface TransactionalObject;
+    interface Current;
+    interface Synchronization;
+
+    <span class="comment">// Formally part of CosTSInteroperation</span>
+    <span class="keyword">struct</span> otid_t {
+        <span class="predefined-type">long</span> formatID;
+        <span class="predefined-type">long</span> bequal_length;
+        sequence &lt;octet&gt; tid;
+    };
+
+    <span class="keyword">struct</span> TransIdentity {
+        Coordinator coord;
+        Terminator term;
+        otid_t otid;
+    };
+
+    <span class="keyword">struct</span> PropagationContext{
+       <span class="predefined-type">unsigned</span> <span class="predefined-type">long</span> timeout;
+        TransIdentity currentTransaction;
+        sequence &lt;TransIdentity&gt; parents;
+        any implementation_specific_data;
+    };
+
+    interface Current : CORBA::Current {
+        <span class="directive">void</span> begin () raises (SubtransactionsUnavailable);
+        <span class="directive">void</span> commit (in boolean report_heuristics) raises (NoTransaction, HeuristicMixed, HeuristicHazard, TransactionRolledBack);
+        <span class="directive">void</span> rollback () raises (NoTransaction);
+        <span class="directive">void</span> rollback_only () raises (NoTransaction);
+
+        Status get_status ();
+        string get_transaction_name ();
+        <span class="directive">void</span> set_timeout (in <span class="predefined-type">unsigned</span> <span class="predefined-type">long</span> seconds);
+
+        Control get_control ();
+        Control suspend ();
+        <span class="directive">void</span> resume (in Control which) raises (InvalidControl);
+    };
+
+    interface TransactionFactory{
+        Control create (in <span class="predefined-type">unsigned</span> <span class="predefined-type">long</span> time_out);
+        Control recreate (in PropagationContext ctx);
+    };
+    interface Control {
+        Terminator get_terminator () raises (Unavailable);
+        Coordinator get_coordinator () raises (Unavailable);
+    };
+
+    interface Terminator{
+        <span class="directive">void</span> commit (in boolean report_heuristics) raises (HeuristicMixed, HeuristicHazard, TransactionRolledBack);
+        <span class="directive">void</span> rollback ();
+    };
+
+    interface Coordinator {
+        Status get_status ();
+        Status get_parent_status ();
+        Status get_top_level_status ();
+
+        boolean is_same_transaction (in Coordinator tc);
+        boolean is_related_transaction (in Coordinator tc);
+        boolean is_ancestor_transaction (in Coordinator tc);
+        boolean is_descendant_transaction (in Coordinator tc);
+        boolean is_top_level_transaction ();
+
+        <span class="predefined-type">unsigned</span> <span class="predefined-type">long</span> hash_transaction ();
+        <span class="predefined-type">unsigned</span> <span class="predefined-type">long</span> hash_top_level_tran ();
+
+        RecoveryCoordinator register_resource (in Resource r) raises (Inactive);
+        <span class="directive">void</span> register_synchronization (in Synchronization sync) raises (Inactive, SynchronizationUnavailable);
+        <span class="directive">void</span> register_subtran_aware (in SubtransactionAwareResource r) raises (Inactive, NotSubtransaction);
+
+        <span class="directive">void</span> rollback_only () raises (Inactive);
+
+        string get_transaction_name ();
+
+        Control create_subtransaction () raises (SubtransactionsUnavailable, Inactive);
+
+        PropagationContext get_txcontext () raises (Unavailable);
+    };
+
+    interface RecoveryCoordinator {
+        Status replay_completion (in Resource r) raises (NotPrepared);
+    };
+
+    interface Resource {
+        Vote prepare () raises (HeuristicMixed, HeuristicHazard);
+        <span class="directive">void</span> rollback () raises (HeuristicCommit, HeuristicMixed, HeuristicHazard);
+        <span class="directive">void</span> commit () raises (NotPrepared, HeuristicRollback, HeuristicMixed, HeuristicHazard);
+        <span class="directive">void</span> commit_one_phase () raises (HeuristicHazard);
+        <span class="directive">void</span> forget ();
+    };
+
+    interface SubtransactionAwareResource : Resource {
+        <span class="directive">void</span> commit_subtransaction (in Coordinator parent);
+        <span class="directive">void</span> rollback_subtransaction ();
+    };
+
+    interface TransactionalObject {
+    };
+
+    interface Synchronization : TransactionalObject {
+        <span class="directive">void</span> before_completion ();
+        <span class="directive">void</span> after_completion (in Status s);
+    };
+};
+<span class="preprocessor">#endif</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">ArjunaOTS.IDL</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="C"><span class="preprocessor">#ifndef</span> ARJUNAOTS_IDL_
+<span class="preprocessor">#define</span> ARJUNAOTS_IDL_
+
+<span class="preprocessor">#include</span> <span class="include">&lt;idl/CosTransactions.idl&gt;</span>
+module ArjunaOTS {
+    exception ActiveTransaction {};
+    exception BadControl {};
+    exception Destroyed {};
+    exception ActiveThreads {};
+    exception InterpositionFailed {};
+
+    interface UidCoordinator : CosTransactions::Coordinator {
+        readonly attribute string uid;
+        readonly attribute string topLevelUid;
+    };
+
+    interface ActionControl : CosTransactions::Control {
+        CosTransactions::Control getParentControl () raises (CosTransactions::Unavailable, CosTransactions::NotSubtransaction);
+        <span class="directive">void</span> destroy () raises (ActiveTransaction, ActiveThreads, BadControl, Destroyed);
+    };
+
+    interface ArjunaSubtranAwareResource : CosTransactions::SubtransactionAwareResource {
+        CosTransactions::Vote prepare_subtransaction ();
+    };
+
+    interface ArjunaTransaction : UidCoordinator, CosTransactions::Terminator {
+    };
+
+    interface OTSAbstractRecord : ArjunaSubtranAwareResource {
+        readonly attribute <span class="predefined-type">long</span> typeId;
+        readonly attribute string uid;
+
+        boolean propagateOnAbort ();
+        boolean propagateOnCommit ();
+
+        boolean saveRecord ();
+
+        <span class="directive">void</span> merge (in OTSAbstractRecord record);
+        <span class="directive">void</span> alter (in OTSAbstractRecord record);
+
+        boolean shouldAdd (in OTSAbstractRecord record);
+        boolean shouldAlter (in OTSAbstractRecord record);
+        boolean shouldMerge (in OTSAbstractRecord record);
+        boolean shouldReplace (in OTSAbstractRecord record);
+    };
+};</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_transaction_statuses"><a class="anchor" href="#_transaction_statuses"></a>Appendix D: REST-AT Transaction Statuses</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Resources return the following status values in response to GET requests on the appropriate <code>transaction-coordinator</code> or <code>participant-resource</code> URI:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">TransactionRollbackOnly</dt>
+<dd>
+<p>the status of the endpoint is that it will roll back eventually.</p>
+</dd>
+<dt class="hdlist1">TransactionRollingBack</dt>
+<dd>
+<p>the endpoint is in the process of rolling back.
+If the recipient has already rolled back then it must return a 410 error code.</p>
+</dd>
+<dt class="hdlist1">TransactionRolledBack</dt>
+<dd>
+<p>the endpoint has rolled back.</p>
+</dd>
+<dt class="hdlist1">TransactionCommitting</dt>
+<dd>
+<p>the endpoint is in the process of committing.
+This does not mean that the final outcome will be Committed.
+If the recipient has already committed then it must return a 410 error code.</p>
+</dd>
+<dt class="hdlist1">TransactionCommitted</dt>
+<dd>
+<p>the endpoint has committed.</p>
+</dd>
+<dt class="hdlist1">TransactionCommittedOnePhase</dt>
+<dd>
+<p>the recipient has committed the transaction without going through a prepare phase.
+If the recipient has previously been asked to prepare then it must return a 412 error code.
+If the recipient has already terminated, then it must return a 410 error code.</p>
+</dd>
+<dt class="hdlist1">TransactionHeuristicRollback</dt>
+<dd>
+<p>all of the participants rolled back when they were asked to commit.</p>
+</dd>
+<dt class="hdlist1">TransactionHeuristicCommit</dt>
+<dd>
+<p>all of the participants committed when they were asked to rollback.</p>
+</dd>
+<dt class="hdlist1">TransactionHeuristicHazard</dt>
+<dd>
+<p>some of the participants rolled back, some committed and the outcome of others is indeterminate.</p>
+</dd>
+<dt class="hdlist1">TransactionHeuristicMixed</dt>
+<dd>
+<p>some of the participants rolled back whereas the remainder committed.</p>
+</dd>
+<dt class="hdlist1">TransactionPreparing</dt>
+<dd>
+<p>the endpoint is preparing.</p>
+</dd>
+<dt class="hdlist1">TransactionPrepared</dt>
+<dd>
+<p>the endpoint has prepared.</p>
+</dd>
+<dt class="hdlist1">TransactionActive</dt>
+<dd>
+<p>the transaction is active, i.e., has not begun to terminate.</p>
+</dd>
+<dt class="hdlist1">TransactionStatusUnknown</dt>
+<dd>
+<p>the status of the transaction is unknown</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_qa_testsuite"><a class="anchor" href="#_qa_testsuite"></a>Appendix E: QA Testsuite</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In the source git repository we maintain a testsuite for integration testing.</p>
+</div>
+<div class="sect2">
+<h3 id="_jdbcresources_01_02"><a class="anchor" href="#_jdbcresources_01_02"></a>JDBCResources 01 &amp; 02</h3>
+<div class="sect3">
+<h4 id="_overview"><a class="anchor" href="#_overview"></a>Overview</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Tests</p>
+<div class="ulist">
+<ul>
+<li>
+<p>JDBC Support</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Series</p>
+<div class="ulist">
+<ul>
+<li>
+<p>JTSResources01: Implicit context propagation</p>
+</li>
+<li>
+<p>JTSResources02: Explicit context propagation</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Sub-series</p>
+<div class="ulist">
+<ul>
+<li>
+<p>_ibmdb2_jndi</p>
+</li>
+<li>
+<p>_mssqlserver_jndi</p>
+</li>
+<li>
+<p>_mysql_jndi</p>
+</li>
+<li>
+<p>_oracle_thin_jndi</p>
+</li>
+<li>
+<p>_pgsql_jndi</p>
+</li>
+<li>
+<p>_sybase_jndi</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_jdbcresources_01_02_summary"><a class="anchor" href="#_jdbcresources_01_02_summary"></a>JDBCResources 01 &amp; 02 Summary</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Building blocks:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Interfaces: 1</p>
+</li>
+<li>
+<p>Implementations: 2</p>
+</li>
+<li>
+<p>Servers: 2</p>
+</li>
+<li>
+<p>Setups: 2</p>
+</li>
+<li>
+<p>Clients: 16</p>
+</li>
+<li>
+<p>Outcomes: 4</p>
+</li>
+<li>
+<p>Cleanups: 1</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Tests:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Configurations: 32</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_jdbcresources_01_02_interfaces"><a class="anchor" href="#_jdbcresources_01_02_interfaces"></a>JDBCResources 01 &amp; 02 Interfaces</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>InfoTable</p>
+<div class="ulist">
+<ul>
+<li>
+<p>insert(in string name, in string value)</p>
+</li>
+<li>
+<p>update(in string name, in string value)</p>
+</li>
+<li>
+<p>select(in string name, out string value)</p>
+</li>
+<li>
+<p>delete(in string name)</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_jdbcresources_01_02_implementations"><a class="anchor" href="#_jdbcresources_01_02_implementations"></a>JDBCResources 01 &amp; 02 Implementations</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>JDBCInfoTableImpl01</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates a single JDBC connection for all operations</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>JDBCInfoTableImpl02</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates a JDBC connection per operation</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_jdbcresources_01_02_server"><a class="anchor" href="#_jdbcresources_01_02_server"></a>JDBCResources 01 &amp; 02 Server</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Server01: 1 x JDBCInfoTableImpl01</p>
+</li>
+<li>
+<p>Server02: 1 x JDBCInfoTableImpl02</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_jdbcresources_01_02_setups"><a class="anchor" href="#_jdbcresources_01_02_setups"></a>JDBCResources 01 &amp; 02 Setups</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Setup01</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates Table InfoTable (Name VARCHAR(64), Value VARCHAR(64))</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Inserts 10 entries ("Name_’X’", "Value_’X’") [Where X is 0 … 9]</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Setup02</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates Table InfoTable (Name VARCHAR(64), Value VARCHAR(64))</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Inserts 10 entries ("Name_’X’", "Value_’X’") [Where X is 0 … 9]</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_jdbcresources_01_02_clients"><a class="anchor" href="#_jdbcresources_01_02_clients"></a>JDBCResources 01 &amp; 02 Clients</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Client01</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Obtains an InfoTable object</p>
+</li>
+<li>
+<p>Inserts 10 entries, no transaction</p>
+</li>
+<li>
+<p>Verify existence of inserted entries, no transaction</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client02</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Obtains an InfoTable object</p>
+</li>
+<li>
+<p>Inserts 10 entries, within transaction</p>
+</li>
+<li>
+<p>Verify existence of inserted entries, within transaction</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client03</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Obtains an InfoTable object</p>
+</li>
+<li>
+<p>Inserts 10 entries, within transaction</p>
+</li>
+<li>
+<p>Update entry, with transaction which rolls back</p>
+</li>
+<li>
+<p>Verify existence of inserted entries, within transaction</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client04</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Obtains an InfoTable object</p>
+</li>
+<li>
+<p>Inserts 10 entries, within transaction</p>
+</li>
+<li>
+<p>Delete entry, with transaction which rolls back</p>
+</li>
+<li>
+<p>Verify existence of inserted entries, within transaction</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client05</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Obtains an InfoTable object</p>
+</li>
+<li>
+<p>Inserts 10 entries, within transaction</p>
+</li>
+<li>
+<p>Update entry, within transaction</p>
+</li>
+<li>
+<p>Update same entry with old value, no transaction</p>
+</li>
+<li>
+<p>Verify existence of inserted entries, within transaction</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client06</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Obtains an InfoTable object</p>
+</li>
+<li>
+<p>Inserts 10 entries, within transaction</p>
+</li>
+<li>
+<p>Update entry, no transaction</p>
+</li>
+<li>
+<p>Update same entry with old value, within transaction</p>
+</li>
+<li>
+<p>Verify existence of inserted entries, within transaction</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client07</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Obtains two InfoTable objects</p>
+</li>
+<li>
+<p>Update 10 entries, split alternatively, over each object</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Name_’X’", "Value_’9-X’") [Where X is 0 … 9]</p>
+</li>
+<li>
+<p>No transaction</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client08</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Obtains two InfoTable objects</p>
+</li>
+<li>
+<p>Update 10 entries, split alternatively, over each object</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Name_’X’", "Value_’9-X’") [Where X is 0 … 9]</p>
+</li>
+<li>
+<p>Within transaction</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client09</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Obtains two InfoTable objects</p>
+</li>
+<li>
+<p>Update 10 entries, split alternatively, over each object</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Name_’X’", "Value_’9-X’") [Where X is 0 … 9]</p>
+</li>
+<li>
+<p>Within transaction, per update</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client10</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Obtains two InfoTable objects</p>
+</li>
+<li>
+<p>Update 10 entries, split alternatively, over each object</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Name_’X’", "Value_’9-X’") [Where X is 0 … 9]</p>
+</li>
+<li>
+<p>Within transaction, which rolls back</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client11</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Obtains two InfoTable objects</p>
+</li>
+<li>
+<p>Update 10 entries, split alternatively, over each object</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Name_’X’", "Value_’9-X’") [Where X is 0 … 9]</p>
+</li>
+<li>
+<p>Within transaction, per update, which rolls back</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client12</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Obtains two InfoTable objects</p>
+</li>
+<li>
+<p>Update 10 entries, in each object</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Name_’X’", "Value_’9-X’") [Where X is 0 … 9]</p>
+</li>
+<li>
+<p>No transaction</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client13</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Obtains two InfoTable objects</p>
+</li>
+<li>
+<p>Update 10 entries, in each object</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Name_’X’", "Value_’9-X’") [Where X is 0 … 9]</p>
+</li>
+<li>
+<p>Within transaction</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client14</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Obtains two InfoTable objects</p>
+</li>
+<li>
+<p>Update 10 entries, in each object</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Name_’X’", "Value_’9-X’") [Where X is 0 … 9]</p>
+</li>
+<li>
+<p>Within transaction, per update</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client15</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Obtains two InfoTable objects</p>
+</li>
+<li>
+<p>Update 10 entries, in each object</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Name_’X’", "Value_’9-X’") [Where X is 0 … 9]</p>
+</li>
+<li>
+<p>Within transaction, which rolls back</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client16</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Obtains two InfoTable objects</p>
+</li>
+<li>
+<p>Update 10 entries, in each object</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Name_’X’", "Value_’9-X’") [Where X is 0 … 9]</p>
+</li>
+<li>
+<p>Within transaction, per update, which rolls back</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_jdbcresources_01_02_outcomes"><a class="anchor" href="#_jdbcresources_01_02_outcomes"></a>JDBCResources 01 &amp; 02 Outcomes</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Outcome01</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Verify existence and values of inserted entries</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Outcome02</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Verify existence and values [reverse] of inserted entries</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Outcome03</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Verify existence and values of inserted entries, in two InfoTables</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Outcome04</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Verify existence and values [reverse] of inserted entries, in two InfoTables</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_jdbcresources_01_02_cleanups"><a class="anchor" href="#_jdbcresources_01_02_cleanups"></a>JDBCResources 01 &amp; 02 Cleanups</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Cleanup01</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Drops Table "InfoTable"</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_jdbcresources_01_02_configurations"><a class="anchor" href="#_jdbcresources_01_02_configurations"></a>JDBCResources 01 &amp; 02 Configurations</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Test001: 1 x Server01 + 1 x Client01</p>
+</li>
+<li>
+<p>Test002: 1 x Server01 + 1 x Client02</p>
+</li>
+<li>
+<p>Test003: 1 x Server01 + 1 x Client03</p>
+</li>
+<li>
+<p>Test004: 1 x Server01 + 1 x Client04</p>
+</li>
+<li>
+<p>Test005: 1 x Server01 + 1 x Client05</p>
+</li>
+<li>
+<p>Test006: 1 x Server01 + 1 x Client06</p>
+</li>
+<li>
+<p>Test007: 1 x Server02 + 1 x Client01</p>
+</li>
+<li>
+<p>Test008: 1 x Server02 + 1 x Client02</p>
+</li>
+<li>
+<p>Test009: 1 x Server02 + 1 x Client03</p>
+</li>
+<li>
+<p>Test010: 1 x Server02 + 1 x Client04</p>
+</li>
+<li>
+<p>Test011: 1 x Server02 + 1 x Client05</p>
+</li>
+<li>
+<p>Test012: 1 x Server02 + 1 x Client06</p>
+</li>
+<li>
+<p>Test013: 2 x Server01 + 1 x Client07 + Outcome02</p>
+</li>
+<li>
+<p>Test014: 2 x Server01 + 1 x Client08 + Outcome02</p>
+</li>
+<li>
+<p>Test015: 2 x Server01 + 1 x Client09 + Outcome02</p>
+</li>
+<li>
+<p>Test016: 2 x Server01 + 1 x Client10 + Outcome01</p>
+</li>
+<li>
+<p>Test017: 2 x Server01 + 1 x Client11 + Outcome01</p>
+</li>
+<li>
+<p>Test018: 2 x Server02 + 1 x Client07 + Outcome02</p>
+</li>
+<li>
+<p>Test019: 2 x Server02 + 1 x Client08 + Outcome02</p>
+</li>
+<li>
+<p>Test020: 2 x Server02 + 1 x Client09 + Outcome02</p>
+</li>
+<li>
+<p>Test021: 2 x Server02 + 1 x Client10 + Outcome01</p>
+</li>
+<li>
+<p>Test022: 2 x Server02 + 1 x Client11 + Outcome01</p>
+</li>
+<li>
+<p>Test023: 2 x Server01 + 1 x Client12 + Outcome04</p>
+</li>
+<li>
+<p>Test024: 2 x Server01 + 1 x Client13 + Outcome04</p>
+</li>
+<li>
+<p>Test025: 2 x Server01 + 1 x Client14 + Outcome04</p>
+</li>
+<li>
+<p>Test026: 2 x Server01 + 1 x Client15 + Outcome03</p>
+</li>
+<li>
+<p>Test027: 2 x Server01 + 1 x Client16 + Outcome03</p>
+</li>
+<li>
+<p>Test028: 2 x Server02 + 1 x Client12 + Outcome04</p>
+</li>
+<li>
+<p>Test029: 2 x Server02 + 1 x Client13 + Outcome04</p>
+</li>
+<li>
+<p>Test030: 2 x Server02 + 1 x Client14 + Outcome04</p>
+</li>
+<li>
+<p>Test031: 2 x Server02 + 1 x Client15 + Outcome03</p>
+</li>
+<li>
+<p>Test032: 2 x Server02 + 1 x Client16 + Outcome03</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_jdbcresources_03_04"><a class="anchor" href="#_jdbcresources_03_04"></a>JDBCResources 03 &amp; 04</h3>
+<div class="sect3">
+<h4 id="_overview_2"><a class="anchor" href="#_overview_2"></a>Overview</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Tests</p>
+<div class="ulist">
+<ul>
+<li>
+<p>JDBC Support – Conflict over resource</p>
+</li>
+<li>
+<p>May fail: Depending on DB’s behaviour</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Series</p>
+<div class="ulist">
+<ul>
+<li>
+<p>JTSResources03: Implicit context propagation</p>
+</li>
+<li>
+<p>JTSResources04: Explicit context propagation</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Sub-series</p>
+<div class="ulist">
+<ul>
+<li>
+<p>_ibmdb2_jndi</p>
+</li>
+<li>
+<p>_mssqlserver_jndi</p>
+</li>
+<li>
+<p>_mysql_jndi</p>
+</li>
+<li>
+<p>_oracle_thin_jndi</p>
+</li>
+<li>
+<p>_pgsql_jndi</p>
+</li>
+<li>
+<p>_sybase_jndi</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_jdbcresources_03_04_summary"><a class="anchor" href="#_jdbcresources_03_04_summary"></a>JDBCResources 03 &amp; 04 Summary</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Building blocks:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Interfaces: 1</p>
+</li>
+<li>
+<p>Implementations: 2</p>
+</li>
+<li>
+<p>Servers: 2</p>
+</li>
+<li>
+<p>Setups: 1</p>
+</li>
+<li>
+<p>Clients: 1</p>
+</li>
+<li>
+<p>Outcomes: 1</p>
+</li>
+<li>
+<p>Cleanups: 1</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Tests:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Configurations: 4</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_jdbcresources_03_04_interfaces"><a class="anchor" href="#_jdbcresources_03_04_interfaces"></a>JDBCResources 03 &amp; 04 Interfaces</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>NumberTable</p>
+<div class="ulist">
+<ul>
+<li>
+<p>get(in string name, out long value)</p>
+</li>
+<li>
+<p>set(in string name, in long value)</p>
+</li>
+<li>
+<p>increase(in string name)</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_jdbcresources_03_04_implementations"><a class="anchor" href="#_jdbcresources_03_04_implementations"></a>JDBCResources 03 &amp; 04 Implementations</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>JDBCNumberTableImpl01</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates a single JDBC connection for all operations</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>JDBCNumberTableImpl02</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates a JDBC connection per operation</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_jdbcresources_03_04_server"><a class="anchor" href="#_jdbcresources_03_04_server"></a>JDBCResources 03 &amp; 04 Server</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Server01: 1 x JDBCNumberTableImpl01</p>
+</li>
+<li>
+<p>Server02: 1 x JDBCNumberTableImpl02</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_jdbcresources_03_04_setups"><a class="anchor" href="#_jdbcresources_03_04_setups"></a>JDBCResources 03 &amp; 04 Setups</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Setup01</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates Table NumberTable</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Name VARCHAR(64), Value INTEGER)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Inserts n entries</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Name_’X’", "0") [Where X is 0 … n - 1]</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_jdbcresources_03_04_clients"><a class="anchor" href="#_jdbcresources_03_04_clients"></a>JDBCResources 03 &amp; 04 Clients</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Client01</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Operation</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Obtains an NumberTable object</p>
+</li>
+<li>
+<p>Begin transaction</p>
+</li>
+<li>
+<p>Gets Values for "Name_0" and "Name_1"</p>
+</li>
+<li>
+<p>Increase value associated with "Name_0"</p>
+</li>
+<li>
+<p>Sleeps 15 sec.</p>
+</li>
+<li>
+<p>Increase value associated with "Name_1"</p>
+</li>
+<li>
+<p>Gets Values for "Name_0" and "Name_1"</p>
+</li>
+<li>
+<p>Commit(true) transaction</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Passes if:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>New values are the same, and equals old values plus one, or</p>
+</li>
+<li>
+<p>InvocationException thrown with Reason "ReasonCantSerializeAccess"</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_jdbcresources_03_04_outcomes"><a class="anchor" href="#_jdbcresources_03_04_outcomes"></a>JDBCResources 03 &amp; 04 Outcomes</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Outcome01</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Verify first n entries (0 … n - 1) have value n</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_jdbcresources_03_04_cleanups"><a class="anchor" href="#_jdbcresources_03_04_cleanups"></a>JDBCResources 03 &amp; 04 Cleanups</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Cleanup01</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Drops Table "NumberTable"</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_jdbcresources_03_04_configurations"><a class="anchor" href="#_jdbcresources_03_04_configurations"></a>JDBCResources 03 &amp; 04 Configurations</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Test01: 1 x Server01 + 2 x Client01 + Outcome01</p>
+</li>
+<li>
+<p>Test02: 2 x Server01 + 2 x Client01 + Outcome01</p>
+</li>
+<li>
+<p>Test03: 1 x Server02 + 2 x Client01 + Outcome01</p>
+</li>
+<li>
+<p>Test04: 2 x Server02 + 2 x Client01 + Outcome01</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_currenttests"><a class="anchor" href="#_currenttests"></a>CurrentTests</h3>
+<div class="sect3">
+<h4 id="_overview_3"><a class="anchor" href="#_overview_3"></a>Overview</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Tests</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test Current interface</p>
+</li>
+<li>
+<p>Close to "Unit Tests"</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_currenttests01_summary"><a class="anchor" href="#_currenttests01_summary"></a>CurrentTests01 Summary</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Building blocks:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Interfaces: 0</p>
+</li>
+<li>
+<p>Implementations: 0</p>
+</li>
+<li>
+<p>Servers: 0</p>
+</li>
+<li>
+<p>Clients: 34</p>
+</li>
+<li>
+<p>Outcomes: 0</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Tests:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Configurations: 34</p>
+</li>
+<li>
+<p>TestXX.java maps to Test0XX.conf</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_currenttests_clients"><a class="anchor" href="#_currenttests_clients"></a>CurrentTests Clients</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Tests 01 through 16: Complete transaction and then check that a further operation throws NoTransaction:</p>
+</li>
+<li>
+<p>Test17</p>
+</li>
+</ul>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Tests 01 through 16</caption>
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Op To Check</th>
+<th class="tableblock halign-left valign-top">None</th>
+<th class="tableblock halign-left valign-top">begin commit(true)</th>
+<th class="tableblock halign-left valign-top">begin commit(false)</th>
+<th class="tableblock halign-left valign-top">begin rollback</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">commit(true)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test01</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test05</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test09</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test13</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">commit(false)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test02</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test06</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test14</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">rollback()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test03</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test07</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test15</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">rollback_only()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test04</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test08</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test12</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test16</p></td>
+</tr>
+</tbody>
+</table>
+<div class="ulist">
+<ul>
+<li>
+<p>Create a series if 1000 transactions, terminated with commit(true)</p>
+</li>
+<li>
+<p>Checks all names (get_transaction_name) are unique</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test18</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Create a series if 1000 transactions, terminated with commit(false)</p>
+</li>
+<li>
+<p>Checks all names (get_transaction_name) are unique</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test19</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Create a series if 1000 transactions, terminated with rollback()</p>
+</li>
+<li>
+<p>Checks all names (get_transaction_name) are unique</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test20</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Create and suspends 1000 transactions</p>
+</li>
+<li>
+<p>Resumes transactions in series</p>
+</li>
+<li>
+<p>Checks names (get_transaction_name) correspond</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test21</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Preamble: None</p>
+</li>
+<li>
+<p>Checks if suspend return null, then not transaction</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test22</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Preamble: begin(), commit(true)</p>
+</li>
+<li>
+<p>Checks if suspend return null, then not transaction</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test23</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Preamble: begin(), commit(false)</p>
+</li>
+<li>
+<p>Checks if suspend return null, then not transaction</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test24</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Preamble: begin(), rollback()</p>
+</li>
+<li>
+<p>Checks if suspend return null, then not transaction</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test25</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Checks resume(null) does not throw InvalidControl</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test26</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Checks that resume() of transaction terminated with commit(true) throws InvalidControl</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test27</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Checks that resume() of transaction terminated with commit(false) throws InvalidControl</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test28</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Checks that resume() of transaction terminated with rollback() throws InvalidControl</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test29</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Preamble: None</p>
+</li>
+<li>
+<p>Checks that get_status() when no transaction returns StatusNoTransaction</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test30</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Preamble: begin(), commit(true)</p>
+</li>
+<li>
+<p>Checks that get_status() when no transaction returns StatusNoTransaction</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test31</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Preamble: begin(), commit(false)</p>
+</li>
+<li>
+<p>Checks that get_status() when no transaction returns StatusNoTransaction</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test32</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Preamble: begin(), rollback()</p>
+</li>
+<li>
+<p>Checks that get_status() when no transaction returns StatusNoTransaction</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test33</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Checks that get_status() when in transaction returns StatusActive</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test34</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Checks that get_status() when in transaction marked roll back only returns StatusMarkedRollback</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_otsserver"><a class="anchor" href="#_otsserver"></a>OTSServer</h3>
+<div class="sect3">
+<h4 id="_overview_4"><a class="anchor" href="#_overview_4"></a>Overview</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Tests</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Tests OTSServer (a TransactionFactory interface implementation)</p>
+</li>
+<li>
+<p>Test001 to Test006 (Test003 to Test006 requires "DYNAMIC") - ClientXX.java maps to Test0XX.conf</p>
+</li>
+<li>
+<p>Test007 to Test012 - ClientXX.java maps to Test0XX.conf with args 1000</p>
+</li>
+<li>
+<p>Test013 to Test016 - Client13: x1, x2 with args 4 250 and x3, x4 with args 4 100</p>
+</li>
+<li>
+<p>Test017 to Test020 - Client13: x1, x2 with args 4 250 and x3, x4 with args 4 100</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_otsserver_summary"><a class="anchor" href="#_otsserver_summary"></a>OTSServer Summary</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Building blocks:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Interfaces: 0</p>
+</li>
+<li>
+<p>Implementations: 0</p>
+</li>
+<li>
+<p>Servers: 1 (OTS_Server)</p>
+</li>
+<li>
+<p>Clients: 14</p>
+</li>
+<li>
+<p>Outcomes: 0</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Tests:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Configurations: 20</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_otsserver_clients"><a class="anchor" href="#_otsserver_clients"></a>OTSServer Clients</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Test01</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates a transaction via transactionFactory.create(0)</p>
+</li>
+<li>
+<p>Check its status is StatusActive</p>
+</li>
+<li>
+<p>Check commit(true) does not throw exception</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Test02</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates a transaction via transactionFactory.create(0)</p>
+</li>
+<li>
+<p>Check its status is StatusActive</p>
+</li>
+<li>
+<p>Check rollback() does not throw exception</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Test03</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates a transaction via transactionFactory.create(4)</p>
+</li>
+<li>
+<p>Check its status is StatusRolledBack, after 8 seconds</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Test04</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates a transaction via transactionFactory.create(4)</p>
+</li>
+<li>
+<p>Check commit(true) throws INVALID_TRANSACTION or BAD_OPERATION, after 8 seconds</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Test05</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates a transaction via transactionFactory.create(4)</p>
+</li>
+<li>
+<p>Check commit(false) throws INVALID_TRANSACTION or BAD_OPERATION, after 8 seconds</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Test06</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates a transaction via transactionFactory.create(4)</p>
+</li>
+<li>
+<p>Check commit(true) throws INVALID_TRANSACTION or BAD_OPERATION, after 8 seconds</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Test07</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates a transaction via transactionFactory.create(0)</p>
+</li>
+<li>
+<p>Check its status is StatusActive</p>
+</li>
+<li>
+<p>Check commit(true) does not throw exception, repeat n times</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Test08</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates a transaction via transactionFactory.create(0)</p>
+</li>
+<li>
+<p>Check its status is StatusActive</p>
+</li>
+<li>
+<p>Check commit(false) does not throw exception, repeat n times</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Test09</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates a transaction via transactionFactory.create(0)</p>
+</li>
+<li>
+<p>Check its status is StatusActive</p>
+</li>
+<li>
+<p>Check rollback() does not throw exception, repeat n times</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Test10</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates a transaction via transactionFactory.create(0), repeat n times</p>
+</li>
+<li>
+<p>Check each status is StatusActive</p>
+</li>
+<li>
+<p>Check each commit(true) does not throw exception</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Test11</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates a transaction via transactionFactory.create(0), repeat n times</p>
+</li>
+<li>
+<p>Check each status is StatusActive</p>
+</li>
+<li>
+<p>Check each commit(false) does not throw exception</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Test12</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates a transaction via transactionFactory.create(0), repeat n times</p>
+</li>
+<li>
+<p>Check each status is StatusActive</p>
+</li>
+<li>
+<p>Check each rollback() does not throw exception</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Test13</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Create n threads which does m times</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates a transaction via transactionFactory.create(0)</p>
+</li>
+<li>
+<p>Check its status is StatusActive</p>
+</li>
+<li>
+<p>Checks commit(true), commit(false), rollback(), alternatively, does not throw an exception</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Test14</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Create n threads which does</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates a transaction via transactionFactory.create(0) m times</p>
+</li>
+<li>
+<p>Check each status is StatusActive</p>
+</li>
+<li>
+<p>Checks each commit(true), commit(false), rollback(), alternatively, does not throw an exception</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_aitresources"><a class="anchor" href="#_aitresources"></a>AITResources</h3>
+<div class="sect3">
+<h4 id="_overview_5"><a class="anchor" href="#_overview_5"></a>Overview</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>AIT</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Advanced(/Arjuna) Integrated(/Interface) Transactions</p>
+</li>
+<li>
+<p>Transactional Objects for Java</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Series</p>
+<div class="ulist">
+<ul>
+<li>
+<p>AITResources01: Implicit context propagation</p>
+</li>
+<li>
+<p>AITResources02: Explicit context propagation</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Tests</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Transaction Engine</p>
+</li>
+<li>
+<p>AIT support</p>
+</li>
+<li>
+<p>Context propagation</p>
+</li>
+<li>
+<p>Memory problems</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_aitresources_01_02_summary"><a class="anchor" href="#_aitresources_01_02_summary"></a>AITResources 01 &amp; 02 Summary</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Building blocks:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Interfaces: 2 (Counter &amp; PingPong)</p>
+</li>
+<li>
+<p>Implementations: 4 (3 Counter, 1 PingPong)</p>
+</li>
+<li>
+<p>Servers: 10</p>
+</li>
+<li>
+<p>Clients: 17</p>
+</li>
+<li>
+<p>Outcomes: 2</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Tests:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Functional: 44</p>
+</li>
+<li>
+<p>Memory: 14</p>
+</li>
+<li>
+<p>Configurations: 58</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_aitresources_interfaces"><a class="anchor" href="#_aitresources_interfaces"></a>AITResources Interfaces</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Counter</p>
+<div class="ulist">
+<ul>
+<li>
+<p>get()</p>
+</li>
+<li>
+<p>set()</p>
+</li>
+<li>
+<p>increase()</p>
+</li>
+<li>
+<p>getMemory()</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>PingPong</p>
+<div class="ulist">
+<ul>
+<li>
+<p>hit(count, ping, pong)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>If count != 0, call hit on ping, with count-1, and ping and pong swapped</p>
+</li>
+<li>
+<p>If count == 0, increase a value in object</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>bad_hit(count, bad_count, ping, pong)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>similar to hit(), except if bad_count == 0, abort transaction</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>get()</p>
+</li>
+<li>
+<p>getMemory()</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_aitresources_implementations"><a class="anchor" href="#_aitresources_implementations"></a>AITResources Implementations</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>AITCounterImpl01 - Operations create [nested] transactions (AtomicTransaction)</p>
+</li>
+<li>
+<p>AITCounterImpl02 - Operations create [nested] transactions (OTS.current)</p>
+</li>
+<li>
+<p>AITCounterImpl03 - Operations do not create transactions</p>
+</li>
+<li>
+<p>AITPingPongImpl01 - Operations create [nested] transactions (AtomicTransaction)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_aitresources_server"><a class="anchor" href="#_aitresources_server"></a>AITResources Server</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Server01: 1 x AITCounterImpl01</p>
+</li>
+<li>
+<p>Server02: 4 x AITCounterImpl01</p>
+</li>
+<li>
+<p>Server03: 1 x AITCounterImpl02</p>
+</li>
+<li>
+<p>Server04: 4 x AITCounterImpl02</p>
+</li>
+<li>
+<p>Server05: 1 x AITCounterImpl01, 1 x AITCounterImpl02</p>
+</li>
+<li>
+<p>Server06: 2 x AITCounterImpl01, 2 x AITCounterImpl02</p>
+</li>
+<li>
+<p>Server07: 1 x AITPingPongImpl01</p>
+</li>
+<li>
+<p>Server08: 2 x AITPingPongImpl01</p>
+</li>
+<li>
+<p>Server09: 1 x AITCounterImpl03</p>
+</li>
+<li>
+<p>Server10: 4 x AITCounterImpl03</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_aitresources_clients"><a class="anchor" href="#_aitresources_clients"></a>AITResources Clients</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Client01</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Performs 1000 increase(), no client transaction</p>
+</li>
+<li>
+<p>Does get() to check counter value now 1000</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client02</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Performs 1000 increase(), each with own transaction</p>
+</li>
+<li>
+<p>Transactions are alternatively committed/rolled back</p>
+</li>
+<li>
+<p>Does get() to check counter value now 500</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client03</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Memory check version of Client01</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client04</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Memory check version of Client02</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client05</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Performs 10 hit(), with count 0,1,2 … 9, ping and pong same, no client transaction</p>
+</li>
+<li>
+<p>Does get() to check value now 10</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client06</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Performs 10 hit(), with count 0,1,2 … 9, ping and pong different, no client transaction</p>
+</li>
+<li>
+<p>Does get(), on both ping and pong, to check values are now 5</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client07</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Memory check version of Client05</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client08</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Memory check version of Client06</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client09</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Performs 1000 successful increase(), no client transaction</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client10</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Performs 10 bad_hit(), with count 0,1,2 … 9, for each bad_count 0 … count, ping and pong same, no client transaction</p>
+</li>
+<li>
+<p>Does get() to check value now 0</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client11</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Performs 10 bad_hit(), with count 0,1,2 … 9 , for each bad_count 0 … count, ping and pong different, no client transaction</p>
+</li>
+<li>
+<p>Does get(), on both ping and pong, to check values are now 0</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client12</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Memory check version of Client10</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client13</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Memory check version of Client11</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client14</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates n threads, which each performs m successful increase(), no client transaction</p>
+</li>
+<li>
+<p>Does get() to check counter value now n * m</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client15</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Memory check version of Client14</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client16</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates n threads, which each performs m successful increase(), each with own transaction, commits if increase() was successful, rolls bask if increase() was unsuccessful</p>
+</li>
+<li>
+<p>Does get() to check counter value now n * m</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client17</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Memory check version of Client16</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_aitresources_outcomes"><a class="anchor" href="#_aitresources_outcomes"></a>AITResources Outcomes</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Outcome01</p>
+</li>
+<li>
+<p>Checks if a counter has an "expected value"</p>
+</li>
+<li>
+<p>Outcome02</p>
+</li>
+<li>
+<p>Checks if two counters has an "expected value"</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_aitresources_memory_tests"><a class="anchor" href="#_aitresources_memory_tests"></a>AITResources Memory Tests</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>General form:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Perform test pattern (reduced)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Make sure all classes loaded</p>
+</li>
+<li>
+<p>Caches full</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Get memory of all Clients and Servers</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Repeat: run GC, get memory until no further decreases</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Perform test pattern</p>
+</li>
+<li>
+<p>Get memory of all Clients and Servers</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Repeat: run GC, get memory until no further decreases</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Perform check</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_crashrecovery"><a class="anchor" href="#_crashrecovery"></a>CrashRecovery</h3>
+<div class="sect3">
+<h4 id="_crashrecovery_summary"><a class="anchor" href="#_crashrecovery_summary"></a>CrashRecovery Summary</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>CrashRecovery01</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Tests replay_completion (Implicit context propagation)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>CrashRecovery02 (_1: One resource &amp; _2: Two resource)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Tests behaviour server crash (Implicit context propagation)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>CrashRecovery03</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Tests replay_completion called with null (Implicit context propagation)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>CrashRecovery04</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Tests replay_completion (Explicit context propagation)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>CrashRecovery05 (_1: One resource &amp; _2: Two resource)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Tests behaviour server crash (Explicit context propagation)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>CrashRecovery06</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Tests replay_completion called with null (Explicit context propagation)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>CrashRecovery07</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Tests behaviour client crash (Implicit context propagation)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>CrashRecovery08</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Tests behaviour client crash (Explicit context propagation)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>CrashRecovery09</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Tests automatic TO (AIT) resource initiated crash recovery (Implicit context propagation)</p>
+</li>
+<li>
+<p>Not supported by system, if passes caused by recovery manager initiated crash recovery ]</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>CrashRecovery10</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Tests automatic TO (AIT) resource initiated crash recovery (Explicit context propagation)</p>
+</li>
+<li>
+<p>Not supported by system, if passes caused by recovery manager initiated crash recovery ]</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>

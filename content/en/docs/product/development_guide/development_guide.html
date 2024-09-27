@@ -1,0 +1,2323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>Development Guide</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+/*! Stylesheet for CodeRay to loosely match GitHub themes | MIT License */
+pre.CodeRay{background:#f7f7f8}
+.CodeRay .line-numbers{border-right:1px solid;opacity:.35;padding:0 .5em 0 0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+.CodeRay span.line-numbers{display:inline-block;margin-right:.75em}
+.CodeRay .line-numbers strong{color:#000}
+table.CodeRay{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.CodeRay td{vertical-align:top;line-height:inherit}
+table.CodeRay td.line-numbers{text-align:right}
+table.CodeRay td.code{padding:0 0 0 .75em}
+.CodeRay .debug{color:#fff!important;background:navy!important}
+.CodeRay .annotation{color:#007}
+.CodeRay .attribute-name{color:navy}
+.CodeRay .attribute-value{color:#700}
+.CodeRay .binary{color:#509}
+.CodeRay .comment{color:#998;font-style:italic}
+.CodeRay .char{color:#04d}
+.CodeRay .char .content{color:#04d}
+.CodeRay .char .delimiter{color:#039}
+.CodeRay .class{color:#458;font-weight:bold}
+.CodeRay .complex{color:#a08}
+.CodeRay .constant,.CodeRay .predefined-constant{color:teal}
+.CodeRay .color{color:#099}
+.CodeRay .class-variable{color:#369}
+.CodeRay .decorator{color:#b0b}
+.CodeRay .definition{color:#099}
+.CodeRay .delimiter{color:#000}
+.CodeRay .doc{color:#970}
+.CodeRay .doctype{color:#34b}
+.CodeRay .doc-string{color:#d42}
+.CodeRay .escape{color:#666}
+.CodeRay .entity{color:#800}
+.CodeRay .error{color:#808}
+.CodeRay .exception{color:inherit}
+.CodeRay .filename{color:#099}
+.CodeRay .function{color:#900;font-weight:bold}
+.CodeRay .global-variable{color:teal}
+.CodeRay .hex{color:#058}
+.CodeRay .integer,.CodeRay .float{color:#099}
+.CodeRay .include{color:#555}
+.CodeRay .inline{color:#000}
+.CodeRay .inline .inline{background:#ccc}
+.CodeRay .inline .inline .inline{background:#bbb}
+.CodeRay .inline .inline-delimiter{color:#d14}
+.CodeRay .inline-delimiter{color:#d14}
+.CodeRay .important{color:#555;font-weight:bold}
+.CodeRay .interpreted{color:#b2b}
+.CodeRay .instance-variable{color:teal}
+.CodeRay .label{color:#970}
+.CodeRay .local-variable{color:#963}
+.CodeRay .octal{color:#40e}
+.CodeRay .predefined{color:#369}
+.CodeRay .preprocessor{color:#579}
+.CodeRay .pseudo-class{color:#555}
+.CodeRay .directive{font-weight:bold}
+.CodeRay .type{font-weight:bold}
+.CodeRay .predefined-type{color:inherit}
+.CodeRay .reserved,.CodeRay .keyword{color:#000;font-weight:bold}
+.CodeRay .key{color:#808}
+.CodeRay .key .delimiter{color:#606}
+.CodeRay .key .char{color:#80f}
+.CodeRay .value{color:#088}
+.CodeRay .regexp .delimiter{color:#808}
+.CodeRay .regexp .content{color:#808}
+.CodeRay .regexp .modifier{color:#808}
+.CodeRay .regexp .char{color:#d14}
+.CodeRay .regexp .function{color:#404;font-weight:bold}
+.CodeRay .string{color:#d20}
+.CodeRay .string .string .string{background:#ffd0d0}
+.CodeRay .string .content{color:#d14}
+.CodeRay .string .char{color:#d14}
+.CodeRay .string .delimiter{color:#d14}
+.CodeRay .shell{color:#d14}
+.CodeRay .shell .delimiter{color:#d14}
+.CodeRay .symbol{color:#990073}
+.CodeRay .symbol .content{color:#a60}
+.CodeRay .symbol .delimiter{color:#630}
+.CodeRay .tag{color:teal}
+.CodeRay .tag-special{color:#d70}
+.CodeRay .variable{color:#036}
+.CodeRay .insert{background:#afa}
+.CodeRay .delete{background:#faa}
+.CodeRay .change{color:#aaf;background:#007}
+.CodeRay .head{color:#f8f;background:#505}
+.CodeRay .insert .insert{color:#080}
+.CodeRay .delete .delete{color:#800}
+.CodeRay .change .change{color:#66f}
+.CodeRay .head .head{color:#f4f}
+</style>
+</head>
+<body class="book toc2 toc-left">
+<div id="header">
+<h1>Development Guide</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_transactions">1. Transactions</a>
+<ul class="sectlevel2">
+<li><a href="#_the_java_transaction_api_jakarta_transactions">1.1. The Java Transaction API (Jakarta Transactions)</a></li>
+<li><a href="#_introducing_the_api">1.2. Introducing the API</a></li>
+<li><a href="#usertransaction_definition">1.3. UserTransaction</a></li>
+<li><a href="#_transactionmanager">1.4. TransactionManager</a></li>
+<li><a href="#_suspend_and_resuming_a_transaction">1.5. Suspend and resuming a transaction</a></li>
+<li><a href="#_the_transaction_interface">1.6. The Transaction interface</a></li>
+<li><a href="#_resource_enlistment">1.7. Resource enlistment</a></li>
+<li><a href="#_transaction_synchronization">1.8. Transaction synchronization</a></li>
+<li><a href="#_transaction_equality">1.9. Transaction equality</a></li>
+<li><a href="#_transactionsynchronizationregistry">1.10. TransactionSynchronizationRegistry</a></li>
+</ul>
+</li>
+<li><a href="#_the_resource_manager">2. The Resource Manager</a>
+<ul class="sectlevel2">
+<li><a href="#_the_xaresource_interface">2.1. The <code>XAResource</code> interface</a></li>
+<li><a href="#_opening_a_resource_manager">2.2. Opening a resource manager</a></li>
+<li><a href="#_closing_a_resource_manager">2.3. Closing a resource manager</a></li>
+<li><a href="#_thread_of_control">2.4. Thread of control</a></li>
+<li><a href="#_transaction_association">2.5. Transaction association</a></li>
+<li><a href="#_externally_controlled_connections">2.6. Externally controlled connections</a></li>
+<li><a href="#_resource_sharing">2.7. Resource sharing</a></li>
+<li><a href="#_local_and_global_transactions">2.8. Local and global transactions</a></li>
+<li><a href="#_transaction_timeouts">2.9. Transaction timeouts</a></li>
+<li><a href="#_dynamic_registration">2.10. Dynamic registration</a></li>
+</ul>
+</li>
+<li><a href="#_general_transaction_issues">3. General Transaction Issues</a>
+<ul class="sectlevel2">
+<li><a href="#_advanced_transaction_issues_with_arjunacore">3.1. Advanced transaction issues with ArjunaCore</a></li>
+</ul>
+</li>
+<li><a href="#_tools">4. Tools</a>
+<ul class="sectlevel2">
+<li><a href="#_objectstore_command_line_browsers_and_editors">4.1. ObjectStore command-line browsers and editors</a></li>
+<li><a href="#_gui_based_tools">4.2. GUI Based Tools</a></li>
+<li><a href="#_view_transaction_statistics_using_an_application_server">4.3. View Transaction Statistics using an Application Server</a></li>
+</ul>
+</li>
+<li><a href="#_configuration_options">5. Configuration options</a>
+<ul class="sectlevel2">
+<li><a href="#_loading_a_configuration">5.1. Loading a configuration</a></li>
+<li><a href="#_arjunacore_options">5.2. ArjunaCore Options</a></li>
+<li><a href="#_narayana_jta_configuration_options">5.3. Narayana JTA Configuration options</a></li>
+<li><a href="#_narayana_jts_options">5.4. Narayana JTS Options</a></li>
+<li><a href="#_narayana_ws_atws_ba_options">5.5. Narayana WS-AT/WS-BA Options</a></li>
+</ul>
+</li>
+<li><a href="#_important_log_messages">6. Important Log Messages</a>
+<ul class="sectlevel2">
+<li><a href="#_transaction_state_change">6.1. Transaction State Change</a></li>
+<li><a href="#_multi_cause_log_message">6.2. Multi cause log message</a></li>
+</ul>
+</li>
+<li><a href="#_troubleshooting">7. Troubleshooting</a>
+<ul class="sectlevel2">
+<li><a href="#_ws_ba_participant_completion_race_condition">7.1. WS-BA Participant-Completion Race Condition</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_transactions"><a class="anchor" href="#_transactions"></a>1. Transactions</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A transaction is a unit of work that encapsulates multiple database actions such that that either all the encapsulated actions fail or all succeed.</p>
+</div>
+<div class="paragraph">
+<p>Transactions ensure data integrity when an application interacts with multiple datasources.</p>
+</div>
+<div class="sect2">
+<h3 id="_the_java_transaction_api_jakarta_transactions"><a class="anchor" href="#_the_java_transaction_api_jakarta_transactions"></a>1.1. The Java Transaction API (Jakarta Transactions)</h3>
+<div class="paragraph">
+<p>The interfaces specified by the many transaction standards tend to be too low-level for most application programmers.
+Therefore, Sun Microsystems created the Java Transaction API (JTA), which specifies higher-level interfaces to assist in the development of distributed transactional applications.
+JTA was later renamed Jakarta Transactions and the specification is maintained at <a href="https://jakarta.ee/specifications/transactions" class="bare">https://jakarta.ee/specifications/transactions</a>.</p>
+</div>
+<div class="paragraph">
+<p>Note, these interfaces are still low-level.
+You still need to implement state management and concurrency for transactional applications.
+The interfaces are also optimized for applications which require XA resource integration capabilities, rather than the more general resources which other transactional APIs allow.</p>
+</div>
+<div class="paragraph">
+<p>With reference to Jakarta Transactions (<a href="https://jakarta.ee/specifications/transactions/" class="bare">https://jakarta.ee/specifications/transactions/</a>), distributed transaction services typically involve a number of participants:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">application server</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">provides the infrastructure required to support the application run-time environment which includes transaction state management, such as an EJB server.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">transaction manager</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">provides the services and management functions required to support transaction demarcation, transactional resource management, synchronization, and transaction context propagation.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">resource manager</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Using a <em>resource adapter</em>, provides the application with access to resources.
+The resource manager participates in distributed transactions by implementing a transaction resource interface used by the transaction manager to communicate transaction association, transaction completion and recovery.</p>
+<p class="tableblock">A resource adapter is used by an application server or client to connect to a Resource Manager.
+JDBC drivers which are used to connect to relational databases are examples of Resource Adapters.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">communication resource manager</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">supports transaction context propagation and access to the transaction service for incoming and outgoing requests.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>From the point of view of the transaction manager, the actual implementation of the transaction services does not need to be exposed.
+You only need to define high-level interfaces to allow transaction demarcation, resource enlistment, synchronization and recovery process to be driven from the users of the transaction services.
+Jakarta Transactions is a high-level application interface that allows a transactional application to demarcate transaction boundaries, and also contains a mapping of the X/Open XA protocol.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="title">Compatibility</div>
+<div class="paragraph">
+<p>the Jakarta Transactions support provided by Narayana is compliant with the 1.1 specification.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_introducing_the_api"><a class="anchor" href="#_introducing_the_api"></a>1.2. Introducing the API</h3>
+<div class="paragraph">
+<p>The Java Transaction API consists of three elements:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>a high-level application transaction demarcation interface</p>
+</li>
+<li>
+<p>a high-level transaction manager interface intended for application server</p>
+</li>
+<li>
+<p>a standard Java mapping of the X/Open XA protocol intended for a transactional resource manager.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>All of the Jakarta Transactions classes and interfaces exist within the <code>jakarta.transaction</code> package, and the corresponding Narayana implementations within the <code>com.arjuna.ats.jta</code> package.
+Note that XA resource API classes are still part of the Java SE (<a href="https://jakarta.ee/specifications/transactions/2.0/jakarta-transactions-spec-2.0.html#relationship-to-other-java-apis" class="bare">https://jakarta.ee/specifications/transactions/2.0/jakarta-transactions-spec-2.0.html#relationship-to-other-java-apis</a>)</p>
+</div>
+<div class="paragraph">
+<p>Each Xid created by Narayana needs a unique node identifier encoded within it, because Narayana can only recover transactions and states that match a specified node identifier.
+The node identifier to use should be provided to Narayana via the <code>CoreEnvironmentBean.nodeIdentifier</code> property.
+This value must be unique across your Narayana instances.
+The identifier is alphanumeric and limited to 10 bytes in length.
+If you do not provide a value, then Narayana generates one and reports the value via the logging infrastructure.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="usertransaction_definition"><a class="anchor" href="#usertransaction_definition"></a>1.3. UserTransaction</h3>
+<div class="paragraph">
+<p>The <code>UserTransaction</code> interface provides applications with the ability to control transaction boundaries.
+It provides methods <code>begin</code>, <code>commit</code>, and <code>rollback</code> to operate on top-level transactions.</p>
+</div>
+<div class="paragraph">
+<p>Nested transactions are not supported, and method <code>begin</code> throws the exception <code>NotSupportedException</code> if the calling thread is already associated with a transaction.
+<code>UserTransaction</code> automatically associates newly created transactions with the invoking thread.</p>
+</div>
+<div class="paragraph">
+<p>To obtain a <code>UserTransaction</code>, call the static method <code>com.arjuna.ats.jta.UserTransaction.userTransaction()</code>.</p>
+</div>
+<div class="olist arabic">
+<div class="title">Procedure: Selecting the local Jakarta Transactions Implementation</div>
+<ol class="arabic">
+<li>
+<p>Set property <code>JTAEnvironmentBean.jtaTMImplementation</code> to `com.arjuna.ats.internal.jta.transaction.arjunacore.TransactionManagerImple `.</p>
+</li>
+<li>
+<p>Set property <code>JTAEnvironmentBean.jtaUTImplementation</code> to <code>com.arjuna.ats.internal.jta.transaction.arjunacore.UserTransactionImple</code>.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_transactionmanager"><a class="anchor" href="#_transactionmanager"></a>1.4. TransactionManager</h3>
+<div class="paragraph">
+<p>The <code>TransactionManager</code> interface allows the application server to control transaction boundaries on behalf of the application being managed.</p>
+</div>
+<div class="paragraph">
+<p>To obtain a <code>TransactionManager</code>, invoke the static method <code>com.arjuna.ats.jta.TransactionManager.transactionManager</code>.</p>
+</div>
+<div class="paragraph">
+<p>The <code>TransactionManager</code> maintains the transaction context association with threads as part of its internal data structure.
+A thread&#8217;s transaction context may be <code>null</code> or it may refer to a specific global transaction.
+Multiple threads may be associated with the same global transaction.
+As noted in <a href="#usertransaction_definition">UserTransaction</a>, nested transactions are not supported.</p>
+</div>
+<div class="paragraph">
+<p>Each transaction context is encapsulated by a Transaction object, which can be used to perform operations which are specific to the target transaction, regardless of the calling thread&#8217;s transaction context.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. `TransactionManager`Methods</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>begin</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Starts a new top-level transaction and associates the transaction context with the calling thread.
+If the calling thread is already associated with a transaction, exception <code>NotSupportedException</code> is thrown.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getTransaction</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns the Transaction object representing the transaction context which is currently associated with the calling thread.
+You can use this object to perform various operations on the target transaction.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>commit</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Completes the transaction currently associated with the calling thread.
+After it returns, the calling thread is associated with no transaction.
+If <code>commit</code> is called when the thread is not associated with any transaction context, an exception is thrown.
+In some implementations, the <code>commit</code> operation is restricted to the transaction originator only.
+If the calling thread is not allowed to commit the transaction, an exception is thrown.
+Narayana does not currently impose any restriction on the ability of threads to terminate transactions.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rollback</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rolls back the transaction associated with the current thread.
+After the <code>rollback</code> method completes, the thread is associated with no transaction.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>In a multi-threaded environment, multiple threads may be active within the same transaction.
+If checked transaction semantics have been disabled, or the transaction times out, a transaction may terminated by a thread other than the one that created it.
+In this case, the creator usually needs to be notified.
+Narayana notifies the creator during operations <code>commit</code> or <code>rollback</code> by throwing exception <code>IllegalStateException</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_suspend_and_resuming_a_transaction"><a class="anchor" href="#_suspend_and_resuming_a_transaction"></a>1.5. Suspend and resuming a transaction</h3>
+<div class="paragraph">
+<p>Jakarta Transactions supports the concept of a thread temporarily suspending and resuming transactions in order to perform non-transactional work.
+Call the <code>suspend</code> method to temporarily suspend the current transaction that is associated with the calling thread.
+The thread then operates outside of the scope of the transaction.
+If the thread is not associated with any transaction, a <code>null</code> object reference is returned.
+Otherwise, a valid <code>Transaction</code> object is returned.
+Pass the <code>Transaction</code> object to the <code>resume</code> method to reinstate the transaction context.</p>
+</div>
+<div class="paragraph">
+<p>The <code>resume</code> method associates the specified transaction context with the calling thread.
+If the transaction specified is not a valid transaction, the thread is associated with no transaction.
+if <code>resume</code> is invoked when the calling thread is already associated with another transaction, the <code>IllegalStateException</code> exception is thrown.</p>
+</div>
+<div class="listingblock">
+<div class="title">Using the `suspend`method</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Transaction tobj = TransactionManager.suspend();
+..
+        TransactionManager.
+
+resume(tobj);</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Narayana allows a suspended transaction to be resumed by a different thread.
+This feature is not required by Jakarta Transactions, but is an important feature.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>When a transaction is suspended, the application server must ensure that the resources in use by the application are no longer registered with the suspended transaction.
+When a resource is de-listed this triggers the Transaction Manager to inform the resource manager to disassociate the transaction from the specified resource object.
+When the application&#8217;s transaction context is resumed, the application server must ensure that the resources in use by the application are again enlisted with the transaction.
+Enlisting a resource as a result of resuming a transaction triggers the Transaction Manager to inform the resource manager to re-associate the resource object with the resumed transaction.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_the_transaction_interface"><a class="anchor" href="#_the_transaction_interface"></a>1.6. The Transaction interface</h3>
+<div class="paragraph">
+<p>The <code>Transaction</code> interface allows you to perform operations on the transaction associated with the target object.
+Every top-level transaction is associated with one <code>Transaction</code> object when the transaction is created.</p>
+</div>
+<div class="ulist">
+<div class="title">Uses of the `Transaction`object</div>
+<ul>
+<li>
+<p>enlist the transactional resources in use by the application.</p>
+</li>
+<li>
+<p>register for transaction synchronization call backs.</p>
+</li>
+<li>
+<p>commit or rollback the transaction.</p>
+</li>
+<li>
+<p>obtain the status of the transaction.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The <code>commit</code> and <code>rollback</code> methods allow the target object to be committed or rolled back.
+The calling thread does not need to have the same transaction associated with the thread.
+If the calling thread is not allowed to commit the transaction, the transaction manager throws an exception.
+At present Narayana does not impose restrictions on threads terminating transactions.</p>
+</div>
+<div class="paragraph">
+<p>Jakarta Transactions does not provide a means to obtain the transaction identifier.
+However, Narayana provides several ways to view the transaction identifier.
+Call method <code>toString</code> to print full information about the transaction, including the identifier.
+Alternatively you can cast the <code>jakarta.transaction.Transaction</code> instance to a <code>com.arjuna.ats.jta.transaction.Transaction</code>, then call either method <code>get_uid</code>, which returns an ArjunaCore <code>Uid</code> representation, or <code>getTxId</code>, which returns an <code>Xid</code> for the global identifier, i.e., no branch qualifier.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_resource_enlistment"><a class="anchor" href="#_resource_enlistment"></a>1.7. Resource enlistment</h3>
+<div class="paragraph">
+<p>Typically, an application server manages transactional resources, such as database connections, in conjunction with some resource adapter and optionally with connection pooling optimization.
+For an external transaction manager to coordinate transactional work performed by the resource managers, the application server must enlist and de-list the resources used in the transaction.
+These resources, called <em>participants</em>, are enlisted with the transaction so that they can be informed when the transaction terminates, by being driven through the two-phase commit protocol.</p>
+</div>
+<div class="paragraph">
+<p>As stated previously, Jakarta Transactions is much more closely integrated with the XA concept of resources than the arbitrary objects.
+For each resource the application is using, the application server invokes the <code>enlistResource</code> method with an <code>XAResource</code> object which identifies the resource in use.</p>
+</div>
+<div class="paragraph">
+<p>The enlistment request causes the transaction manager to inform the resource manager to start associating the transaction with the work performed through the corresponding resource.
+The transaction manager passes the appropriate flag in its <code>XAResource.start</code> method call to the resource manager.</p>
+</div>
+<div class="paragraph">
+<p>The <code>delistResource</code> method disassociates the specified resource from the transaction context in the target object.
+The application server invokes the method with the two parameters: the <code>XAResource</code> object that represents the resource, and a flag to indicate whether the operation is due to the transaction being suspended (<code>TMSUSPEND</code>), a portion of the work has failed (<code>TMFAIL</code>), or a normal resource release by the application (<code>TMSUCCESS</code>).</p>
+</div>
+<div class="paragraph">
+<p>The de-list request causes the transaction manager to inform the resource manager to end the association of the transaction with the target <code>XAResource</code>. The flag value allows the application server to indicate whether it intends to come back to the same resource whereby the resource states must be kept intact.
+The transaction manager passes the appropriate flag value in its <code>XAResource.end</code> method call to the underlying resource manager.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_transaction_synchronization"><a class="anchor" href="#_transaction_synchronization"></a>1.8. Transaction synchronization</h3>
+<div class="paragraph">
+<p>Transaction synchronization allows the application server to be notified before and after the transaction completes.
+For each transaction started, the application server may optionally register a <code>Synchronization</code> call-back object to be invoked by the transaction manager, which will be one of the following:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>beforeCompletion</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Called before the start of the two-phase transaction complete process.
+This call is executed in the same transaction context of the caller who initiates the <code>TransactionManager.commit</code> or the call is executed with no transaction context if <code>Transaction.commit</code> is used.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>afterCompletion</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Called after the transaction completes.
+The status of the transaction is supplied in the parameter.
+This method is executed without a transaction context.</p>
+<p class="tableblock">NOTE: If an XAResource throws a RuntimeException, this method will not be called as the transaction has not and cannot complete.
+Please see JBTM-2148 for more details.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_transaction_equality"><a class="anchor" href="#_transaction_equality"></a>1.9. Transaction equality</h3>
+<div class="paragraph">
+<p>The transaction manager implements the <code>Transaction</code> object&#8217;s <code>equals</code> method to allow comparison between the target object and another <code>Transaction</code> object.
+The <code>equals</code> method returns <code>true</code> if the target object and the parameter object both refer to the same global transaction.</p>
+</div>
+<div class="listingblock">
+<div class="title">Method <code>equals</code></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Transaction txObj = TransactionManager.getTransaction();
+Transaction someOtherTxObj = ..
+        ..
+
+boolean isSame = txObj.equals(someOtherTxObj);      </code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_transactionsynchronizationregistry"><a class="anchor" href="#_transactionsynchronizationregistry"></a>1.10. TransactionSynchronizationRegistry</h3>
+<div class="paragraph">
+<p>The <code>jakarta.transaction.TransactionSynchronizationRegistry</code> interface, added to the Jakarta Transactions API in version 1.1, provides for registering Synchronizations with special ordering behavior, and for storing key-value pairs in a per-transaction Map.
+Full details are available in the Jakarta Transactions API specification and javadoc.
+Here we focus on implementation specific behavior.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 1. Accessing the <code>TransactionSynchronizationRegistry</code> in standalone environments</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">jakarta.transaction.TransactionSynchronizationRegistry tsr = <span class="keyword">new</span> com.arjuna.ats.internal.jta.transaction.arjunacore.TransactionSynchronizationRegistryImple();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This is a stateless object and hence is cheap to instantiate.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<div class="title">Accessing the TransactionSynchronizationRegistry via JNDI</div>
+<p>In application server environments, the standard JNDI name binding is <code>java:comp/TransactionSynchronizationRegistry</code>.</p>
+</div>
+<div class="paragraph">
+<p>Ordering of interposed Synchronizations is relative to other local Synchronizations only.
+In cases where the transaction is distributed over multiple JVMs, global ordering is not guaranteed.</p>
+</div>
+<div class="paragraph">
+<p>The per-transaction data storage provided by the <code>TransactionSynchronizationRegistry</code> methods <code>getResource</code> and <code>putResource</code> are non-persistent and thus not available in <code>Transactions</code> during crash recovery.
+When running integrated with an application server or other container, this storage may be used for system purposes.
+To avoid collisions, use an application-specific prefix on map keys, such as <code>put("myapp_"+key, value)</code>.
+The behavior of the <code>Map</code> on <code>Thread</code> s that have status <code>NO_TRANSACTION</code> or where the transaction they are associated with has been rolled back by another <code>Thread</code>, such as in the case of a timeout, is undefined.
+A <code>Transaction</code> can be associated with multiple <code>Thread`s.
+For such cases the `Map</code> is synchronized to provide thread safety.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_resource_manager"><a class="anchor" href="#_the_resource_manager"></a>2. The Resource Manager</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_the_xaresource_interface"><a class="anchor" href="#_the_xaresource_interface"></a>2.1. The <code>XAResource</code> interface</h3>
+<div class="paragraph">
+<p>Some transaction specifications and systems define a generic resource which can be used to register arbitrary resources with a transaction, the JTA is much more XA-specific.
+Interface <code>javax.transaction.xa.XAResource</code> is a Java mapping of the XA interface.
+The <code>XAResource</code> interface defines the contract between a <code>ResourceManager</code> and a <code>TransactionManager</code> in a distributed transaction processing environment.
+A resource adapter for a <code>ResourceManager</code> implements the <code>XAResource</code> interface to support association of a top-level transaction to a resource such as a relational database.</p>
+</div>
+<div class="paragraph">
+<p>The <code>XAResource</code> interface can be supported by any transactional resource adapter designed to be used in an environment where transactions are controlled by an external transaction manager, such a database management system.
+An application may access data through multiple database connections.
+Each database connection is associated with an <code>XAResource</code> object that serves as a proxy object to the underlying <code>ResourceManager</code> instance.
+The transaction manager obtains an <code>XAResource</code> for each <code>ResourceManager</code> participating in a top-level transaction.
+The <code>start</code> method associates the transaction with the resource, and the <code>end</code> method disassociates the transaction from the resource.</p>
+</div>
+<div class="paragraph">
+<p>The <code>ResourceManager</code> associates the transaction with all work performed on its data between invocation of <code>start</code> and <code>end</code> methods.
+At transaction commit time, these transactional <code>ResourceManager</code> s are informed by the transaction manager to prepare, commit, or roll back the transaction according to the two-phase commit protocol.</p>
+</div>
+<div class="paragraph">
+<p>For better Java integration, the <code>XAResource</code> differs from the standard <code>XA</code> interface in the following ways:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The resource adapter implicitly initializes the <code>ResourceManager</code> when the resource (the connection) is acquired.
+There is no equivalent to the <code>xa_open</code> method of the interface <code>XA</code>.</p>
+</li>
+<li>
+<p><code>Rmid</code> is not passed as an argument.
+Each <code>Rmid</code> is represented by a separate <code>XAResource</code> object.</p>
+</li>
+<li>
+<p>Asynchronous operations are not supported, because Java supports multi-threaded processing and most databases do not support asynchronous operations.</p>
+</li>
+<li>
+<p>Error return values caused by the transaction manager&#8217;s improper handling of the <code>XAResource</code> object are mapped to Java exceptions via the <code>XAException</code> class.</p>
+</li>
+<li>
+<p>The DTP concept of Thread of Control maps to all Java threads that are given access to the <code>XAResource</code> and <code>Connection</code> objects.
+For example, it is legal for two different threads to perform the <code>start</code> and <code>end</code> operations on the same <code>XAResource</code> object.</p>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="_extended_xaresource_control"><a class="anchor" href="#_extended_xaresource_control"></a>2.1.1. Extended <code>XAResource</code> control</h4>
+<div class="paragraph">
+<p>By default, whenever an <code>XAResource</code> object is registered with a JTA-compliant transaction service, there is no way to manipulate the order in which it is invoked during the two-phase commit protocol, with respect to other <code>XAResource</code> objects.
+Narayana, however, provides support for controlling the order via the two interfaces <code>com.arjuna.ats.jta.resources.StartXAResource</code> and <code>com.arjuna.ats.jta.resources.EndXAResource</code>.
+By inheriting your <code>XAResource</code> instance from either of these interfaces, you control whether an instance of your class is invoked first or last, respectively.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Only one instance of each interface type may be registered with a specific transaction.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The <em>ArjunaCore Development Guide</em> discusses the <em>Last Resource Commit optimization (LRCO)</em>, whereby a single resource that is only one-phase aware, and does not support the <code>prepare</code> phase, can be enlisted with a transaction that is manipulating two-phase aware participants.
+This optimization is also supported within the Narayana.</p>
+</div>
+<div class="paragraph">
+<p>In order to use the LRCO, your <code>XAResource</code> implementation must extend the <code>com.arjuna.ats.jta.resources.LastResourceCommitOptimisation</code> marker interface.
+A marker interface is an interface which provides no methods.
+When enlisting the resource via method <code>Transaction.enlistResource</code>, Narayana ensures that only a single instance of this type of participant is used within each transaction.
+Your resource is driven last in the commit protocol, and no invocation of method <code>prepare</code> occurs.</p>
+</div>
+<div class="paragraph">
+<p>By default an attempt to enlist more than one instance of a <code>LastResourceCommitOptimisation</code> class will fail and false will be returned from <code>Transaction.enlistResource</code>.
+This behavior can be overridden by setting the <code>com.arjuna.ats.jta.allowMultipleLastResources</code> to true.
+However, before doing so you should read the section on enlisting multiple one-phase aware resources.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>You need to disable interposition support to use the LCRO in a distributed environment.
+You can still use implicit context propagation.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_enlisting_multiple_one_phase_aware_resources"><a class="anchor" href="#_enlisting_multiple_one_phase_aware_resources"></a>Enlisting multiple one-phase-aware resources</h5>
+<div class="paragraph">
+<p>One-phase commit is used to process a single one-phase aware resource, which does not conform to the two-phase commit protocol.
+You can still achieve an atomic outcome across resources, by using the LRCO, as explained earlier.</p>
+</div>
+<div class="paragraph">
+<p>Multiple one-phase-aware resources may be enlisted in the same transaction.
+One example is when a legacy database runs within the same transaction as a legacy JMS implementation.
+In such a situation, you cannot achieve atomicity of transaction outcome across multiple resources, because none of them enter the <code>prepare</code> state.
+They commit or roll back immediately when instructed by the transaction coordinator, without knowledge of other resource states and without a way to undo if subsequent resources make a different choice.
+This can result in data corruption or heuristic outcomes.</p>
+</div>
+<div class="paragraph">
+<p>You can approach these situations in two different ways:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Wrap the resources in compensating transactions.
+See the <em>XTS Transactions Development Guide</em> for details.</p>
+</li>
+<li>
+<p>Migrate the legacy implementations to two-phase aware equivalents.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If neither of these options is viable, Narayana support enlisting multiple one-phase aware resources within the same transaction, using LRCO, which is discussed in the <em>ArjunaCore Development Guide</em> in detail.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Even when this support is enabled, Narayana issues a warning when it detects that the option has been enabled: You have chosen to enable multiple last resources in the transaction manager.
+This is transactionally unsafe and should not be relied upon.
+Another warning is issued when multiple one-phase aware resources are enlisted within a transaction: This is transactionally unsafe and should not be relied on.</p>
+</div>
+<div class="paragraph">
+<p>To override the above-mentioned warning at runtime, set the <code>CoreEnvironmentBean.disableMultipleLastResourcesWarning</code> property to <code>true</code>.
+You will see a warning that you have done this when Narayana starts up and see the warning about enlisting multiple one-phase resources only the first time it happens, but after that no further warnings will be output.
+You should obviously only consider changing the default value of this property (false) with caution.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_opening_a_resource_manager"><a class="anchor" href="#_opening_a_resource_manager"></a>2.2. Opening a resource manager</h3>
+<div class="paragraph">
+<p>The X/Open <code>XA</code> interface requires the transaction manager to initialize a resource manager, using method <code>xa_open</code>, before invoking any other of the interface&#8217;s methods.
+JTA requires initialization of a resource manager to be embedded within the resource adapter that represents the resource manager.
+The transaction manager does not need to know how to initialize a resource manager.
+It only informs the resource manager about when to start and end work associated with a transaction and when to complete the transaction.
+The resource adapter opens the resource manager when the connection to the resource manager is established.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_closing_a_resource_manager"><a class="anchor" href="#_closing_a_resource_manager"></a>2.3. Closing a resource manager</h3>
+<div class="paragraph">
+<p>The resource adapter closes a resource manager as a result of destroying the transactional resource.
+A transaction resource at the resource adapter level is comprised of two separate objects:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>An <code>XAResource</code> object that allows the transaction manager to start and end the transaction association with the resource in use and to coordinate transaction completion process.</p>
+</li>
+<li>
+<p>A connection object that allows the application to perform operations on the underlying resource, such as JDBC operations on an RDBMS.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Once opened, the resource manager is kept open until the resource is released explicitly.
+When the application invokes the connection&#8217;s <code>close</code> method, the resource adapter invalidates the connection object reference that was held by the application and notifies the application server about the close.
+The transaction manager invokes the <code>XAResource.end</code> method to disassociate the transaction from that connection.</p>
+</div>
+<div class="paragraph">
+<p>The close notification triggers the application server to perform any necessary cleanup work and to mark the physical XA connection as free for reuse, if connection pooling is in place.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_thread_of_control"><a class="anchor" href="#_thread_of_control"></a>2.4. Thread of control</h3>
+<div class="paragraph">
+<p>The X/Open <code>XA</code> interface specifies that the transaction-association-related <em>xa</em> calls must be invoked from the same thread context.
+This <em>thread-of-control</em> requirement does not apply to the object-oriented component-based application run-time environment, in which application threads are dispatched dynamically as methods are invoked.. Different threads may use the same connection resource to access the resource manager if the connection spans multiple method invocation.
+Depending on the implementation of the application server, different threads may be involved with the same <code>XAResource</code> object.
+The resource context and the transaction context operate independent of thread context.
+This creates the possibility of different threads invoking the <code>start</code> and <code>end</code> methods.</p>
+</div>
+<div class="paragraph">
+<p>If the application server allows multiple threads to use a single <code>XAResource</code> object and the associated connection to the resource manager, the application server must ensure that only one transaction context is associated with the resource at any point of time.
+Thus the <code>XAResource</code> interface requires the resource managers to support the two-phase commit protocol from any thread context.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_transaction_association"><a class="anchor" href="#_transaction_association"></a>2.5. Transaction association</h3>
+<div class="paragraph">
+<p>A transaction is associated with a transactional resource via the <code>start</code> method and disassociated from the resource via the <code>end</code> method.
+The resource adapter internally maintains an association between the resource connection object and the <code>XAResource</code> object.
+At any given time, a connection is associated with zero or one transaction.
+JTA does not support nestedtransactions, so attempting to invoke the <code>start</code> method on a thread that is already associated with a transaction is an error.</p>
+</div>
+<div class="paragraph">
+<p>The transaction manager can Interleave multiple transaction contexts using the same resource, as long as methods <code>start</code> and <code>end</code> are invoked properly for each transaction context switch.
+Each time the resource is used with a different transaction, the method <code>end</code> must be invoked for the previous transaction that was associated with the resource, and method <code>start</code> must be invoked for the current transaction context.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_externally_controlled_connections"><a class="anchor" href="#_externally_controlled_connections"></a>2.6. Externally controlled connections</h3>
+<div class="paragraph">
+<p>For a transactional application whose transaction states are managed by an application server, its resources must also be managed by the application server so that transaction association is performed properly.
+If an application is associated with a transaction, the application must not perform transactional work through the connection without having the connection&#8217;s resource object already associated with the global transaction.
+The application server must ensure that the <code>XAResource</code> object in use is associated with the transaction, by invoking the <code>Transaction.enlistResource</code> method.</p>
+</div>
+<div class="paragraph">
+<p>If a server-side transactional application retains its database connection across multiple client requests, the application server must ensure that before dispatching a client request to the application thread, the resource is enlisted with the application&#8217;s current transaction context.
+This implies that the application server manages the connection resource usage status across multiple method invocations.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_resource_sharing"><a class="anchor" href="#_resource_sharing"></a>2.7. Resource sharing</h3>
+<div class="paragraph">
+<p>When the same transactional resource is used to interleave multiple transactions, the application server must ensure that only one transaction is enlisted with the resource at any given time.
+To initiate the transaction commit process, the transaction manager is allowed to use any of the resource objects connected to the same resource manager instance.
+The resource object used for the two-phase commit protocol does not need to have been involved with the transaction being completed.</p>
+</div>
+<div class="paragraph">
+<p>The resource adapter must be able to handle multiple threads invoking the <code>XAResource</code> methods concurrently for transaction commit processing.
+This is illustrated in <a href="#resource_sharing_example">Resource sharing example</a> .</p>
+</div>
+<div id="resource_sharing_example" class="exampleblock">
+<div class="title">Example 2. Resource sharing example</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">XAResource</span> xares = r1.getXAResource();
+
+xares.
+
+start(xid1); <span class="comment">// associate xid1 to the connection</span>
+
+..
+        xares.
+
+end(xid1); <span class="comment">// disassociate xid1 to the connection</span>
+..
+        xares.
+
+start(xid2); <span class="comment">// associate xid2 to the connection</span>
+..
+<span class="comment">// While the connection is associated with xid2,</span>
+<span class="comment">// the TM starts the commit process for xid1</span>
+status =xares.
+
+prepare(xid1);
+..
+        xares.
+
+commit(xid1, <span class="predefined-constant">false</span>);      </code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A transactional resource <em>r1</em>.
+Global transaction <em>xid1</em> is started and ended with r1.
+Then a different global transaction <em>xid2</em> is associated with <em>r1</em>.
+Meanwhile, the transaction manager may start the two phase commit process for <em>xid1</em> using <em>r1</em> or any other transactional resource connected to the same resource manager.
+The resource adapter needs to allow the commit process to be executed while the resource is currently associated with a different global transaction.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_local_and_global_transactions"><a class="anchor" href="#_local_and_global_transactions"></a>2.8. Local and global transactions</h3>
+<div class="paragraph">
+<p>The resource adapter must support the usage of both local and global transactions within the same transactional connection.
+Local transactions are started and coordinated by the resource manager internally.
+The <code>XAResource</code> interface is not used for local transactions.
+When using the same connection to perform both local and global transactions, the following rules apply:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The local transaction must be committed or rolled back before a global transaction is started in the connection.</p>
+</li>
+<li>
+<p>The global transaction must be disassociated from the connection before any local transaction is started.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_transaction_timeouts"><a class="anchor" href="#_transaction_timeouts"></a>2.9. Transaction timeouts</h3>
+<div class="paragraph">
+<p>You can associate timeout values with transactions in order to control their lifetimes.
+If the timeout value elapses before a transaction terminates, by committing or rolling back, the transaction system rolls it back.
+The <code>XAResource</code> interface supports a <code>setTransactionTimeout</code> operation, which allows the timeout associated with the current transaction to be propagated to the resource manager and if supported, overrides any default timeout associated with the resource manager.
+Overriding the timeout can be useful when long-running transactions may have lifetimes that would exceed the default, and using the default timeout would cause the resource manager to roll back before the transaction terminates, and cause the transaction to roll back as well.</p>
+</div>
+<div class="paragraph">
+<p>If You do not explicitly set a timeout value for a transaction, or you use a value of <code>0</code>, an implementation-specific default value may be used.
+In Narayana, property value <code>CoordinatorEnvironmentBean.defaultTimeout</code> represents this implementation-specific default, in seconds.
+The default value is 60 seconds.
+A value of <code>0</code> disables default transaction timeouts.</p>
+</div>
+<div class="paragraph">
+<p>Unfortunately, imposing the same timeout as the transaction on a resource manager is not always appropriate.
+One example is that your business rules may require you to have control over the lifetimes on resource managers without allowing that control to be passed to some external entity.
+Narayana supports an all-or-nothing approach to whether or not method <code>setTransactionTimeout</code> is called on <code>XAResource</code> instances.</p>
+</div>
+<div class="paragraph">
+<p>If the <code>JTAEnvironmentBean.xaTransactionTimeoutEnabled</code> property is set to <code>true</code>, which is the default, it is called on all instances.
+Otherwise, use the <code>setXATransactionTimeoutEnabled</code> method of <code>com.arjuna.ats.jta.common.Configuration</code> .</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_dynamic_registration"><a class="anchor" href="#_dynamic_registration"></a>2.10. Dynamic registration</h3>
+<div class="paragraph">
+<p>Dynamic registration is not supported in <code>XAResource</code>. There are two reasons this makes sense.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>In the Java component-based application server environment, connections to the resource manager are acquired dynamically when the application explicitly requests a connection.
+These resources are enlisted with the transaction manager on an as-needed basis.</p>
+</li>
+<li>
+<p>If a resource manager needs to dynamically register its work to the global transaction, you can implement this at the resource adapter level via a private interface between the resource adapter and the underlying resource manager.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_general_transaction_issues"><a class="anchor" href="#_general_transaction_issues"></a>3. General Transaction Issues</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_advanced_transaction_issues_with_arjunacore"><a class="anchor" href="#_advanced_transaction_issues_with_arjunacore"></a>3.1. Advanced transaction issues with ArjunaCore</h3>
+<div class="paragraph">
+<p>Atomic actions (transactions) can be used by both application programmers and class developers.
+Thus entire operations (or parts of operations) can be made atomic as required by the semantics of a particular operation.
+This chapter will describe some of the more subtle issues involved with using transactions in general and ArjunaCore in particular.</p>
+</div>
+<div class="paragraph">
+<p>Note: in the past ArjunaCore was also referred to as TxCore.</p>
+</div>
+<div class="sect3">
+<h4 id="_checking_transactions"><a class="anchor" href="#_checking_transactions"></a>3.1.1. Checking transactions</h4>
+<div class="paragraph">
+<p>In a multi-threaded application, multiple threads may be associated with a transaction during its lifetime, sharing the context.
+In addition, it is possible that if one thread terminates a transaction, other threads may still be active within it.
+In a distributed environment, it can be difficult to guarantee that all threads have finished with a transaction when it is terminated.
+By default, ArjunaCore will issue a warning if a thread terminates a transaction when other threads are still active within it.
+However, it will allow the transaction termination to continue.</p>
+</div>
+<div class="paragraph">
+<p>Other solutions to this problem are possible.
+One example would be to block the thread which is terminating the transaction until all other threads have disassociated themselves from the transaction context.
+Therefore, ArjunaCore provides the <code>com.arjuna.ats.arjuna.coordinator.CheckedAction</code> class, which allows the thread or transaction termination policy to be overridden.
+Each transaction has an instance of this class associated with it, and application programmers can provide their own implementations on a per transaction basis.</p>
+</div>
+<div class="listingblock">
+<div class="title">Class <code>CheckedAction</code></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">CheckedAction</span> {
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> check(<span class="type">boolean</span> isCommit, Uid actUid,
+                                   <span class="predefined-type">Hashtable</span> list);
+};</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When a thread attempts to terminate the transaction and there are active threads within it, the system will invoke the <code>check</code> method on the transaction&#8217;s <em>CheckedAction</em> object.
+The parameters to the check method are:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">isCommit</dt>
+<dd>
+<p>Indicates whether the transaction is in the process of committing or rolling back.</p>
+</dd>
+<dt class="hdlist1">actUid</dt>
+<dd>
+<p>The transaction identifier.</p>
+</dd>
+<dt class="hdlist1">list</dt>
+<dd>
+<p>A list of all of the threads currently marked as active within this transaction.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>When <code>check</code> returns, the transaction termination will continue.
+Obviously the state of the transaction at this point may be different from that when <code>check</code> was called, e.g., the transaction may subsequently have been committed.</p>
+</div>
+<div class="paragraph">
+<p>A <code>CheckedAction</code> instance is created for each transaction.
+As mentioned above, the default implementation simply issues warnings in the presence of multiple threads active on the transaction when it is terminated.
+However, a different instance can be provided to each transaction in one of the following ways:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Use the <code>setCheckedAction</code> method on the <code>BasicAction</code> instance.</p>
+</li>
+<li>
+<p>Define an implementation of the <code>CheckedActionFactory</code> interface, which has a single method <code>getCheckedAction</code> (<code>final Uid`txId</code>, <code>final String`actionType</code>) that returns a <code>CheckedAction</code>. The factory class name can then be provided to the Transaction Service at runtime by setting the <code>CoordinatorEnvironmentBean.checkedActionFactory</code> property.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_gathering_statistics"><a class="anchor" href="#_gathering_statistics"></a>3.1.2. Gathering statistics</h4>
+<div class="paragraph">
+<p>By default, the Transaction Service does not maintain any history information about transactions.
+However, by setting the <code>CoordinatorEnvironmentBean.enableStatistics</code> property variable to <code>YES</code>, the transaction service will maintain information about the number of transactions created, and their outcomes.
+This information can be obtained during the execution of a transactional application via the <code>com.arjuna.ats.arjuna.coordinator.TxStats</code> class.</p>
+</div>
+<div class="listingblock">
+<div class="title">Class <code>TxStats</code></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">TxStats</span> {
+    <span class="comment">/**
+     * @return the number of transactions (top-level and nested) created so far.
+     */</span>
+
+    <span class="directive">public</span> <span class="directive">static</span> <span class="type">int</span> numberOfTransactions();
+
+    <span class="comment">/**
+     * @return the number of nested (sub) transactions created so far.
+     * &lt;p&gt;
+     * &lt;p&gt;
+     * public static int numberOfNestedTransactions();
+     * &lt;p&gt;
+     * /**
+     * @return the number of transactions which have terminated with heuristic
+     * outcomes.
+     */</span>
+
+    <span class="directive">public</span> <span class="directive">static</span> <span class="type">int</span> numberOfHeuristics();
+
+    <span class="comment">/**
+     * @return the number of committed transactions.
+     */</span>
+
+    <span class="directive">public</span> <span class="directive">static</span> <span class="type">int</span> numberOfCommittedTransactions();
+
+    <span class="comment">/**
+     * @return the total number of transactions which have rolled back.
+     */</span>
+
+    <span class="directive">public</span> <span class="directive">static</span> <span class="type">int</span> numberOfAbortedTransactions();
+
+    <span class="comment">/**
+     * @return total number of inflight (active) transactions.
+     */</span>
+
+    <span class="directive">public</span> <span class="directive">static</span> <span class="type">int</span> numberOfInflightTransactions();
+
+    <span class="comment">/**
+     * @return total number of transactions rolled back due to timeout.
+     */</span>
+
+    <span class="directive">public</span> <span class="directive">static</span> <span class="type">int</span> numberOfTimedOutTransactions();
+
+    <span class="comment">/**
+     * @return the number of transactions rolled back by the application.
+     */</span>
+
+    <span class="directive">public</span> <span class="directive">static</span> <span class="type">int</span> numberOfApplicationRollbacks();
+
+    <span class="comment">/**
+     * @return number of transactions rolled back by participants.
+     */</span>
+
+    <span class="directive">public</span> <span class="directive">static</span> <span class="type">int</span> numberOfResourceRollbacks();
+
+    <span class="comment">/**
+     * Print the current information.
+     */</span>
+
+    <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> printStatus(java.io.PrintWriter pw);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The class <code>ActionManager</code> gives further information about specific active transactions through the classes <code>getTimeAdded</code>, which returns the time (in milliseconds) when the transaction was created, and <code>inflightTransactions</code>, which returns the list of currently active transactions.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_asynchronously_committing_a_transaction"><a class="anchor" href="#_asynchronously_committing_a_transaction"></a>3.1.3. Asynchronously committing a transaction</h4>
+<div class="paragraph">
+<p>By default, the Transaction Service executes the <code>commit</code> protocol of a top-level transaction in a synchronous manner.
+All registered resources will be told to prepare in order by a single thread, and then they will be told to commit or rollback.
+This has several possible disadvantages:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>In the case of many registered resources, the <code>prepare</code> operating can logically be invoked in parallel on each resource.
+The disadvantage is that if an "early" resource in the list of registered resource forces a rollback during <code>prepare</code>, possibly many prepare operations will have been made needlessly.</p>
+</li>
+<li>
+<p>In the case where heuristic reporting is not required by the application, the second phase of the commit protocol can be done asynchronously, since its success or failure is not important.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Therefore, Narayana provides runtime options to enable possible threading optimisations.
+By setting the <code>CoordinatorEnvironmentBean.asyncPrepare</code> environment variable to <code>YES</code>, during the <code>prepare</code> phase a separate thread will be created for each registered participant within the transaction.
+By setting <code>CoordinatorEnvironmentBean.asyncCommit</code> to <code>YES</code>, a separate thread will be created to complete the second phase of the transaction if knowledge about heuristics outcomes is not required.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_transaction_logs"><a class="anchor" href="#_transaction_logs"></a>3.1.4. Transaction Logs</h4>
+<div class="paragraph">
+<p>Narayana supports a number of different transaction log implementations.
+They are outlined below.</p>
+</div>
+<div class="sect4">
+<h5 id="_the_actionstore"><a class="anchor" href="#_the_actionstore"></a>The ActionStore</h5>
+<div class="paragraph">
+<p>This is the original version of the transaction log as provided in prior releases.
+It is simple but slow.
+Each transaction has an instance of its own log and they are all written to the same location in the file system</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_the_hashedactionstore"><a class="anchor" href="#_the_hashedactionstore"></a>The HashedActionStore</h5>
+<div class="paragraph">
+<p>This implementation is based on the <code>ActionStore</code> but the individual logs are striped across a number of sub-directories to improve performance.
+Check the Configuration Options table for how to configure the <code>HashedActionStore</code>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_logstore"><a class="anchor" href="#_logstore"></a>LogStore</h5>
+<div class="paragraph">
+<p>This implementation is based on a traditional transaction log.
+All transaction states within the same process (VM instance) are written to the same log (file), which is an append-only entity.
+When transaction data would normally be deleted, e.g., at the end of the transaction, a delete record is added to the log instead.
+Therefore, the log just keeps growing.
+Periodically a thread runs to prune the log of entries that have been deleted.</p>
+</div>
+<div class="paragraph">
+<p>A log is initially given a maximum capacity beyond which it cannot grow.
+Once this is reached the system will create a new log for transactions that could not be accommodated in the original log.
+The new log and the old log are pruned as usual.
+During the normal execution of the transaction system there may be an arbitrary number of log instances.
+These should be garbage collected by the system (or the recovery sub-system) eventually.</p>
+</div>
+<div class="paragraph">
+<p>Check the Configuration Options table for how to configure the LogStore.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_tools"><a class="anchor" href="#_tools"></a>4. Tools</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This chapter describes the various tools for managing transactions.</p>
+</div>
+<div class="sect2">
+<h3 id="_objectstore_command_line_browsers_and_editors"><a class="anchor" href="#_objectstore_command_line_browsers_and_editors"></a>4.1. ObjectStore command-line browsers and editors</h3>
+<div class="paragraph">
+<p>There are currently three command-line editors for manipulating the ObjectStore.
+These tools are used to manipulate the lists of heuristic participants maintained by a transaction log.
+They allow a heuristic participant to be moved from that list back to the list of prepared participants so that transaction recovery may attempt to resolve them automatically.</p>
+</div>
+<div class="sect3">
+<h4 id="_browse_and_manage_transactions_using_an_application_server"><a class="anchor" href="#_browse_and_manage_transactions_using_an_application_server"></a>4.1.1. Browse and Manage Transactions Using an Application Server</h4>
+<div class="paragraph">
+<p>The WildFly Application Server provides a command-line based Management CLI which supports the ability to browse and manipulate transaction records.
+This functionality is provided by the interaction between the Transaction Manager &#8482; and the Management API of the application server.
+To start the CLI on a non-windows based OS type the following command in application server install directory:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">./bin/jboss-cli.sh --connect controller=IP_ADDRESS</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>On Windows platforms use the jboss-cli.bat script</p>
+</div>
+<div class="paragraph">
+<p>The transaction manager stores information about each active transaction, and the participants involved in the transaction, in a persistent storage area called the <em>object store</em> . The Management API exposes the object store as a resource called the <code>log-store</code> . An API operation called <code>probe</code> reads the transaction logs and creates a node in the management model corresponding to each log.
+These nodes can be inspected using the CLI.
+Transaction logs are transient, so these nodes quickly become out of date but you can call the <code>probe</code> command manually whenever you need to refresh the <code>log-store</code>.</p>
+</div>
+<div id="refresh_log_store" class="paragraph">
+<div class="title">Refresh the Log Store</div>
+<p>This command refreshes the Log Store for server groups which use the profile <code>default</code> in a managed domain.
+For a standalone server, remove the <code>profile=default</code> from the command.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">/subsystem=transactions/log-store=log-store/:probe</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<div class="title">View All Prepared Transactions</div>
+<p>To view all prepared transactions, first refresh the log store (see <a href="#refresh_log_store">Refresh the Log Store</a> ), then run the following command, which functions similarly to a filesystem <code>ls</code> command.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>ls /subsystem=transactions/log-store=log-store/transactions</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Each transaction is shown, along with its unique identifier.
+Individual operations can be run against an individual transaction (see <a href="#manage_transaction">Manage a Transaction</a>).</p>
+</div>
+<div id="manage_transaction" class="dlist">
+<div class="title">Manage a Transaction</div>
+<dl>
+<dt class="hdlist1">View a transaction&#8217;s attributes.</dt>
+<dd>
+<p>To view information about a transaction, such as its JNDI name, EIS product name and version, or its status, use the <code>:read-resource</code> CLI command.</p>
+<div class="listingblock">
+<div class="content">
+<pre>/subsystem=transactions/log-store=log-store/transactions=0\:ffff7f000001\:-b66efc2\:4f9e6f8f\:9:read-resource</pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">View the participants of a transaction.</dt>
+<dd>
+<p>Each transaction log contains a child element called <code>participants</code>. Use the <code>read-resource</code> CLI command on this element to see the participants of the transaction.
+Participants are identified by their JNDI names (or some other unique identifier if the JNDI name is not available).</p>
+<div class="listingblock">
+<div class="content">
+<pre>/subsystem=transactions/log-store=log-store/transactions=0\:ffff7f000001\:-b66efc2\:4f9e6f8f\:9/participants=java\:\/JmsXA:read-resource</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result may look similar to this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>{
+   "outcome" =&gt; "success",
+   "result" =&gt; {
+       "eis-product-name" =&gt; "HornetQ",
+       "eis-product-version" =&gt; "2.0",
+       "jndi-name" =&gt; "java:/JmsXA",
+       "status" =&gt; "HEURISTIC_HAZARD",
+       "type" =&gt; "/StateManager/AbstractRecord/XAResourceRecord"
+   }
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The outcome status shown here is in a <code>HEURISTIC_HAZARD</code> state and is eligible for recovery.
+Refer to <a href="#recover_transaction_participant">[recover_transaction_participant]</a> for more details.</p>
+</div>
+</dd>
+<dt class="hdlist1">Delete a transaction.</dt>
+<dd>
+<p>Each transaction log supports a <code>:delete</code> operation, to delete the transaction log representing the transaction.</p>
+<div class="listingblock">
+<div class="content">
+<pre>/subsystem=transactions/log-store=log-store/transactions=0\:ffff7f000001\:-b66efc2\:4f9e6f8f\:9:delete</pre>
+</div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If failures occur, transaction logs may remain in the object store until crash recovery facilities have resolved the transactions they represent.
+Therefore, it is very important that the contents of the object store are not deleted inadvertently, as this will make it impossible to resolve in-doubt transactions.
+In addition, if multiple users share the same object store, they must understand that it is not an exclusive resource, and not delete transaction logs without careful consideration.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</dd>
+<dt class="hdlist1">Delete a transaction participant.</dt>
+<dd>
+<p>Each transaction log participant supports a <code>:delete</code> operation which will delete the participant log that represents the participant:</p>
+<div class="listingblock">
+<div class="content">
+<pre>/subsystem=transactions/log-store=log-store/transactions=0\:ffff7f000001\:-b66efc2\:4f9e6f8f\:9/participants=0\:ffff7f000001\:-f30b80c\:58480e0a\:2c:delete</pre>
+</div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Normally you would leave participant log management to the transaction log that owns it or to the recovery system.
+However, this delete operation for participant logs is provided for those cases where you know it is safe to do so and, in the case of heuristically completed XA resources, you wish to trigger a forget call so that the XA resource vendors' logs are cleaned correctly.
+By default, if this forget call fails then the delete operation will still succeed.
+The system administrator may override this behaviour by setting a system property:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>ObjectStoreEnvironmentBean.ignoreMBeanHeuristics</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>to the value false.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</dd>
+</dl>
+</div>
+<div id="recover_transaction_participant" class="dlist">
+<dl>
+<dt class="hdlist1">Recover a transaction participant.</dt>
+<dd>
+<p>Each transaction participant log may support recovery via the <code>:recover</code> CLI command if it is in a heuristic state.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>Recovery of Heuristic Transactions and Participants</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If the transaction participant&#8217;s status is <code>HEURISTIC</code> or <code>HEURISTIC_HAZARD</code> or <code>HEURISTIC_MIXED</code> then the recover operation changes the state to <code>PREPARE</code> and triggers a recovery attempt by replaying the <code>commit</code> operation.
+If successful, the participant is removed from the transaction log.
+You can verify this by re-running the <code>:probe</code> operation on the <code>log-store</code> and checking that the participant is no longer listed.
+If this is the last participant, the transaction is also deleted.</p>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Refresh the status of a transaction which needs recovery.</dt>
+<dd>
+<p>If a transaction needs recovery, you can use the <code>:refresh</code> CLI command to be sure it still requires recovery, before attempting the recovery.</p>
+<div class="listingblock">
+<div class="content">
+<pre>/subsystem=transactions/log-store=log-store/transactions=0\:ffff7f000001\:-b66efc2\:4f9e6f8f\:9:refresh</pre>
+</div>
+</div>
+</dd>
+</dl>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_browse_and_manage_transactions_using_jmx"><a class="anchor" href="#_browse_and_manage_transactions_using_jmx"></a>4.1.2. Browse and Manage Transactions Using JMX</h4>
+<div class="paragraph">
+<p>Transaction logs may also be managed using <a href="https://docs.oracle.com/javase/7/docs/technotes/guides/jmx">JMX</a>.
+Each transaction log record is instrumented as an MBean.
+Any JMX client may be used to manage logs using this mechanism.</p>
+</div>
+<div class="paragraph">
+<p>The JMX MBean for the object store contains one method and one attribute.
+The <code>probe</code> operation scans the object store creating JMX MBeans for the various log records contained in the store.
+The default behaviour is to only create MBeans for particular record types.
+If there is a need to view everything in the store then set the <code>ExposeAllRecordsAsMBeans</code> attribute to <code>true</code> Note that transaction logs are transient so these beans quickly become out of date and will not be refreshed automatically so you must invoke the <code>probe</code> operation again to get the current up to date list of MBeans.</p>
+</div>
+<div class="paragraph">
+<p>MBeans can be queried using the standard JMX query mechanism.
+ObjectStore Object Names are in the format:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>domain:key-property-list</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where domain is <code>jboss.jta</code> and key-property-list is a comma separated list of key=value pairs.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. Object Name Keys</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">itype</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The transaction record type</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">uid</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The unique id of the transaction record</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">puid</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The unique id of a participant record</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">Transaction record</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml">jboss.jta:type=ObjectStore,itype=StateManager/BasicAction/TwoPhaseCoordinator/ AtomicAction,uid=0_ffff7f000001_-3a612f5d_53f63052_39</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">A participant record within a transaction</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml">jboss.jta:type=ObjectStore,itype=StateManager/BasicAction/TwoPhaseCoordinator/ AtomicAction,uid=0_ffff7f000001_-3a612f5d_53f63052_39,puid= 0_ffff7f000001_-3a612f5d_53f63052_3c</code></pre>
+</div>
+</div>
+<div class="dlist">
+<div class="title">Manage a Transaction</div>
+<dl>
+<dt class="hdlist1">View a transaction&#8217;s attributes.</dt>
+<dd>
+<p>To view information about a transaction or a transaction participant, such as its JNDI name, EIS product name and version, or its status, use a JMX client or alternatively use the JMX api:</p>
+<div class="listingblock">
+<div class="content">
+<pre>// obtain connection to the MBean server
+MBeanServer mbs = ...
+
+// query all ObjectStore MBean instances
+ObjectName on = new ObjectName("jboss.jta:type=ObjectStore,*", null);
+Set&lt;ObjectInstance&gt; transactions = mbs.queryMBeans(on);
+
+// lookup the attribute names of an ObjectInstance
+MBeanInfo info = mbs.getMBeanInfo( oi.getObjectName() );
+MBeanAttributeInfo[] attributeArray = info.getAttributes();
+
+// find the values of the attributes of an ObjectInstance
+AttributeList attributes = mbs.getAttributes(oi.getObjectName(), attributeNames);</pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">View the participants of a transaction.</dt>
+<dd>
+<p>A transaction log may contain one or more participants which can be viewed as MBeans using a JMX client or programmatically as follows:</p>
+<div class="listingblock">
+<div class="content">
+<pre>ObjectInstance transaction = ... //
+ObjectName on = transaction.getObjectName();
+String participantQuery =  on + ",puid=*";
+Set&lt;bjectInstance&gt; participants = mbs.queryMBeans(new ObjectName(participantQuery), null)</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For example the attributes of an XAResource record might look similar to:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>"eis-product-name" =&gt; "HornetQ",
+"eis-product-version" =&gt; "2.0",
+"jndi-name" =&gt; "java:/JmsXA",
+"status" =&gt; "HEURISTIC_HAZARD",
+"type" =&gt; "/StateManager/AbstractRecord/XAResourceRecord"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The status attribute shown in this example is in a <code>HEURISTIC_HAZARD</code> state and is eligible for recovery.
+Refer to <a href="#recover_transaction_participant_jmx">[recover_transaction_participant_jmx]</a> for more details.</p>
+</div>
+</dd>
+<dt class="hdlist1">Delete a transaction or transaction participant.</dt>
+<dd>
+<p>MBeans for transaction logs and participants contain a <code>remove</code> operation.
+Invoke this MBean operation to remove the record from the ObjectStore.</p>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If failures occur, transaction logs may remain in the object store until crash recovery facilities have resolved the transactions they represent.
+Therefore, it is very important that the contents of the object store are not deleted inadvertently, as this will make it impossible to resolve in-doubt transactions.
+In addition, if multiple users share the same object store, they must understand that it is not an exclusive resource,</p>
+</div>
+<div class="paragraph">
+<p>Normally you would leave participant log management to the transaction log that owns it or to the recovery system.
+However, this remove operation for participant logs is provided for those cases where you know it is safe to do so and, in the case of heuristically completed XA resources, you wish to trigger a forget call so that the XA resource vendors' logs are cleaned correctly.
+By default, if this forget call fails then the delete operation will still succeed.
+The system administrator may override this behaviour by setting a system property:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>ObjectStoreEnvironmentBean.ignoreMBeanHeuristics</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>to the value false.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</dd>
+</dl>
+</div>
+<div id="recover_transaction_participant_jmx" class="dlist">
+<dl>
+<dt class="hdlist1">Recover a transaction.</dt>
+<dd>
+<p>Transaction participants support recovery via the <code>clearHeuristic</code> operation.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Recovery of Heuristic Participants</p>
+<div class="ulist">
+<ul>
+<li>
+<p>If the transaction participant&#8217;s status is <code>HEURISTIC</code> or <code>HEURISTIC_HAZARD</code> or <code>HEURISTIC_MIXED</code> then the clearHeuristic operation changes the state to <code>PREPARED</code>.</p>
+</li>
+<li>
+<p>Subsequent runs of the recovery manager (periodic recovery) will try to replay the <code>commit</code> operation.
+If successful, the participant is removed from the transaction log.</p>
+</li>
+<li>
+<p>You can verify the transaction is completed by re-running the <code>probe</code> operation on the <code>ObjectStore</code> MBean.
+If this is the last participant, the transaction will have been also deleted.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_logeditor"><a class="anchor" href="#_logeditor"></a>4.1.3. LogEditor</h4>
+<div class="paragraph">
+<p>The LogEditor tool is started by executing the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">java -Dcom.arjuna.ats.arjuna.common.ObjectStoreEnvironmentBean.objectStoreDir=&quot;path to file based object store&quot; com.arjuna.ats.arjuna.tools.log.LogBrowser</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This command works with the file based object store.
+If you want to work with the Hornetq store instead then you need to specify a different property for the location of the log store and you also need to explicity provide the class name of the Hornetq Object Store:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">java -Dcom.arjuna.ats.internal.arjuna.objectstore.hornetq.HornetqJournalEnvironmentBean.storeDir=&quot;directory path&quot; -Dcom.arjuna.ats.arjuna.common.ObjectStoreEnvironmentBean.objectStoreType=&quot;com.arjuna.ats.internal.arjuna.objectstore.hornetq.HornetqObjectStoreAdaptor&quot;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The tool supports the following options that can be provided on the command-line:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 3. LogEditor Options</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Option</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-tx <code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specifies the transaction log to work on.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-type <code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The transaction type to work on.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-dump</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Print out the contents of the log identified by the other options.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-forget <code>index</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Move the specified target from the heuristic list to the prepared list.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-help</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Print out the list of commands and options.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_logbrowser"><a class="anchor" href="#_logbrowser"></a>4.1.4. LogBrowser</h4>
+<div class="paragraph">
+<p>The LogBrowser, invoked by calling <code>com.arjuna.ats.arjuna.tools.log.LogBrowser</code>, is similar to the LogEditor, but allows multiple log instances to be manipulated.
+It presents a shell-like interface, with the following options:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 4. LogBrowserOptions</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Option</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ls [<code>type</code>]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List the logs for the specified type.
+If no type is specified, the editor must already be attached to the transaction type.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">select [<code>type</code>]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Browse a specific transaction type.
+If already attached to a transaction type, you are detached from that type first.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">attach <code>log</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Attach the console to the specified transaction log.
+If you are attached to another log, the command will fail.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">detach</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Detach the console from the current log.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">forget <code>pid</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Move the specified heuristic participant back to the <em>prepared</em> list.
+The console must be attached.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">delete <code>pid</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Delete the specified heuristic participant.
+The console must be attached.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">types</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List the supported transaction types.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">quit</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Exit the console tool.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">help</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Print out the supported commands.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_gui_based_tools"><a class="anchor" href="#_gui_based_tools"></a>4.2. GUI Based Tools</h3>
+<div class="sect3">
+<h4 id="_embedded_console"><a class="anchor" href="#_embedded_console"></a>4.2.1. Embedded Console</h4>
+<div class="paragraph">
+<p>Transaction management is integrated into the WildFly Application Server.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_performance_graphing"><a class="anchor" href="#_performance_graphing"></a>4.2.2. Performance Graphing</h4>
+<div class="paragraph">
+<p>There is a transaction statistics graphing tool which can run standalone or inside a jconsole tab (jconsole is a tool for managing JVMs and is distributed with the reference JDK):</p>
+</div>
+<div class="paragraph">
+<p>The tool depends on the JFree graphing library.
+Download and unpack orson from <a href="http://www.jfree.org/orson" class="bare">http://www.jfree.org/orson</a>.
+Set the env variable ORSON_HOME to the directory where you plan to unpack the downloaded zip.
+If you intend to use the tool with jconsole you will also need to put the JDK tools and jconsole jars on the classpath:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">export CLASSPATH=&quot;$JDK_HOME/lib/tools.jar:$JDK_HOME/lib/jconsole.jar:$ORSON_HOME/orson-0.5.0.jar:$ORSON_HOME/lib/jfreechart-1.0.6.jar:$ORSON_HOME/lib/jcommon-1.0.10.jar:$INSTALL_ROOT/lib/narayana-jta.jar&gt;&quot;</code></pre>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_standalone_usage"><a class="anchor" href="#_standalone_usage"></a>Standalone Usage</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">java com.arjuna.ats.arjuna.tools.stats.TxPerfGraph</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>(note that standalone usage does not require the JDK tools and jconsole jars)</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_usage_with_jconsole"><a class="anchor" href="#_usage_with_jconsole"></a>Usage with jconsole</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">jconsole -J-Djava.class.path=&quot;$CLASSPATH&quot; -pluginpath $INSTALL_ROOT/lib/narayana-jta.jar</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This command will launch the jconsole GUI in which there will be an extra tab for displaying transaction performance statistics.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_view_transaction_statistics_using_an_application_server"><a class="anchor" href="#_view_transaction_statistics_using_an_application_server"></a>4.3. View Transaction Statistics using an Application Server</h3>
+<div class="paragraph">
+<p>If you are using the Transaction Manager &#8482; inside the WildFly Application Server and if the TM statistics are enabled, then you can view statistics about the TM and transaction subsystem using tools provide by the application server.</p>
+</div>
+<div class="paragraph">
+<p>You can view statistics either via the web-based Management Console or the command-line Management CLI.
+In the web-based Management Console, Transaction statistics are available via <code>menu:Runtime[Subsystem Metrics &gt; Transactions]</code>.
+Transaction statistics are available for each server in a managed domain, as well.
+You can specify the server in the <code>Server</code> selection box at the top left.</p>
+</div>
+<div class="paragraph">
+<p>The following table shows each available statistic, its description, and the CLI command to view the statistic.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 5. Transaction Subsystem Statistics</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Statistic</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">CLI Command</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Total</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The total number of transactions processed by the TM on this server.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/subsystem=transactions/:read-attribute(name=number-of-transactions,include-defaults=true)</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Committed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The number of committed transactions processed by the TM on this server.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/subsystem=transactions/:read-attribute(name=number-of-committed-transactions,include-defaults=true)</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Aborted</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The number of aborted transactions processed by the TM on this server.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/subsystem=transactions/:read-attribute(name=number-of-aborted-transactions,include-defaults=true)</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Timed Out</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The number of timed out transactions processed by the TM on this server.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/subsystem=transactions/:read-attribute(name=number-of-timed-out-transactions,include-defaults=true)</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Heuristics</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Not available in the Management Console.
+Number of transactions in a heuristic state.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/subsystem=transactions/:read-attribute(name=number-of-heuristics,include-defaults=true)</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">In-Flight Transactions</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Not available in the Management Console.
+Number of transactions which have begun but not yet terminated.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/subsystem=transactions/:read-attribute(name=number-of-inflight-transactions,include-defaults=true)</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Failure Origin - Applications</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The number of failed transactions whose failure origin was an application.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/subsystem=transactions/:read-attribute(name=number-of-application-rollbacks,include-defaults=true)</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Failure Origin - Resources</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The number of failed transactions whose failure origin was a resource.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/subsystem=transactions/:read-attribute(name=number-of-resource-rollbacks,include-defaults=true)</code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_configuration_options"><a class="anchor" href="#_configuration_options"></a>5. Configuration options</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_loading_a_configuration"><a class="anchor" href="#_loading_a_configuration"></a>5.1. Loading a configuration</h3>
+<div class="paragraph">
+<p>Each module of the system contains a <code>module propertyManager</code> class, which provides static getter methods for one or more <code>name EnvironmentBean</code> classes.
+An example is <code>com.arjuna.ats.arjuna.commmon.arjPropertyManager</code>.
+These environment beans are standard JavaBean containing properties for each configuration option in the system.
+Typical usage is of the form:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="type">int</span> defaultTimeout = arjPropertyManager.getCoordinatorEnvironmentBean().getDefaultTimeout();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>These beans are singletons, instantiated upon first access, using the following algorithm.</p>
+</div>
+<div class="olist arabic">
+<div class="title">Procedure: Algorithm for environment bean instantiation</div>
+<ol class="arabic">
+<li>
+<p>The properties are loaded and populated from a properties file named and located as follows:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>If the properties file name property <code>com.arjuna.ats.arjuna.common.propertiesFile</code> is set, its value is used as the file name.</p>
+</li>
+<li>
+<p>If not, the default file name <code>jbossts-properties.xml</code> is used.
+The definition of the used value can be found at Narayana distribution jar file under <code>META-INF/MANIFEST.MF</code> at property <code>arjuna-properties-file</code>.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>The file thus named is searched for by, in order</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>absolute path</p>
+</li>
+<li>
+<p><code>user.dir</code></p>
+</li>
+<li>
+<p><code>user.home</code></p>
+</li>
+<li>
+<p><code>java.home</code></p>
+</li>
+<li>
+<p>directories contained on the classpath</p>
+</li>
+<li>
+<p>a default file embedded in the product .jar file</p>
+<div class="paragraph">
+<p>if you use Narayana dependency <code>org.jboss.narayana.jts:narayana-jts-idlj</code> you can check the default properties settings <a href="https://github.com/jbosstm/narayana/blob/master/ArjunaJTS/narayana-jts-idlj/src/main/resources/jbossts-properties.xml">
+in the Narayana repository at github</a>.</p>
+</div>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>The file is treated as being of standard <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Properties.html">java.util.Properties xml format</a> and loaded accordingly.
+The <code>entry</code> names are of the form <code>EnvironmentBeanClass.propertyName</code>.</p>
+<div class="paragraph">
+<p>An example is <code>&lt;entrykey="CoordinatorEnvironmentBean.commitOnePhase"&gt;YES&lt;/entry&gt;</code></p>
+</div>
+<div class="paragraph">
+<p>In specific cases when you want to set properties on configuration beans other that the default bean instances the form is <code>EnvironmentBeanClass.&lt;storeType&gt;.propertyName</code>.</p>
+</div>
+<div class="paragraph">
+<p>An example is <code>&lt;entry key="ObjectStoreEnvironmentBean.communicationStore.objectStoreType"&gt;</code> <code>com.arjuna.ats.internal.arjuna.objectstore.VolatileStore&lt;/entry&gt;</code></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Valid values for Boolean properties are case-insensitive, and may be one of <code>NO</code>/<code>YES</code>, <code>FALSE</code>/<code>TRUE</code>, <code>OFF</code>/<code>ON</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>In the case of properties that take multiple values, they are white-space-delimited.</p>
+</div>
+<div class="listingblock">
+<div class="title">Example recovery modules of Recovery Environment Bean</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;entry</span> <span class="attribute-name">key</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">RecoveryEnvironmentBean.recoveryModuleClassNames</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+    com.arjuna.ats.internal.arjuna.recovery.AtomicActionRecoveryModule
+    com.arjuna.ats.internal.txoj.recovery.TORecoveryModule
+<span class="tag">&lt;/entry&gt;</span></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>After the file is loaded, it is cached and is not re-read until the JVM is restarted.
+Changes to the properties file require a restart in order to take effect.</p>
+</li>
+<li>
+<p>After the properties are loaded, the EnvironmentBean is then inspected and, for each field, if the properties contains a matching key in the search order as follows, the <code>setter</code> method for that field is invoked with the value from the properties, or the system properties if different.</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Fully.Qualified.NameEnvironmentBean.propertyName</code></p>
+<div class="paragraph">
+<p>for example <code>com.arjuna.ats.arjuna.common.CoordinatorEnvironmentBean.commitOnePhase</code></p>
+</div>
+</li>
+<li>
+<p><code>NameEnvironmentBean.propertyName</code> (<code>this is the preferred form used in the properties file</code>)</p>
+<div class="paragraph">
+<p>for example <code>CoordinatorEnvironmentBean.commitOnePhase</code></p>
+</div>
+</li>
+<li>
+<p>the old <code>com.arjuna&#8230;&#8203;</code> properties key defined at bean by annnotations <code>@PropertyPrefix</code> or <code>@FullPropertyName</code> (<code class="replaceable">deprecated, for backwards compatibility only</code>).</p>
+<div class="paragraph">
+<p>for example <code>com.arjuna.ats.arjuna.coordinator.commitOnePhase</code></p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>The bean is then returned to the caller, which may further override values by calling setter methods.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The implementation reads most bean properties only once, as the consuming component or class is instantiated.
+This usually happens the first time a transaction is run.
+As a result, calling <code>setter</code> methods to change the value of bean properties while the system is running typically has no effect, unless it is done prior to any use of the transaction system.
+Altered bean properties are not persisted back to the properties file.</p>
+</div>
+<div class="paragraph">
+<p>You can configure the system using a bean wiring system such as JBoss Microcontainer or Spring.
+Take care when instantiating beans, to obtain the singleton via the static getter (factory) method on the module property manager.
+Using a new bean instantiated with the default constructor is ineffective, since it is not possible to pass this configured bean back to the property management system.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_arjunacore_options"><a class="anchor" href="#_arjunacore_options"></a>5.2. ArjunaCore Options</h3>
+<div class="paragraph">
+<p>The canonical reference for configuration options is the Javadoc of the various <code>EnvironmentBean</code> classes.
+For ArjunaCore these are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>com.arjuna.common.internal.util.logging.LoggingEnvironmentBean</code></p>
+</li>
+<li>
+<p><code>com.arjuna.common.internal.util.logging.basic.BasicLogEnvironmentBean</code></p>
+</li>
+<li>
+<p><code>com.arjuna.ats.txoj.common.TxojEnvironmentBean</code></p>
+</li>
+<li>
+<p><code>com.arjuna.ats.arjuna.common.CoordinatorEnvironmentBean</code></p>
+</li>
+<li>
+<p><code>com.arjuna.ats.arjuna.common.ObjectStoreEnvironmentBean</code></p>
+</li>
+<li>
+<p><code>com.arjuna.ats.arjuna.common.RecoveryEnvironmentBean</code></p>
+</li>
+<li>
+<p><code>com.arjuna.ats.arjuna.common.CoreEnvironmentBean</code></p>
+</li>
+<li>
+<p><code>com.arjuna.ats.internal.arjuna.objectstore.hornetq.HornetqJournalEnvironmentBean</code></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_narayana_jta_configuration_options"><a class="anchor" href="#_narayana_jta_configuration_options"></a>5.3. Narayana JTA Configuration options</h3>
+<div class="paragraph">
+<p>The canonical reference for configuration options is the javadoc of the various EnvironmentBean classes.
+For Narayana JTA, these classes are the ones provided by ArjunaCore, as well as:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>com.arjuna.ats.jdbc.common.JDBCEnvironmentBean</code></p>
+</li>
+<li>
+<p><code>com.arjuna.ats.jta.common.JTAEnvironmentBean</code></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_narayana_jts_options"><a class="anchor" href="#_narayana_jts_options"></a>5.4. Narayana JTS Options</h3>
+<div class="paragraph">
+<p>The canonical reference for configuration options is the javadoc of the various <code>EnvironmentBean</code> classes.
+For Narayana JTS these are the ones provided by ArjunaCore, as well as:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>com.arjuna.orbportability.common.OrbPortabilityEnvironmentBean</code></p>
+</li>
+<li>
+<p><code>com.arjuna.ats.jts.common.JTSEnvironmentBean</code></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_narayana_ws_atws_ba_options"><a class="anchor" href="#_narayana_ws_atws_ba_options"></a>5.5. Narayana WS-AT/WS-BA Options</h3>
+<div class="paragraph">
+<p>For Narayana WebService transaction protocols these are the ones provided by ArjunaCore, as well as:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>org.jboss.jbossts.xts.environment.WSCEnvironmentBean</code></p>
+</li>
+<li>
+<p><code>org.jboss.jbossts.xts.environment.WSCFEnvironmentBean</code></p>
+</li>
+<li>
+<p><code>org.jboss.jbossts.xts.environment.WSTEnvironmentBean</code></p>
+</li>
+<li>
+<p><code>org.jboss.jbossts.xts.environment.XTSEnvironmentBean</code></p>
+</li>
+<li>
+<p><code>org.jboss.jbossts.xts.environment.RecoveryEnvironmentBean</code></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_important_log_messages"><a class="anchor" href="#_important_log_messages"></a>6. Important Log Messages</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The transaction manager can generate a lot of logging information when configured to log in trace level.
+Here is a list of some of the log messages to check for.</p>
+</div>
+<div class="sect2">
+<h3 id="_transaction_state_change"><a class="anchor" href="#_transaction_state_change"></a>6.1. Transaction State Change</h3>
+<div class="paragraph">
+<p>The following table</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Transaction Begin</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">When a transaction begins the following code is executed:
+<code>`
+com.arjuna.ats.arjuna.coordinator.BasicAction::Begin:1342</p>
+<p class="tableblock">tsLogger.logger.trace("BasicAction::Begin() for action-id "+ get_uid());
+</code>`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Transaction Commit</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">When a transaction commits the following code is executed:
+<code>`
+com.arjuna.ats.arjuna.coordinator.BasicAction::End:1342</p>
+<p class="tableblock">tsLogger.logger.trace("BasicAction::End() for action-id "+ get_uid());
+</code>`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Transaction Rollback</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">When a transaction commits the following code is executed:
+<code>`
+com.arjuna.ats.arjuna.coordinator.BasicAction::Abort:1575</p>
+<p class="tableblock">tsLogger.logger.trace("BasicAction::Abort() for action-id "+ get_uid());
+</code>`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Transaction Timeout</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">When a transaction times out the following code is executed:
+<code>`
+com.arjuna.ats.arjuna.coordinator.TransactionReaper::doCancellations:349</p>
+<p class="tableblock">tsLogger.logger.trace("Reaper Worker " + Thread.currentThread() + " attempting to cancel " + e._control.get_uid());
+</code>`
+You will then see the same thread rolling back the transaction as shown above</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>There are many more logging messages to check for, above are those that we are often asked about.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_multi_cause_log_message"><a class="anchor" href="#_multi_cause_log_message"></a>6.2. Multi cause log message</h3>
+<div class="paragraph">
+<p>The following table shows some log messages that you may see with an explanation of alternate reasons</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">INFO  <code>[com.arjuna.ats.arjuna] ObjectStore</code> record was deleted during restoration, users should not deleted records manually</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If you manually deleted a transaction log then this applies to you - you deleted a transaction that was in flight and so may have caused a data integrity issue in so far as one of the resources may be committed and without the log you will not be able to infer this.</p>
+<p class="tableblock">If a transaction is committed at the same time as a resource adapter or remote server attempts recovery then you may see the message in the log due to intentional but unavoidable interaction between distributed transaction managers and the local recovery manager.</p>
+<p class="tableblock">The log message will indicate the path of the removed file something like:  <strong><strong>/ShadowNoFileLockStore/defaultStore/StateManager/BasicAction/TwoPhaseCoordinator/AtomicAction/SubordinateAtomicAction/JCA/</strong></strong>: java.io.FileNotFoundException: <strong><strong>/ShadowNoFileLockStore/defaultStore/StateManager/BasicAction/TwoPhaseCoordinator/AtomicAction/SubordinateAtomicAction/JCA/</strong></strong> (No such file or directory)</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>There are many more logging messages to check for, above are those that we are often asked about.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_troubleshooting"><a class="anchor" href="#_troubleshooting"></a>7. Troubleshooting</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This chapter covers issues that you may hit when developing applications with Narayana.</p>
+</div>
+<div class="sect2">
+<h3 id="_ws_ba_participant_completion_race_condition"><a class="anchor" href="#_ws_ba_participant_completion_race_condition"></a>7.1. WS-BA Participant-Completion Race Condition</h3>
+<div class="paragraph">
+<p>The WS-BA participant-completion protocol has a benign race condition that, in unusual circumstances, can cause some Business Activities to be cancelled that would have otherwise been able to close.
+This is safe as no inconsistency arrises, but it can be annoying for users.
+This section explains why this can happen, under what conditions, and what you can do to tolerate it.</p>
+</div>
+<div class="sect3">
+<h4 id="_whats_happening_in_a_nutshell"><a class="anchor" href="#_whats_happening_in_a_nutshell"></a>7.1.1. What&#8217;s happening, in a nutshell</h4>
+<div class="paragraph">
+<p>Imagine a scenario where the client begins a business activity and then invokes a Web service.
+If the Web service uses participant completion, it will notify the coordinator when it has completed its work and then return control to the client.
+This notification is asynchronous, so it&#8217;s possible that the client will then ask the coordinator to close the activity before the coordinator processes (or even receives) the completed notification from the participant.
+In this situation the coordinator will cancel the activity as not all participants (from its perspective) have completed their work.
+As a result all completed participants are compensated (including, eventually, the participant with the late 'completed' notification) and the client receives a <code>TransactionRolledBackException</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_when_is_it_most_likely_to_happen"><a class="anchor" href="#_when_is_it_most_likely_to_happen"></a>7.1.2. When is it most likely to happen?</h4>
+<div class="paragraph">
+<p>Typically this happens when the client, coordinator and participant are running inside the same VM.
+This scenario is unlikely to happen in production, but can happen regularly during development where a single VM is used to keep things simple.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_how_do_i_know_if_this_is_affecting_my_application"><a class="anchor" href="#_how_do_i_know_if_this_is_affecting_my_application"></a>7.1.3. How do I know if this is affecting my application?</h4>
+<div class="paragraph">
+<p>If the client is occasionally receiving a <code>TransactionRolledbackException</code> when calling <code>UserBusinessActivity#close()</code>, but none of the machines involved in running the transaction have crashed, you could be affected by this.
+Especially if you are running the client, coordinator and participant(s) in the same server.</p>
+</div>
+<div class="paragraph">
+<p>The following log message will help you identify this issue:</p>
+</div>
+<div class="listingblock">
+<div class="title">Example Environment Bean</div>
+<div class="content">
+<pre class="CodeRay highlight"><code>WARN [com.arjuna.mw.wstx] (TaskWorker-2) ARJUNA045062: Coordinator cancelled the activity</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This is only an indication that you are seeing this issue as the coordinator can elect to cancel the activity for other reasons.
+For example, network problems might mean the coordinator cannot tell the web service to close the activity.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_why_cant_it_be_avoided"><a class="anchor" href="#_why_cant_it_be_avoided"></a>7.1.4. Why can&#8217;t it be avoided?</h4>
+<div class="paragraph">
+<p>For the protocol to avoid this issue, it would need to make the complete message synchronous, throttling throughput by slowing down both the participant and coordinator and holding sockets open for longer.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_what_can_the_application_do_to_tolerate_this"><a class="anchor" href="#_what_can_the_application_do_to_tolerate_this"></a>7.1.5. What can the application do to tolerate this?</h4>
+<div class="paragraph">
+<p>A real, distributed deployment will rarely see this problem because communication latency between client, participant and coordinator will dominate the race condition.
+Even if it does happen your application should tolerate it.
+Transaction rollbacks and activity cancelations are inevitable in a distributed environment and can happen for many reasons.
+When handling <code>TransactionRolledBack</code> exceptions you can either retry the Transaction/Activity or notify the caller of the failure.
+What you choose to do will depend on the requirements of your application.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_why_exactly_does_this_happen"><a class="anchor" href="#_why_exactly_does_this_happen"></a>7.1.6. Why exactly does this happen?</h4>
+<div class="paragraph">
+<p>First consider the following client code:</p>
+</div>
+<div class="listingblock">
+<div class="title">Client Code Example</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">UserBusinessActivity uba = UserBusinessActivityFactory.userBusinessActivity();
+uba.begin();
+myWebServiceClient.invoke();
+uba.close();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The client code is very simple, it just begins a business activity, invokes a Web service and then closes the business activity.
+The Web service uses the Participant-Completion protocol and so notifies the coordinator of completion just before returning control to the client.</p>
+</div>
+<div class="paragraph">
+<p>Here&#8217;s a diagram showing the pertinent message exchanges that occur under a normal situation.</p>
+</div>
+<div id="_fig_pcp_race_success" class="imageblock text-center">
+<div class="content">
+<img src="images/development-guide-fig-pcp-race-success.png" alt="development guide fig pcp race success">
+</div>
+<div class="title">Figure 1. Successful close of activity</div>
+</div>
+<div class="paragraph">
+<p>The messages are numbered to indicate the order in which they are sent:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>1.request</code>.
+This represents the application request made by the client.</p>
+</li>
+<li>
+<p><code>2.completed</code>.
+After the participant has completed its work, it notifies the coordinator that it has completed.</p>
+</li>
+<li>
+<p><code>3.response</code>.
+This represents the response to the client&#8217;s application request.</p>
+</li>
+<li>
+<p><code>4.close</code>.
+The client notifies the coordinator that it wishes to close the activity.
+It then waits for a <code>closed</code> or failure response from the coordinator.</p>
+</li>
+<li>
+<p><code>5a.close</code> and <code>5b.closed</code>.
+The coordinator has processed the <code>2.completed</code> message so can close the activity.
+It starts by sending the <code>close</code> message to the participant and waits for the <code>closed</code> response as confirmation.
+These two messages are asynchronous.</p>
+</li>
+<li>
+<p><code>6.closed</code>.
+The coordinator now has all <code>closed</code> acknowledgments so notifies the client that the activity successfully <code>closed</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Messages '2.completed' and '4.close' are asynchronous (or 'one way' in Web services parlance) so effectively, there is a race condition with the following competing parties:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Party 1</code>. The completed message <code>2.completed</code>.</p>
+</li>
+<li>
+<p><code>Party 2</code>. The response <code>3.response</code> followed by <code>4.close</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>When running in the same VM, or on a low latency network, <code>3.response</code> will be sent very quickly.
+This is because it is simply travelling on the HTTP response over an already open socket.
+This just leaves messages <code>2.completed</code> and <code>4.close</code> which will take much longer relative to <code>3.response</code>.
+To understand this, lets take a look at what happens when an asynchronous Web service call is made:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The client sends the message to the Web service.</p>
+</li>
+<li>
+<p>The server-side SOAP stack uses an existing thread from a pool dedicated to receiving SOAP messages.</p>
+</li>
+<li>
+<p>As the service is asynchronous, the message will be passed to another thread to be processed.</p>
+</li>
+<li>
+<p>The receiving thread will now return the HTTP response.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The race condition occurs because steps 1-3 can happen relatively quickly in a single VM, and thus it&#8217;s likely that both messages 2 and 4, will be waiting to be processed at the same time.
+The order in which they are processed is dependent on the implementation of the thread pool and is also at the mercy of thread scheduling in the VM, so it&#8217;s possible that either could be processed first.</p>
+</div>
+<div class="paragraph">
+<p>This race condition is much less likely to happen in a distributed environment as the network costs will be significantly higher.
+As a result message <code>3.response</code> will take long enough to send, so as to give message <code>2.completed</code> enough of a head start.
+But it is still possible so the client application must be coded defensively to catch and handle a <code>TransactionRollbackException</code>.
+The client code ought to be doing this anyway to deal with server crashes.</p>
+</div>
+<div class="paragraph">
+<p>The following diagram shows what messages are exchanged when the race condition occurs.
+Notice that the activity ends in a consistent state.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/development-guide-fig-pcp-race-failure.png" alt="development guide fig pcp race failure">
+</div>
+<div class="title">Figure 2. Failure to close the activity</div>
+</div>
+<div class="paragraph">
+<p>Messages 1-3 are omitted from the following explanation as they are the same as in the success case.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>4.close</code>.
+This message is processed by the coordinator before message <code>2.completed</code></p>
+</li>
+<li>
+<p><code>5a.cancel</code>.
+The coordinator has not yet processed the <code>2.completed</code> message so cannot close the activity.
+The coordinator then sends a 'cancel' message to the participant as it thinks it has not yet completed.
+This message and subsequent retires, are dropped by the participant as they are not valid for a completed participant.</p>
+</li>
+<li>
+<p><code>5b.compensate</code>/<code>5c.compensated</code>.
+After one or more unacknowledged <code>cancel</code> messages, the coordinator switches to sending <code>compensate</code> messages which will cause the participant to compensate the work.
+The participant acknowledges with a <code>compensated</code> reply.</p>
+</li>
+<li>
+<p>6. Transaction rolledback exception.
+The coordinator notifies the client that the activity failed to close.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>As you can see from the steps above, when this race condition arises, any work done by participants is compensated and the client is notified of the outcome.
+Thus a consistent outcome is achieved.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>

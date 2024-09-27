@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>Container Integration</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>Container Integration</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_deploying_as_a_wildfly_subsystem">Deploying as a Wildfly Subsystem</a></li>
+<li><a href="#_deploying_into_a_servlet_container">Deploying into a Servlet Container</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>The RESTAT protocol described here is implemented as a JAX-RS service, deploys as a Servlet 3.0 application and depends on the Narayana TM as the back-end transaction engine.
+JAX-RS is the Java language support for building REST based applications - it is both an annotation-based API for defining resources and a run-time for mapping HTTP requests to Java methods.
+Thus any container supporting these two requirements (servlet 3.0 and the Narayana TM) can be used.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_deploying_as_a_wildfly_subsystem"><a class="anchor" href="#_deploying_as_a_wildfly_subsystem"></a>Deploying as a Wildfly Subsystem</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The RESTAT coordinator is integrated with the 8.0.0.Alpha3 and subsequent releases of the Wildfly application server ( <a href="http://www.wildfly.org/download/" class="bare">http://www.wildfly.org/download/</a> ) as a subsystem (called RTS) so you do not have to explicitly deploy it.
+You do, however, need to start the application server using an optional server configuration:</p>
+</div>
+<div class="paragraph">
+<p>change directory to where the application server is installed
+* Linux</p>
+</div>
+<div class="paragraph">
+<p>+</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>./bin/standalone.sh --server-config=../../docs/examples/configs/standalone-rts.xml</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Windows</p>
+<div class="listingblock">
+<div class="content">
+<pre>bin\standalone.bat --server-config=..\..\docs\examples\configs\standalone-rts.xml</pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For this mode of deployment the <em>transaction-manager</em> URI is <a href="http://&lt;host&gt;:&lt;port&gt;/rest-at-coordinator/tx/transaction-manager" class="bare">http://&lt;host&gt;:&lt;port&gt;/rest-at-coordinator/tx/transaction-manager</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_deploying_into_a_servlet_container"><a class="anchor" href="#_deploying_into_a_servlet_container"></a>Deploying into a Servlet Container</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For other versions of the application server you will need to deploy the coordinator as a war archive using the standard war deployment mechanism appropriate to your particular container.
+The archive is contained in the bin folder of the narayana download (restat-web.war).
+If you are building from source the archive is located in <code>rts/at/webservice/target/restat-web-&lt;version&gt;.war</code>.</p>
+</div>
+<div class="paragraph">
+<p>For this mode of deployment the <em>transaction-manager</em> URI is <code><a href="http://&lt;host&gt;:&lt;port&gt;/rest-tx/tx/transaction-manager" class="bare">http://&lt;host&gt;:&lt;port&gt;/rest-tx/tx/transaction-manager</a></code></p>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>

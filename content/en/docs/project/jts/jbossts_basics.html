@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>Narayana Basics</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+/*! Stylesheet for CodeRay to loosely match GitHub themes | MIT License */
+pre.CodeRay{background:#f7f7f8}
+.CodeRay .line-numbers{border-right:1px solid;opacity:.35;padding:0 .5em 0 0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+.CodeRay span.line-numbers{display:inline-block;margin-right:.75em}
+.CodeRay .line-numbers strong{color:#000}
+table.CodeRay{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.CodeRay td{vertical-align:top;line-height:inherit}
+table.CodeRay td.line-numbers{text-align:right}
+table.CodeRay td.code{padding:0 0 0 .75em}
+.CodeRay .debug{color:#fff!important;background:navy!important}
+.CodeRay .annotation{color:#007}
+.CodeRay .attribute-name{color:navy}
+.CodeRay .attribute-value{color:#700}
+.CodeRay .binary{color:#509}
+.CodeRay .comment{color:#998;font-style:italic}
+.CodeRay .char{color:#04d}
+.CodeRay .char .content{color:#04d}
+.CodeRay .char .delimiter{color:#039}
+.CodeRay .class{color:#458;font-weight:bold}
+.CodeRay .complex{color:#a08}
+.CodeRay .constant,.CodeRay .predefined-constant{color:teal}
+.CodeRay .color{color:#099}
+.CodeRay .class-variable{color:#369}
+.CodeRay .decorator{color:#b0b}
+.CodeRay .definition{color:#099}
+.CodeRay .delimiter{color:#000}
+.CodeRay .doc{color:#970}
+.CodeRay .doctype{color:#34b}
+.CodeRay .doc-string{color:#d42}
+.CodeRay .escape{color:#666}
+.CodeRay .entity{color:#800}
+.CodeRay .error{color:#808}
+.CodeRay .exception{color:inherit}
+.CodeRay .filename{color:#099}
+.CodeRay .function{color:#900;font-weight:bold}
+.CodeRay .global-variable{color:teal}
+.CodeRay .hex{color:#058}
+.CodeRay .integer,.CodeRay .float{color:#099}
+.CodeRay .include{color:#555}
+.CodeRay .inline{color:#000}
+.CodeRay .inline .inline{background:#ccc}
+.CodeRay .inline .inline .inline{background:#bbb}
+.CodeRay .inline .inline-delimiter{color:#d14}
+.CodeRay .inline-delimiter{color:#d14}
+.CodeRay .important{color:#555;font-weight:bold}
+.CodeRay .interpreted{color:#b2b}
+.CodeRay .instance-variable{color:teal}
+.CodeRay .label{color:#970}
+.CodeRay .local-variable{color:#963}
+.CodeRay .octal{color:#40e}
+.CodeRay .predefined{color:#369}
+.CodeRay .preprocessor{color:#579}
+.CodeRay .pseudo-class{color:#555}
+.CodeRay .directive{font-weight:bold}
+.CodeRay .type{font-weight:bold}
+.CodeRay .predefined-type{color:inherit}
+.CodeRay .reserved,.CodeRay .keyword{color:#000;font-weight:bold}
+.CodeRay .key{color:#808}
+.CodeRay .key .delimiter{color:#606}
+.CodeRay .key .char{color:#80f}
+.CodeRay .value{color:#088}
+.CodeRay .regexp .delimiter{color:#808}
+.CodeRay .regexp .content{color:#808}
+.CodeRay .regexp .modifier{color:#808}
+.CodeRay .regexp .char{color:#d14}
+.CodeRay .regexp .function{color:#404;font-weight:bold}
+.CodeRay .string{color:#d20}
+.CodeRay .string .string .string{background:#ffd0d0}
+.CodeRay .string .content{color:#d14}
+.CodeRay .string .char{color:#d14}
+.CodeRay .string .delimiter{color:#d14}
+.CodeRay .shell{color:#d14}
+.CodeRay .shell .delimiter{color:#d14}
+.CodeRay .symbol{color:#990073}
+.CodeRay .symbol .content{color:#a60}
+.CodeRay .symbol .delimiter{color:#630}
+.CodeRay .tag{color:teal}
+.CodeRay .tag-special{color:#d70}
+.CodeRay .variable{color:#036}
+.CodeRay .insert{background:#afa}
+.CodeRay .delete{background:#faa}
+.CodeRay .change{color:#aaf;background:#007}
+.CodeRay .head{color:#f8f;background:#505}
+.CodeRay .insert .insert{color:#080}
+.CodeRay .delete .delete{color:#800}
+.CodeRay .change .change{color:#66f}
+.CodeRay .head .head{color:#f4f}
+</style>
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>Narayana Basics</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_introduction">Introduction</a>
+<ul class="sectlevel2">
+<li><a href="#_raw_ots">Raw OTS</a></li>
+<li><a href="#_enhanced_ots_functionality">Enhanced OTS functionality</a></li>
+<li><a href="#_advanced_api">Advanced API</a></li>
+<li><a href="#_narayana_and_the_ots_implementation">Narayana and the OTS implementation</a></li>
+</ul>
+</li>
+<li><a href="#_thread_class">Thread class</a></li>
+<li><a href="#_orb_portability_issues">ORB portability issues</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_introduction"><a class="anchor" href="#_introduction"></a>Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Narayana is based upon the original Arjuna system developed at the University of Newcastle between 1986 and 1995. Arjuna predates the OTS specification and includes many features not found in the OTS.
+Narayana is a superset of the OTS.
+Applications written using the standard OTS interfaces are portable across OTS implementations.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>full draft 5 compliance, with support for Synchronization objects and PropagationContexts.</p>
+</li>
+<li>
+<p>support for subtransactions.</p>
+</li>
+<li>
+<p>implicit context propagation where support from the ORB is available.</p>
+</li>
+<li>
+<p>support for multi-threaded applications.</p>
+</li>
+<li>
+<p>fully distributed transaction managers, i.e., there is no central transaction manager, and the creator of a top-level transaction is responsible for its termination.
+Separate transaction manager support is also available, however.</p>
+</li>
+<li>
+<p>transaction interposition.</p>
+</li>
+<li>
+<p>X/Open compliance, including checked transactions.
+This checking can optionally be disabled.
+Note: checked transactions are disabled by default, i.e., any thread can terminate a transaction.</p>
+</li>
+<li>
+<p>JDBC support.</p>
+</li>
+<li>
+<p>Full Jakarta Transactions support.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You can use Narayana in three different levels, which correspond to the sections in this chapter, and are each explored in their own chapters as well.</p>
+</div>
+<div class="paragraph">
+<p>Because of differences in ORB implementations, Narayana uses a separate ORB Portability library which acts as an abstraction later.
+Many of the examples used throughout this manual use this library.
+Refer to the ORB Portability Manual for more details.</p>
+</div>
+<div class="sect2">
+<h3 id="_raw_ots"><a class="anchor" href="#_raw_ots"></a>Raw OTS</h3>
+<div class="paragraph">
+<p>The OTS is only a protocol engine for driving registered resources through a two-phase commit protocol.
+You are responsible for building and registering the <code>Resource</code> objects which handle persistence and concurrency control, ensuring ACID properties for transactional application objects.
+You need to register <code>Resources</code> at appropriate times, and ensure that a given <code>Resource</code> is only registered within a single transaction.
+Programming at the raw OTS level is extremely basic.
+You as the programmer are responsible for almost everything to do with transactions, including managing persistence and concurrency control on behalf of every transactional object.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_enhanced_ots_functionality"><a class="anchor" href="#_enhanced_ots_functionality"></a>Enhanced OTS functionality</h3>
+<div class="paragraph">
+<p>The OTS implementation of nested transactions is extremely limited, and can lead to the generation of heuristic results.
+An example of such a result is when a sub-transaction coordinator discovers part of the way through committing that some resources cannot commit, but being unable to tell the committed resources to abort. Narayana allows nested transactions to execute a full two-phase commit protocol, which removes the possibility that some resources will comment while others roll back.</p>
+</div>
+<div class="paragraph">
+<p>When resources are registered with a transaction, you have no control over the order in which these resources are invoked during the commit/abort protocol.
+For example, if previously registered resources are replaced with newly registered resources, resources registered with a subtransaction are merged with the subtraction&#8217;s parent. Narayana provides an additional Resource subtype which you this level of control.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_advanced_api"><a class="anchor" href="#_advanced_api"></a>Advanced API</h3>
+<div class="paragraph">
+<p>The OTS does not provide any <code>Resource</code> implementations.
+You are responsible for implementing these interfaces.
+The interfaces defined within the OTS specification are too low-level for most application programmers.
+Therefore, Narayana includes <em>Transactional Objects for Java (TXOJ)</em> , which makes use of the raw Common Object Services interfaces but provides a higher-level API for building transactional applications and frameworks.
+This API automates much of the activities concerned with participating in an OTS transaction, freeing you to concentrate on application development, rather than transactions.</p>
+</div>
+<div class="paragraph">
+<p>The architecture of the system is shown in Figure 2. The API interacts with the concurrency control and persistence services, and automatically registers appropriate resources for transactional objects.
+These resources may also use the persistence and concurrency services.</p>
+</div>
+<div class="paragraph">
+<p>Narayana exploits object-oriented techniques to provide you with a toolkit of Java classes which are inheritable by application classes, to obtain transactional properties.
+These classes form a hierarchy, illustrated in <a href="#_jbossts_class_hierarchy">Narayana class hierarchy</a>.</p>
+</div>
+<div id="_jbossts_class_hierarchy" class="imageblock">
+<div class="content">
+<img src="images/jts-jbossts-class-hierarchy.png" alt="Narayana class hierarchy">
+</div>
+<div class="title">Figure 1. Narayana class hierarchy</div>
+</div>
+<div class="paragraph">
+<p>Your main responsibilities are specifying the scope of transactions and setting appropriate locks within objects. Narayana guarantees that transactional objects will be registered with, and be driven by, the appropriate transactions.
+Crash recovery mechanisms are invoked automatically in the event of failures.
+When using the provided interfaces, you do not need to create or register <code>Resource</code> objects or call services controlling persistence or recovery.
+If a transaction is nested, resources are automatically propagated to the transaction’s parent upon commit.</p>
+</div>
+<div class="paragraph">
+<p>The design and implementation goal of Narayana was to provide a programming system for constructing fault-tolerant distributed applications.
+Three system properties were considered highly important:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integration of Mechanisms</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fault-tolerant distributed systems require a variety of system functions for naming, locating and invoking operations upon objects, as well as for concurrency control, error detection and recovery from failures. These mechanisms are integrated in a way that is easy for you to use.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Flexibility</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mechanisms must be flexible, permitting implementation of application-specific enhancements, such as type-specific concurrency and recovery control, using system defaults.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Portability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">You need to be able to run Narayana on any ORB.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Narayana is implemented in Java and extensively uses the type-inheritance facilities provided by the language to provide user-defined objects with characteristics such as persistence and recoverability.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_narayana_and_the_ots_implementation"><a class="anchor" href="#_narayana_and_the_ots_implementation"></a>Narayana and the OTS implementation</h3>
+<div class="paragraph">
+<p>The OTS specification is written with flexibility in mind, to cope with different application requirements for transactions. Narayana supports all optional parts of the OTS specification.
+In addition, if the specification allows functionality to be implemented in a variety of different ways, Narayana supports all possible implementations.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Narayana implementation of OTS specifications</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">OTS specification</th>
+<th class="tableblock halign-left valign-top">Narayana default implementation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If the transaction service chooses to restrict the availability of the transaction context, then it should raise the <code>Unavailable</code> exception.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Narayana does not restrict the availability of the transaction context.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An implementation of the transaction service need not initialize the transaction context for every request.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Narayana only initializes the transaction context if the interface supported by the target object extends the <code>TransactionalObject</code> interface.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An implementation of the transaction service may restrict the ability for the <code>Coordinator</code>, <code>Terminator</code>, and <code>Control</code> objects to be transmitted or used in other execution environments to enable it to guarantee transaction integrity.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Narayana does not impose restrictions on the propagation of these objects.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The transaction service may restrict the termination of a transaction to the client that started it.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Narayana allows the termination of a transaction by any client that uses the <code>Terminator</code> interface. In addition, Narayana does not impose restrictions when clients use the <code>Current</code> interface.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A <code>TransactionFactory</code> is located using the <code>FactoryFinder</code> interface of the life-cycle service.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Narayana provides multiple ways in which the <code>TransactionFactory</code> can be located.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A transaction service implementation may use the Event Service to report heuristic decisions.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Narayana does not use the Event Service to report heuristic decisions.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An implementation of the transaction service does not need to support nested transactions.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Narayana supports nested transactions.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Synchronization</code> objects must be called whenever the transaction commits.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Narayana allows <code>Synchronizations</code> to be called no matter what state the transaction terminates with.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A transaction service implementation is not required to support interposition.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Narayana supports various types of interposition.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_thread_class"><a class="anchor" href="#_thread_class"></a>Thread class</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Narayana is fully multi-threaded and supports the OTS notion of allowing multiple threads to be active within a transaction, and for a thread to execute multiple transactions.
+A thread can only be active within a single transaction at a time, however.
+By default, if a thread is created within the scope of a transaction, the new thread is not associated with the transaction.
+If the thread needs to be associated with the transaction, use the <code>resume</code> method of either the <code>AtomicTransaction</code> class or the <code>Current</code> class.</p>
+</div>
+<div class="paragraph">
+<p>However, if newly created threads need to automatically inherit the transaction context of their parent, then they should extend the <code>OTS_Thread</code> class.</p>
+</div>
+<div class="listingblock">
+<div class="title">Extending the <code class="class">OTS_Thread</code>class</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">OTS_Thread</span> <span class="directive">extends</span> <span class="predefined-type">Thread</span> {
+    <span class="directive">protected</span> OTS_Thread();
+
+    <span class="directive">public</span> <span class="type">void</span> terminate();
+
+    <span class="directive">public</span> <span class="type">void</span> run();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Call the <code>run</code> method of <code>OTS_Thread</code> at the start of the application thread class&#8217;s <code>run</code> method.
+Call <code>terminate</code> before you exit the body of the application thread’s <code>run</code> method.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_orb_portability_issues"><a class="anchor" href="#_orb_portability_issues"></a>ORB portability issues</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Although the CORBA specification is a standard, it is written so that an ORB can be implemented in multiple ways.
+As such, writing portable client and server code can be difficult.
+Because Narayana has been ported to most of the widely available ORBs, it includes a series of ORB Portability classes and macros.
+If you write your application using these classes, it should be mostly portable between different ORBs.
+These classes are described in the separate ORB Portability Manual.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>
