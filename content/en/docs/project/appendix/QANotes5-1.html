@@ -1,0 +1,2421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>QA Testsuite</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>QA Testsuite</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_jdbcresources_01_02">JDBCResources 01 &amp; 02</a>
+<ul class="sectlevel2">
+<li><a href="#_overview">Overview</a></li>
+<li><a href="#_jdbcresources_01_02_summary">JDBCResources 01 &amp; 02 Summary</a></li>
+<li><a href="#_jdbcresources_01_02_interfaces">JDBCResources 01 &amp; 02 Interfaces</a></li>
+<li><a href="#_jdbcresources_01_02_implementations">JDBCResources 01 &amp; 02 Implementations</a></li>
+<li><a href="#_jdbcresources_01_02_server">JDBCResources 01 &amp; 02 Server</a></li>
+<li><a href="#_jdbcresources_01_02_setups">JDBCResources 01 &amp; 02 Setups</a></li>
+<li><a href="#_jdbcresources_01_02_clients">JDBCResources 01 &amp; 02 Clients</a></li>
+<li><a href="#_jdbcresources_01_02_outcomes">JDBCResources 01 &amp; 02 Outcomes</a></li>
+<li><a href="#_jdbcresources_01_02_cleanups">JDBCResources 01 &amp; 02 Cleanups</a></li>
+<li><a href="#_jdbcresources_01_02_configurations">JDBCResources 01 &amp; 02 Configurations</a></li>
+</ul>
+</li>
+<li><a href="#_jdbcresources_03_04">JDBCResources 03 &amp; 04</a>
+<ul class="sectlevel2">
+<li><a href="#_overview_2">Overview</a></li>
+<li><a href="#_jdbcresources_03_04_summary">JDBCResources 03 &amp; 04 Summary</a></li>
+<li><a href="#_jdbcresources_03_04_interfaces">JDBCResources 03 &amp; 04 Interfaces</a></li>
+<li><a href="#_jdbcresources_03_04_implementations">JDBCResources 03 &amp; 04 Implementations</a></li>
+<li><a href="#_jdbcresources_03_04_server">JDBCResources 03 &amp; 04 Server</a></li>
+<li><a href="#_jdbcresources_03_04_setups">JDBCResources 03 &amp; 04 Setups</a></li>
+<li><a href="#_jdbcresources_03_04_clients">JDBCResources 03 &amp; 04 Clients</a></li>
+<li><a href="#_jdbcresources_03_04_outcomes">JDBCResources 03 &amp; 04 Outcomes</a></li>
+<li><a href="#_jdbcresources_03_04_cleanups">JDBCResources 03 &amp; 04 Cleanups</a></li>
+<li><a href="#_jdbcresources_03_04_configurations">JDBCResources 03 &amp; 04 Configurations</a></li>
+</ul>
+</li>
+<li><a href="#_currenttests">CurrentTests</a>
+<ul class="sectlevel2">
+<li><a href="#_overview_3">Overview</a></li>
+<li><a href="#_currenttests01_summary">CurrentTests01 Summary</a></li>
+<li><a href="#_currenttests_clients">CurrentTests Clients</a></li>
+</ul>
+</li>
+<li><a href="#_otsserver">OTSServer</a>
+<ul class="sectlevel2">
+<li><a href="#_overview_4">Overview</a></li>
+<li><a href="#_otsserver_summary">OTSServer Summary</a></li>
+<li><a href="#_otsserver_clients">OTSServer Clients</a></li>
+</ul>
+</li>
+<li><a href="#_aitresources">AITResources</a>
+<ul class="sectlevel2">
+<li><a href="#_overview_5">Overview</a></li>
+<li><a href="#_aitresources_01_02_summary">AITResources 01 &amp; 02 Summary</a></li>
+<li><a href="#_aitresources_interfaces">AITResources Interfaces</a></li>
+<li><a href="#_aitresources_implementations">AITResources Implementations</a></li>
+<li><a href="#_aitresources_server">AITResources Server</a></li>
+<li><a href="#_aitresources_clients">AITResources Clients</a></li>
+<li><a href="#_aitresources_outcomes">AITResources Outcomes</a></li>
+<li><a href="#_aitresources_memory_tests">AITResources Memory Tests</a></li>
+</ul>
+</li>
+<li><a href="#_crashrecovery">CrashRecovery</a>
+<ul class="sectlevel2">
+<li><a href="#_crashrecovery_summary">CrashRecovery Summary</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>In the source git repository we maintain a testsuite for integration testing.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_jdbcresources_01_02"><a class="anchor" href="#_jdbcresources_01_02"></a>JDBCResources 01 &amp; 02</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_overview"><a class="anchor" href="#_overview"></a>Overview</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Tests</p>
+<div class="ulist">
+<ul>
+<li>
+<p>JDBC Support</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Series</p>
+<div class="ulist">
+<ul>
+<li>
+<p>JTSResources01: Implicit context propagation</p>
+</li>
+<li>
+<p>JTSResources02: Explicit context propagation</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Sub-series</p>
+<div class="ulist">
+<ul>
+<li>
+<p>_ibmdb2_jndi</p>
+</li>
+<li>
+<p>_mssqlserver_jndi</p>
+</li>
+<li>
+<p>_mysql_jndi</p>
+</li>
+<li>
+<p>_oracle_thin_jndi</p>
+</li>
+<li>
+<p>_pgsql_jndi</p>
+</li>
+<li>
+<p>_sybase_jndi</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_jdbcresources_01_02_summary"><a class="anchor" href="#_jdbcresources_01_02_summary"></a>JDBCResources 01 &amp; 02 Summary</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Building blocks:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Interfaces: 1</p>
+</li>
+<li>
+<p>Implementations: 2</p>
+</li>
+<li>
+<p>Servers: 2</p>
+</li>
+<li>
+<p>Setups: 2</p>
+</li>
+<li>
+<p>Clients: 16</p>
+</li>
+<li>
+<p>Outcomes: 4</p>
+</li>
+<li>
+<p>Cleanups: 1</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Tests:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Configurations: 32</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_jdbcresources_01_02_interfaces"><a class="anchor" href="#_jdbcresources_01_02_interfaces"></a>JDBCResources 01 &amp; 02 Interfaces</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>InfoTable</p>
+<div class="ulist">
+<ul>
+<li>
+<p>insert(in string name, in string value)</p>
+</li>
+<li>
+<p>update(in string name, in string value)</p>
+</li>
+<li>
+<p>select(in string name, out string value)</p>
+</li>
+<li>
+<p>delete(in string name)</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_jdbcresources_01_02_implementations"><a class="anchor" href="#_jdbcresources_01_02_implementations"></a>JDBCResources 01 &amp; 02 Implementations</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>JDBCInfoTableImpl01</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates a single JDBC connection for all operations</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>JDBCInfoTableImpl02</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates a JDBC connection per operation</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_jdbcresources_01_02_server"><a class="anchor" href="#_jdbcresources_01_02_server"></a>JDBCResources 01 &amp; 02 Server</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Server01: 1 x JDBCInfoTableImpl01</p>
+</li>
+<li>
+<p>Server02: 1 x JDBCInfoTableImpl02</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_jdbcresources_01_02_setups"><a class="anchor" href="#_jdbcresources_01_02_setups"></a>JDBCResources 01 &amp; 02 Setups</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Setup01</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates Table InfoTable (Name VARCHAR(64), Value VARCHAR(64))</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Inserts 10 entries ("Name_’X’", "Value_’X’") [Where X is 0 … 9]</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Setup02</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates Table InfoTable (Name VARCHAR(64), Value VARCHAR(64))</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Inserts 10 entries ("Name_’X’", "Value_’X’") [Where X is 0 … 9]</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_jdbcresources_01_02_clients"><a class="anchor" href="#_jdbcresources_01_02_clients"></a>JDBCResources 01 &amp; 02 Clients</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Client01</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Obtains an InfoTable object</p>
+</li>
+<li>
+<p>Inserts 10 entries, no transaction</p>
+</li>
+<li>
+<p>Verify existence of inserted entries, no transaction</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client02</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Obtains an InfoTable object</p>
+</li>
+<li>
+<p>Inserts 10 entries, within transaction</p>
+</li>
+<li>
+<p>Verify existence of inserted entries, within transaction</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client03</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Obtains an InfoTable object</p>
+</li>
+<li>
+<p>Inserts 10 entries, within transaction</p>
+</li>
+<li>
+<p>Update entry, with transaction which rolls back</p>
+</li>
+<li>
+<p>Verify existence of inserted entries, within transaction</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client04</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Obtains an InfoTable object</p>
+</li>
+<li>
+<p>Inserts 10 entries, within transaction</p>
+</li>
+<li>
+<p>Delete entry, with transaction which rolls back</p>
+</li>
+<li>
+<p>Verify existence of inserted entries, within transaction</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client05</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Obtains an InfoTable object</p>
+</li>
+<li>
+<p>Inserts 10 entries, within transaction</p>
+</li>
+<li>
+<p>Update entry, within transaction</p>
+</li>
+<li>
+<p>Update same entry with old value, no transaction</p>
+</li>
+<li>
+<p>Verify existence of inserted entries, within transaction</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client06</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Obtains an InfoTable object</p>
+</li>
+<li>
+<p>Inserts 10 entries, within transaction</p>
+</li>
+<li>
+<p>Update entry, no transaction</p>
+</li>
+<li>
+<p>Update same entry with old value, within transaction</p>
+</li>
+<li>
+<p>Verify existence of inserted entries, within transaction</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client07</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Obtains two InfoTable objects</p>
+</li>
+<li>
+<p>Update 10 entries, split alternatively, over each object</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Name_’X’", "Value_’9-X’") [Where X is 0 … 9]</p>
+</li>
+<li>
+<p>No transaction</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client08</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Obtains two InfoTable objects</p>
+</li>
+<li>
+<p>Update 10 entries, split alternatively, over each object</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Name_’X’", "Value_’9-X’") [Where X is 0 … 9]</p>
+</li>
+<li>
+<p>Within transaction</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client09</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Obtains two InfoTable objects</p>
+</li>
+<li>
+<p>Update 10 entries, split alternatively, over each object</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Name_’X’", "Value_’9-X’") [Where X is 0 … 9]</p>
+</li>
+<li>
+<p>Within transaction, per update</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client10</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Obtains two InfoTable objects</p>
+</li>
+<li>
+<p>Update 10 entries, split alternatively, over each object</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Name_’X’", "Value_’9-X’") [Where X is 0 … 9]</p>
+</li>
+<li>
+<p>Within transaction, which rolls back</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client11</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Obtains two InfoTable objects</p>
+</li>
+<li>
+<p>Update 10 entries, split alternatively, over each object</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Name_’X’", "Value_’9-X’") [Where X is 0 … 9]</p>
+</li>
+<li>
+<p>Within transaction, per update, which rolls back</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client12</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Obtains two InfoTable objects</p>
+</li>
+<li>
+<p>Update 10 entries, in each object</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Name_’X’", "Value_’9-X’") [Where X is 0 … 9]</p>
+</li>
+<li>
+<p>No transaction</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client13</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Obtains two InfoTable objects</p>
+</li>
+<li>
+<p>Update 10 entries, in each object</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Name_’X’", "Value_’9-X’") [Where X is 0 … 9]</p>
+</li>
+<li>
+<p>Within transaction</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client14</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Obtains two InfoTable objects</p>
+</li>
+<li>
+<p>Update 10 entries, in each object</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Name_’X’", "Value_’9-X’") [Where X is 0 … 9]</p>
+</li>
+<li>
+<p>Within transaction, per update</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client15</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Obtains two InfoTable objects</p>
+</li>
+<li>
+<p>Update 10 entries, in each object</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Name_’X’", "Value_’9-X’") [Where X is 0 … 9]</p>
+</li>
+<li>
+<p>Within transaction, which rolls back</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client16</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Obtains two InfoTable objects</p>
+</li>
+<li>
+<p>Update 10 entries, in each object</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Name_’X’", "Value_’9-X’") [Where X is 0 … 9]</p>
+</li>
+<li>
+<p>Within transaction, per update, which rolls back</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_jdbcresources_01_02_outcomes"><a class="anchor" href="#_jdbcresources_01_02_outcomes"></a>JDBCResources 01 &amp; 02 Outcomes</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Outcome01</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Verify existence and values of inserted entries</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Outcome02</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Verify existence and values [reverse] of inserted entries</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Outcome03</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Verify existence and values of inserted entries, in two InfoTables</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Outcome04</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Verify existence and values [reverse] of inserted entries, in two InfoTables</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_jdbcresources_01_02_cleanups"><a class="anchor" href="#_jdbcresources_01_02_cleanups"></a>JDBCResources 01 &amp; 02 Cleanups</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Cleanup01</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Drops Table "InfoTable"</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_jdbcresources_01_02_configurations"><a class="anchor" href="#_jdbcresources_01_02_configurations"></a>JDBCResources 01 &amp; 02 Configurations</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Test001: 1 x Server01 + 1 x Client01</p>
+</li>
+<li>
+<p>Test002: 1 x Server01 + 1 x Client02</p>
+</li>
+<li>
+<p>Test003: 1 x Server01 + 1 x Client03</p>
+</li>
+<li>
+<p>Test004: 1 x Server01 + 1 x Client04</p>
+</li>
+<li>
+<p>Test005: 1 x Server01 + 1 x Client05</p>
+</li>
+<li>
+<p>Test006: 1 x Server01 + 1 x Client06</p>
+</li>
+<li>
+<p>Test007: 1 x Server02 + 1 x Client01</p>
+</li>
+<li>
+<p>Test008: 1 x Server02 + 1 x Client02</p>
+</li>
+<li>
+<p>Test009: 1 x Server02 + 1 x Client03</p>
+</li>
+<li>
+<p>Test010: 1 x Server02 + 1 x Client04</p>
+</li>
+<li>
+<p>Test011: 1 x Server02 + 1 x Client05</p>
+</li>
+<li>
+<p>Test012: 1 x Server02 + 1 x Client06</p>
+</li>
+<li>
+<p>Test013: 2 x Server01 + 1 x Client07 + Outcome02</p>
+</li>
+<li>
+<p>Test014: 2 x Server01 + 1 x Client08 + Outcome02</p>
+</li>
+<li>
+<p>Test015: 2 x Server01 + 1 x Client09 + Outcome02</p>
+</li>
+<li>
+<p>Test016: 2 x Server01 + 1 x Client10 + Outcome01</p>
+</li>
+<li>
+<p>Test017: 2 x Server01 + 1 x Client11 + Outcome01</p>
+</li>
+<li>
+<p>Test018: 2 x Server02 + 1 x Client07 + Outcome02</p>
+</li>
+<li>
+<p>Test019: 2 x Server02 + 1 x Client08 + Outcome02</p>
+</li>
+<li>
+<p>Test020: 2 x Server02 + 1 x Client09 + Outcome02</p>
+</li>
+<li>
+<p>Test021: 2 x Server02 + 1 x Client10 + Outcome01</p>
+</li>
+<li>
+<p>Test022: 2 x Server02 + 1 x Client11 + Outcome01</p>
+</li>
+<li>
+<p>Test023: 2 x Server01 + 1 x Client12 + Outcome04</p>
+</li>
+<li>
+<p>Test024: 2 x Server01 + 1 x Client13 + Outcome04</p>
+</li>
+<li>
+<p>Test025: 2 x Server01 + 1 x Client14 + Outcome04</p>
+</li>
+<li>
+<p>Test026: 2 x Server01 + 1 x Client15 + Outcome03</p>
+</li>
+<li>
+<p>Test027: 2 x Server01 + 1 x Client16 + Outcome03</p>
+</li>
+<li>
+<p>Test028: 2 x Server02 + 1 x Client12 + Outcome04</p>
+</li>
+<li>
+<p>Test029: 2 x Server02 + 1 x Client13 + Outcome04</p>
+</li>
+<li>
+<p>Test030: 2 x Server02 + 1 x Client14 + Outcome04</p>
+</li>
+<li>
+<p>Test031: 2 x Server02 + 1 x Client15 + Outcome03</p>
+</li>
+<li>
+<p>Test032: 2 x Server02 + 1 x Client16 + Outcome03</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_jdbcresources_03_04"><a class="anchor" href="#_jdbcresources_03_04"></a>JDBCResources 03 &amp; 04</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_overview_2"><a class="anchor" href="#_overview_2"></a>Overview</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Tests</p>
+<div class="ulist">
+<ul>
+<li>
+<p>JDBC Support – Conflict over resource</p>
+</li>
+<li>
+<p>May fail: Depending on DB’s behaviour</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Series</p>
+<div class="ulist">
+<ul>
+<li>
+<p>JTSResources03: Implicit context propagation</p>
+</li>
+<li>
+<p>JTSResources04: Explicit context propagation</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Sub-series</p>
+<div class="ulist">
+<ul>
+<li>
+<p>_ibmdb2_jndi</p>
+</li>
+<li>
+<p>_mssqlserver_jndi</p>
+</li>
+<li>
+<p>_mysql_jndi</p>
+</li>
+<li>
+<p>_oracle_thin_jndi</p>
+</li>
+<li>
+<p>_pgsql_jndi</p>
+</li>
+<li>
+<p>_sybase_jndi</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_jdbcresources_03_04_summary"><a class="anchor" href="#_jdbcresources_03_04_summary"></a>JDBCResources 03 &amp; 04 Summary</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Building blocks:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Interfaces: 1</p>
+</li>
+<li>
+<p>Implementations: 2</p>
+</li>
+<li>
+<p>Servers: 2</p>
+</li>
+<li>
+<p>Setups: 1</p>
+</li>
+<li>
+<p>Clients: 1</p>
+</li>
+<li>
+<p>Outcomes: 1</p>
+</li>
+<li>
+<p>Cleanups: 1</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Tests:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Configurations: 4</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_jdbcresources_03_04_interfaces"><a class="anchor" href="#_jdbcresources_03_04_interfaces"></a>JDBCResources 03 &amp; 04 Interfaces</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>NumberTable</p>
+<div class="ulist">
+<ul>
+<li>
+<p>get(in string name, out long value)</p>
+</li>
+<li>
+<p>set(in string name, in long value)</p>
+</li>
+<li>
+<p>increase(in string name)</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_jdbcresources_03_04_implementations"><a class="anchor" href="#_jdbcresources_03_04_implementations"></a>JDBCResources 03 &amp; 04 Implementations</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>JDBCNumberTableImpl01</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates a single JDBC connection for all operations</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>JDBCNumberTableImpl02</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates a JDBC connection per operation</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_jdbcresources_03_04_server"><a class="anchor" href="#_jdbcresources_03_04_server"></a>JDBCResources 03 &amp; 04 Server</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Server01: 1 x JDBCNumberTableImpl01</p>
+</li>
+<li>
+<p>Server02: 1 x JDBCNumberTableImpl02</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_jdbcresources_03_04_setups"><a class="anchor" href="#_jdbcresources_03_04_setups"></a>JDBCResources 03 &amp; 04 Setups</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Setup01</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates Table NumberTable</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Name VARCHAR(64), Value INTEGER)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Inserts n entries</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Name_’X’", "0") [Where X is 0 … n - 1]</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_jdbcresources_03_04_clients"><a class="anchor" href="#_jdbcresources_03_04_clients"></a>JDBCResources 03 &amp; 04 Clients</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Client01</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Operation</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Obtains an NumberTable object</p>
+</li>
+<li>
+<p>Begin transaction</p>
+</li>
+<li>
+<p>Gets Values for "Name_0" and "Name_1"</p>
+</li>
+<li>
+<p>Increase value associated with "Name_0"</p>
+</li>
+<li>
+<p>Sleeps 15 sec.</p>
+</li>
+<li>
+<p>Increase value associated with "Name_1"</p>
+</li>
+<li>
+<p>Gets Values for "Name_0" and "Name_1"</p>
+</li>
+<li>
+<p>Commit(true) transaction</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Passes if:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>New values are the same, and equals old values plus one, or</p>
+</li>
+<li>
+<p>InvocationException thrown with Reason "ReasonCantSerializeAccess"</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_jdbcresources_03_04_outcomes"><a class="anchor" href="#_jdbcresources_03_04_outcomes"></a>JDBCResources 03 &amp; 04 Outcomes</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Outcome01</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Verify first n entries (0 … n - 1) have value n</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_jdbcresources_03_04_cleanups"><a class="anchor" href="#_jdbcresources_03_04_cleanups"></a>JDBCResources 03 &amp; 04 Cleanups</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Cleanup01</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Drops Table "NumberTable"</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_jdbcresources_03_04_configurations"><a class="anchor" href="#_jdbcresources_03_04_configurations"></a>JDBCResources 03 &amp; 04 Configurations</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Test01: 1 x Server01 + 2 x Client01 + Outcome01</p>
+</li>
+<li>
+<p>Test02: 2 x Server01 + 2 x Client01 + Outcome01</p>
+</li>
+<li>
+<p>Test03: 1 x Server02 + 2 x Client01 + Outcome01</p>
+</li>
+<li>
+<p>Test04: 2 x Server02 + 2 x Client01 + Outcome01</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_currenttests"><a class="anchor" href="#_currenttests"></a>CurrentTests</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_overview_3"><a class="anchor" href="#_overview_3"></a>Overview</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Tests</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test Current interface</p>
+</li>
+<li>
+<p>Close to "Unit Tests"</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_currenttests01_summary"><a class="anchor" href="#_currenttests01_summary"></a>CurrentTests01 Summary</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Building blocks:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Interfaces: 0</p>
+</li>
+<li>
+<p>Implementations: 0</p>
+</li>
+<li>
+<p>Servers: 0</p>
+</li>
+<li>
+<p>Clients: 34</p>
+</li>
+<li>
+<p>Outcomes: 0</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Tests:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Configurations: 34</p>
+</li>
+<li>
+<p>TestXX.java maps to Test0XX.conf</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_currenttests_clients"><a class="anchor" href="#_currenttests_clients"></a>CurrentTests Clients</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Tests 01 through 16: Complete transaction and then check that a further operation throws NoTransaction:</p>
+</li>
+<li>
+<p>Test17</p>
+</li>
+</ul>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Tests 01 through 16</caption>
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Op To Check</th>
+<th class="tableblock halign-left valign-top">None</th>
+<th class="tableblock halign-left valign-top">begin commit(true)</th>
+<th class="tableblock halign-left valign-top">begin commit(false)</th>
+<th class="tableblock halign-left valign-top">begin rollback</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">commit(true)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test01</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test05</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test09</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test13</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">commit(false)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test02</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test06</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test14</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">rollback()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test03</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test07</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test15</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">rollback_only()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test04</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test08</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test12</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test16</p></td>
+</tr>
+</tbody>
+</table>
+<div class="ulist">
+<ul>
+<li>
+<p>Create a series if 1000 transactions, terminated with commit(true)</p>
+</li>
+<li>
+<p>Checks all names (get_transaction_name) are unique</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test18</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Create a series if 1000 transactions, terminated with commit(false)</p>
+</li>
+<li>
+<p>Checks all names (get_transaction_name) are unique</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test19</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Create a series if 1000 transactions, terminated with rollback()</p>
+</li>
+<li>
+<p>Checks all names (get_transaction_name) are unique</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test20</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Create and suspends 1000 transactions</p>
+</li>
+<li>
+<p>Resumes transactions in series</p>
+</li>
+<li>
+<p>Checks names (get_transaction_name) correspond</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test21</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Preamble: None</p>
+</li>
+<li>
+<p>Checks if suspend return null, then not transaction</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test22</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Preamble: begin(), commit(true)</p>
+</li>
+<li>
+<p>Checks if suspend return null, then not transaction</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test23</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Preamble: begin(), commit(false)</p>
+</li>
+<li>
+<p>Checks if suspend return null, then not transaction</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test24</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Preamble: begin(), rollback()</p>
+</li>
+<li>
+<p>Checks if suspend return null, then not transaction</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test25</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Checks resume(null) does not throw InvalidControl</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test26</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Checks that resume() of transaction terminated with commit(true) throws InvalidControl</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test27</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Checks that resume() of transaction terminated with commit(false) throws InvalidControl</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test28</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Checks that resume() of transaction terminated with rollback() throws InvalidControl</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test29</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Preamble: None</p>
+</li>
+<li>
+<p>Checks that get_status() when no transaction returns StatusNoTransaction</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test30</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Preamble: begin(), commit(true)</p>
+</li>
+<li>
+<p>Checks that get_status() when no transaction returns StatusNoTransaction</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test31</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Preamble: begin(), commit(false)</p>
+</li>
+<li>
+<p>Checks that get_status() when no transaction returns StatusNoTransaction</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test32</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Preamble: begin(), rollback()</p>
+</li>
+<li>
+<p>Checks that get_status() when no transaction returns StatusNoTransaction</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test33</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Checks that get_status() when in transaction returns StatusActive</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test34</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Checks that get_status() when in transaction marked roll back only returns StatusMarkedRollback</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_otsserver"><a class="anchor" href="#_otsserver"></a>OTSServer</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_overview_4"><a class="anchor" href="#_overview_4"></a>Overview</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Tests</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Tests OTSServer (a TransactionFactory interface implementation)</p>
+</li>
+<li>
+<p>Test001 to Test006 (Test003 to Test006 requires "DYNAMIC") - ClientXX.java maps to Test0XX.conf</p>
+</li>
+<li>
+<p>Test007 to Test012 - ClientXX.java maps to Test0XX.conf with args 1000</p>
+</li>
+<li>
+<p>Test013 to Test016 - Client13: x1, x2 with args 4 250 and x3, x4 with args 4 100</p>
+</li>
+<li>
+<p>Test017 to Test020 - Client13: x1, x2 with args 4 250 and x3, x4 with args 4 100</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_otsserver_summary"><a class="anchor" href="#_otsserver_summary"></a>OTSServer Summary</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Building blocks:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Interfaces: 0</p>
+</li>
+<li>
+<p>Implementations: 0</p>
+</li>
+<li>
+<p>Servers: 1 (OTS_Server)</p>
+</li>
+<li>
+<p>Clients: 14</p>
+</li>
+<li>
+<p>Outcomes: 0</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Tests:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Configurations: 20</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_otsserver_clients"><a class="anchor" href="#_otsserver_clients"></a>OTSServer Clients</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Test01</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates a transaction via transactionFactory.create(0)</p>
+</li>
+<li>
+<p>Check its status is StatusActive</p>
+</li>
+<li>
+<p>Check commit(true) does not throw exception</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Test02</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates a transaction via transactionFactory.create(0)</p>
+</li>
+<li>
+<p>Check its status is StatusActive</p>
+</li>
+<li>
+<p>Check rollback() does not throw exception</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Test03</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates a transaction via transactionFactory.create(4)</p>
+</li>
+<li>
+<p>Check its status is StatusRolledBack, after 8 seconds</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Test04</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates a transaction via transactionFactory.create(4)</p>
+</li>
+<li>
+<p>Check commit(true) throws INVALID_TRANSACTION or BAD_OPERATION, after 8 seconds</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Test05</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates a transaction via transactionFactory.create(4)</p>
+</li>
+<li>
+<p>Check commit(false) throws INVALID_TRANSACTION or BAD_OPERATION, after 8 seconds</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Test06</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates a transaction via transactionFactory.create(4)</p>
+</li>
+<li>
+<p>Check commit(true) throws INVALID_TRANSACTION or BAD_OPERATION, after 8 seconds</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Test07</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates a transaction via transactionFactory.create(0)</p>
+</li>
+<li>
+<p>Check its status is StatusActive</p>
+</li>
+<li>
+<p>Check commit(true) does not throw exception, repeat n times</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Test08</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates a transaction via transactionFactory.create(0)</p>
+</li>
+<li>
+<p>Check its status is StatusActive</p>
+</li>
+<li>
+<p>Check commit(false) does not throw exception, repeat n times</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Test09</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates a transaction via transactionFactory.create(0)</p>
+</li>
+<li>
+<p>Check its status is StatusActive</p>
+</li>
+<li>
+<p>Check rollback() does not throw exception, repeat n times</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Test10</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates a transaction via transactionFactory.create(0), repeat n times</p>
+</li>
+<li>
+<p>Check each status is StatusActive</p>
+</li>
+<li>
+<p>Check each commit(true) does not throw exception</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Test11</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates a transaction via transactionFactory.create(0), repeat n times</p>
+</li>
+<li>
+<p>Check each status is StatusActive</p>
+</li>
+<li>
+<p>Check each commit(false) does not throw exception</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Test12</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates a transaction via transactionFactory.create(0), repeat n times</p>
+</li>
+<li>
+<p>Check each status is StatusActive</p>
+</li>
+<li>
+<p>Check each rollback() does not throw exception</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Test13</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Create n threads which does m times</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates a transaction via transactionFactory.create(0)</p>
+</li>
+<li>
+<p>Check its status is StatusActive</p>
+</li>
+<li>
+<p>Checks commit(true), commit(false), rollback(), alternatively, does not throw an exception</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Test14</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Create n threads which does</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates a transaction via transactionFactory.create(0) m times</p>
+</li>
+<li>
+<p>Check each status is StatusActive</p>
+</li>
+<li>
+<p>Checks each commit(true), commit(false), rollback(), alternatively, does not throw an exception</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_aitresources"><a class="anchor" href="#_aitresources"></a>AITResources</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_overview_5"><a class="anchor" href="#_overview_5"></a>Overview</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AIT</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Advanced(/Arjuna) Integrated(/Interface) Transactions</p>
+</li>
+<li>
+<p>Transactional Objects for Java</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Series</p>
+<div class="ulist">
+<ul>
+<li>
+<p>AITResources01: Implicit context propagation</p>
+</li>
+<li>
+<p>AITResources02: Explicit context propagation</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Tests</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Transaction Engine</p>
+</li>
+<li>
+<p>AIT support</p>
+</li>
+<li>
+<p>Context propagation</p>
+</li>
+<li>
+<p>Memory problems</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_aitresources_01_02_summary"><a class="anchor" href="#_aitresources_01_02_summary"></a>AITResources 01 &amp; 02 Summary</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Building blocks:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Interfaces: 2 (Counter &amp; PingPong)</p>
+</li>
+<li>
+<p>Implementations: 4 (3 Counter, 1 PingPong)</p>
+</li>
+<li>
+<p>Servers: 10</p>
+</li>
+<li>
+<p>Clients: 17</p>
+</li>
+<li>
+<p>Outcomes: 2</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Tests:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Functional: 44</p>
+</li>
+<li>
+<p>Memory: 14</p>
+</li>
+<li>
+<p>Configurations: 58</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_aitresources_interfaces"><a class="anchor" href="#_aitresources_interfaces"></a>AITResources Interfaces</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Counter</p>
+<div class="ulist">
+<ul>
+<li>
+<p>get()</p>
+</li>
+<li>
+<p>set()</p>
+</li>
+<li>
+<p>increase()</p>
+</li>
+<li>
+<p>getMemory()</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>PingPong</p>
+<div class="ulist">
+<ul>
+<li>
+<p>hit(count, ping, pong)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>If count != 0, call hit on ping, with count-1, and ping and pong swapped</p>
+</li>
+<li>
+<p>If count == 0, increase a value in object</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>bad_hit(count, bad_count, ping, pong)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>similar to hit(), except if bad_count == 0, abort transaction</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>get()</p>
+</li>
+<li>
+<p>getMemory()</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_aitresources_implementations"><a class="anchor" href="#_aitresources_implementations"></a>AITResources Implementations</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>AITCounterImpl01 - Operations create [nested] transactions (AtomicTransaction)</p>
+</li>
+<li>
+<p>AITCounterImpl02 - Operations create [nested] transactions (OTS.current)</p>
+</li>
+<li>
+<p>AITCounterImpl03 - Operations do not create transactions</p>
+</li>
+<li>
+<p>AITPingPongImpl01 - Operations create [nested] transactions (AtomicTransaction)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_aitresources_server"><a class="anchor" href="#_aitresources_server"></a>AITResources Server</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Server01: 1 x AITCounterImpl01</p>
+</li>
+<li>
+<p>Server02: 4 x AITCounterImpl01</p>
+</li>
+<li>
+<p>Server03: 1 x AITCounterImpl02</p>
+</li>
+<li>
+<p>Server04: 4 x AITCounterImpl02</p>
+</li>
+<li>
+<p>Server05: 1 x AITCounterImpl01, 1 x AITCounterImpl02</p>
+</li>
+<li>
+<p>Server06: 2 x AITCounterImpl01, 2 x AITCounterImpl02</p>
+</li>
+<li>
+<p>Server07: 1 x AITPingPongImpl01</p>
+</li>
+<li>
+<p>Server08: 2 x AITPingPongImpl01</p>
+</li>
+<li>
+<p>Server09: 1 x AITCounterImpl03</p>
+</li>
+<li>
+<p>Server10: 4 x AITCounterImpl03</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_aitresources_clients"><a class="anchor" href="#_aitresources_clients"></a>AITResources Clients</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Client01</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Performs 1000 increase(), no client transaction</p>
+</li>
+<li>
+<p>Does get() to check counter value now 1000</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client02</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Performs 1000 increase(), each with own transaction</p>
+</li>
+<li>
+<p>Transactions are alternatively committed/rolled back</p>
+</li>
+<li>
+<p>Does get() to check counter value now 500</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client03</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Memory check version of Client01</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client04</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Memory check version of Client02</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client05</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Performs 10 hit(), with count 0,1,2 … 9, ping and pong same, no client transaction</p>
+</li>
+<li>
+<p>Does get() to check value now 10</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client06</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Performs 10 hit(), with count 0,1,2 … 9, ping and pong different, no client transaction</p>
+</li>
+<li>
+<p>Does get(), on both ping and pong, to check values are now 5</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client07</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Memory check version of Client05</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client08</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Memory check version of Client06</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client09</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Performs 1000 successful increase(), no client transaction</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client10</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Performs 10 bad_hit(), with count 0,1,2 … 9, for each bad_count 0 … count, ping and pong same, no client transaction</p>
+</li>
+<li>
+<p>Does get() to check value now 0</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client11</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Performs 10 bad_hit(), with count 0,1,2 … 9 , for each bad_count 0 … count, ping and pong different, no client transaction</p>
+</li>
+<li>
+<p>Does get(), on both ping and pong, to check values are now 0</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client12</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Memory check version of Client10</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client13</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Memory check version of Client11</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client14</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates n threads, which each performs m successful increase(), no client transaction</p>
+</li>
+<li>
+<p>Does get() to check counter value now n * m</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client15</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Memory check version of Client14</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client16</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates n threads, which each performs m successful increase(), each with own transaction, commits if increase() was successful, rolls bask if increase() was unsuccessful</p>
+</li>
+<li>
+<p>Does get() to check counter value now n * m</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client17</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Memory check version of Client16</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_aitresources_outcomes"><a class="anchor" href="#_aitresources_outcomes"></a>AITResources Outcomes</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Outcome01</p>
+</li>
+<li>
+<p>Checks if a counter has an "expected value"</p>
+</li>
+<li>
+<p>Outcome02</p>
+</li>
+<li>
+<p>Checks if two counters has an "expected value"</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_aitresources_memory_tests"><a class="anchor" href="#_aitresources_memory_tests"></a>AITResources Memory Tests</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>General form:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Perform test pattern (reduced)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Make sure all classes loaded</p>
+</li>
+<li>
+<p>Caches full</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Get memory of all Clients and Servers</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Repeat: run GC, get memory until no further decreases</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Perform test pattern</p>
+</li>
+<li>
+<p>Get memory of all Clients and Servers</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Repeat: run GC, get memory until no further decreases</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Perform check</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_crashrecovery"><a class="anchor" href="#_crashrecovery"></a>CrashRecovery</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_crashrecovery_summary"><a class="anchor" href="#_crashrecovery_summary"></a>CrashRecovery Summary</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>CrashRecovery01</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Tests replay_completion (Implicit context propagation)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>CrashRecovery02 (_1: One resource &amp; _2: Two resource)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Tests behaviour server crash (Implicit context propagation)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>CrashRecovery03</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Tests replay_completion called with null (Implicit context propagation)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>CrashRecovery04</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Tests replay_completion (Explicit context propagation)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>CrashRecovery05 (_1: One resource &amp; _2: Two resource)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Tests behaviour server crash (Explicit context propagation)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>CrashRecovery06</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Tests replay_completion called with null (Explicit context propagation)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>CrashRecovery07</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Tests behaviour client crash (Implicit context propagation)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>CrashRecovery08</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Tests behaviour client crash (Explicit context propagation)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>CrashRecovery09</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Tests automatic TO (AIT) resource initiated crash recovery (Implicit context propagation)</p>
+</li>
+<li>
+<p>Not supported by system, if passes caused by recovery manager initiated crash recovery ]</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>CrashRecovery10</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Tests automatic TO (AIT) resource initiated crash recovery (Explicit context propagation)</p>
+</li>
+<li>
+<p>Not supported by system, if passes caused by recovery manager initiated crash recovery ]</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>

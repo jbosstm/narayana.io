@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>JTA</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+/*! Stylesheet for CodeRay to loosely match GitHub themes | MIT License */
+pre.CodeRay{background:#f7f7f8}
+.CodeRay .line-numbers{border-right:1px solid;opacity:.35;padding:0 .5em 0 0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+.CodeRay span.line-numbers{display:inline-block;margin-right:.75em}
+.CodeRay .line-numbers strong{color:#000}
+table.CodeRay{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.CodeRay td{vertical-align:top;line-height:inherit}
+table.CodeRay td.line-numbers{text-align:right}
+table.CodeRay td.code{padding:0 0 0 .75em}
+.CodeRay .debug{color:#fff!important;background:navy!important}
+.CodeRay .annotation{color:#007}
+.CodeRay .attribute-name{color:navy}
+.CodeRay .attribute-value{color:#700}
+.CodeRay .binary{color:#509}
+.CodeRay .comment{color:#998;font-style:italic}
+.CodeRay .char{color:#04d}
+.CodeRay .char .content{color:#04d}
+.CodeRay .char .delimiter{color:#039}
+.CodeRay .class{color:#458;font-weight:bold}
+.CodeRay .complex{color:#a08}
+.CodeRay .constant,.CodeRay .predefined-constant{color:teal}
+.CodeRay .color{color:#099}
+.CodeRay .class-variable{color:#369}
+.CodeRay .decorator{color:#b0b}
+.CodeRay .definition{color:#099}
+.CodeRay .delimiter{color:#000}
+.CodeRay .doc{color:#970}
+.CodeRay .doctype{color:#34b}
+.CodeRay .doc-string{color:#d42}
+.CodeRay .escape{color:#666}
+.CodeRay .entity{color:#800}
+.CodeRay .error{color:#808}
+.CodeRay .exception{color:inherit}
+.CodeRay .filename{color:#099}
+.CodeRay .function{color:#900;font-weight:bold}
+.CodeRay .global-variable{color:teal}
+.CodeRay .hex{color:#058}
+.CodeRay .integer,.CodeRay .float{color:#099}
+.CodeRay .include{color:#555}
+.CodeRay .inline{color:#000}
+.CodeRay .inline .inline{background:#ccc}
+.CodeRay .inline .inline .inline{background:#bbb}
+.CodeRay .inline .inline-delimiter{color:#d14}
+.CodeRay .inline-delimiter{color:#d14}
+.CodeRay .important{color:#555;font-weight:bold}
+.CodeRay .interpreted{color:#b2b}
+.CodeRay .instance-variable{color:teal}
+.CodeRay .label{color:#970}
+.CodeRay .local-variable{color:#963}
+.CodeRay .octal{color:#40e}
+.CodeRay .predefined{color:#369}
+.CodeRay .preprocessor{color:#579}
+.CodeRay .pseudo-class{color:#555}
+.CodeRay .directive{font-weight:bold}
+.CodeRay .type{font-weight:bold}
+.CodeRay .predefined-type{color:inherit}
+.CodeRay .reserved,.CodeRay .keyword{color:#000;font-weight:bold}
+.CodeRay .key{color:#808}
+.CodeRay .key .delimiter{color:#606}
+.CodeRay .key .char{color:#80f}
+.CodeRay .value{color:#088}
+.CodeRay .regexp .delimiter{color:#808}
+.CodeRay .regexp .content{color:#808}
+.CodeRay .regexp .modifier{color:#808}
+.CodeRay .regexp .char{color:#d14}
+.CodeRay .regexp .function{color:#404;font-weight:bold}
+.CodeRay .string{color:#d20}
+.CodeRay .string .string .string{background:#ffd0d0}
+.CodeRay .string .content{color:#d14}
+.CodeRay .string .char{color:#d14}
+.CodeRay .string .delimiter{color:#d14}
+.CodeRay .shell{color:#d14}
+.CodeRay .shell .delimiter{color:#d14}
+.CodeRay .symbol{color:#990073}
+.CodeRay .symbol .content{color:#a60}
+.CodeRay .symbol .delimiter{color:#630}
+.CodeRay .tag{color:teal}
+.CodeRay .tag-special{color:#d70}
+.CodeRay .variable{color:#036}
+.CodeRay .insert{background:#afa}
+.CodeRay .delete{background:#faa}
+.CodeRay .change{color:#aaf;background:#007}
+.CodeRay .head{color:#f8f;background:#505}
+.CodeRay .insert .insert{color:#080}
+.CodeRay .delete .delete{color:#800}
+.CodeRay .change .change{color:#66f}
+.CodeRay .head .head{color:#f4f}
+</style>
+</head>
+<body class="book toc2 toc-left">
+<div id="header">
+<h1>JTA</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_administration">1. Administration</a>
+<ul class="sectlevel2">
+<li><a href="#jta_introduction">1.1. Introduction</a></li>
+<li><a href="#_starting_and_stopping_the_transaction_manager">1.2. Starting and Stopping the Transaction Manager</a></li>
+<li><a href="#_selecting_the_jta_implementation">1.3. Selecting the JTA implementation</a></li>
+</ul>
+</li>
+<li><a href="#_development">2. Development</a>
+<ul class="sectlevel2">
+<li><a href="#_jdbc_and_transactions">2.1. JDBC and Transactions</a></li>
+<li><a href="#_examples">2.2. Examples</a></li>
+<li><a href="#_using_narayana_in_application_servers">2.3. Using Narayana in application servers</a></li>
+</ul>
+</li>
+<li><a href="#_installation">3. Installation</a>
+<ul class="sectlevel2">
+<li><a href="#_quick_start_to_jta">3.1. Quick Start to JTA</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_administration"><a class="anchor" href="#_administration"></a>1. Administration</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="jta_introduction"><a class="anchor" href="#jta_introduction"></a>1.1. Introduction</h3>
+<div class="paragraph">
+<p>The notions explained here are to be considered as extensions of what has already been presented in the <a href="#important_points_for_administrators">General Procedures' Administration section</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_starting_and_stopping_the_transaction_manager"><a class="anchor" href="#_starting_and_stopping_the_transaction_manager"></a>1.2. Starting and Stopping the Transaction Manager</h3>
+<div class="paragraph">
+<p>By default, the transaction manager starts up in an active state such that new transactions can be created immediately.
+If you wish to have more control over this it is possible to set the <code>CoordinatorEnvironmentBean.startDisabled</code> configuration option to <code>YES</code> and in which case no transactions can be created until the transaction manager is enabled via a call to method <code>TxControl.enable</code>).</p>
+</div>
+<div class="paragraph">
+<p>It is possible to stop the creation of new transactions at any time by calling method <code>TxControl.disable</code>.
+Transactions that are currently executing will not be affected.
+By default, recovery will be allowed to continue and the transaction system will still be available to manage recovery requests from other instances in a distributed environment.
+(See the Failure Recovery Guide for further details).
+However, if you wish to disable recovery as well as remove any resources it maintains, then you can pass <code>true</code> to method <code>TxControl.disable</code>; the default is to use <code>false</code>.</p>
+</div>
+<div class="paragraph">
+<p>If you wish to shut the system down completely then it may also be necessary to terminate the background transaction reaper (see the Programmers Guide for information about what the reaper does).
+In order to do this you may want to first prevent the creation of new transactions (if you are not creating transactions with timeouts then this step is not necessary) using method <code>TxControl.disable</code>.
+Then you should call method <code>TransactionReaper.terminate</code>.
+This method takes a Boolean parameter: if <code>true</code> then the method will wait for the normal timeout periods associated with any transactions to expire before terminating the transactions; if <code>false</code> then transactions will be forced to terminate (rollback or have their outcome set such that they can only ever rollback) immediately.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>if you intend to restart the recovery manager later after having terminated, it then you MUST use the <code>TransactionReapear.terminate</code> method with asynchronous behavior set to <code>false</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_selecting_the_jta_implementation"><a class="anchor" href="#_selecting_the_jta_implementation"></a>1.3. Selecting the JTA implementation</h3>
+<div class="paragraph">
+<p>Two variants of the JTA implementation are accessible through the same interface.
+These are:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Purely local JTA</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Only non-distributed JTA transactions are executed. This is the only version available with the Narayana distribution.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Remote, CORBA-based JTA</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Executes distributed JTA transactions. This functionality is provided by the JTS distribution and requires a supported CORBA ORB. Consult the JTS Installation and Administration Guide for more information.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Both of these implementations are fully compatible with the transactional JDBC driver.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Set the property <code>JTAEnvironmentBean.jtaTMImplementation</code> to value <code>com.arjuna.ats.internal.jta.transaction.arjunacore.TransactionManagerImple</code>.</p>
+</li>
+<li>
+<p>Set the property <code>JTAEnvironmentBean.jtaUTImplementation</code> to value <code>com.arjuna.ats.internal.jta.transaction.arjunacore.UserTransactionImple</code>.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>These settings are the default values for the properties, so nothing needs to be changed to use the local implementation.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_development"><a class="anchor" href="#_development"></a>2. Development</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_jdbc_and_transactions"><a class="anchor" href="#_jdbc_and_transactions"></a>2.1. JDBC and Transactions</h3>
+<div class="sect3">
+<h4 id="_using_the_transactional_jdbc_driver"><a class="anchor" href="#_using_the_transactional_jdbc_driver"></a>2.1.1. Using the transactional JDBC driver</h4>
+<div class="paragraph">
+<p>Narayana supports construction of both local and distributed transactional applications which access databases using the JDBC APIs.
+JDBC supports two-phase commit of transactions, and is similar to the XA X/Open standard. Narayana provides JDBC support in package <code>com.arjuna.ats.jdbc</code>.
+A list of the tested drivers is available from the Narayana website.</p>
+</div>
+<div class="paragraph">
+<p>Only use the transactional JDBC support provided in package <code>com.arjuna.ats.jdbc</code> when you are using Narayana outside of an application server, such as WildFly Application Server, or another container.
+Otherwise, use the JDBC support provided by your application server or container.</p>
+</div>
+<div class="sect4">
+<h5 id="_managing_transactions"><a class="anchor" href="#_managing_transactions"></a>Managing transactions</h5>
+<div class="paragraph">
+<p>Narayana needs the ability to associate work performed on a JDBC connection with a specific transaction.
+Therefore, applications need to use a combination of implicit transaction propagation and indirect transaction management.
+For each JDBC connection, Narayana must be able to determine the invoking thread&#8217;s current transaction context.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_restrictions"><a class="anchor" href="#_restrictions"></a>Restrictions</h5>
+<div class="paragraph">
+<p>Nested transactions are not supported by JDBC.
+If you try to use a JDBC connection within a subtransaction, Narayana throws a suitable exception and no work is allowed on that connection.
+However, if you need nested transactions, and are comfortable with straying from the JDBC standard, you can set property <code>com.arjuna.ats.jta.supportSubtransactions</code> property to <code>YES</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_transactional_drivers"><a class="anchor" href="#_transactional_drivers"></a>2.1.2. Transactional drivers</h4>
+<div class="paragraph">
+<p>The approach Narayana takes for incorporating JDBC connections within transactions is to provide transactional JDBC drivers as conduits for all interactions.
+These drivers intercept all invocations and ensure that they are registered with, and driven by, appropriate transactions.
+The driver <code>com.arjuna.ats.jdbc.TransactionalDriver</code> handles all JDBC drivers, implementing the <code>java.sql.Driver</code> interface.
+If the database is not transactional, ACID properties cannot be guaranteed.</p>
+</div>
+<div class="sect4">
+<h5 id="_loading_drivers"><a class="anchor" href="#_loading_drivers"></a>Loading drivers</h5>
+<div class="listingblock">
+<div class="title">Instantiating and using the driver within an application</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">TransactionalDriver arjunaJDBC2Driver = <span class="keyword">new</span> TransactionalDriver(); </code></pre>
+</div>
+</div>
+<div class="exampleblock">
+<div class="title">Example 1. Registering the drivers with the JDBC driver manager using the Java system properties</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Properties</span> p = <span class="predefined-type">System</span>.getProperties();
+
+<span class="keyword">switch</span> (dbType) {
+<span class="keyword">case</span> MYSQL:
+    p.put(<span class="string"><span class="delimiter">&quot;</span><span class="content">jdbc.drivers</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">com.mysql.jdbc.Driver</span><span class="delimiter">&quot;</span></span>);
+    <span class="keyword">break</span>;
+<span class="keyword">case</span> PGSQL:
+    p.put(<span class="string"><span class="delimiter">&quot;</span><span class="content">jdbc.drivers</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">org.postgresql.Driver</span><span class="delimiter">&quot;</span></span>);
+    <span class="keyword">break</span>;
+}
+
+<span class="predefined-type">System</span>.setProperties(p);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The jdbc.drivers property contains a colon-separated list of driver class names, which the JDBC driver manager loads when it is initialized.
+After the driver is loaded, you can use it to make a connection with a database.</p>
+</div>
+</div>
+</div>
+<div class="exampleblock">
+<div class="title">Example 2. Using the <code>Class.forName</code> method</div>
+<div class="content">
+<div class="paragraph">
+<p>Calling <code>Class.forName()</code> automatically registers the driver with the JDBC driver manager.
+It is also possible to explicitly create an instance of the JDBC driver.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">sun.jdbc.odbc.JdbcOdbcDriver drv = <span class="keyword">new</span> sun.jdbc.odbc.JdbcOdbcDriver();
+
+<span class="predefined-type">DriverManager</span>.registerDriver(drv);</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_connections"><a class="anchor" href="#_connections"></a>2.1.3. Connections</h4>
+<div class="paragraph">
+<p>Because Narayana provides JDBC connectivity via its own JDBC driver, application code can support transactions with relatively small code changes.
+Typically, the application programmer only needs to start and terminate transactions.</p>
+</div>
+<div class="sect4">
+<h5 id="_jdbc"><a class="anchor" href="#_jdbc"></a>JDBC</h5>
+<div class="paragraph">
+<p>The Narayana driver accepts the following properties, all located in class <code>com.arjuna.ats.jdbc.TransactionalDriver</code>.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">username</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the database username</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">password</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the database password</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">createDb</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">creates the database automatically if set to <code>true</code>. Not all JDBC implementations support this.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">dynamicClass</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">specifies a class to instantiate to connect to the database, instead of using JNDI.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_xadatasources"><a class="anchor" href="#_xadatasources"></a>XADataSources</h5>
+<div class="paragraph">
+<p>JDBC connections are created from appropriate DataSources.
+Connections which participate in distributed transactions are obtained from XADataSources.
+When using a JDBC driver, Narayana uses the appropriate <code>DataSource</code> whenever a connection to the database is made.
+It then obtains XAResources and registers them with the transaction via the JTA interfaces.
+The transaction service uses these XAResources when the transaction terminates in order to drive the database to either commit or roll back the changes made via the JDBC connection.</p>
+</div>
+<div class="paragraph">
+<p>Narayana JDBC support can obtain XADataSources through the Java Naming and Directory Interface (JNDI) or dynamic class instantiation.</p>
+</div>
+<div class="sect5">
+<h6 id="_java_naming_and_directory_interface_jndi"><a class="anchor" href="#_java_naming_and_directory_interface_jndi"></a>Java naming and directory interface (JNDI)</h6>
+<div class="paragraph">
+<p>A JDBC driver can use arbitrary <code>DataSources</code> without having to know specific details about their implementations, by using JNDI.
+A specific <code>DataSource</code> or <code>XADataSource</code> can be created and registered with an appropriate JNDI implementation, and the application, or JDBC driver, can later bind to and use it.
+Since JNDI only allows the application to see the <code>DataSource</code> or <code>XADataSource</code> as an instance of the interface (e.g., <code>javax.sql.XADataSource</code>) rather than as an instance of the implementation class (e.g., <code>com.mydb.myXADataSource</code>), the application is not tied at build-time to only use a specific implementation.</p>
+</div>
+<div class="paragraph">
+<p>For the <code>TransactionalDriver</code> class to use a JNDI-registered <code>XADataSource</code>, you need to create the <code>XADataSource</code> instance and store it in an appropriate JNDI implementation.
+Details of how to do this can be found in the JDBC tutorial available at the Java website.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 3. Storing a datasource in a JNDI implementation</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">XADataSource</span> ds = MyXADataSource();
+<span class="predefined-type">Hashtable</span> env = <span class="keyword">new</span> <span class="predefined-type">Hashtable</span>();
+<span class="predefined-type">String</span> initialCtx = PropertyManager.getProperty(<span class="string"><span class="delimiter">&quot;</span><span class="content">Context.INITIAL_CONTEXT_FACTORY</span><span class="delimiter">&quot;</span></span>);
+
+env.put(<span class="predefined-type">Context</span>.INITIAL_CONTEXT_FACTORY, initialCtx);
+
+initialContext ctx = <span class="keyword">new</span> <span class="predefined-type">InitialContext</span>(env);
+
+ctx.bind(<span class="string"><span class="delimiter">&quot;</span><span class="content">jdbc/foo</span><span class="delimiter">&quot;</span></span>, ds);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>Context.INITIAL_CONTEXT_FACTORY</code> property is the JNDI way of specifying the type of JNDI implementation to use.</p>
+</div>
+<div class="paragraph">
+<p>The application must pass an appropriate connection URL to the JDBC driver:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Properties</span> dbProps = <span class="keyword">new</span> <span class="predefined-type">Properties</span>();
+
+dbProps.setProperty(TransactionalDriver.userName, <span class="string"><span class="delimiter">&quot;</span><span class="content">user</span><span class="delimiter">&quot;</span></span>);
+dbProps.setProperty(TransactionalDriver.password, <span class="string"><span class="delimiter">&quot;</span><span class="content">password</span><span class="delimiter">&quot;</span></span>);
+
+<span class="comment">// the driver uses its own JNDI context info, remember to set it up:</span>
+jdbcPropertyManager.propertyManager.setProperty(<span class="string"><span class="delimiter">&quot;</span><span class="content">Context.INITIAL_CONTEXT_FACTORY</span><span class="delimiter">&quot;</span></span>, initialCtx);
+jdbcPropertyManager.propertyManager.setProperty(<span class="string"><span class="delimiter">&quot;</span><span class="content">Context.PROVIDER_URL</span><span class="delimiter">&quot;</span></span>, myUrl);
+
+TransactionalDriver arjunaJDBCDriver = <span class="keyword">new</span> TransactionalDriver();
+<span class="predefined-type">Connection</span> connection = arjunaJDBCDriver.connect(<span class="string"><span class="delimiter">&quot;</span><span class="content">jdbc:arjuna:jdbc/foo</span><span class="delimiter">&quot;</span></span>, dbProps);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The JNDI URL must be pre-pended with <code>jdbc:arjuna:</code> in order for the <code>TransactionalDriver</code> to recognize that the <code>DataSource</code> must participate within transactions and be driven accordingly.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_dynamic_class_instantiation"><a class="anchor" href="#_dynamic_class_instantiation"></a>Dynamic class instantiation</h6>
+<div class="paragraph">
+<p>If a JNDI implementation is not available. you can specify an implementation of the <code>DynamicClass</code> interface, which is used to get the <code>XADataSource</code> object.
+This is not recommended, but provides a fallback for environments where use of JNDI is not feasible.</p>
+</div>
+<div class="paragraph">
+<p>Use the property <code>TransactionalDriver.dynamicClass</code> to specify the implementation to use.
+An example is <code>PropertyFileDynamicClass</code>, a DynamicClass implementation that reads the <code>XADataSource</code> implementation class name and configuration properties from a file, then instantiates and configures it.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">Deprecated class</div>
+<div class="paragraph">
+<p>The oracle_8_1_6 dynamic class is deprecated and should not be used.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="exampleblock">
+<div class="title">Example 4. Instantiating a dynamic class</div>
+<div class="content">
+<div class="paragraph">
+<p>The application code must specify which dynamic class the TransactionalDriver should instantiate when setting up the connection:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Properties</span> dbProps = <span class="keyword">new</span> <span class="predefined-type">Properties</span>();
+
+dbProps.setProperty(TransactionalDriver.userName, <span class="string"><span class="delimiter">&quot;</span><span class="content">user</span><span class="delimiter">&quot;</span></span>);
+dbProps.setProperty(TransactionalDriver.password, <span class="string"><span class="delimiter">&quot;</span><span class="content">password</span><span class="delimiter">&quot;</span></span>);
+dbProps.setProperty(TransactionalDriver.dynamicClass, <span class="string"><span class="delimiter">&quot;</span><span class="content">com.arjuna.ats.internal.jdbc.drivers.PropertyFileDynamicClass</span><span class="delimiter">&quot;</span></span>);
+
+TransactionalDriver arjunaJDBC2Driver = <span class="keyword">new</span> TransactionalDriver();
+<span class="predefined-type">Connection</span> connection = arjunaJDBC2Driver.connect(<span class="string"><span class="delimiter">&quot;</span><span class="content">jdbc:arjuna:/path/to/property/file</span><span class="delimiter">&quot;</span></span>, dbProperties);</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_using_the_connection"><a class="anchor" href="#_using_the_connection"></a>Using the connection</h5>
+<div class="paragraph">
+<p>Once the connection is established, all operations on the connection are monitored by Narayana. you do not need to use the transactional connection within transactions.
+If a transaction is not present when the connection is used, then operations are performed directly on the database.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>JDBC does not support subtransactions.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>You can use transaction timeouts to automatically terminate transactions if a connection is not terminated within an appropriate period.</p>
+</div>
+<div class="paragraph">
+<p>You can use Narayana connections within multiple transactions simultaneously.
+An example would be different threads, with different notions of the current transaction. Narayana does connection pooling for each transaction within the JDBC connection.
+Although multiple threads may use the same instance of the JDBC connection, internally there may be a separate connection for each transaction.
+With the exception of method <code>close</code>, all operations performed on the connection at the application level are only performed on this transaction-specific connection.</p>
+</div>
+<div class="paragraph">
+<p>Narayana automatically registers the JDBC driver connection with the transaction via an appropriate resource.
+When the transaction terminates, this resource either commits or rolls back any changes made to the underlying database via appropriate calls on the JDBC driver.</p>
+</div>
+<div class="paragraph">
+<p>Once created, the driver and any connection can be used in the same way as any other JDBC driver or connection.</p>
+</div>
+<div class="listingblock">
+<div class="title">Creating and using a connection</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Statement</span> stmt = conn.createStatement();
+
+<span class="keyword">try</span> {
+    stmt.executeUpdate(<span class="string"><span class="delimiter">&quot;</span><span class="content">CREATE TABLE test_table (a INTEGER,b INTEGER)</span><span class="delimiter">&quot;</span></span>);
+} <span class="keyword">catch</span> (<span class="exception">SQLException</span> e) {
+    <span class="comment">// table already exists</span>
+}
+
+stmt.executeUpdate(<span class="string"><span class="delimiter">&quot;</span><span class="content">INSERT INTO test_table (a, b) VALUES (1,2)</span><span class="delimiter">&quot;</span></span>);
+
+<span class="predefined-type">ResultSet</span> res1 = stmt.executeQuery(<span class="string"><span class="delimiter">&quot;</span><span class="content">SELECT * FROM test_table</span><span class="delimiter">&quot;</span></span>);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_connection_pooling"><a class="anchor" href="#_connection_pooling"></a>Connection pooling</h5>
+<div class="paragraph">
+<p>For each username and password, Narayana maintains a single instance of each connection for as long as that connection is in use.
+Subsequent requests for the same connection get a reference to the original connection, rather than a new instance.
+You can try to close the connection, but the connection will only actually be closed when all users (including transactions) have either finished with the connection, or issued <code>close</code> calls.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_reusing_connections"><a class="anchor" href="#_reusing_connections"></a>Reusing connections</h5>
+<div class="paragraph">
+<p>Some JDBC drivers allow the reuse of a connection for multiple different transactions once a given transaction completes.
+Unfortunately this is not a common feature, and other drivers require a new connection to be obtained for each new transaction.
+By default, the Narayana transactional driver always obtains a new connection for each new transaction.
+However, if an existing connection is available and is currently unused, Narayana can reuse this connection.
+To turn on this feature, add option <code>reuseconnection=true</code> to the JDBC URL.
+For instance, <code>jdbc:arjuna:sequelink://host:port;databaseName=foo;reuseconnection=true</code></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_terminating_the_transaction"><a class="anchor" href="#_terminating_the_transaction"></a>Terminating the transaction</h5>
+<div class="paragraph">
+<p>When a transaction with an associated JDBC connection terminates, because of the application or because a transaction timeout expires, Narayana uses the JDBC driver to drive the database to either commit or roll back any changes made to it.
+This happens transparently to the application.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_autocommit"><a class="anchor" href="#_autocommit"></a>AutoCommit</h5>
+<div class="paragraph">
+<p>If property <code>AutoCommit</code> of the interface <code>java.sql.Connection</code> is set to <code>true</code> for JDBC, the execution of every SQL statement is a separate top-level transaction, and it is not possible to group multiple statements to be managed within a single OTS transaction.
+Therefore, Narayana disables <code>AutoCommit</code> on JDBC connections before they can be used.
+If <code>AutoCommit</code> is later set to <code>true</code> by the application, Narayana throws the <code>java.sql.SQLException</code>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_setting_isolation_levels"><a class="anchor" href="#_setting_isolation_levels"></a>Setting isolation levels</h5>
+<div class="paragraph">
+<p>When you use the Narayana JDBC driver, you may need to set the underlying transaction isolation level on the XA connection.
+By default, this is set to <code>TRANSACTION_SERIALIZABLE</code>, but another value may be more appropriate for your application.
+To change it, set the property <code>com.arjuna.ats.jdbc.isolationLevel</code> to the appropriate isolation level in string form.
+Example values are <code>TRANSACTION_READ_COMMITTED</code> or <code>TRANSACTION_REPEATABLE_READ</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Currently, this property applies to all XA connections created in the JVM.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_examples"><a class="anchor" href="#_examples"></a>2.2. Examples</h3>
+<div class="sect3">
+<h4 id="_jdbc_example"><a class="anchor" href="#_jdbc_example"></a>2.2.1. JDBC example</h4>
+<div class="paragraph">
+<p>This simplified example assumes that you are using the transactional JDBC driver provided with Narayana.
+For details about how to configure and use this driver see the previous Chapter.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">JDBCTest</span> {
+    <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) {
+
+        <span class="predefined-type">Connection</span> conn = <span class="predefined-constant">null</span>;
+        <span class="predefined-type">Connection</span> conn2 = <span class="predefined-constant">null</span>;
+        <span class="comment">// non-tx statement</span>
+        <span class="predefined-type">Statement</span> stmt = <span class="predefined-constant">null</span>;
+        <span class="comment">// will be a tx-statement</span>
+        <span class="predefined-type">Statement</span> stmtx = <span class="predefined-constant">null</span>;
+        <span class="predefined-type">Properties</span> dbProperties = <span class="keyword">new</span> <span class="predefined-type">Properties</span>();
+
+        <span class="keyword">try</span> {
+            <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="content">Creating connection to database: </span><span class="delimiter">&quot;</span></span> + url);
+
+            <span class="comment">/*
+             * Create conn and conn2 so that they are bound to the JBossTS
+             * transactional JDBC driver. The details of how to do this will
+             * depend on your environment, the database you wish to use and
+             * whether or not you want to use the Direct or JNDI approach. See
+             * the appropriate chapter in the JTA Programmers Guide.
+             */</span>
+
+            stmt = conn.createStatement();  <span class="comment">// non-tx statement</span>
+
+            <span class="keyword">try</span> {
+                stmt.executeUpdate(<span class="string"><span class="delimiter">&quot;</span><span class="content">DROP TABLE test_table</span><span class="delimiter">&quot;</span></span>);
+                stmt.executeUpdate(<span class="string"><span class="delimiter">&quot;</span><span class="content">DROP TABLE test_table2</span><span class="delimiter">&quot;</span></span>);
+            } <span class="keyword">catch</span> (<span class="exception">Exception</span> e) {
+                <span class="comment">// assume not in database.</span>
+            }
+
+            <span class="keyword">try</span> {
+                stmt.executeUpdate(<span class="string"><span class="delimiter">&quot;</span><span class="content">CREATE TABLE test_table (a INTEGER,b INTEGER)</span><span class="delimiter">&quot;</span></span>);
+                stmt.executeUpdate(<span class="string"><span class="delimiter">&quot;</span><span class="content">CREATE TABLE test_table2 (a INTEGER,b INTEGER)</span><span class="delimiter">&quot;</span></span>);
+            } <span class="keyword">catch</span> (<span class="exception">Exception</span> e) {
+            }
+
+            <span class="keyword">try</span> {
+                <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Starting top-level transaction.</span><span class="delimiter">&quot;</span></span>);
+
+                com.arjuna.ats.jta.UserTransaction.userTransaction().begin();
+
+                stmtx = conn.createStatement(); <span class="comment">// will be a tx-statement</span>
+
+                <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="content">Adding entries to table 1.</span><span class="delimiter">&quot;</span></span>);
+
+                stmtx.executeUpdate(<span class="string"><span class="delimiter">&quot;</span><span class="content">INSERT INTO test_table (a, b) VALUES (1,2)</span><span class="delimiter">&quot;</span></span>);
+
+                <span class="predefined-type">ResultSet</span> res1 = <span class="predefined-constant">null</span>;
+
+                <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="content">Inspecting table 1.</span><span class="delimiter">&quot;</span></span>);
+
+                res1 = stmtx.executeQuery(<span class="string"><span class="delimiter">&quot;</span><span class="content">SELECT * FROM test_table</span><span class="delimiter">&quot;</span></span>);
+                <span class="keyword">while</span> (res1.next()) {
+                    <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Column 1: </span><span class="delimiter">&quot;</span></span> + res1.getInt(<span class="integer">1</span>));
+                    <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Column 2: </span><span class="delimiter">&quot;</span></span> + res1.getInt(<span class="integer">2</span>));
+                }
+
+                <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="content">Adding entries to table 2.</span><span class="delimiter">&quot;</span></span>);
+
+                stmtx.executeUpdate(<span class="string"><span class="delimiter">&quot;</span><span class="content">INSERT INTO test_table2 (a, b) VALUES (3,4)</span><span class="delimiter">&quot;</span></span>);
+                res1 = stmtx.executeQuery(<span class="string"><span class="delimiter">&quot;</span><span class="content">SELECT * FROM test_table2</span><span class="delimiter">&quot;</span></span>);
+                <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="content">Inspecting table 2.</span><span class="delimiter">&quot;</span></span>);
+
+                <span class="keyword">while</span> (res1.next()) {
+                    <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Column 1: </span><span class="delimiter">&quot;</span></span> + res1.getInt(<span class="integer">1</span>));
+                    <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Column 2: </span><span class="delimiter">&quot;</span></span> + res1.getInt(<span class="integer">2</span>));
+                }
+                <span class="predefined-type">System</span>.out.print(<span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="content">Now attempting to rollback changes.</span><span class="delimiter">&quot;</span></span>);
+                com.arjuna.ats.jta.UserTransaction.userTransaction().rollback();
+
+                com.arjuna.ats.jta.UserTransaction.userTransaction().begin();
+                stmtx = conn.createStatement();
+                <span class="predefined-type">ResultSet</span> res2 = <span class="predefined-constant">null</span>;
+
+                <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="content">Now checking state of table 1.</span><span class="delimiter">&quot;</span></span>);
+
+                res2 = stmtx.executeQuery(<span class="string"><span class="delimiter">&quot;</span><span class="content">SELECT * FROM test_table</span><span class="delimiter">&quot;</span></span>);
+                <span class="keyword">while</span> (res2.next()) {
+                    <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Column 1: </span><span class="delimiter">&quot;</span></span> + res2.getInt(<span class="integer">1</span>));
+                    <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Column 2: </span><span class="delimiter">&quot;</span></span> + res2.getInt(<span class="integer">2</span>));
+                }
+
+                <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="content">Now checking state of table 2.</span><span class="delimiter">&quot;</span></span>);
+
+                stmtx = conn.createStatement();
+                res2 = stmtx.executeQuery(<span class="string"><span class="delimiter">&quot;</span><span class="content">SELECT * FROM test_table2</span><span class="delimiter">&quot;</span></span>);
+                <span class="keyword">while</span> (res2.next()) {
+                    <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Column 1: </span><span class="delimiter">&quot;</span></span> + res2.getInt(<span class="integer">1</span>));
+                    <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Column 2: </span><span class="delimiter">&quot;</span></span> + res2.getInt(<span class="integer">2</span>));
+                }
+
+                com.arjuna.ats.jta.UserTransaction.userTransaction().commit(<span class="predefined-constant">true</span>);
+            } <span class="keyword">catch</span> (<span class="exception">Exception</span> ex) {
+                ex.printStackTrace();
+                <span class="predefined-type">System</span>.exit(<span class="integer">0</span>);
+            }
+        } <span class="keyword">catch</span> (<span class="exception">Exception</span> sysEx) {
+            sysEx.printStackTrace();
+            <span class="predefined-type">System</span>.exit(<span class="integer">0</span>);
+        }
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_failure_recovery_example_with_basicxarecovery"><a class="anchor" href="#_failure_recovery_example_with_basicxarecovery"></a>2.2.2. Failure recovery example with BasicXARecovery</h4>
+<div class="paragraph">
+<p>This class implements the <code>XAResourceRecovery</code> interface for <code>XAResources</code>.
+The parameter supplied in <code>setParameters</code> can contain arbitrary information necessary to initialize the class once created.
+In this example, it contains the name of the property file in which the database connection information is specified, as well as the number of connections that this file contains information on.
+Each item is separated by a semicolon.</p>
+</div>
+<div class="paragraph">
+<p>This is only a small example of the sorts of things an <code>XAResourceRecovery</code> implementer could do.
+This implementation uses a property file that is assumed to contain sufficient information to recreate connections used during the normal run of an application so that recovery can be performed on them.
+Typically, user-names and passwords should never be presented in raw text on a production system.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 5. Database parameter format for the properties file</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre> DB_x_DatabaseURL=
+ DB_x_DatabaseUser=
+ DB_x_DatabasePassword=
+ DB_x_DatabaseDynamicClass=</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>x</code> is the number of the connection information.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Some error-handling code is missing from this example, to make it more readable.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 6. Failure recovery example with BasicXARecovery</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">/*
+ * Some XAResourceRecovery implementations will do their startup work here,
+ * and then do little or nothing in setDetails. Since this one needs to know
+ * dynamic class name, the constructor does nothing.
+ */</span>
+
+<span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> <span class="predefined-type">String</span> dbTag = <span class="string"><span class="delimiter">&quot;</span><span class="content">DB_</span><span class="delimiter">&quot;</span></span>;
+<span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> <span class="predefined-type">String</span> urlTag = <span class="string"><span class="delimiter">&quot;</span><span class="content">_DatabaseURL</span><span class="delimiter">&quot;</span></span>;
+<span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> <span class="predefined-type">String</span> passwordTag = <span class="string"><span class="delimiter">&quot;</span><span class="content">_DatabasePassword</span><span class="delimiter">&quot;</span></span>;
+<span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> <span class="predefined-type">String</span> userTag = <span class="string"><span class="delimiter">&quot;</span><span class="content">_DatabaseUser</span><span class="delimiter">&quot;</span></span>;
+<span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> <span class="predefined-type">String</span> dynamicClassTag = <span class="string"><span class="delimiter">&quot;</span><span class="content">_DatabaseDynamicClass</span><span class="delimiter">&quot;</span></span>;
+<span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> <span class="predefined-type">String</span> jndiTag = <span class="string"><span class="delimiter">&quot;</span><span class="content">JNDI_</span><span class="delimiter">&quot;</span></span>;
+<span class="comment">/*
+ * Example:
+ *
+ * DB2_DatabaseURL=jdbc\:arjuna\:sequelink\://qa02\:20001
+ * DB2_DatabaseUser=tester2 DB2_DatabasePassword=tester
+ * DB2_DatabaseDynamicClass=com.arjuna.ats.internal.jdbc.drivers.sequelink_5_1
+ *
+ * DB_JNDI_DatabaseURL=jdbc\:arjuna\:jndi DB_JNDI_DatabaseUser=tester1
+ * DB_JNDI_DatabasePassword=tester DB_JNDI_DatabaseName=empay
+ * DB_JNDI_Host=qa02 DB_JNDI_Port=20000
+ */</span>
+<span class="comment">// delimiter for parameters</span>
+<span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">char</span> BREAKCHARACTER = <span class="string"><span class="delimiter">'</span><span class="content">;</span><span class="delimiter">'</span></span>;
+<span class="directive">private</span> <span class="type">int</span> numberOfConnections;
+<span class="directive">private</span> <span class="type">int</span> connectionIndex;
+<span class="directive">private</span> <span class="predefined-type">Properties</span> props;
+<span class="directive">public</span> BasicXARecovery() <span class="directive">throws</span> <span class="exception">SQLException</span> {
+    numberOfConnections = <span class="integer">1</span>;
+    connectionIndex = <span class="integer">0</span>;
+    props = <span class="predefined-constant">null</span>;
+}
+
+<span class="comment">/**
+ * The recovery module will have chopped off this class name already. The
+ * parameter should specify a property file from which the url, user name,
+ * password, etc. can be read.
+ *
+ * @message com.arjuna.ats.internal.jdbc.recovery.initexp An exception
+ * occurred during initialisation.
+ */</span>
+
+<span class="directive">public</span> <span class="type">boolean</span> initialise(<span class="predefined-type">String</span> parameter) <span class="directive">throws</span> <span class="exception">SQLException</span> {
+    <span class="keyword">if</span> (parameter == <span class="predefined-constant">null</span>)
+        <span class="keyword">return</span> <span class="predefined-constant">true</span>;
+
+    <span class="type">int</span> breakPosition = parameter.indexOf(BREAKCHARACTER);
+    <span class="predefined-type">String</span> fileName = parameter;
+
+    <span class="keyword">if</span> (breakPosition != -<span class="integer">1</span>) {
+        fileName = parameter.substring(<span class="integer">0</span>, breakPosition - <span class="integer">1</span>);
+
+        <span class="keyword">try</span> {
+            numberOfConnections = <span class="predefined-type">Integer</span>.parseInt(parameter.substring(breakPosition + <span class="integer">1</span>));
+        } <span class="keyword">catch</span> (<span class="exception">NumberFormatException</span> e) {
+            <span class="keyword">return</span> <span class="predefined-constant">false</span>;
+        }
+    }
+
+    <span class="keyword">try</span> {
+        <span class="predefined-type">String</span> uri = com.arjuna.common.util.FileLocator.locateFile(fileName);
+        jdbcPropertyManager.propertyManager.load(XMLFilePlugin.class.getName(), uri);
+
+        props = jdbcPropertyManager.propertyManager.getProperties();
+    } <span class="keyword">catch</span> (<span class="exception">Exception</span> e) {
+        <span class="keyword">return</span> <span class="predefined-constant">false</span>;
+    }
+
+    <span class="keyword">return</span> <span class="predefined-constant">true</span>;
+}
+
+<span class="comment">/**
+ * @message com.arjuna.ats.internal.jdbc.recovery.xarec {0} could not find
+ * information for connection!
+ */</span>
+
+<span class="directive">public</span> <span class="directive">synchronized</span> <span class="predefined-type">XAResource</span> getXAResource() <span class="directive">throws</span> <span class="exception">SQLException</span> {
+    JDBC2RecoveryConnection conn = <span class="predefined-constant">null</span>;
+
+    <span class="keyword">if</span> (hasMoreResources()) {
+        connectionIndex++;
+
+        conn = getStandardConnection();
+
+        <span class="keyword">if</span> (conn == <span class="predefined-constant">null</span>) conn = getJNDIConnection();
+    }
+
+    <span class="keyword">return</span> conn.recoveryConnection().getConnection().getXAResource();
+}
+
+<span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> hasMoreResources() {
+    <span class="keyword">if</span> (connectionIndex == numberOfConnections)
+        <span class="keyword">return</span> <span class="predefined-constant">false</span>;
+    <span class="keyword">else</span>
+        <span class="keyword">return</span> <span class="predefined-constant">true</span>;
+}
+
+<span class="directive">private</span> <span class="directive">final</span> JDBC2RecoveryConnection getStandardConnection() <span class="directive">throws</span> <span class="exception">SQLException</span> {
+    <span class="predefined-type">String</span> number = <span class="keyword">new</span> <span class="predefined-type">String</span>(<span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span> + connectionIndex);
+    <span class="predefined-type">String</span> url = <span class="keyword">new</span> <span class="predefined-type">String</span>(dbTag + number + urlTag);
+    <span class="predefined-type">String</span> password = <span class="keyword">new</span> <span class="predefined-type">String</span>(dbTag + number + passwordTag);
+    <span class="predefined-type">String</span> user = <span class="keyword">new</span> <span class="predefined-type">String</span>(dbTag + number + userTag);
+    <span class="predefined-type">String</span> dynamicClass = <span class="keyword">new</span> <span class="predefined-type">String</span>(dbTag + number + dynamicClassTag);
+
+    <span class="predefined-type">Properties</span> dbProperties = <span class="keyword">new</span> <span class="predefined-type">Properties</span>();
+
+    <span class="predefined-type">String</span> theUser = props.getProperty(user);
+    <span class="predefined-type">String</span> thePassword = props.getProperty(password);
+
+    <span class="keyword">if</span> (theUser != <span class="predefined-constant">null</span>) {
+        dbProperties.put(TransactionalDriver.userName, theUser);
+        dbProperties.put(TransactionalDriver.password, thePassword);
+
+        <span class="predefined-type">String</span> dc = props.getProperty(dynamicClass);
+
+        <span class="keyword">if</span> (dc != <span class="predefined-constant">null</span>)
+            dbProperties.put(TransactionalDriver.dynamicClass, dc);
+
+        <span class="keyword">return</span> <span class="keyword">new</span> JDBC2RecoveryConnection(url, dbProperties);
+    } <span class="keyword">else</span>
+        <span class="keyword">return</span> <span class="predefined-constant">null</span>;
+}
+
+<span class="directive">private</span> <span class="directive">final</span> JDBC2RecoveryConnection getJNDIConnection() <span class="directive">throws</span> <span class="exception">SQLException</span> {
+    <span class="predefined-type">String</span> number = <span class="keyword">new</span> <span class="predefined-type">String</span>(<span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span> + connectionIndex);
+    <span class="predefined-type">String</span> url = <span class="keyword">new</span> <span class="predefined-type">String</span>(dbTag + jndiTag + number + urlTag);
+    <span class="predefined-type">String</span> password = <span class="keyword">new</span> <span class="predefined-type">String</span>(dbTag + jndiTag + number + passwordTag);
+    <span class="predefined-type">String</span> user = <span class="keyword">new</span> <span class="predefined-type">String</span>(dbTag + jndiTag + number + userTag);
+
+    <span class="predefined-type">Properties</span> dbProperties = <span class="keyword">new</span> <span class="predefined-type">Properties</span>();
+
+    <span class="predefined-type">String</span> theUser = props.getProperty(user);
+    <span class="predefined-type">String</span> thePassword = props.getProperty(password);
+
+    <span class="keyword">if</span> (theUser != <span class="predefined-constant">null</span>) {
+        dbProperties.put(TransactionalDriver.userName, theUser);
+        dbProperties.put(TransactionalDriver.password, thePassword);
+
+        <span class="keyword">return</span> <span class="keyword">new</span> JDBC2RecoveryConnection(url, dbProperties);
+    } <span class="keyword">else</span>
+        <span class="keyword">return</span> <span class="predefined-constant">null</span>;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can use the class <code>com.arjuna.ats.internal.jdbc.recovery.JDBC2RecoveryConnection</code> to create a new connection to the database using the same parameters used to create the initial connection.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_using_narayana_in_application_servers"><a class="anchor" href="#_using_narayana_in_application_servers"></a>2.3. Using Narayana in application servers</h3>
+<div class="paragraph">
+<p>WildFly Application Server is discussed here.
+Refer to the documentation for your application server for differences.</p>
+</div>
+<div class="sect3">
+<h4 id="_configuration"><a class="anchor" href="#_configuration"></a>2.3.1. Configuration</h4>
+<div class="paragraph">
+<p>When Narayana runs embedded in WildFly Application Server, the transaction subsystem is configured primarily through the <code>jboss-cli</code> configuration tool, which overrides properties read from the default properties file embedded in the <code>.jar</code> file.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Common configuration attributes</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">default-timeout</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The default transaction timeout to be used for new transactions. Specified as an integer in seconds.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">enable-statistics</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This determines whether or not the transaction service should gather statistical information. This information can then be viewed using the <code>TransactionStatistics</code> MBean. Specified as a Boolean. The default is to not gather this information.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>See the <code>jboss-cli</code> tool and the WildFly Application Server administration and configuration guide for further information.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_logging"><a class="anchor" href="#_logging"></a>2.3.2. Logging</h4>
+<div class="paragraph">
+<p>To make Narayana logging semantically consistent with WildFly Application Server, the <code>TransactionManagerService</code> modifies the level of some log messages, by overriding the value of the <code>LoggingEnvironmentBean.loggingFactory</code> property in the <code>jbossts-properties.xml</code> file.
+Therefore, the value of this property has no effect on the logging behavior when running embedded in WildFly Application Server.
+By forcing use of the <code>log4j_releveler</code> logger, the TransactionManagerService changes the level of all <code>INFO</code> level messages in the transaction code to <code>DEBUG</code>.
+Therefore, these messages do not appear in log files if the filter level is <code>INFO</code>.
+All other log messages behave as normal.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_the_services"><a class="anchor" href="#_the_services"></a>2.3.3. The services</h4>
+<div class="paragraph">
+<p>The <code>TransactionManager</code> bean provides transaction management services to other components in WildFly Application Server.
+There are two different version of this bean and they require different configuration.
+Use <code>jboss-cli</code> to select JTA or JTS mode.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_ensuring_transactional_context_is_propagated_to_the_server"><a class="anchor" href="#_ensuring_transactional_context_is_propagated_to_the_server"></a>2.3.4. Ensuring transactional context is propagated to the server</h4>
+<div class="paragraph">
+<p>You can coordinate transactions from a coordinator which is not located within the WildFly Application Server, such as when using transactions created by an external OTS server.
+To ensure the transaction context is propagated via JRMP invocations to the server, the transaction propagation context factory needs to be explicitly set for the JRMP invoker proxy.
+This is done as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">JRMPInvokerProxy.setTPCFactory(<span class="keyword">new</span> com.arjuna.ats.internal.jbossatx.jts.PropagationContextManager());</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_installation"><a class="anchor" href="#_installation"></a>3. Installation</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_quick_start_to_jta"><a class="anchor" href="#_quick_start_to_jta"></a>3.1. Quick Start to JTA</h3>
+<div class="sect3">
+<h4 id="_introduction"><a class="anchor" href="#_introduction"></a>3.1.1. Introduction</h4>
+<div class="paragraph">
+<p>This chapter will briefly cover the key features required to construct a JTA application.
+It is assumed that the reader is familiar with the concepts of the JTA.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_package_layout"><a class="anchor" href="#_package_layout"></a>3.1.2. Package layout</h4>
+<div class="paragraph">
+<p>The key Java packages (and corresponding jar files) for writing basic JTA applications are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>com.arjuna.ats.jts</code>: this package contains the Narayana implementations of the JTS and JTA.</p>
+</li>
+<li>
+<p><code>com.arjuna.ats.jta</code>: this package contains local and remote JTA implementation support.</p>
+</li>
+<li>
+<p><code>com.arjuna.ats.jdbc</code>: this package contains transactional JDBC support.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>All of these packages appear in the lib directory of the Narayana installation, and should be added to the programmer’s <code>CLASSPATH</code>.</p>
+</div>
+<div class="paragraph">
+<p>In order to fully utilize all of the facilities available within Narayana, it will be necessary to add some additional jar files to your classpath.
+See bin/setup-env.sh or bin\setup-env.bat for details.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_setting_properties"><a class="anchor" href="#_setting_properties"></a>3.1.3. Setting properties</h4>
+<div class="paragraph">
+<p>Narayana has also been designed to be configurable at runtime through the use of various property attributes.
+These attributes can be provided at runtime on command line or specified through a properties file.</p>
+</div>
+<div class="sect4">
+<h5 id="_specifying_the_object_store_location"><a class="anchor" href="#_specifying_the_object_store_location"></a>Specifying the object store location</h5>
+<div class="paragraph">
+<p>Narayana requires an object store in order to persistently record the outcomes of transactions in the event of failures.
+In order to specify the location of the object store it is necessary to specify the location when the application is executed; for example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">java –DObjectStoreEnvironmentBean.objectStoreDir=/var/tmp/ObjectStore myprogram</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The default location is a directory under the current execution directory.</p>
+</div>
+<div class="paragraph">
+<p>By default, all object states will be stored within the defaultStore subdirectory of the object store root, e.g., <code>/usr/local/Arjuna/TransactionService/ObjectStore/defaultStore</code>.
+However, this subdirectory can be changed by setting the <code>ObjectStoreEnvironmentBean.localOSRoot</code> property variable accordingly.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_demarcating_transactions"><a class="anchor" href="#_demarcating_transactions"></a>3.1.4. Demarcating Transactions</h4>
+<div class="paragraph">
+<p>The Java Transaction API consists of three elements: a high-level application transaction demarcation interface, a high-level transaction manager interface intended for application server, and a standard Java mapping of the X/Open XA protocol intended for transactional resource manager.
+All of the JTA classes and interfaces occur within the <code>jakarta.transaction</code> package, and the corresponding Narayana implementations within the <code>com.arjuna.ats.jta package</code>.</p>
+</div>
+<div class="sect4">
+<h5 id="_usertransaction"><a class="anchor" href="#_usertransaction"></a>UserTransaction</h5>
+<div class="paragraph">
+<p>The UserTransaction interface provides applications with the ability to control transaction boundaries.</p>
+</div>
+<div class="paragraph">
+<p>In Narayana, <code>UserTransaction</code> can be obtained from the static <code>com.arjuna.ats.jta.UserTransaction.userTransaction()</code> method.
+When obtained the <code>UserTransaction</code> object can be used to control transactions</p>
+</div>
+<div class="listingblock">
+<div class="title">User Transaction Example</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//get UserTransaction</span>
+UserTransaction utx = com.arjuna.ats.jta.UserTransaction.userTransaction();
+<span class="comment">// start transaction work..</span>
+utx.begin();
+
+<span class="comment">// perform transactional work</span>
+utx.commit();</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_transactionmanager"><a class="anchor" href="#_transactionmanager"></a>TransactionManager</h5>
+<div class="paragraph">
+<p>The TransactionManager interface allows the application server to control transaction boundaries on behalf of the application being managed.</p>
+</div>
+<div class="paragraph">
+<p>In Narayana, transaction manager implementations can be obtained from the static <code>com.arjuna.ats.jta.TransactionManager.transactionManager()</code> method.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_the_transaction_interface"><a class="anchor" href="#_the_transaction_interface"></a>The Transaction interface</h5>
+<div class="paragraph">
+<p>The Transaction interface allows operations to be performed on the transaction associated with the target object.
+Every top-level transaction is associated with one Transaction object when the transaction is created.
+The Transaction object can be used to:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>enlist the transactional resources in use by the application.</p>
+</li>
+<li>
+<p>register for transaction synchronization call backs.</p>
+</li>
+<li>
+<p>commit or rollback the transaction.</p>
+</li>
+<li>
+<p>obtain the status of the transaction.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>A Transaction object can be obtained using the <code>TransactionManager</code> by invoking the method <code>getTransaction()</code> method.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Transaction txObj = TransactionManager.getTransaction();</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_local_vs_distributed_jta_implementations"><a class="anchor" href="#_local_vs_distributed_jta_implementations"></a>3.1.5. Local vs Distributed JTA implementations</h4>
+<div class="paragraph">
+<p>In order to ensure interoperability between JTA applications, it is recommended to rely on the JTS/OTS specification to ensure transaction propagation among transaction managers.</p>
+</div>
+<div class="paragraph">
+<p>In order to select the local JTA implementation it is necessary to perform the following steps:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>make sure the property <code>JTAEnvironmentBean.jtaTMImplementation</code> is set to <code>com.arjuna.ats.internal.jta.transaction.arjunacore.TransactionManagerImple</code>.</p>
+</li>
+<li>
+<p>make sure the property <code>JTAEnvironmentBean.jtaUTImplementation</code> is set to <code>com.arjuna.ats.internal.jta.transaction.arjunacore.UserTransactionImple</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In order to select the distributed JTA implementation it is necessary to perform the following steps:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>make sure the property <code>JTAEnvironmentBean.jtaTMImplementation</code> is set to <code>com.arjuna.ats.internal.jta.transaction.jts.TransactionManagerImple</code>.</p>
+</li>
+<li>
+<p>make sure the property <code>JTAEnvironmentBean.jtaUTImplementation</code> is set to <code>com.arjuna.ats.internal.jta.transaction.jts.UserTransactionImple</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_jdbc_and_transactions_2"><a class="anchor" href="#_jdbc_and_transactions_2"></a>3.1.6. JDBC and Transactions</h4>
+<div class="paragraph">
+<p>Narayana JTS supports the construction of both local and distributed transactional applications which access databases using the JDBC APIs.
+JDBC supports two-phase commit of transactions, and is similar to the XA X/Open standard.
+The JDBC support is found in the <code>com.arjuna.ats.jdbc</code> package.</p>
+</div>
+<div class="paragraph">
+<p>The ArjunaJTS approach to incorporating JDBC connections within transactions is to provide transactional JDBC drivers through which all interactions occur.
+These drivers intercept all invocations and ensure that they are registered with, and driven by, appropriate transactions.
+(There is a single type of transactional driver through which any JDBC driver can be driven.
+This driver is <code>com.arjuna.ats.jdbc.TransactionalDriver</code>, which implements the <code>java.sql.Driver</code> interface.)</p>
+</div>
+<div class="paragraph">
+<p>Once the connection has been established (for example, using the <code>java.sql.DriverManager.getConnection</code> method), all operations on the connection will be monitored by Narayana.
+Once created, the driver and any connection can be used in the same way as any other JDBC driver or connection.</p>
+</div>
+<div class="paragraph">
+<p>Narayana connections can be used within multiple different transactions simultaneously, i.e., different threads, with different notions of the current transaction, may use the same JDBC connection. Narayana does connection pooling for each transaction within the JDBC connection.
+So, although multiple threads may use the same instance of the JDBC connection, internally this may be using a different connection instance per transaction.
+With the exception of close, all operations performed on the connection at the application level will only be performed on this transaction-specific connection.</p>
+</div>
+<div class="paragraph">
+<p>Narayana will automatically register the JDBC driver connection with the transaction via an appropriate resource.
+When the transaction terminates, this resource will be responsible for either committing or rolling back any changes made to the underlying database via appropriate calls on the JDBC driver.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configurable_options"><a class="anchor" href="#_configurable_options"></a>3.1.7. Configurable options</h4>
+<div class="paragraph">
+<p>The following table shows some of the configuration features, with default values shown in italics.
+For more detailed information, the relevant section numbers are provided.
+You should look at the various Programmers Guides for more options.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>You need to prefix certain properties in this table with the string <code>com.arjuna.ats.internal.jta.transaction</code>.
+The prefix has been removed for formatting reasons, and has been replaced by &#8230;&#8203;</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Configuration Name</th>
+<th class="tableblock halign-left valign-top">Possible Values</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>com.arjuna.ats.jta.supportSubtransactions</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>YES</code>/<code>NO</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>com.arjuna.ats.jta.jtaTMImplementation</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&#8230;&#8203;arjunacore.TransactionManagerImple</code></p>
+<p class="tableblock"><code>&#8230;&#8203;jts.TransactionManagerImple</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>com.arjuna.ats.jta.jtaUTImplementation</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&#8230;&#8203;arjunacore.UserTransactionImple</code></p>
+<p class="tableblock"><code>&#8230;&#8203;jts.UserTransactionImple</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>com.arjuna.ats.jta.xaBackoffPeriod</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Time in seconds</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>com.arjuna.ats.jdbc.isolationLevel</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Any supported JDBC isolation level.</code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:39:50 +0100
+</div>
+</div>
+</body>
+</html>

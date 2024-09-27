@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>Using ArjunaCore</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+/*! Stylesheet for CodeRay to loosely match GitHub themes | MIT License */
+pre.CodeRay{background:#f7f7f8}
+.CodeRay .line-numbers{border-right:1px solid;opacity:.35;padding:0 .5em 0 0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+.CodeRay span.line-numbers{display:inline-block;margin-right:.75em}
+.CodeRay .line-numbers strong{color:#000}
+table.CodeRay{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.CodeRay td{vertical-align:top;line-height:inherit}
+table.CodeRay td.line-numbers{text-align:right}
+table.CodeRay td.code{padding:0 0 0 .75em}
+.CodeRay .debug{color:#fff!important;background:navy!important}
+.CodeRay .annotation{color:#007}
+.CodeRay .attribute-name{color:navy}
+.CodeRay .attribute-value{color:#700}
+.CodeRay .binary{color:#509}
+.CodeRay .comment{color:#998;font-style:italic}
+.CodeRay .char{color:#04d}
+.CodeRay .char .content{color:#04d}
+.CodeRay .char .delimiter{color:#039}
+.CodeRay .class{color:#458;font-weight:bold}
+.CodeRay .complex{color:#a08}
+.CodeRay .constant,.CodeRay .predefined-constant{color:teal}
+.CodeRay .color{color:#099}
+.CodeRay .class-variable{color:#369}
+.CodeRay .decorator{color:#b0b}
+.CodeRay .definition{color:#099}
+.CodeRay .delimiter{color:#000}
+.CodeRay .doc{color:#970}
+.CodeRay .doctype{color:#34b}
+.CodeRay .doc-string{color:#d42}
+.CodeRay .escape{color:#666}
+.CodeRay .entity{color:#800}
+.CodeRay .error{color:#808}
+.CodeRay .exception{color:inherit}
+.CodeRay .filename{color:#099}
+.CodeRay .function{color:#900;font-weight:bold}
+.CodeRay .global-variable{color:teal}
+.CodeRay .hex{color:#058}
+.CodeRay .integer,.CodeRay .float{color:#099}
+.CodeRay .include{color:#555}
+.CodeRay .inline{color:#000}
+.CodeRay .inline .inline{background:#ccc}
+.CodeRay .inline .inline .inline{background:#bbb}
+.CodeRay .inline .inline-delimiter{color:#d14}
+.CodeRay .inline-delimiter{color:#d14}
+.CodeRay .important{color:#555;font-weight:bold}
+.CodeRay .interpreted{color:#b2b}
+.CodeRay .instance-variable{color:teal}
+.CodeRay .label{color:#970}
+.CodeRay .local-variable{color:#963}
+.CodeRay .octal{color:#40e}
+.CodeRay .predefined{color:#369}
+.CodeRay .preprocessor{color:#579}
+.CodeRay .pseudo-class{color:#555}
+.CodeRay .directive{font-weight:bold}
+.CodeRay .type{font-weight:bold}
+.CodeRay .predefined-type{color:inherit}
+.CodeRay .reserved,.CodeRay .keyword{color:#000;font-weight:bold}
+.CodeRay .key{color:#808}
+.CodeRay .key .delimiter{color:#606}
+.CodeRay .key .char{color:#80f}
+.CodeRay .value{color:#088}
+.CodeRay .regexp .delimiter{color:#808}
+.CodeRay .regexp .content{color:#808}
+.CodeRay .regexp .modifier{color:#808}
+.CodeRay .regexp .char{color:#d14}
+.CodeRay .regexp .function{color:#404;font-weight:bold}
+.CodeRay .string{color:#d20}
+.CodeRay .string .string .string{background:#ffd0d0}
+.CodeRay .string .content{color:#d14}
+.CodeRay .string .char{color:#d14}
+.CodeRay .string .delimiter{color:#d14}
+.CodeRay .shell{color:#d14}
+.CodeRay .shell .delimiter{color:#d14}
+.CodeRay .symbol{color:#990073}
+.CodeRay .symbol .content{color:#a60}
+.CodeRay .symbol .delimiter{color:#630}
+.CodeRay .tag{color:teal}
+.CodeRay .tag-special{color:#d70}
+.CodeRay .variable{color:#036}
+.CodeRay .insert{background:#afa}
+.CodeRay .delete{background:#faa}
+.CodeRay .change{color:#aaf;background:#007}
+.CodeRay .head{color:#f8f;background:#505}
+.CodeRay .insert .insert{color:#080}
+.CodeRay .delete .delete{color:#800}
+.CodeRay .change .change{color:#66f}
+.CodeRay .head .head{color:#f4f}
+</style>
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>Using ArjunaCore</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_state_management">State management</a>
+<ul class="sectlevel2">
+<li><a href="#_object_states">Object states</a></li>
+</ul>
+</li>
+<li><a href="#_the_object_store">The object store</a></li>
+<li><a href="#_selecting_an_object_store_implementation">Selecting an object store implementation</a>
+<ul class="sectlevel2">
+<li><a href="#_statemanager">StateManager</a></li>
+<li><a href="#_object_models">Object models</a></li>
+<li><a href="#_summary">Summary</a></li>
+<li><a href="#_example">Example</a></li>
+</ul>
+</li>
+<li><a href="#_lock_management_and_concurrency_control">Lock management and concurrency control</a>
+<ul class="sectlevel2">
+<li><a href="#_selecting_a_lock_store_implementation">Selecting a lock store implementation</a></li>
+<li><a href="#_lockmanager">LockManager</a></li>
+<li><a href="#_locking_policy">Locking policy</a></li>
+<li><a href="#_object_constructor_and_finalizer">Object constructor and finalizer</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This section describes <em>ArjunaCore</em> and <em>Transactional Objects for Java</em> (TXOJ) in more detail, and shows how to use ArjunaCore to construct transactional applications.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+In previous releases ArjunaCore was often referred to as TxCore.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_state_management"><a class="anchor" href="#_state_management"></a>State management</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_object_states"><a class="anchor" href="#_object_states"></a>Object states</h3>
+<div class="paragraph">
+<p>ArjunaCore needs to be able to remember the state of an object for several purposes, including recovery (the state represents some past state of the object), and for persistence (the state represents the final state of an object at application termination).
+Since all of these requirements require common functionality they are all implemented using the same mechanism - the classes Input/OutputObjectState and Input/OutputBuffer.</p>
+</div>
+<div class="listingblock">
+<div class="title"><code>OutputBuffer</code></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">OutputBuffer</span> {
+    <span class="directive">public</span> OutputBuffer();
+
+    <span class="directive">public</span> <span class="directive">final</span> <span class="directive">synchronized</span> <span class="type">boolean</span> valid();
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">byte</span><span class="type">[]</span> buffer();
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">int</span> length();
+
+    <span class="comment">/* pack operations for standard Java types */</span>
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> packByte(<span class="type">byte</span> b) <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> packBytes(<span class="type">byte</span><span class="type">[]</span> b) <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> packBoolean(<span class="type">boolean</span> b) <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> packChar(<span class="type">char</span> c) <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> packShort(<span class="type">short</span> s) <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> packInt(<span class="type">int</span> i) <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> packLong(<span class="type">long</span> l) <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> packFloat(<span class="type">float</span> f) <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> packDouble(<span class="type">double</span> d) <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> packString(<span class="predefined-type">String</span> s) <span class="directive">throws</span> <span class="exception">IOException</span>;
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title"><code>InputBuffer</code></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">InputBuffer</span> {
+    <span class="directive">public</span> InputBuffer();
+
+    <span class="directive">public</span> <span class="directive">final</span> <span class="directive">synchronized</span> <span class="type">boolean</span> valid();
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">byte</span><span class="type">[]</span> buffer();
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">int</span> length();
+
+    <span class="comment">/* unpack operations for standard Java types */</span>
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">byte</span> unpackByte() <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">byte</span><span class="type">[]</span> unpackBytes() <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> unpackBoolean() <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">char</span> unpackChar() <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">short</span> unpackShort() <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">int</span> unpackInt() <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">long</span> unpackLong() <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">float</span> unpackFloat() <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">double</span> unpackDouble() <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="predefined-type">String</span> unpackString() <span class="directive">throws</span> <span class="exception">IOException</span>;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>InputBuffer</code> and <code>OutputBuffer</code> classes maintain an internal array into which instances of the standard Java types can be contiguously packed or unpacked, using the <code>pack</code> or <code>unpack</code> operations.
+This buffer is automatically resized as required should it have insufficient space.
+The instances are all stored in the buffer in a standard form called <em>network byte order</em> to make them machine independent.</p>
+</div>
+<div class="listingblock">
+<div class="title"><code>OutputObjectState</code></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="type">class</span> <span class="class">OutputObjectState</span> <span class="directive">extends</span> OutputBuffer {
+    <span class="directive">public</span> OutputObjectState(Uid newUid, <span class="predefined-type">String</span> typeName);
+
+    <span class="directive">public</span> <span class="type">boolean</span> notempty();
+
+    <span class="directive">public</span> <span class="type">int</span> size();
+
+    <span class="directive">public</span> Uid stateUid();
+
+    <span class="directive">public</span> <span class="predefined-type">String</span> type();
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">InputObjectState</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="type">class</span> <span class="class">InputObjectState</span> <span class="directive">extends</span> InputBuffer {
+    <span class="directive">public</span> OutputObjectState(Uid newUid, <span class="predefined-type">String</span> typeName, <span class="type">byte</span><span class="type">[]</span> b);
+
+    <span class="directive">public</span> <span class="type">boolean</span> notempty();
+
+    <span class="directive">public</span> <span class="type">int</span> size();
+
+    <span class="directive">public</span> Uid stateUid();
+
+    <span class="directive">public</span> <span class="predefined-type">String</span> type();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>InputObjectState</code> and <code>OutputObjectState</code> classes provides all the functionality of <code>InputBuffer</code> and <code>OutputBuffer</code>, through inheritance, and add two additional instance variables that signify the Uid and type of the object for which the <code>InputObjectStat</code> or <code>OutputObjectState</code> instance is a compressed image.
+These are used when accessing the object store during storage and retrieval of the object state.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_object_store"><a class="anchor" href="#_the_object_store"></a>The object store</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The object store provided with ArjunaCore deliberately has a fairly restricted interface so that it can be implemented in a variety of ways.
+For example, object stores are implemented in shared memory, on the Unix file system (in several different forms), and as a remotely accessible store.
+More complete information about the object stores available in ArjunaCore can be found in the Appendix.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>As with all ArjunaCore classes, the default object stores are pure Java implementations.
+To access the shared memory and other more complex object store implementations, you need to use native methods.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>All of the object stores hold and retrieve instances of the class <code>InputObjectState</code> or <code>OutputObjectState</code>.
+These instances are named by the Uid and Type of the object that they represent.
+States are read using the <code>read_committed</code> operation and written by the system using the <code>write_uncommitted</code> operation.
+Under normal operation new object states do not overwrite old object states but are written to the store as shadow copies.
+These shadows replace the original only when the <code>commit_state</code> operation is invoked.
+Normally all interaction with the object store is performed by ArjunaCore system components as appropriate thus the existence of any shadow versions of objects in the store are hidden from the programmer.</p>
+</div>
+<div class="listingblock">
+<div class="title">StateStatus</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> StateStatus {
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> OS_COMMITTED;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> OS_UNCOMMITTED;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> OS_COMMITTED_HIDDEN;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> OS_UNCOMMITTED_HIDDEN;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> OS_UNKNOWN;
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">ObjectStore</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="directive">abstract</span> <span class="type">class</span> <span class="class">ObjectStore</span> {
+    <span class="comment">/* The abstract interface */</span>
+    <span class="directive">public</span> <span class="directive">abstract</span> <span class="type">boolean</span> commit_state(Uid u, <span class="predefined-type">String</span> name) <span class="directive">throws</span> ObjectStoreException;
+
+    <span class="directive">public</span> <span class="directive">abstract</span> InputObjectState read_committed(Uid u, <span class="predefined-type">String</span> name) <span class="directive">throws</span> ObjectStoreException;
+
+    <span class="directive">public</span> <span class="directive">abstract</span> <span class="type">boolean</span> write_uncommitted(Uid u, <span class="predefined-type">String</span> name, OutputObjectState os) <span class="directive">throws</span> ObjectStoreException;
+
+    ...
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When a transactional object is committing, it must make certain state changes persistent, so it can recover in the event of a failure and either continue to commit, or rollback.
+When using <code>TXOJ</code>, ArjunaCore will take care of this automatically.
+To guarantee <em>ACID</em> properties, these state changes must be flushed to the persistence store implementation before the transaction can proceed to commit.
+Otherwise, the application may assume that the transaction has committed when in fact the state changes may still reside within an operating system cache, and may be lost by a subsequent machine failure.
+By default, ArjunaCore ensures that such state changes are flushed.
+However, doing so can impose a significant performance penalty on the application.</p>
+</div>
+<div class="paragraph">
+<p>To prevent transactional object state flushes, set the <code>ObjectStoreEnvironmentBean.objectStoreSync</code> variable to <code>OFF</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_selecting_an_object_store_implementation"><a class="anchor" href="#_selecting_an_object_store_implementation"></a>Selecting an object store implementation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>ArjunaCore comes with support for several different object store implementations.
+The Appendix describes these implementations, how to select and configure a given implementation on a per-object basis using the <code>ObjectStoreEnvironmentBean.objectStoreType</code> property variable, and indicates how additional implementations can be provided.</p>
+</div>
+<div class="sect2">
+<h3 id="_statemanager"><a class="anchor" href="#_statemanager"></a>StateManager</h3>
+<div class="paragraph">
+<p>The ArjunaCore class <code>StateManager</code> manages the state of an object and provides all of the basic support mechanisms required by an object for state management purposes. <code>StateManager</code> is responsible for creating and registering appropriate resources concerned with the persistence and recovery of the transactional object.
+If a transaction is nested, then <code>StateManager</code> will also propagate these resources between child transactions and their parents at commit time.</p>
+</div>
+<div class="paragraph">
+<p>Objects are assumed to be of three possible flavors.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="dlist">
+<div class="title">Three Flavors of Objects</div>
+<dl>
+<dt class="hdlist1">Recoverable</dt>
+<dd>
+<p><code>StateManager</code> attempts to generate and maintain appropriate recovery information for the object.
+Such objects have lifetimes that do not exceed the application program that creates them.</p>
+</dd>
+<dt class="hdlist1">Recoverable and Persistent</dt>
+<dd>
+<p>The lifetime of the object is assumed to be greater than that of the creating or accessing application, so that in addition to maintaining recovery information, <code>StateManager</code> attempts to automatically load or unload any existing persistent state for the object by calling the <code>activate</code> or <code>deactivate</code> operation at appropriate times.</p>
+</dd>
+<dt class="hdlist1">Neither Recoverable nor Persistent</dt>
+<dd>
+<p>No recovery information is ever kept, nor is object activation or deactivation ever automatically attempted.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>This object property is selected at object construction time and cannot be changed thereafter.
+Thus, an object cannot gain (or lose) recovery capabilities at some arbitrary point during its lifetime.</p>
+</div>
+<div class="listingblock">
+<div class="title">Object Store Implementation Using <code>StateManager</code></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">ObjectStatus</span> {
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> PASSIVE;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> PASSIVE_NEW;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> ACTIVE;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> ACTIVE_NEW;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> UNKNOWN_STATUS;
+}
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">ObjectType</span> {
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> RECOVERABLE;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> ANDPERSISTENT;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> NEITHER;
+}
+
+<span class="directive">public</span> <span class="directive">abstract</span> <span class="type">class</span> <span class="class">StateManager</span> {
+    <span class="directive">protected</span> StateManager();
+
+    <span class="directive">protected</span> StateManager(<span class="type">int</span> ObjectType, <span class="type">int</span> objectModel);
+
+    <span class="directive">protected</span> StateManager(Uid uid);
+
+    <span class="directive">protected</span> StateManager(Uid uid, <span class="type">int</span> objectModel);
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> activate();
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> activate(<span class="predefined-type">String</span> storeRoot);
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> deactivate();
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> deactivate(<span class="predefined-type">String</span> storeRoot, <span class="type">boolean</span> commit);
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> destroy();
+    ...
+
+    public <span class="directive">final</span> Uid get_uid();
+
+    <span class="directive">public</span> <span class="type">boolean</span> restore_state(InputObjectState, <span class="type">int</span> ObjectType);
+
+    <span class="directive">public</span> <span class="type">boolean</span> save_state(OutputObjectState, <span class="type">int</span> ObjectType);
+
+    <span class="directive">public</span> <span class="predefined-type">String</span> type();
+    ...
+
+    protected <span class="directive">final</span> <span class="type">void</span> modified();
+    ...
+}
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">ObjectModel</span> {
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> SINGLE;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> MULTIPLE;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If an object is recoverable or persistent, <code>StateManager</code> will invoke the operations <code>save_state</code> (while performing deactivation), <code>restore_state</code> (while performing activation), and <code>type</code> at various points during the execution of the application.
+These operations must be implemented by the programmer since <code>StateManager</code> does not have access to a runtime description of the layout of an arbitrary Java object in memory and thus cannot implement a default policy for converting the in memory version of the object to its passive form.
+However, the capabilities provided by <code>InputObjectState</code> and <code>OutputObjectState</code> make the writing of these routines fairly simple.
+For example, the <code>save_state</code> implementation for a class <code>Example</code> that had member variables called <code>A</code>, <code>B</code>, and <code>C</code> could simply be <a href="#example_methods_for_StateManager">the example implementation of <code>StateManager</code></a>.</p>
+</div>
+<div id="example_methods_for_StateManager" class="listingblock">
+<div class="title">Example implementation of <code>StateManager</code></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">boolean</span> save_state(OutputObjectState os, <span class="type">int</span> ObjectType) {
+    <span class="keyword">if</span> (!<span class="local-variable">super</span>.save_state(os, ObjectType))
+        <span class="keyword">return</span> <span class="predefined-constant">false</span>;
+
+    <span class="keyword">try</span> {
+        os.packInt(A);
+        os.packString(B);
+        os.packFloat(C);
+
+        <span class="keyword">return</span> <span class="predefined-constant">true</span>;
+    } <span class="keyword">catch</span> (<span class="exception">IOException</span> e) {
+        <span class="keyword">return</span> <span class="predefined-constant">false</span>;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In order to support crash recovery for persistent objects, all <code>save_state</code> and <code>restore_state</code> methods of user objects must call <code>super.save_state</code> and <code>super.restore_state</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The <code>type</code> method is used to determine the location in the object store where the state of instances of that class will be saved and ultimately restored.
+This location can actually be any valid string.
+However, you should avoid using the hash character (#) as this is reserved for special directories that ArjunaCore requires.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The <code>get_uid</code> operation of <code>StateManager</code> provides read-only access to an object’s internal system name for whatever purpose the programmer requires, such as registration of the name in a name server.
+The value of the internal system name can only be set when an object is initially constructed, either by the provision of an explicit parameter or by generating a new identifier when the object is created.</p>
+</div>
+<div class="paragraph">
+<p>The <code>destroy</code> method can be used to remove the object’s state from the object store.
+This is an atomic operation, and therefore will only remove the state if the top-level transaction within which it is invoked eventually commits.
+The programmer must obtain exclusive access to the object prior to invoking this operation.</p>
+</div>
+<div class="paragraph">
+<p>Since object recovery and persistence essentially have complimentary requirements (the only difference being where state information is stored and for what purpose), <code>StateManager</code> effectively combines the management of these two properties into a single mechanism.
+It uses instances of the classes <code>InputObjectState</code> and <code>OutputObjectState</code> both for recovery and persistence purposes.
+An additional argument passed to the <code>save_state</code> and <code>restore_state</code> operations allows the programmer to determine the purpose for which any given invocation is being made.
+This allows different information to be saved for recovery and persistence purposes.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_object_models"><a class="anchor" href="#_object_models"></a>Object models</h3>
+<div class="paragraph">
+<p>ArjunaCore supports two models for objects, which affect how an objects state and concurrency control are implemented.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="dlist">
+<div class="title">ArjunaCore Object Models</div>
+<dl>
+<dt class="hdlist1">Single</dt>
+<dd>
+<p>Only a single copy of the object exists within the application.
+This copy resides within a single JVM, and all clients must address their invocations to this server.
+This model provides better performance, but represents a single point of failure, and in a multi-threaded environment may not protect the object from corruption if a single thread fails.</p>
+</dd>
+</dl>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/appendix-single_object_model.png" alt="appendix single object model">
+</div>
+<div class="title">Figure 1. Single Object Model</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Multiple</dt>
+<dd>
+<p>Logically, a single instance of the object exists, but copies of it are distributed across different JVMs.
+The performance of this model is worse than the SINGLE model, but it provides better failure isolation.</p>
+</dd>
+</dl>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/appendix-multiple_object_model.png" alt="appendix multiple object model">
+</div>
+<div class="title">Figure 2. Multiple Object Model</div>
+</div>
+<div class="paragraph">
+<p>The default model is SINGLE.
+The programmer can override this on a per-object basis by using the appropriate constructor.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_summary"><a class="anchor" href="#_summary"></a>Summary</h3>
+<div class="paragraph">
+<p>In summary, the ArjunaCore class <code>StateManager</code> manages the state of an object and provides all of the basic support mechanisms required by an object for state management purposes.
+Some operations must be defined by the class developer.
+These operations are: <code>save_state</code>, <code>restore_state</code>, and <code>type</code>.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code><strong>boolean save_state (OutputObjectState state, int objectType)</strong></code></dt>
+<dd>
+<p>Invoked whenever the state of an object might need to be saved for future use, primarily for recovery or persistence purposes.
+The <code>objectType</code> parameter indicates the reason that <code>save_state</code> was invoked by ArjunaCore.
+This enables the programmer to save different pieces of information into the <code>OutputObjectState</code> supplied as the first parameter depending upon whether the state is needed for recovery or persistence purposes.
+For example, pointers to other ArjunaCore objects might be saved simply as pointers for recovery purposes but as <code>Uid</code> s for persistence purposes.
+As shown earlier, the <code>OutputObjectState</code> class provides convenient operations to allow the saving of instances of all of the basic types in Java.
+In order to support crash recovery for persistent objects it is necessary for all <code>save_state</code> methods to call <code>super.save_state</code>.</p>
+<div class="paragraph">
+<p><code>save_state</code> assumes that an object is internally consistent and that all variables saved have valid values.
+It is the programmer&#8217;s responsibility to ensure that this is the case.</p>
+</div>
+</dd>
+<dt class="hdlist1"><code><strong>boolean restore_state (InputObjectState state, int objectType)</strong></code></dt>
+<dd>
+<p>Invoked whenever the state of an object needs to be restored to the one supplied.
+Once again the second parameter allows different interpretations of the supplied state.
+In order to support crash recovery for persistent objects it is necessary for all <code>restore_state</code> methods to call <code>super.restore_state</code>.</p>
+</dd>
+<dt class="hdlist1"><code><strong>String type ()</strong></code></dt>
+<dd>
+<p>The ArjunaCore persistence mechanism requires a means of determining the type of an object as a string so that it can save or restore the state of the object into or from the object store.
+By convention this information indicates the position of the class in the hierarchy.
+For example, <code>/StateManager/LockManager/Object</code>.</p>
+<div class="paragraph">
+<p>The <code>type</code> method is used to determine the location in the object store where the state of instances of that class will be saved and ultimately restored.
+This can actually be any valid string.
+However, you should avoid using the hash character (#) as this is reserved for special directories that ArjunaCore requires.</p>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_example"><a class="anchor" href="#_example"></a>Example</h3>
+<div class="paragraph">
+<p>Consider the following basic <code>Array</code> class derived from the <code>StateManager</code> class.
+In this example, to illustrate saving and restoring of an object’s state, the <code>highestIndex</code> variable is used to keep track of the highest element of the array that has a non-zero value.</p>
+</div>
+<div id="array-example" class="listingblock">
+<div class="title"><code>Array</code> Class</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">Array</span> <span class="directive">extends</span> StateManager {
+    <span class="directive">public</span> <span class="predefined-type">Array</span> ();
+    <span class="directive">public</span> <span class="predefined-type">Array</span> (Uid objUid);
+
+    <span class="directive">public</span> <span class="type">void</span> finalize {
+        <span class="local-variable">super</span>.terminate();
+        <span class="local-variable">super</span>.finalize();
+    }
+
+    <span class="comment">/* Class specific operations. */</span>
+
+    <span class="directive">public</span> <span class="type">boolean</span> set (<span class="type">int</span> index, <span class="type">int</span> value);
+    <span class="directive">public</span> <span class="type">int</span> get (<span class="type">int</span> index);
+
+    <span class="comment">/* State management specific operations. */</span>
+
+    <span class="directive">public</span> <span class="type">boolean</span> save_state (OutputObjectState os, <span class="type">int</span> ObjectType);
+    <span class="directive">public</span> <span class="type">boolean</span> restore_state (InputObjectState os, <span class="type">int</span> ObjectType);
+    <span class="directive">public</span> <span class="predefined-type">String</span> type ();
+
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> ARRAY_SIZE = <span class="integer">10</span>;
+
+    <span class="directive">private</span> <span class="type">int</span><span class="type">[]</span> elements = <span class="keyword">new</span> <span class="type">int</span>[ARRAY_SIZE];
+    <span class="directive">private</span> <span class="type">int</span> highestIndex;
+
+    <span class="comment">/* The save_state, restore_state and type operations can be defined as follows: */</span>
+
+    <span class="comment">/* Ignore ObjectType parameter for simplicity */</span>
+    <span class="directive">public</span> <span class="type">boolean</span> save_state (OutputObjectState os, <span class="type">int</span> ObjectType) {
+        <span class="keyword">if</span> (!<span class="local-variable">super</span>.save_state(os, ObjectType))
+            <span class="keyword">return</span> <span class="predefined-constant">false</span>;
+
+        <span class="keyword">try</span> {
+            packInt(highestIndex);
+
+            <span class="comment">// Traverse array state that we wish to save. Only save active elements</span>
+
+            <span class="keyword">for</span> (<span class="type">int</span> i = <span class="integer">0</span>; i &lt;= highestIndex; i++)
+                os.packInt(elements[i]);
+
+            <span class="keyword">return</span> <span class="predefined-constant">true</span>;
+        } <span class="keyword">catch</span> (<span class="exception">IOException</span> e) {
+            <span class="keyword">return</span> <span class="predefined-constant">false</span>;
+        }
+    }
+
+    <span class="directive">public</span> <span class="type">boolean</span> restore_state (InputObjectState os, <span class="type">int</span> ObjectType) {
+        <span class="keyword">if</span> (!<span class="local-variable">super</span>.restore_state(os, ObjectType))
+            <span class="keyword">return</span> <span class="predefined-constant">false</span>;
+
+        <span class="keyword">try</span> {
+            <span class="type">int</span> i = <span class="integer">0</span>;
+
+            highestIndex = os.unpackInt();
+
+            <span class="keyword">while</span> (i &lt; ARRAY_SIZE) {
+                <span class="keyword">if</span> (i &lt;= highestIndex)
+                    elements[i] =  os.unpackInt();
+                <span class="keyword">else</span>
+                    elements[i] = <span class="integer">0</span>;
+                i++;
+            }
+
+            <span class="keyword">return</span> <span class="predefined-constant">true</span>;
+        } <span class="keyword">catch</span> (<span class="exception">IOException</span> e) {
+            <span class="keyword">return</span> <span class="predefined-constant">false</span>;
+        }
+    }
+
+    <span class="directive">public</span> <span class="predefined-type">String</span> type () {
+        <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">/StateManager/Array</span><span class="delimiter">&quot;</span></span>;
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_lock_management_and_concurrency_control"><a class="anchor" href="#_lock_management_and_concurrency_control"></a>Lock management and concurrency control</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Concurrency control information within ArjunaCore is maintained by locks.
+Locks which are required to be shared between objects in different processes may be held within a lock store, similar to the object store facility presented previously.
+The lock store provided with ArjunaCore deliberately has a fairly restricted interface so that it can be implemented in a variety of ways.
+For example, lock stores are implemented in shared memory, on the Unix file system (in several different forms), and as a remotely accessible store.
+More information about the object stores available in ArjunaCore can be found in the Appendix.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>As with all ArjunaCore classes, the default lock stores are pure Java implementations.
+To access the shared memory and other more complex lock store implementations it is necessary to use native methods.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="title"><code>LockStore</code></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">LockStore</span> {
+    <span class="directive">public</span> <span class="directive">abstract</span> InputObjectState read_state(Uid u, <span class="predefined-type">String</span> tName) <span class="directive">throws</span> LockStoreException;
+
+    <span class="directive">public</span> <span class="directive">abstract</span> <span class="type">boolean</span> remove_state(Uid u, <span class="predefined-type">String</span> tname);
+
+    <span class="directive">public</span> <span class="directive">abstract</span> <span class="type">boolean</span> write_committed(Uid u, <span class="predefined-type">String</span> tName, OutputObjectState state);
+}</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_selecting_a_lock_store_implementation"><a class="anchor" href="#_selecting_a_lock_store_implementation"></a>Selecting a lock store implementation</h3>
+<div class="paragraph">
+<p>ArjunaCore comes with support for several different object store implementations.
+If the object model being used is SINGLE, then no lock store is required for maintaining locks, since the information about the object is not exported from it.
+However, if the MULTIPLE model is used, then different run-time environments (processes, Java virtual machines) may need to share concurrency control information.
+The implementation type of the lock store to use can be specified for all objects within a given execution environment using the <code>TxojEnvironmentBean.lockStoreType</code> property variable.
+Currently, this can have one of the following values:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">BasicLockStore</dt>
+<dd>
+<p>This is an in-memory implementation which does not, by default, allow sharing of stored information between execution environments.
+The application programmer is responsible for sharing the store information.</p>
+</dd>
+<dt class="hdlist1">BasicPersistentLockStore</dt>
+<dd>
+<p>This is the default implementation, and stores locking information within the local file system.
+Therefore execution environments that share the same file store can share concurrency control information.
+The root of the file system into which locking information is written is the <code>LockStore</code> directory within the ArjunaCore installation directory.
+You can override this at runtime by setting the <code>TxojEnvironmentBean.lockStoreDir</code> property variable accordingly, or placing the location within the <code>CLASSPATH</code>.</p>
+</dd>
+</dl>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">java -D TxojEnvironmentBean.lockStoreDir=/var/tmp/LockStore myprogram
+java –classpath $CLASSPATH;/var/tmp/LockStore myprogram</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>If neither of these approaches is taken, then the default location will be at the same level as the <code>etc</code> directory of the installation.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_lockmanager"><a class="anchor" href="#_lockmanager"></a>LockManager</h3>
+<div class="paragraph">
+<p>The concurrency controller is implemented by the class <code>LockManager</code>, which provides sensible default behavior, while allowing the programmer to override it if deemed necessary by the particular semantics of the class being programmed.
+The primary programmer interface to the concurrency controller is via the <code>setlock</code> operation.
+By default, the ArjunaCore runtime system enforces strict two-phase locking following a multiple reader, single writer policy on a per-object basis.
+Lock acquisition is under programmer control, since just as <code>StateManager</code> cannot determine if an operation modifies an object, <code>LockManager</code> cannot determine if an operation requires a read or write lock.
+Lock release, however, is normally under control of the system and requires no further intervention by the programmer.
+This ensures that the two-phase property can be correctly maintained.</p>
+</div>
+<div class="paragraph">
+<p>The <code>LockManager</code> class is primarily responsible for managing requests to set a lock on an object or to release a lock as appropriate.
+However, since it is derived from <code>StateManager</code>, it can also control when some of the inherited facilities are invoked.
+For example, if a request to set a write lock is granted, then <code>LockManager</code> invokes modified directly assuming that the setting of a write lock implies that the invoking operation must be about to modify the object.
+This may in turn cause recovery information to be saved if the object is recoverable.
+In a similar fashion, successful lock acquisition causes activate to be invoked.</p>
+</div>
+<div class="paragraph">
+<p>Therefore, <code>LockManager</code> is directly responsible for activating and deactivating persistent objects, as well as registering <code>Resources</code> for managing concurrency control.
+By driving the <code>StateManager</code> class, it is also responsible for registering <code>Resources</code> for persistent or recoverable state manipulation and object recovery.
+The application programmer simply sets appropriate locks, starts and ends transactions, and extends the <code>save_state</code> and <code>restore_state</code> methods of <code>StateManager</code>.</p>
+</div>
+<div class="listingblock">
+<div class="title"><code>LockResult</code></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">LockResult</span> {
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> GRANTED;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> REFUSED;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> RELEASED;
+}
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">ConflictType</span> {
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> CONFLICT;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> COMPATIBLE;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> PRESENT;
+}
+
+<span class="directive">public</span> <span class="directive">abstract</span> <span class="type">class</span> <span class="class">LockManager</span> <span class="directive">extends</span> StateManager {
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> defaultTimeout;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> defaultRetry;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> waitTotalTimeout;
+
+    <span class="directive">protected</span> LockManager();
+
+    <span class="directive">protected</span> LockManager(<span class="type">int</span> ObjectType, <span class="type">int</span> objectModel);
+
+    <span class="directive">protected</span> LockManager(Uid storeUid);
+
+    <span class="directive">protected</span> LockManager(Uid storeUid, <span class="type">int</span> ObjectType, <span class="type">int</span> objectModel);
+
+    <span class="comment">/* abstract methods inherited from StateManager */</span>
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">int</span> setlock(<span class="predefined-type">Lock</span> l);
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">int</span> setlock(<span class="predefined-type">Lock</span> l, <span class="type">int</span> retry);
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">int</span> setlock(<span class="predefined-type">Lock</span> l, <span class="type">int</span> retry, <span class="type">int</span> sleepTime);
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> releaselock(Uid uid);
+
+    <span class="directive">public</span> <span class="type">boolean</span> restore_state(InputObjectState os, <span class="type">int</span> ObjectType);
+
+    <span class="directive">public</span> <span class="type">boolean</span> save_state(OutputObjectState os, <span class="type">int</span> ObjectType);
+
+    <span class="directive">public</span> <span class="predefined-type">String</span> type();
+    ...
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>setlock</code> operation must be parametrized with the type of lock required (READ or WRITE), and the number of retries to acquire the lock before giving up.
+If a lock conflict occurs, one of the following scenarios will take place:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If the retry value is equal to <code>LockManager.waitTotalTimeout</code>, then the thread which called <code>setlock</code> will be blocked until the lock is released, or the total timeout specified has elapsed, and in which <code>REFUSED</code> will be returned.</p>
+</li>
+<li>
+<p>If the lock cannot be obtained initially then <code>LockManager</code> will try for the specified number of retries, waiting for the specified timeout value between each failed attempt.
+The default is 100 attempts, each attempt being separated by a 0.25 seconds delay.
+The time between retries is specified in micro-seconds.</p>
+</li>
+<li>
+<p>If a lock conflict occurs the current implementation simply times out lock requests, thereby preventing deadlocks, rather than providing a full deadlock detection scheme.
+If the requested lock is obtained, the <code>setlock</code> operation will return the value <code>GRANTED</code>, otherwise the value <code>REFUSED</code> is returned.
+It is the responsibility of the programmer to ensure that the remainder of the code for an operation is only executed if a lock request is granted.
+Below are examples of the use of the <code>setlock</code> operation.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="title"><code>setlock</code> method usage</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// Will attempt to set a write lock 11 times (10 retries) on the object before giving up.</span>
+res = setlock(<span class="keyword">new</span> <span class="predefined-type">Lock</span>(WRITE), <span class="integer">10</span>);
+<span class="comment">// Will attempt to set a read lock 1 time (no retries) on the object before giving up.</span>
+res = setlock(<span class="keyword">new</span> <span class="predefined-type">Lock</span>(READ), <span class="integer">0</span>);
+<span class="comment">// Will attempt to set a write lock 101 times (default of 100 retries) on the object before giving up.</span>
+res = setlock(<span class="keyword">new</span> <span class="predefined-type">Lock</span>(WRITE);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The concurrency control mechanism is integrated into the atomic action mechanism, thus ensuring that as locks are granted on an object appropriate information is registered with the currently running atomic action to ensure that the locks are released at the correct time.
+This frees the programmer from the burden of explicitly freeing any acquired locks if they were acquired within atomic actions.
+However, if locks are acquired on an object outside of the scope of an atomic action, it is the programmer&#8217;s responsibility to release the locks when required, using the corresponding <code>releaselock</code> operation.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_locking_policy"><a class="anchor" href="#_locking_policy"></a>Locking policy</h3>
+<div class="paragraph">
+<p>Unlike many other systems, locks in ArjunaCore are not special system types.
+Instead they are simply instances of other ArjunaCore objects (the class <code>Lock</code> which is also derived from <code>StateManager</code> so that locks may be made persistent if required and can also be named in a simple fashion).
+Furthermore, <code>LockManager</code> deliberately has no knowledge of the semantics of the actual policy by which lock requests are granted.
+Such information is maintained by the actual <code>Lock</code> class instances which provide operations (the <code>conflictsWith</code> operation) by which <code>LockManager</code> can determine if two locks conflict or not.
+This separation is important in that it allows the programmer to derive new lock types from the basic <code>Lock</code> class and by providing appropriate definitions of the conflict operations enhanced levels of concurrency may be possible.</p>
+</div>
+<div class="listingblock">
+<div class="title">`LockMode`Class</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">LockMode</span> {
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> READ;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> WRITE;
+}
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">LockStatus</span> {
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> LOCKFREE;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> LOCKHELD;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> LOCKRETAINED;
+}
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">Lock</span> <span class="directive">extends</span> StateManager {
+    <span class="directive">public</span> <span class="predefined-type">Lock</span>(<span class="type">int</span> lockMode);
+
+    <span class="directive">public</span> <span class="type">boolean</span> conflictsWith(<span class="predefined-type">Lock</span> otherLock);
+
+    <span class="directive">public</span> <span class="type">boolean</span> modifiesObject();
+
+    <span class="directive">public</span> <span class="type">boolean</span> restore_state(InputObjectState os, <span class="type">int</span> ObjectType);
+
+    <span class="directive">public</span> <span class="type">boolean</span> save_state(OutputObjectState os, <span class="type">int</span> ObjectType);
+
+    <span class="directive">public</span> <span class="predefined-type">String</span> type();
+    ...
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>Lock</code> class provides a <code>modifiesObject</code> operation which <code>LockManager</code> uses to determine if granting this locking request requires a call on modified.
+This operation is provided so that locking modes other than simple read and write can be supported.
+The supplied <code>Lock</code> class supports the traditional multiple reader/single writer policy.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_object_constructor_and_finalizer"><a class="anchor" href="#_object_constructor_and_finalizer"></a>Object constructor and finalizer</h3>
+<div class="paragraph">
+<p>Recall that ArjunaCore objects can be recoverable, recoverable and persistent, or neither.
+Additionally, each object possesses a unique internal name.
+These attributes can only be set when that object is constructed.
+Thus <code>LockManager</code> provides two protected constructors for use by derived classes, each of which fulfills a distinct purpose.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="dlist">
+<div class="title">Protected Constructors Provided by <code>LockManager</code></div>
+<dl>
+<dt class="hdlist1"><code><strong>LockManager ()</strong></code></dt>
+<dd>
+<p>This constructor allows the creation of new objects, having no prior state.</p>
+</dd>
+<dt class="hdlist1"><code><strong>LockManager (int objectType, int objectModel)</strong></code></dt>
+<dd>
+<p>As above, this constructor allows the creation of new objects having no prior state. exist.
+The <code>objectType</code> parameter determines whether an object is simply recoverable (indicated by <code>RECOVERABLE</code>), recoverable and persistent (indicated by <code>ANDPERSISTENT</code>), or neither (indicated by <code>NEITHER</code>).
+If an object is marked as being persistent then the state of the object will be stored in one of the object stores.
+The shared parameter only has meaning if it is <code>RECOVERABLE</code>. If the object model is <code>SINGLE</code> (the default behavior) then the recoverable state of the object is maintained within the object itself, and has no external representation).
+Otherwise, an in-memory (volatile) object store is used to store the state of the object between atomic actions.</p>
+<div class="paragraph">
+<p>Constructors for new persistent objects should make use of atomic actions within themselves.
+This will ensure that the state of the object is automatically written to the object store either when the action in the constructor commits or, if an enclosing action exists, when the appropriate top-level action commits.
+Later examples in this chapter illustrate this point further.</p>
+</div>
+</dd>
+<dt class="hdlist1"><code><strong>LockManager (Uid objUid)</strong></code></dt>
+<dd>
+<p>This constructor allows access to an existing persistent object, whose internal name is given by the <code>objUid</code> parameter.
+Objects constructed using this operation will normally have their prior state (identified by <code>objUid</code>) loaded from an object store automatically by the system.</p>
+</dd>
+<dt class="hdlist1"><code><strong>LockManager (Uid objUid, int objectModel)</strong></code></dt>
+<dd>
+<p>As above, this constructor allows access to an existing persistent object, whose internal name is given by the <code>objUid</code> parameter.
+Objects constructed using this operation will normally have their prior state (identified by <code>objUid</code> ) loaded from an object store automatically by the system.
+If the object model is <code>SINGLE</code> (the default behavior), then the object will not be reactivated at the start of each top-level transaction.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The finalizer of a programmer-defined class must invoke the inherited operation <code>terminate</code> to inform the state management mechanism that the object is about to be destroyed.
+Otherwise, unpredictable results may occur.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>

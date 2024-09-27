@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>Core Class Definitions</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+/*! Stylesheet for CodeRay to loosely match GitHub themes | MIT License */
+pre.CodeRay{background:#f7f7f8}
+.CodeRay .line-numbers{border-right:1px solid;opacity:.35;padding:0 .5em 0 0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+.CodeRay span.line-numbers{display:inline-block;margin-right:.75em}
+.CodeRay .line-numbers strong{color:#000}
+table.CodeRay{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.CodeRay td{vertical-align:top;line-height:inherit}
+table.CodeRay td.line-numbers{text-align:right}
+table.CodeRay td.code{padding:0 0 0 .75em}
+.CodeRay .debug{color:#fff!important;background:navy!important}
+.CodeRay .annotation{color:#007}
+.CodeRay .attribute-name{color:navy}
+.CodeRay .attribute-value{color:#700}
+.CodeRay .binary{color:#509}
+.CodeRay .comment{color:#998;font-style:italic}
+.CodeRay .char{color:#04d}
+.CodeRay .char .content{color:#04d}
+.CodeRay .char .delimiter{color:#039}
+.CodeRay .class{color:#458;font-weight:bold}
+.CodeRay .complex{color:#a08}
+.CodeRay .constant,.CodeRay .predefined-constant{color:teal}
+.CodeRay .color{color:#099}
+.CodeRay .class-variable{color:#369}
+.CodeRay .decorator{color:#b0b}
+.CodeRay .definition{color:#099}
+.CodeRay .delimiter{color:#000}
+.CodeRay .doc{color:#970}
+.CodeRay .doctype{color:#34b}
+.CodeRay .doc-string{color:#d42}
+.CodeRay .escape{color:#666}
+.CodeRay .entity{color:#800}
+.CodeRay .error{color:#808}
+.CodeRay .exception{color:inherit}
+.CodeRay .filename{color:#099}
+.CodeRay .function{color:#900;font-weight:bold}
+.CodeRay .global-variable{color:teal}
+.CodeRay .hex{color:#058}
+.CodeRay .integer,.CodeRay .float{color:#099}
+.CodeRay .include{color:#555}
+.CodeRay .inline{color:#000}
+.CodeRay .inline .inline{background:#ccc}
+.CodeRay .inline .inline .inline{background:#bbb}
+.CodeRay .inline .inline-delimiter{color:#d14}
+.CodeRay .inline-delimiter{color:#d14}
+.CodeRay .important{color:#555;font-weight:bold}
+.CodeRay .interpreted{color:#b2b}
+.CodeRay .instance-variable{color:teal}
+.CodeRay .label{color:#970}
+.CodeRay .local-variable{color:#963}
+.CodeRay .octal{color:#40e}
+.CodeRay .predefined{color:#369}
+.CodeRay .preprocessor{color:#579}
+.CodeRay .pseudo-class{color:#555}
+.CodeRay .directive{font-weight:bold}
+.CodeRay .type{font-weight:bold}
+.CodeRay .predefined-type{color:inherit}
+.CodeRay .reserved,.CodeRay .keyword{color:#000;font-weight:bold}
+.CodeRay .key{color:#808}
+.CodeRay .key .delimiter{color:#606}
+.CodeRay .key .char{color:#80f}
+.CodeRay .value{color:#088}
+.CodeRay .regexp .delimiter{color:#808}
+.CodeRay .regexp .content{color:#808}
+.CodeRay .regexp .modifier{color:#808}
+.CodeRay .regexp .char{color:#d14}
+.CodeRay .regexp .function{color:#404;font-weight:bold}
+.CodeRay .string{color:#d20}
+.CodeRay .string .string .string{background:#ffd0d0}
+.CodeRay .string .content{color:#d14}
+.CodeRay .string .char{color:#d14}
+.CodeRay .string .delimiter{color:#d14}
+.CodeRay .shell{color:#d14}
+.CodeRay .shell .delimiter{color:#d14}
+.CodeRay .symbol{color:#990073}
+.CodeRay .symbol .content{color:#a60}
+.CodeRay .symbol .delimiter{color:#630}
+.CodeRay .tag{color:teal}
+.CodeRay .tag-special{color:#d70}
+.CodeRay .variable{color:#036}
+.CodeRay .insert{background:#afa}
+.CodeRay .delete{background:#faa}
+.CodeRay .change{color:#aaf;background:#007}
+.CodeRay .head{color:#f8f;background:#505}
+.CodeRay .insert .insert{color:#080}
+.CodeRay .delete .delete{color:#800}
+.CodeRay .change .change{color:#66f}
+.CodeRay .head .head{color:#f4f}
+</style>
+</head>
+<body class="article">
+<div id="header">
+<h1>Core Class Definitions</h1>
+</div>
+<div id="content">
+<div class="paragraph">
+<p>This appendix contains an overview of those classes that the application programmer will typically use.
+The aim of this appendix is to provide a quick reference guide to these classes for use when writing applications in ArjunaCore.
+For clarity only the public and protected interfaces of the classes will be given.</p>
+</div>
+<div class="listingblock">
+<div class="title">Class <code class="class">LockManager</code></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">LockResult</span> {
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> GRANTED;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> REFUSED;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> RELEASED;
+};
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">ConflictType</span> {
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> CONFLICT;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> COMPATIBLE;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> PRESENT;
+};
+
+<span class="directive">public</span> <span class="directive">abstract</span> <span class="type">class</span> <span class="class">LockManager</span> <span class="directive">extends</span> StateManager {
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> defaultRetry;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> defaultTimeout;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> waitTotalTimeout;
+
+    <span class="directive">protected</span> LockManager();
+
+    <span class="directive">protected</span> LockManager(<span class="type">int</span> ot);
+
+    <span class="directive">protected</span> LockManager(<span class="type">int</span> ot, <span class="type">int</span> objectModel);
+
+    <span class="directive">protected</span> LockManager(Uid storeUid);
+
+    <span class="directive">protected</span> LockManager(Uid storeUid, <span class="type">int</span> ot);
+
+    <span class="directive">protected</span> LockManager(Uid storeUid, <span class="type">int</span> ot, <span class="type">int</span> objectModel);
+
+    <span class="directive">public</span> <span class="directive">final</span> <span class="directive">synchronized</span> <span class="type">boolean</span> releaselock(Uid lockUid);
+
+    <span class="directive">public</span> <span class="directive">final</span> <span class="directive">synchronized</span> <span class="type">int</span> setlock(<span class="predefined-type">Lock</span> toSet);
+
+    <span class="directive">public</span> <span class="directive">final</span> <span class="directive">synchronized</span> <span class="type">int</span> setlock(<span class="predefined-type">Lock</span> toSet, <span class="type">int</span> retry);
+
+    <span class="directive">public</span> <span class="directive">final</span> <span class="directive">synchronized</span> <span class="type">int</span> setlock(<span class="predefined-type">Lock</span> toSet, <span class="type">int</span> retry, <span class="type">int</span> sleepTime);
+
+    <span class="directive">public</span> <span class="type">void</span> print(<span class="predefined-type">PrintStream</span> strm);
+
+    <span class="directive">public</span> <span class="predefined-type">String</span> type();
+
+    <span class="directive">public</span> <span class="type">boolean</span> save_state(OutputObjectState os, <span class="type">int</span> ObjectType);
+
+    <span class="directive">public</span> <span class="type">boolean</span> restore_state(InputObjectState os, <span class="type">int</span> ObjectType);
+
+    <span class="directive">protected</span> <span class="type">void</span> terminate();
+};</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Class <code class="class">StateManager</code></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">ObjectStatus</span> {
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> PASSIVE;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> PASSIVE_NEW;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> ACTIVE;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> ACTIVE_NEW;
+};
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">ObjectType</span> {
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> RECOVERABLE;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> ANDPERSISTENT;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> NEITHER;
+};
+
+<span class="directive">public</span> <span class="directive">abstract</span> <span class="type">class</span> <span class="class">StateManager</span> {
+    <span class="directive">protected</span> StateManager();
+
+    <span class="directive">protected</span> StateManager(<span class="type">int</span> ot);
+
+    <span class="directive">protected</span> StateManager(<span class="type">int</span> ot, <span class="type">int</span> objectModel);
+
+    <span class="directive">protected</span> StateManager(Uid objUid);
+
+    <span class="directive">protected</span> StateManager(Uid objUid, <span class="type">int</span> ot);
+
+    <span class="directive">protected</span> StateManager(Uid objUid, <span class="type">int</span> ot, <span class="type">int</span> objectModel);
+
+    <span class="directive">public</span> <span class="type">boolean</span> restore_state(InputObjectState os, <span class="type">int</span> ot);
+
+    <span class="directive">public</span> <span class="type">boolean</span> save_state(OutputObjectState os, <span class="type">int</span> ot);
+
+    <span class="directive">public</span> <span class="predefined-type">String</span> type();
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> activate();
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> activate(<span class="predefined-type">String</span> rootName);
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> deactivate();
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> deactivate(<span class="predefined-type">String</span> rootName);
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> deactivate(<span class="predefined-type">String</span> rootName, <span class="type">boolean</span> commit);
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">int</span> status();
+
+    <span class="directive">public</span> <span class="directive">final</span> Uid get_uid();
+
+    <span class="directive">public</span> <span class="type">void</span> destroy();
+
+    <span class="directive">public</span> <span class="type">void</span> print(<span class="predefined-type">PrintStream</span> strm);
+
+    <span class="directive">protected</span> <span class="type">void</span> terminate();
+
+    <span class="directive">protected</span> <span class="directive">synchronized</span> <span class="directive">final</span> <span class="type">void</span> modified();
+};</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Classes <code class="class">OutputObjectState</code>and <code class="class">InputObjectState</code></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="type">class</span> <span class="class">OutputObjectState</span> <span class="directive">extends</span> OutputBuffer {
+    <span class="directive">public</span> OutputObjectState(Uid newUid, <span class="predefined-type">String</span> typeName);
+
+    <span class="directive">public</span> <span class="type">boolean</span> notempty();
+
+    <span class="directive">public</span> <span class="type">int</span> size();
+
+    <span class="directive">public</span> Uid stateUid();
+
+    <span class="directive">public</span> <span class="predefined-type">String</span> type();
+};
+
+<span class="type">class</span> <span class="class">InputObjectState</span> <span class="directive">extends</span> ObjectState {
+    <span class="directive">public</span> OutputObjectState(Uid newUid, <span class="predefined-type">String</span> typeName, <span class="type">byte</span><span class="type">[]</span> b);
+
+    <span class="directive">public</span> <span class="type">boolean</span> notempty();
+
+    <span class="directive">public</span> <span class="type">int</span> size();
+
+    <span class="directive">public</span> Uid stateUid();
+
+    <span class="directive">public</span> <span class="predefined-type">String</span> type();
+};</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Classes <code class="class">OutputBuffer</code>and <code class="class">InputBuffer</code></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">OutputBuffer</span> {
+    <span class="directive">public</span> OutputBuffer();
+
+    <span class="directive">public</span> <span class="directive">final</span> <span class="directive">synchronized</span> <span class="type">boolean</span> valid();
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">byte</span><span class="type">[]</span> buffer();
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">int</span> length();
+
+    <span class="comment">/* pack operations for standard Java types */</span>
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> packByte(<span class="type">byte</span> b) <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> packBytes(<span class="type">byte</span><span class="type">[]</span> b) <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> packBoolean(<span class="type">boolean</span> b) <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> packChar(<span class="type">char</span> c) <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> packShort(<span class="type">short</span> s) <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> packInt(<span class="type">int</span> i) <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> packLong(<span class="type">long</span> l) <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> packFloat(<span class="type">float</span> f) <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> packDouble(<span class="type">double</span> d) <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> packString(<span class="predefined-type">String</span> s) <span class="directive">throws</span> <span class="exception">IOException</span>;
+};
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">InputBuffer</span> {
+    <span class="directive">public</span> InputBuffer();
+
+    <span class="directive">public</span> <span class="directive">final</span> <span class="directive">synchronized</span> <span class="type">boolean</span> valid();
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">byte</span><span class="type">[]</span> buffer();
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">int</span> length();
+
+    <span class="comment">/* unpack operations for standard Java types */</span>
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">byte</span> unpackByte() <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">byte</span><span class="type">[]</span> unpackBytes() <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> unpackBoolean() <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">char</span> unpackChar() <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">short</span> unpackShort() <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">int</span> unpackInt() <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">long</span> unpackLong() <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">float</span> unpackFloat() <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">double</span> unpackDouble() <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="predefined-type">String</span> unpackString() <span class="directive">throws</span> <span class="exception">IOException</span>;
+};</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Class <code class="class">Uid</code></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">Uid</span> <span class="directive">implements</span> <span class="predefined-type">Cloneable</span> {
+    <span class="directive">public</span> Uid();
+
+    <span class="directive">public</span> Uid(Uid copyFrom);
+
+    <span class="directive">public</span> Uid(<span class="predefined-type">String</span> uidString);
+
+    <span class="directive">public</span> Uid(<span class="predefined-type">String</span> uidString, <span class="type">boolean</span> errorsOk);
+
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">synchronized</span> Uid nullUid();
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> pack(OutputBuffer packInto) <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> unpack(InputBuffer unpackFrom) <span class="directive">throws</span> <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="type">void</span> print(<span class="predefined-type">PrintStream</span> strm);
+
+    <span class="directive">public</span> <span class="predefined-type">String</span> toString();
+
+    <span class="directive">public</span> <span class="predefined-type">Object</span> clone() <span class="directive">throws</span> <span class="exception">CloneNotSupportedException</span>;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> copy(Uid toCopy) <span class="directive">throws</span> UidException;
+
+    <span class="directive">public</span> <span class="type">boolean</span> equals(Uid u);
+
+    <span class="directive">public</span> <span class="type">boolean</span> notEquals(Uid u);
+
+    <span class="directive">public</span> <span class="type">boolean</span> lessThan(Uid u);
+
+    <span class="directive">public</span> <span class="type">boolean</span> greaterThan(Uid u);
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="directive">final</span> <span class="type">boolean</span> valid();
+};</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Class <code class="class">AtomicAction</code></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">AtomicAction</span> {
+    <span class="directive">public</span> AtomicAction();
+
+    <span class="directive">public</span> <span class="type">void</span> begin() <span class="directive">throws</span> SystemException, SubtransactionsUnavailable,
+            NoTransaction;
+
+    <span class="directive">public</span> <span class="type">void</span> commit(<span class="type">boolean</span> report_heuristics) <span class="directive">throws</span> SystemException,
+            NoTransaction, HeuristicMixed,
+            HeuristicHazard, TransactionRolledBack;
+
+    <span class="directive">public</span> <span class="type">void</span> rollback() <span class="directive">throws</span> SystemException, NoTransaction;
+
+    <span class="directive">public</span> <span class="predefined-type">Control</span> control() <span class="directive">throws</span> SystemException, NoTransaction;
+
+    <span class="directive">public</span> Status get_status() <span class="directive">throws</span> SystemException;
+
+    <span class="comment">/* Allow action commit to be supressed */</span>
+    <span class="directive">public</span> <span class="type">void</span> rollbackOnly() <span class="directive">throws</span> SystemException, NoTransaction;
+
+    <span class="directive">public</span> <span class="type">void</span> registerResource(Resource r) <span class="directive">throws</span> SystemException, Inactive;
+
+    <span class="directive">public</span> <span class="type">void</span> registerSubtransactionAwareResource(SubtransactionAwareResource sr)
+            <span class="directive">throws</span> SystemException, NotSubtransaction;
+
+    <span class="directive">public</span> <span class="type">void</span> registerSynchronization(Synchronization s) <span class="directive">throws</span> SystemException,
+            Inactive;
+};</code></pre>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>

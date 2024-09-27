@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>The XTS API</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+/*! Stylesheet for CodeRay to loosely match GitHub themes | MIT License */
+pre.CodeRay{background:#f7f7f8}
+.CodeRay .line-numbers{border-right:1px solid;opacity:.35;padding:0 .5em 0 0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+.CodeRay span.line-numbers{display:inline-block;margin-right:.75em}
+.CodeRay .line-numbers strong{color:#000}
+table.CodeRay{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.CodeRay td{vertical-align:top;line-height:inherit}
+table.CodeRay td.line-numbers{text-align:right}
+table.CodeRay td.code{padding:0 0 0 .75em}
+.CodeRay .debug{color:#fff!important;background:navy!important}
+.CodeRay .annotation{color:#007}
+.CodeRay .attribute-name{color:navy}
+.CodeRay .attribute-value{color:#700}
+.CodeRay .binary{color:#509}
+.CodeRay .comment{color:#998;font-style:italic}
+.CodeRay .char{color:#04d}
+.CodeRay .char .content{color:#04d}
+.CodeRay .char .delimiter{color:#039}
+.CodeRay .class{color:#458;font-weight:bold}
+.CodeRay .complex{color:#a08}
+.CodeRay .constant,.CodeRay .predefined-constant{color:teal}
+.CodeRay .color{color:#099}
+.CodeRay .class-variable{color:#369}
+.CodeRay .decorator{color:#b0b}
+.CodeRay .definition{color:#099}
+.CodeRay .delimiter{color:#000}
+.CodeRay .doc{color:#970}
+.CodeRay .doctype{color:#34b}
+.CodeRay .doc-string{color:#d42}
+.CodeRay .escape{color:#666}
+.CodeRay .entity{color:#800}
+.CodeRay .error{color:#808}
+.CodeRay .exception{color:inherit}
+.CodeRay .filename{color:#099}
+.CodeRay .function{color:#900;font-weight:bold}
+.CodeRay .global-variable{color:teal}
+.CodeRay .hex{color:#058}
+.CodeRay .integer,.CodeRay .float{color:#099}
+.CodeRay .include{color:#555}
+.CodeRay .inline{color:#000}
+.CodeRay .inline .inline{background:#ccc}
+.CodeRay .inline .inline .inline{background:#bbb}
+.CodeRay .inline .inline-delimiter{color:#d14}
+.CodeRay .inline-delimiter{color:#d14}
+.CodeRay .important{color:#555;font-weight:bold}
+.CodeRay .interpreted{color:#b2b}
+.CodeRay .instance-variable{color:teal}
+.CodeRay .label{color:#970}
+.CodeRay .local-variable{color:#963}
+.CodeRay .octal{color:#40e}
+.CodeRay .predefined{color:#369}
+.CodeRay .preprocessor{color:#579}
+.CodeRay .pseudo-class{color:#555}
+.CodeRay .directive{font-weight:bold}
+.CodeRay .type{font-weight:bold}
+.CodeRay .predefined-type{color:inherit}
+.CodeRay .reserved,.CodeRay .keyword{color:#000;font-weight:bold}
+.CodeRay .key{color:#808}
+.CodeRay .key .delimiter{color:#606}
+.CodeRay .key .char{color:#80f}
+.CodeRay .value{color:#088}
+.CodeRay .regexp .delimiter{color:#808}
+.CodeRay .regexp .content{color:#808}
+.CodeRay .regexp .modifier{color:#808}
+.CodeRay .regexp .char{color:#d14}
+.CodeRay .regexp .function{color:#404;font-weight:bold}
+.CodeRay .string{color:#d20}
+.CodeRay .string .string .string{background:#ffd0d0}
+.CodeRay .string .content{color:#d14}
+.CodeRay .string .char{color:#d14}
+.CodeRay .string .delimiter{color:#d14}
+.CodeRay .shell{color:#d14}
+.CodeRay .shell .delimiter{color:#d14}
+.CodeRay .symbol{color:#990073}
+.CodeRay .symbol .content{color:#a60}
+.CodeRay .symbol .delimiter{color:#630}
+.CodeRay .tag{color:teal}
+.CodeRay .tag-special{color:#d70}
+.CodeRay .variable{color:#036}
+.CodeRay .insert{background:#afa}
+.CodeRay .delete{background:#faa}
+.CodeRay .change{color:#aaf;background:#007}
+.CodeRay .head{color:#f8f;background:#505}
+.CodeRay .insert .insert{color:#080}
+.CodeRay .delete .delete{color:#800}
+.CodeRay .change .change{color:#66f}
+.CodeRay .head .head{color:#f4f}
+</style>
+</head>
+<body id="sec_xts_api" class="article toc2 toc-left">
+<div id="header">
+<h1>The XTS API</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_participants">Participants</a>
+<ul class="sectlevel2">
+<li><a href="#_overview">Overview</a></li>
+<li><a href="#_participant_creation_and_deployment">Participant Creation and Deployment</a></li>
+</ul>
+</li>
+<li><a href="#_api_for_the_atomic_transaction_protocol">API for the Atomic Transaction Protocol</a>
+<ul class="sectlevel2">
+<li><a href="#ref_durable2pcparticipant"><code>Durable2PCParticipant</code></a></li>
+<li><a href="#ref_volatile2pcparticipant"><code>Volatile2PCParticipant</code></a></li>
+<li><a href="#ref_vote">Vote</a></li>
+<li><a href="#_txcontext">TXContext</a></li>
+<li><a href="#ref_usertransaction">UserTransaction</a></li>
+<li><a href="#_usertransactionfactory">UserTransactionFactory</a></li>
+<li><a href="#ref_transactionmanager">TransactionManager</a></li>
+<li><a href="#_transactionmanagerfactory"><code>TransactionManagerFactory</code></a></li>
+<li><a href="#ref_wstxfeature">WSTXFeature</a></li>
+<li><a href="#ref_jtaoverwsatfeature">JTAOverWSATFeature</a></li>
+</ul>
+</li>
+<li><a href="#_api_for_the_business_activity_protocol">API for the Business Activity Protocol</a>
+<ul class="sectlevel2">
+<li><a href="#_compatibility">Compatibility</a></li>
+<li><a href="#ref_businessagreementwithparticipantcompletion"><code>BusinessAgreementWithParticipantCompletionParticipant</code></a></li>
+<li><a href="#ref_businessagreementwithcoordinatorcompletion"><code>BusinessAgreementWithCoordinatorCompletion</code></a></li>
+<li><a href="#_baparticipantmanager"><code>BAParticipantManager</code></a></li>
+<li><a href="#ref_userbusinessactivity"><code>UserBusinessActivity</code></a></li>
+<li><a href="#_userbusinessactivityfactory">UserBusinessActivityFactory</a></li>
+<li><a href="#ref_businessactivitymanager">BusinessActivityManager</a></li>
+<li><a href="#_businessactivitymanagerfactory"><code>BusinessActivityManagerFactory</code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This chapter discusses the XTS API.
+You can use this information to write client and server applications which consume transactional Web Services and coordinate back-end systems.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_participants"><a class="anchor" href="#_participants"></a>Participants</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_overview"><a class="anchor" href="#_overview"></a>Overview</h3>
+<div class="paragraph">
+<p>The <code>participant</code> is the entity that performs the work pertaining to transaction management on behalf of the business services involved in an application.
+The Web service (in the example code, a theater booking system) contains some business logic to reserve a seat and inquire about availability, but it needs to be supported by something that maintains information in a durable manner.
+Typically this is a database, but it could be a file system, NVRAM, or other storage mechanism.</p>
+</div>
+<div class="paragraph">
+<p>Although the service may talk to the back-end database directly, it cannot commit or undo any changes, since committing and rolling back are ultimately under the control of a transaction.
+For the transaction to exercise this control, it must communicate with the database.
+In XTS, participant does this communication, as shown in <a href="#fig_participant_backend_control">Transactions, Participants, and Back-End Transaction Control</a>.</p>
+</div>
+<div id="fig_participant_backend_control" class="imageblock text-center">
+<div class="content">
+<img src="images/xts-guide-fig-participant-backend-control.png" alt="xts guide fig participant backend control">
+</div>
+<div class="title">Figure 1. Transactions, Participants, and Back-End Transaction Control</div>
+</div>
+<div class="sect3">
+<h4 id="_atomic_transaction"><a class="anchor" href="#_atomic_transaction"></a>Atomic Transaction</h4>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>This section is relevant for WS-AT applications only if Raw XTS API is used.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>All Atomic Transaction participants are instances of the <a href="#ref_durable2pcparticipant"><code>Durable2PCParticipant</code></a> or <a href="#ref_volatile2pcparticipant"><code>Volatile2PCParticipant</code></a> .</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_business_activity"><a class="anchor" href="#_business_activity"></a>Business Activity</h4>
+<div class="paragraph">
+<p>All Business Activity participants are instances one or the other of the interfaces described in <a href="#ref_businessagreementwithparticipantcompletion"><code>BusinessAgreementWithParticipantCompletionParticipant</code></a> or <a href="#ref_businessagreementwithcoordinatorcompletion"><code>BusinessAgreementWithCoordinatorCompletion</code></a> interface.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_participant_creation_and_deployment"><a class="anchor" href="#_participant_creation_and_deployment"></a>Participant Creation and Deployment</h3>
+<div class="paragraph">
+<p>The participant provides the plumbing that drives the transactional aspects of the service.
+This section discusses the specifics of Participant programming and usage.</p>
+</div>
+<div class="sect3">
+<h4 id="_implementing_participants"><a class="anchor" href="#_implementing_participants"></a>Implementing Participants</h4>
+<div class="paragraph">
+<p>Implementing a participant is a relatively straightforward task.
+However, depending on the complexity of the transactional infrastructure that the participant needs to manage, the task can vary greatly in complexity and scope.
+Your implementation needs to implement one of the interfaces found under <code>com.arjuna.wst</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_deploying_participants"><a class="anchor" href="#_deploying_participants"></a>Deploying Participants</h4>
+<div class="paragraph">
+<p>Transactional web services and transactional clients are regular Jakarta EE applications and can be deployed into the application server in the same way as any other Jakarta EE application.
+The XTS Subsystem exports all the client and web service API classes needed to manage transactions and enroll and manage participant web services.
+It provides implementations of all the WS-C and WS-T coordination services, not just the coordinator services.
+In particular, it exposes the client and web service participant endpoints which are needed to receive incoming messages originating from the coordinator.</p>
+</div>
+<div class="paragraph">
+<p>Normally, a transactional application client and the transaction web service it invokes will be deployed in different application servers.
+As long as XTS is enabled on each of these containers it will transparently route coordination messages from clients or web services to their coordinator and vice versa.
+When the client begins a transaction by default it creates a context using the coordination services in its local container.
+The context holds a reference to the local Registration Service which means that any web services enlisted in the transaction enrol with the coordination services in the same container.</p>
+</div>
+<div class="paragraph">
+<p>The coordinator does not need to reside in the same container as the client application.
+By configuring the client deployment appropriately it is possible to use the coordinator services co-located with one of the web services or even to use services deployed in a separate, dedicated container.
+See Chapter 8 Stand-Alone Coordination for details of how to configure a coordinator located in a different container to the client.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>In previous releases, the XTS and Transaction Manager <code>.jar</code>, <code>.war</code> and configuration files needed to be bundled with the application.
+This deployment method is no longer supported in the WildFly Application Server as XTS is pre-installed as a SubSystem.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_api_for_the_atomic_transaction_protocol"><a class="anchor" href="#_api_for_the_atomic_transaction_protocol"></a>API for the Atomic Transaction Protocol</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="ref_durable2pcparticipant"><a class="anchor" href="#ref_durable2pcparticipant"></a><code>Durable2PCParticipant</code></h3>
+<div class="paragraph">
+<p>All participants which support <code>Durable2PC</code> protocol have to implement <code>com.arjuna.wst.Durable2PCParticipant</code> interface.</p>
+</div>
+<div class="dlist">
+<div class="title"><code>Durable2PCParticipant</code> Methods</div>
+<dl>
+<dt class="hdlist1">prepare</dt>
+<dd>
+<p>The participant should perform any work necessary, so that it can either <code>commit</code> or <code>roll back</code> the work performed by the Web service under the scope of the transaction.
+The implementation is free to do whatever it needs to in order to fulfill the implicit contract between it and the coordinator.</p>
+<div class="paragraph">
+<p>The participant indicates whether it can <code>prepare</code> by returning an instance of <a href="#ref_vote">Vote</a>.</p>
+</div>
+</dd>
+<dt class="hdlist1"><code>commit</code></dt>
+<dd>
+<p>The participant should make its work permanent.
+How it accomplishes this depends upon its implementation.
+For instance, in the theater example, the reservation of the ticket is committed.
+If <code>commit</code> processing cannot complete, the participant should throw a <code>SystemException</code> error, potentially leading to a heuristic outcome for the transaction.</p>
+</dd>
+<dt class="hdlist1"><code>rollback</code></dt>
+<dd>
+<p>The participant should undo its work.
+If <code>rollback</code> processing cannot complete, the participant should throw a <code>SystemException</code> error, potentially leading to a heuristic outcome for the transaction.</p>
+</dd>
+<dt class="hdlist1"><code>unknown</code></dt>
+<dd>
+<p>This method has been deprecated and is slated to be removed from XTS in the future.</p>
+</dd>
+<dt class="hdlist1"><code>error</code></dt>
+<dd>
+<p>In rare cases when recovering from a system crash, it may be impossible to complete or <code>roll back</code> a previously prepared participant, causing the <code>error</code> operation to be invoked.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="ref_volatile2pcparticipant"><a class="anchor" href="#ref_volatile2pcparticipant"></a><code>Volatile2PCParticipant</code></h3>
+<div class="paragraph">
+<p>All participants which support <code>Volatile2PC</code> protocol have to implement <code>com.arjuna.wst.Volatile2PCParticipant</code> interface.</p>
+</div>
+<div class="dlist">
+<div class="title"><code>Volatile2PCParticipant</code> Methods</div>
+<dl>
+<dt class="hdlist1"><code>prepare</code></dt>
+<dd>
+<p>The participant should perform any work necessary to flush any volatile data created by the Web service under the scope of the transaction, to the system store.
+The implementation is free to do whatever it needs to in order to fulfill the implicit contract between it and the coordinator.</p>
+<div class="paragraph">
+<p>The participant indicates whether it can <code>prepare</code> by returning an instance of <a href="#ref_vote">Vote</a>.</p>
+</div>
+</dd>
+<dt class="hdlist1"><code>commit</code></dt>
+<dd>
+<p>The participant should perform any cleanup activities required, in response to a successful transaction <code>commit</code>.
+These cleanup activities depend upon its implementation.
+For instance, it may flush cached backup copies of data modified during the transaction.
+In the unlikely event that <code>commit</code> processing cannot complete, the participant should throw a <code>SystemException</code> error.
+This will not affect the outcome of the transaction but will cause an error to be logged.
+This method may not be called if a crash occurs during <code>commit</code> processing.</p>
+</dd>
+<dt class="hdlist1"><code>rollback</code></dt>
+<dd>
+<p>The participant should perform any cleanup activities required, in response to a transaction <code>abort</code>.
+In the unlikely event that <code>rollback</code> processing cannot complete, the participant should throw a <code>SystemException</code> error.
+This will not affect the outcome of the transaction but will cause an error to be logged.
+This method may not be called if a crash occurs during <code>commit</code> processing.</p>
+</dd>
+<dt class="hdlist1"><code>unknown</code></dt>
+<dd>
+<p>This method is deprecated and will be removed in a future release of XTS.</p>
+</dd>
+<dt class="hdlist1"><code>error</code></dt>
+<dd>
+<p>This method should never be called, since volatile participants are not involved in recovery processing.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="ref_vote"><a class="anchor" href="#ref_vote"></a>Vote</h3>
+<div class="paragraph">
+<p>During the two-phase commit protocol, a participant is asked to vote on whether it can prepare to confirm the work that it controls.
+It must return an instance of one of the subtypes of <code>com.arjuna.wst.Vote</code>.</p>
+</div>
+<div class="dlist">
+<div class="title">Subclasses of <code>com.arjuna.wst.Vote</code></div>
+<dl>
+<dt class="hdlist1"><code>Prepared</code></dt>
+<dd>
+<p>Indicates that the participant can prepare if the coordinator requests it.
+Nothing has been committed, because the participant does not know the final outcome of the transaction.</p>
+</dd>
+<dt class="hdlist1"><code>Aborted</code></dt>
+<dd>
+<p>The participant cannot prepare, and has rolled back.
+The participant should not expect to get a second phase message.</p>
+</dd>
+<dt class="hdlist1"><code>ReadOnly</code></dt>
+<dd>
+<p>The participant has not made any changes to state, and it does not need to know the final outcome of the transaction.
+Essentially the participant is resigning from the transaction.</p>
+</dd>
+</dl>
+</div>
+<div class="listingblock">
+<div class="title">Example Implementation of 2PC Participant&#8217;s `prepare`method</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> Vote prepare() <span class="directive">throws</span> WrongStateException, SystemException {
+    <span class="comment">// Some participant logic here</span>
+
+    <span class="keyword">if</span> (<span class="comment">/* some condition based on the outcome of the business logic */</span>) {
+        <span class="comment">// Vote to confirm</span>
+        <span class="keyword">return</span> <span class="keyword">new</span> com.arjuna.wst.Prepared();
+    } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="comment">/*another condition based on the outcome of the business logic*/</span>) {
+        <span class="comment">// Resign</span>
+        <span class="keyword">return</span> <span class="keyword">new</span> com.arjuna.wst.ReadOnly();
+    } <span class="keyword">else</span> {
+        <span class="comment">// Vote to cancel</span>
+        <span class="keyword">return</span> <span class="keyword">new</span> com.arjuna.wst.Aborted();
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_txcontext"><a class="anchor" href="#_txcontext"></a>TXContext</h3>
+<div class="paragraph">
+<p><code>com.arjuna.mw.wst.TxContext</code> is an opaque representation of a transaction context.
+It returns one of two possible values, as listed below.</p>
+</div>
+<div class="dlist">
+<div class="title">TxContext Return Values</div>
+<dl>
+<dt class="hdlist1"><code>valid</code></dt>
+<dd>
+<p>Indicates whether the contents are valid.</p>
+</dd>
+<dt class="hdlist1"><code>equals</code></dt>
+<dd>
+<p>Can be used to compare two instances for equality.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="ref_usertransaction"><a class="anchor" href="#ref_usertransaction"></a>UserTransaction</h3>
+<div class="paragraph">
+<p><code>com.arjuna.mw.wst11.UserTransaction</code> is the class that clients typically employ.
+Before a client can begin a new atomic transaction, it must first obtain a <code>UserTransaction</code> from the <code>UserTransactionFactory</code>.
+This class isolates the user from the underlying protocol-specific aspects of the XTS implementation.
+A <code>UserTransaction</code> does not represent a specific transaction.
+Instead, it provides access to an implicit per-thread transaction context, similar to the <code>UserTransaction</code> in the JTA specification.
+All of the <code>UserTransaction</code> methods implicitly act on the current thread of control.</p>
+</div>
+<div class="dlist">
+<div class="title">`UserTransaction`Methods</div>
+<dl>
+<dt class="hdlist1"><code>begin</code></dt>
+<dd>
+<p>Used to begin a new transaction and associate it with the invoking thread.</p>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Parameters</div>
+<dl>
+<dt class="hdlist1"><code>timeout</code></dt>
+<dd>
+<p>This optional parameter, measured in milliseconds, specifies a time interval after which the newly created transaction may be automatically rolled back by the coordinator</p>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Exceptions</div>
+<dl>
+<dt class="hdlist1"><code>WrongStateException</code></dt>
+<dd>
+<p>A transaction is already associated with the thread.</p>
+</dd>
+<dt class="hdlist1"><code>commit</code></dt>
+<dd>
+<p><code>Volatile2PC</code> and <code>Durable2PC</code> participants enrolled in the transaction are requested first to prepare and then to <code>commit</code> their changes.
+If any of the participants fails to prepare in the first phase then all other participants are requested to <code>abort</code>.</p>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Exceptions</div>
+<dl>
+<dt class="hdlist1"><code>UnknownTransactionException</code></dt>
+<dd>
+<p>No transaction is associated with the invoking thread.</p>
+</dd>
+<dt class="hdlist1"><code>TransactionRolledBackException</code></dt>
+<dd>
+<p>The transaction was rolled back either because of a timeout or because a participant was unable to <code>commit</code>.</p>
+</dd>
+<dt class="hdlist1"><code>rollback</code></dt>
+<dd>
+<p>Terminates the transaction.
+Upon completion, the <code>rollback</code> method disassociates the transaction from the current leaving it unassociated with any transactions.</p>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Exceptions</div>
+<dl>
+<dt class="hdlist1"><code>UnknownTransactionException</code></dt>
+<dd>
+<p>No transaction is associated with the invoking thread.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_usertransactionfactory"><a class="anchor" href="#_usertransactionfactory"></a>UserTransactionFactory</h3>
+<div class="paragraph">
+<p>Call the <code>getUserTransaction</code> method to obtain a <a href="#ref_usertransaction">UserTransaction</a> instance from a <code>UserTransactionFactory</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="ref_transactionmanager"><a class="anchor" href="#ref_transactionmanager"></a>TransactionManager</h3>
+<div class="paragraph">
+<p>Defines the interaction between a transactional web service and the underlying transaction service implementation.
+A <code>TransactionManager</code> does not represent a specific transaction.
+Instead, it provides access to an implicit per-thread transaction context.</p>
+</div>
+<div class="dlist">
+<div class="title">Methods</div>
+<dl>
+<dt class="hdlist1"><code>currentTransaction</code></dt>
+<dd>
+<p>Returns a <code>TxContext</code> for the current transaction, or null if there is no context.
+Use the <code>currentTransaction</code> method to determine whether a web service has been invoked from within an existing transaction.
+You can also use the returned value to enable multiple threads to execute within the scope of the same transaction.
+Calling the <code>currentTransaction</code> method does not disassociate the current thread from the transaction.</p>
+</dd>
+<dt class="hdlist1"><code>suspend</code></dt>
+<dd>
+<p>Dissociates a thread from any transaction.
+This enables a thread to do work that is not associated with a specific transaction.</p>
+<div class="paragraph">
+<p>The <code>suspend</code> method returns a <code>TxContext</code> instance, which is a handle on the transaction.</p>
+</div>
+</dd>
+<dt class="hdlist1"><code>resume</code></dt>
+<dd>
+<p>Associates or re-associates a thread with a transaction, using its <code>TxContext</code>.
+Prior to association or re-association, the thread is disassociated from any transaction with which it may be currently associated.
+If the <code>TxContext</code> is null, then the thread is associated with no transaction.
+In this way, the result is the same as if the <code>suspend</code> method were used instead.</p>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Parameters</div>
+<dl>
+<dt class="hdlist1">txContext</dt>
+<dd>
+<p>A TxContext instance as return by <code>suspend</code>, identifying the transaction to be resumed.</p>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Exceptions</div>
+<dl>
+<dt class="hdlist1"><code>UnknownTransactionException</code></dt>
+<dd>
+<p>The transaction referred to by the <code>TxContext</code> is invalid in the scope of the invoking thread.</p>
+</dd>
+<dt class="hdlist1"><code>enlistForVolitaleTwoPhase</code></dt>
+<dd>
+<p>Enroll the specified participant with the current transaction, causing it to participate in the <code>Volatile2PC</code> protocol.
+You must pass a unique identifier for the participant.</p>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Parameters</div>
+<dl>
+<dt class="hdlist1">participant</dt>
+<dd>
+<p>An implementation of interface <code>Volatile2PCParticipant</code> whose prepare, <code>commit</code> and <code>abort</code> methods are called when the corresponding coordinator message is received.</p>
+</dd>
+<dt class="hdlist1">id</dt>
+<dd>
+<p>A unique identifier for the participant.
+The value of this String should differ for each enlisted participant.
+It should also be possible for a given identifier to determine that the participant belongs to the enlisting web service rather than some other web service deployed to the same container.</p>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Exceptions</div>
+<dl>
+<dt class="hdlist1">UnknownTransactionException</dt>
+<dd>
+<p>No transaction is associated with the invoking thread.</p>
+</dd>
+<dt class="hdlist1"><code>WrongStateException</code></dt>
+<dd>
+<p>The transaction is not in a state that allows participants to be enrolled.
+For instance, it may be in the process of terminating.</p>
+</dd>
+<dt class="hdlist1"><code>enlistForDurableTwoPhase</code></dt>
+<dd>
+<p>Enroll the specified participant with the current transaction, causing it to participate in the <code>Durable2PC</code> protocol.
+You must pass a unique identifier for the participant.</p>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Exceptions</div>
+<dl>
+<dt class="hdlist1">UnknownTransactionException</dt>
+<dd>
+<p>No transaction is associated with the invoking thread.</p>
+</dd>
+<dt class="hdlist1"><code>WrongStateException</code></dt>
+<dd>
+<p>The transaction is not in a state that allows participants to be enrolled.
+For instance, it may be in the process of terminating.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_transactionmanagerfactory"><a class="anchor" href="#_transactionmanagerfactory"></a><code>TransactionManagerFactory</code></h3>
+<div class="paragraph">
+<p>Use the <code>getTransactionManager</code> method to obtain a <a href="#ref_transactionmanager">TransactionManager</a> from a <code>TransactionManagerFactory</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="ref_wstxfeature"><a class="anchor" href="#ref_wstxfeature"></a>WSTXFeature</h3>
+<div class="paragraph">
+<p>Use this JAX-WS feature to enable or disable WS-AT context propagation for specific port.
+Pass an instance of this feature when creating web service port.</p>
+</div>
+<div class="dlist">
+<div class="title">Methods</div>
+<dl>
+<dt class="hdlist1"><code>WSTXFeature</code></dt>
+<dd>
+<p><code>WSTXFeature</code> created with default constructor will enable WS-AT context propagation.</p>
+</dd>
+<dt class="hdlist1"><code>WSTXFeature</code></dt>
+<dd>
+<p>Parametrised constructor will either enabled or disable WS-AT context propagation.</p>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Parameters</div>
+<dl>
+<dt class="hdlist1"><code>enabled</code></dt>
+<dd>
+<p>Boolean value saying to either enable or disable WS-AT context propagation.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="ref_jtaoverwsatfeature"><a class="anchor" href="#ref_jtaoverwsatfeature"></a>JTAOverWSATFeature</h3>
+<div class="paragraph">
+<p>Use this JAX-WS feature to enable or disable JTA context propagation for specific port.
+Pass an instance of this feature when creating web service port.</p>
+</div>
+<div class="dlist">
+<div class="title">Methods</div>
+<dl>
+<dt class="hdlist1"><code>JTAOverWSATFeature</code></dt>
+<dd>
+<p><code>JTAOverWSATFeature</code> created with default constructor will enable JTA context propagation.</p>
+</dd>
+<dt class="hdlist1"><code>JTAOverWSATFeature</code></dt>
+<dd>
+<p>Parametrised constructor will either enabled or disable JTA context propagation.</p>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Parameters</div>
+<dl>
+<dt class="hdlist1"><code>enabled</code></dt>
+<dd>
+<p>Boolean value saying to either enable or disable JTA context propagation.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_api_for_the_business_activity_protocol"><a class="anchor" href="#_api_for_the_business_activity_protocol"></a>API for the Business Activity Protocol</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_compatibility"><a class="anchor" href="#_compatibility"></a>Compatibility</h3>
+<div class="paragraph">
+<p>Previous implementations of XTS locate the Business Activity Protocol classes in the <code>com.arjuna.mw.wst</code> package.
+In the current implementation, these classes are located in the <code>com.arjuna.mw.wst11</code> package.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="ref_businessagreementwithparticipantcompletion"><a class="anchor" href="#ref_businessagreementwithparticipantcompletion"></a><code>BusinessAgreementWithParticipantCompletionParticipant</code></h3>
+<div class="paragraph">
+<p>Participant which support business agreement with participant completion protocol have to implement <code>com.arjuna.wst.BusinessAgreementWithParticipantCompletionParticipant</code> interface.</p>
+</div>
+<div class="dlist">
+<div class="title"><code>BusinessAgreementWithParticipantCompletion</code> Methods</div>
+<dl>
+<dt class="hdlist1"><code>close</code></dt>
+<dd>
+<p>The transaction has completed successfully.
+The participant has previously informed the coordinator that it was ready to complete.</p>
+</dd>
+<dt class="hdlist1"><code>cancel</code></dt>
+<dd>
+<p>The transaction has canceled, and the participant should undo any work.
+The participant cannot have informed the coordinator that it has completed.</p>
+</dd>
+<dt class="hdlist1"><code>compensate</code></dt>
+<dd>
+<p>The transaction has canceled.
+The participant previously informed the coordinator that it had finished work but could compensate later if required, and it is now requested to do so.
+If compensation cannot be performed, the participant should throw a <code>FaultedException</code> error, potentially leading to a heuristic outcome for the transaction.
+If compensation processing cannot complete because of a transient condition then the participant should throw a <code>SystemException</code> error, in which case the compensation action may be retried or the transaction may finish with a heuristic outcome.</p>
+</dd>
+<dt class="hdlist1"><code>status</code></dt>
+<dd>
+<p>Return the status of the participant.</p>
+</dd>
+<dt class="hdlist1"><code>unknown</code></dt>
+<dd>
+<p>This method is deprecated and will be removed a future XTS release.</p>
+</dd>
+<dt class="hdlist1"><code>error</code></dt>
+<dd>
+<p>In rare cases when recovering from a system crash, it may be impossible to compensate a previously-completed participant.
+In such cases the <code>error</code> operation is invoked.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="ref_businessagreementwithcoordinatorcompletion"><a class="anchor" href="#ref_businessagreementwithcoordinatorcompletion"></a><code>BusinessAgreementWithCoordinatorCompletion</code></h3>
+<div class="paragraph">
+<p>Participant which support business agreement with coordinator completion protocol have to implement <code>com.arjuna.wst.BusinessAgreementWithCoordinatorCompletionParticipant</code> interface.</p>
+</div>
+<div class="dlist">
+<div class="title"><code>BusinessAgreementWithCoordinatorCompletion</code> Methods</div>
+<dl>
+<dt class="hdlist1"><code>close</code></dt>
+<dd>
+<p>The transaction completed successfully.
+The participant previously informed the coordinator that it was ready to complete.</p>
+</dd>
+<dt class="hdlist1"><code>cancel</code></dt>
+<dd>
+<p>The transaction canceled, and the participant should undo any work.</p>
+</dd>
+<dt class="hdlist1"><code>compensate</code></dt>
+<dd>
+<p>The transaction canceled.
+The participant previously informed the coordinator that it had finished work but could compensate later if required, and it is now requested to do so.
+In the unlikely event that compensation cannot be performed the participant should throw a <code>FaultedException</code> error, potentially leading to a heuristic outcome for the transaction.
+If compensation processing cannot complete because of a transient condition, the participant should throw a <code>SystemException</code> error, in which case the compensation action may be retried or the transaction may finish with a heuristic outcome.</p>
+</dd>
+<dt class="hdlist1"><code>complete</code></dt>
+<dd>
+<p>The coordinator is informing the participant all work it needs to do within the scope of this business activity has been completed and that it should make permananent any provisional changes it has made.</p>
+</dd>
+<dt class="hdlist1"><code>status</code></dt>
+<dd>
+<p>Returns the status of the participant.</p>
+</dd>
+<dt class="hdlist1"><code>unknown</code></dt>
+<dd>
+<p>This method is deprecated and will be removed in a future release of XTS.</p>
+</dd>
+<dt class="hdlist1"><code>error</code></dt>
+<dd>
+<p>In rare cases when recovering from a system crash, it may be impossible to compensate a previously completed participant.
+In such cases, the <code>error</code> method is invoked.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_baparticipantmanager"><a class="anchor" href="#_baparticipantmanager"></a><code>BAParticipantManager</code></h3>
+<div class="paragraph">
+<p>In order for the Business Activity protocol to work correctly, the participants must be able to autonomously notify the coordinator about changes in their status.
+Unlike the Atomic Transaction protocol, where all interactions between the coordinator and participants are instigated by the coordinator when the transaction terminates, the <code>BAParticipantManager</code> interaction pattern requires the participant to be able to talk to the coordinator at any time during the lifetime of the business activity.</p>
+</div>
+<div class="paragraph">
+<p>Whenever a participant is registered with a business activity, it receives a handle on the coordinator.
+This handle is an instance of interface <code>com.arjuna.wst11.BAParticipantManager</code>.</p>
+</div>
+<div class="dlist">
+<div class="title"><code>BAParticipantManager</code> Methods</div>
+<dl>
+<dt class="hdlist1">exit</dt>
+<dd>
+<p>The participant uses the method <code>exit</code> to inform the coordinator that is has left the activity.
+It will not be informed when and how the business activity terminates.
+This method may only be invoked while the participant is in the <code>active</code> state (or the <code>completing</code> state, in the case of a participant registered for the <code>ParticipantCompletion</code> protocol).
+If it is called when the participant is in any other state, a <code>WrongStateException</code> error is thrown.
+An <code>exit</code> does not stop the activity as a whole from subsequently being closed or canceled/compensated, but only ensures that the exited participant is no longer involved in completion, close or compensation of the activity.</p>
+</dd>
+<dt class="hdlist1">completed</dt>
+<dd>
+<p>The participant has completed its work, but wishes to continue in the business activity, so that it will eventually be informed when, and how, the activity terminates.
+The participant may later be asked to compensate for the work it has done or learn that the activity has been closed.</p>
+</dd>
+<dt class="hdlist1">fault</dt>
+<dd>
+<p>The participant encountered an error during normal activation and has done whatever it can to compensate the activity.
+The <code>fault</code> method places the business activity into a mandatory <code>cancel-only</code> mode.
+The faulted participant is no longer involved in completion, close or compensation of the activity.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="ref_userbusinessactivity"><a class="anchor" href="#ref_userbusinessactivity"></a><code>UserBusinessActivity</code></h3>
+<div class="paragraph">
+<p><code>com.arjuna.wst11.UserBusinessActivity</code> is the class that most clients employ.
+A client begins a new business activity by first obtaining a <code>UserBusinessActivity</code> from the <code>UserBusinessActivityFactory</code>.
+This class isolates them from the underlying protocol-specific aspects of the XTS implementation.
+A <code>UserBusinessActivity</code> does not represent a specific business activity.
+Instead, it provides access to an implicit per-thread activity.
+Therefore, all of the <code>UserBusinessActivity</code> methods implicitly act on the current thread of control.</p>
+</div>
+<div class="dlist">
+<div class="title">Methods</div>
+<dl>
+<dt class="hdlist1"><code>begin</code></dt>
+<dd>
+<p>Begins a new activity, associating it with the invoking thread.</p>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Parameters</div>
+<dl>
+<dt class="hdlist1">timeout</dt>
+<dd>
+<p>The interval, in milliseconds, after which an activity times out.
+Optional.</p>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Exceptions</div>
+<dl>
+<dt class="hdlist1"><code>WrongStateException</code></dt>
+<dd>
+<p>The thread is already associated with a business activity.</p>
+</dd>
+<dt class="hdlist1"><code>close</code></dt>
+<dd>
+<p>First, all Coordinator Completion participants enlisted in the activity are requested to complete the activity.
+Next all participants, whether they enlisted for Coordinator or Participant Completion, are requested to close the activity.
+If any of the Coordinator Completion participants fails to complete at the first stage then all completed participants are asked to compensate the activity while any remaining uncompleted participants are requested to cancel the activity.</p>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Exceptions</div>
+<dl>
+<dt class="hdlist1"><code>UnknownTransactionException</code></dt>
+<dd>
+<p>No activity is associated with the invoking thread.</p>
+</dd>
+<dt class="hdlist1"><code>TransactionRolledBackException</code></dt>
+<dd>
+<p>The activity has been cancelled because one of the Coordinator Completion participants failed to complete.
+This exception may also be thrown if one of the Participant Completion participants has not completed before the client calls close.</p>
+</dd>
+<dt class="hdlist1"><code>cancel</code></dt>
+<dd>
+<p>Terminates the business activity.
+All Participant Completion participants enlisted in the activity which have already completed are requested to compensate the activity.
+All uncompleted Participant Completion participants and all Coordinator Completion participants are requested to cancel the activity.</p>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Exceptions</div>
+<dl>
+<dt class="hdlist1"><code>UnknownTransactionException</code></dt>
+<dd>
+<p>No activity is associated with the invoking thread.
+Any participants that previous completed are directed to compensate their work.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_userbusinessactivityfactory"><a class="anchor" href="#_userbusinessactivityfactory"></a>UserBusinessActivityFactory</h3>
+<div class="paragraph">
+<p>Use the <code>getUserBusinessActivity</code> method to obtain a <a href="#ref_userbusinessactivity"><code>UserBusinessActivity</code></a> instance from a <code>userBusinessActivityFactory</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="ref_businessactivitymanager"><a class="anchor" href="#ref_businessactivitymanager"></a>BusinessActivityManager</h3>
+<div class="paragraph">
+<p><code>com.arjuna.mw.wst11.BusinessActivityManager</code> is the class that web services typically employ.
+Defines how a web service interacts with the underlying business activity service implementation.
+A <code>BusinessActivityManager</code> does not represent a specific activity.
+Instead, it provides access to an implicit per-thread activity.</p>
+</div>
+<div class="dlist">
+<div class="title">Methods</div>
+<dl>
+<dt class="hdlist1"><code>currentTransaction</code></dt>
+<dd>
+<p>Returns the <code>TxContext</code> for the current business activity, or <code>NULL</code> if there is no <code>TxContext</code>.
+The returned value can be used to enable multiple threads to execute within the scope of the same business activity.
+Calling the <code>currenTransaction</code> method does not dissociate the current thread from its activity.</p>
+</dd>
+<dt class="hdlist1"><code>suspend</code></dt>
+<dd>
+<p>Dissociates a thread from any current business activity, so that it can perform work not associated with a specific activity.
+The <code>suspend</code> method returns a <code>TxContext</code> instance, which is a handle on the activity.
+The thread is then no longer associated with any activity.</p>
+</dd>
+<dt class="hdlist1"><code>resume</code></dt>
+<dd>
+<p>Associates or re-associates a thread with a business activity, using its <code>TxContext</code>.
+Before associating or re-associating the thread, it is disassociated from any business activity with which it is currently associated.
+If the <code>TxContext</code> is <code>NULL</code>, the thread is disassociated with all business activities, as though the <code>suspend</code> method were called.</p>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Parameters</div>
+<dl>
+<dt class="hdlist1"><code>txContext</code></dt>
+<dd>
+<p>A TxContext instance as returned by <code>suspend</code>, identifying the transaction to be resumed.</p>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Exceptions</div>
+<dl>
+<dt class="hdlist1"><code>UnknownTransactionException</code></dt>
+<dd>
+<p>The business activity to which the <code>TxContext</code> refers is invalid in the scope of the invoking thread.</p>
+</dd>
+<dt class="hdlist1"><code>enlistForBusinessAgreementWithParticipantCompletion</code></dt>
+<dd>
+<p>Enroll the specified participant with current business activity, causing it to participate in the <code>BusinessAgreementWithParticipantCompletion</code> protocol.
+A unique identifier for the participant is also required.</p>
+<div class="paragraph">
+<p>The return value is an instance of BAParticipantManager which can be used to notify the coordinator of changes in the participant state.
+In particular, since the participant is enlisted for the Participant Completion protcol it is expected to call the completed method of this returned instance when it has completed all the work it expects to do in this activity and has made all its changes permanent.
+Alternatively, if the participant does not need to perform any compensation actions should some other participant fail it can leave the activity by calling the exit method of the returned <code>BAParticipantManager</code> instance.</p>
+</div>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Parameters</div>
+<dl>
+<dt class="hdlist1">participant</dt>
+<dd>
+<p>An implementation of interface <code>BusinessAgreementWithParticipantCompletionParticipant</code> whose <code>close</code>, <code>cancel</code>, and <code>compensate</code> methods are called when the corresponding coordinator message is received.</p>
+</dd>
+<dt class="hdlist1"><code>id</code></dt>
+<dd>
+<p>A unique identifier for the participant.
+The value of this String should differ for each enlisted participant.
+It should also be possible for a given identifier to determine that the participant belongs to the enlisting web service rather than some other web service deployed to the same container.</p>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Exceptions</div>
+<dl>
+<dt class="hdlist1"><code>UnknownTransactionException</code></dt>
+<dd>
+<p>No transaction is associated with the invoking thread.</p>
+</dd>
+<dt class="hdlist1"><code>WrongStateException</code></dt>
+<dd>
+<p>The transaction is not in a state where new participants may be enrolled, such as when it is terminating.</p>
+</dd>
+<dt class="hdlist1"><code>enlistForBusinessAgreementWithCoordinatorCompletion</code></dt>
+<dd>
+<p>Enroll the specified participant with current activity, causing it to participate in the <code>BusinessAgreementWithCoordinatorCompletion</code> protocol.
+A unique identifier for the participant is also required.</p>
+<div class="paragraph">
+<p>The return value is an instance of <code>BAParticipantManager</code> which can be used to notify the coordinator of changes in the participant state.
+Note that in this case it is an error to call the <code>completed</code> method of this returned instance.
+With the Coordinator Completion protocol the participant is expected to wait until its <code>completed</code> method is called before it makes all its changes permanent.
+Alternatively, if the participant determiens that it has no changes to make, it can leave the activity by calling the <code>exit</code> method of the returned <code>BAParticipantManager</code> instance.</p>
+</div>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Parameters</div>
+<dl>
+<dt class="hdlist1">participant</dt>
+<dd>
+<p>An implementation of interface <code>BusinessAgreementWithCoordinatorCompletionParticipant</code> whose completed, close, cancel and compensate methods are called when the corresponding coordinator message is received.</p>
+</dd>
+<dt class="hdlist1"><code>id</code></dt>
+<dd>
+<p>A unique identifier for the participant.
+The value of this String should differ for each enlisted participant.
+It should also be possible for a given identifier to determine that the participant belongs to the enlisting web service rather than some other web service deployed to the same container.</p>
+</dd>
+</dl>
+</div>
+<div class="dlist">
+<div class="title">Exceptions</div>
+<dl>
+<dt class="hdlist1"><code>UnknownTransactionException</code></dt>
+<dd>
+<p>No transaction is associated with the invoking thread.</p>
+</dd>
+<dt class="hdlist1"><code>WrongStateException</code></dt>
+<dd>
+<p>The transaction is not in a state where new participants may be enrolled, such as when it is terminating.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_businessactivitymanagerfactory"><a class="anchor" href="#_businessactivitymanagerfactory"></a><code>BusinessActivityManagerFactory</code></h3>
+<div class="paragraph">
+<p>Use the <code>getBusinessActivityManager</code> method to obtain a <a href="#ref_businessactivitymanager">BusinessActivityManager</a> instance from a <code>BusinessActivityManagerFactory</code>.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>

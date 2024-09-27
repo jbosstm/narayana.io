@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>Tools</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+/*! Stylesheet for CodeRay to loosely match GitHub themes | MIT License */
+pre.CodeRay{background:#f7f7f8}
+.CodeRay .line-numbers{border-right:1px solid;opacity:.35;padding:0 .5em 0 0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+.CodeRay span.line-numbers{display:inline-block;margin-right:.75em}
+.CodeRay .line-numbers strong{color:#000}
+table.CodeRay{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.CodeRay td{vertical-align:top;line-height:inherit}
+table.CodeRay td.line-numbers{text-align:right}
+table.CodeRay td.code{padding:0 0 0 .75em}
+.CodeRay .debug{color:#fff!important;background:navy!important}
+.CodeRay .annotation{color:#007}
+.CodeRay .attribute-name{color:navy}
+.CodeRay .attribute-value{color:#700}
+.CodeRay .binary{color:#509}
+.CodeRay .comment{color:#998;font-style:italic}
+.CodeRay .char{color:#04d}
+.CodeRay .char .content{color:#04d}
+.CodeRay .char .delimiter{color:#039}
+.CodeRay .class{color:#458;font-weight:bold}
+.CodeRay .complex{color:#a08}
+.CodeRay .constant,.CodeRay .predefined-constant{color:teal}
+.CodeRay .color{color:#099}
+.CodeRay .class-variable{color:#369}
+.CodeRay .decorator{color:#b0b}
+.CodeRay .definition{color:#099}
+.CodeRay .delimiter{color:#000}
+.CodeRay .doc{color:#970}
+.CodeRay .doctype{color:#34b}
+.CodeRay .doc-string{color:#d42}
+.CodeRay .escape{color:#666}
+.CodeRay .entity{color:#800}
+.CodeRay .error{color:#808}
+.CodeRay .exception{color:inherit}
+.CodeRay .filename{color:#099}
+.CodeRay .function{color:#900;font-weight:bold}
+.CodeRay .global-variable{color:teal}
+.CodeRay .hex{color:#058}
+.CodeRay .integer,.CodeRay .float{color:#099}
+.CodeRay .include{color:#555}
+.CodeRay .inline{color:#000}
+.CodeRay .inline .inline{background:#ccc}
+.CodeRay .inline .inline .inline{background:#bbb}
+.CodeRay .inline .inline-delimiter{color:#d14}
+.CodeRay .inline-delimiter{color:#d14}
+.CodeRay .important{color:#555;font-weight:bold}
+.CodeRay .interpreted{color:#b2b}
+.CodeRay .instance-variable{color:teal}
+.CodeRay .label{color:#970}
+.CodeRay .local-variable{color:#963}
+.CodeRay .octal{color:#40e}
+.CodeRay .predefined{color:#369}
+.CodeRay .preprocessor{color:#579}
+.CodeRay .pseudo-class{color:#555}
+.CodeRay .directive{font-weight:bold}
+.CodeRay .type{font-weight:bold}
+.CodeRay .predefined-type{color:inherit}
+.CodeRay .reserved,.CodeRay .keyword{color:#000;font-weight:bold}
+.CodeRay .key{color:#808}
+.CodeRay .key .delimiter{color:#606}
+.CodeRay .key .char{color:#80f}
+.CodeRay .value{color:#088}
+.CodeRay .regexp .delimiter{color:#808}
+.CodeRay .regexp .content{color:#808}
+.CodeRay .regexp .modifier{color:#808}
+.CodeRay .regexp .char{color:#d14}
+.CodeRay .regexp .function{color:#404;font-weight:bold}
+.CodeRay .string{color:#d20}
+.CodeRay .string .string .string{background:#ffd0d0}
+.CodeRay .string .content{color:#d14}
+.CodeRay .string .char{color:#d14}
+.CodeRay .string .delimiter{color:#d14}
+.CodeRay .shell{color:#d14}
+.CodeRay .shell .delimiter{color:#d14}
+.CodeRay .symbol{color:#990073}
+.CodeRay .symbol .content{color:#a60}
+.CodeRay .symbol .delimiter{color:#630}
+.CodeRay .tag{color:teal}
+.CodeRay .tag-special{color:#d70}
+.CodeRay .variable{color:#036}
+.CodeRay .insert{background:#afa}
+.CodeRay .delete{background:#faa}
+.CodeRay .change{color:#aaf;background:#007}
+.CodeRay .head{color:#f8f;background:#505}
+.CodeRay .insert .insert{color:#080}
+.CodeRay .delete .delete{color:#800}
+.CodeRay .change .change{color:#66f}
+.CodeRay .head .head{color:#f4f}
+</style>
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>Tools</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_objectstore_command_line_browsers_and_editors">ObjectStore command-line browsers and editors</a>
+<ul class="sectlevel2">
+<li><a href="#_browse_and_manage_transactions_using_an_application_server">Browse and Manage Transactions Using an Application Server</a></li>
+<li><a href="#_browse_and_manage_transactions_using_jmx">Browse and Manage Transactions Using JMX</a></li>
+<li><a href="#_logeditor">LogEditor</a></li>
+<li><a href="#_logbrowser">LogBrowser</a></li>
+</ul>
+</li>
+<li><a href="#_gui_based_tools">GUI Based Tools</a>
+<ul class="sectlevel2">
+<li><a href="#_embedded_console">Embedded Console</a></li>
+<li><a href="#_performance_graphing">Performance Graphing</a></li>
+</ul>
+</li>
+<li><a href="#_view_transaction_statistics_using_an_application_server">View Transaction Statistics using an Application Server</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This chapter describes the various tools for managing transactions.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_objectstore_command_line_browsers_and_editors"><a class="anchor" href="#_objectstore_command_line_browsers_and_editors"></a>ObjectStore command-line browsers and editors</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There are currently three command-line editors for manipulating the ObjectStore.
+These tools are used to manipulate the lists of heuristic participants maintained by a transaction log.
+They allow a heuristic participant to be moved from that list back to the list of prepared participants so that transaction recovery may attempt to resolve them automatically.</p>
+</div>
+<div class="sect2">
+<h3 id="_browse_and_manage_transactions_using_an_application_server"><a class="anchor" href="#_browse_and_manage_transactions_using_an_application_server"></a>Browse and Manage Transactions Using an Application Server</h3>
+<div class="paragraph">
+<p>The WildFly Application Server provides a command-line based Management CLI which supports the ability to browse and manipulate transaction records.
+This functionality is provided by the interaction between the Transaction Manager &#8482; and the Management API of the application server.
+To start the CLI on a non-windows based OS type the following command in application server install directory:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">./bin/jboss-cli.sh --connect controller=IP_ADDRESS</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>On Windows platforms use the jboss-cli.bat script</p>
+</div>
+<div class="paragraph">
+<p>The transaction manager stores information about each active transaction, and the participants involved in the transaction, in a persistent storage area called the <em>object store</em> . The Management API exposes the object store as a resource called the <code>log-store</code> . An API operation called <code>probe</code> reads the transaction logs and creates a node in the management model corresponding to each log.
+These nodes can be inspected using the CLI.
+Transaction logs are transient, so these nodes quickly become out of date but you can call the <code>probe</code> command manually whenever you need to refresh the <code>log-store</code>.</p>
+</div>
+<div id="refresh_log_store" class="paragraph">
+<div class="title">Refresh the Log Store</div>
+<p>This command refreshes the Log Store for server groups which use the profile <code>default</code> in a managed domain.
+For a standalone server, remove the <code>profile=default</code> from the command.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">/subsystem=transactions/log-store=log-store/:probe</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<div class="title">View All Prepared Transactions</div>
+<p>To view all prepared transactions, first refresh the log store (see <a href="#refresh_log_store">Refresh the Log Store</a> ), then run the following command, which functions similarly to a filesystem <code>ls</code> command.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>ls /subsystem=transactions/log-store=log-store/transactions</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Each transaction is shown, along with its unique identifier.
+Individual operations can be run against an individual transaction (see <a href="#manage_transaction">Manage a Transaction</a>).</p>
+</div>
+<div id="manage_transaction" class="dlist">
+<div class="title">Manage a Transaction</div>
+<dl>
+<dt class="hdlist1">View a transaction&#8217;s attributes.</dt>
+<dd>
+<p>To view information about a transaction, such as its JNDI name, EIS product name and version, or its status, use the <code>:read-resource</code> CLI command.</p>
+<div class="listingblock">
+<div class="content">
+<pre>/subsystem=transactions/log-store=log-store/transactions=0\:ffff7f000001\:-b66efc2\:4f9e6f8f\:9:read-resource</pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">View the participants of a transaction.</dt>
+<dd>
+<p>Each transaction log contains a child element called <code>participants</code>. Use the <code>read-resource</code> CLI command on this element to see the participants of the transaction.
+Participants are identified by their JNDI names (or some other unique identifier if the JNDI name is not available).</p>
+<div class="listingblock">
+<div class="content">
+<pre>/subsystem=transactions/log-store=log-store/transactions=0\:ffff7f000001\:-b66efc2\:4f9e6f8f\:9/participants=java\:\/JmsXA:read-resource</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result may look similar to this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>{
+   "outcome" =&gt; "success",
+   "result" =&gt; {
+       "eis-product-name" =&gt; "HornetQ",
+       "eis-product-version" =&gt; "2.0",
+       "jndi-name" =&gt; "java:/JmsXA",
+       "status" =&gt; "HEURISTIC_HAZARD",
+       "type" =&gt; "/StateManager/AbstractRecord/XAResourceRecord"
+   }
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The outcome status shown here is in a <code>HEURISTIC_HAZARD</code> state and is eligible for recovery.
+Refer to <a href="#recover_transaction_participant">[recover_transaction_participant]</a> for more details.</p>
+</div>
+</dd>
+<dt class="hdlist1">Delete a transaction.</dt>
+<dd>
+<p>Each transaction log supports a <code>:delete</code> operation, to delete the transaction log representing the transaction.</p>
+<div class="listingblock">
+<div class="content">
+<pre>/subsystem=transactions/log-store=log-store/transactions=0\:ffff7f000001\:-b66efc2\:4f9e6f8f\:9:delete</pre>
+</div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If failures occur, transaction logs may remain in the object store until crash recovery facilities have resolved the transactions they represent.
+Therefore, it is very important that the contents of the object store are not deleted inadvertently, as this will make it impossible to resolve in-doubt transactions.
+In addition, if multiple users share the same object store, they must understand that it is not an exclusive resource, and not delete transaction logs without careful consideration.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</dd>
+<dt class="hdlist1">Delete a transaction participant.</dt>
+<dd>
+<p>Each transaction log participant supports a <code>:delete</code> operation which will delete the participant log that represents the participant:</p>
+<div class="listingblock">
+<div class="content">
+<pre>/subsystem=transactions/log-store=log-store/transactions=0\:ffff7f000001\:-b66efc2\:4f9e6f8f\:9/participants=0\:ffff7f000001\:-f30b80c\:58480e0a\:2c:delete</pre>
+</div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Normally you would leave participant log management to the transaction log that owns it or to the recovery system.
+However, this delete operation for participant logs is provided for those cases where you know it is safe to do so and, in the case of heuristically completed XA resources, you wish to trigger a forget call so that the XA resource vendors' logs are cleaned correctly.
+By default, if this forget call fails then the delete operation will still succeed.
+The system administrator may override this behaviour by setting a system property:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>ObjectStoreEnvironmentBean.ignoreMBeanHeuristics</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>to the value false.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</dd>
+</dl>
+</div>
+<div id="recover_transaction_participant" class="dlist">
+<dl>
+<dt class="hdlist1">Recover a transaction participant.</dt>
+<dd>
+<p>Each transaction participant log may support recovery via the <code>:recover</code> CLI command if it is in a heuristic state.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>Recovery of Heuristic Transactions and Participants</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If the transaction participant&#8217;s status is <code>HEURISTIC</code> or <code>HEURISTIC_HAZARD</code> or <code>HEURISTIC_MIXED</code> then the recover operation changes the state to <code>PREPARE</code> and triggers a recovery attempt by replaying the <code>commit</code> operation.
+If successful, the participant is removed from the transaction log.
+You can verify this by re-running the <code>:probe</code> operation on the <code>log-store</code> and checking that the participant is no longer listed.
+If this is the last participant, the transaction is also deleted.</p>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Refresh the status of a transaction which needs recovery.</dt>
+<dd>
+<p>If a transaction needs recovery, you can use the <code>:refresh</code> CLI command to be sure it still requires recovery, before attempting the recovery.</p>
+<div class="listingblock">
+<div class="content">
+<pre>/subsystem=transactions/log-store=log-store/transactions=0\:ffff7f000001\:-b66efc2\:4f9e6f8f\:9:refresh</pre>
+</div>
+</div>
+</dd>
+</dl>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_browse_and_manage_transactions_using_jmx"><a class="anchor" href="#_browse_and_manage_transactions_using_jmx"></a>Browse and Manage Transactions Using JMX</h3>
+<div class="paragraph">
+<p>Transaction logs may also be managed using <a href="https://docs.oracle.com/javase/7/docs/technotes/guides/jmx">JMX</a>.
+Each transaction log record is instrumented as an MBean.
+Any JMX client may be used to manage logs using this mechanism.</p>
+</div>
+<div class="paragraph">
+<p>The JMX MBean for the object store contains one method and one attribute.
+The <code>probe</code> operation scans the object store creating JMX MBeans for the various log records contained in the store.
+The default behaviour is to only create MBeans for particular record types.
+If there is a need to view everything in the store then set the <code>ExposeAllRecordsAsMBeans</code> attribute to <code>true</code> Note that transaction logs are transient so these beans quickly become out of date and will not be refreshed automatically so you must invoke the <code>probe</code> operation again to get the current up to date list of MBeans.</p>
+</div>
+<div class="paragraph">
+<p>MBeans can be queried using the standard JMX query mechanism.
+ObjectStore Object Names are in the format:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>domain:key-property-list</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where domain is <code>jboss.jta</code> and key-property-list is a comma separated list of key=value pairs.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Object Name Keys</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">itype</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The transaction record type</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">uid</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The unique id of the transaction record</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">puid</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The unique id of a participant record</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">Transaction record</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml">jboss.jta:type=ObjectStore,itype=StateManager/BasicAction/TwoPhaseCoordinator/ AtomicAction,uid=0_ffff7f000001_-3a612f5d_53f63052_39</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">A participant record within a transaction</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml">jboss.jta:type=ObjectStore,itype=StateManager/BasicAction/TwoPhaseCoordinator/ AtomicAction,uid=0_ffff7f000001_-3a612f5d_53f63052_39,puid= 0_ffff7f000001_-3a612f5d_53f63052_3c</code></pre>
+</div>
+</div>
+<div class="dlist">
+<div class="title">Manage a Transaction</div>
+<dl>
+<dt class="hdlist1">View a transaction&#8217;s attributes.</dt>
+<dd>
+<p>To view information about a transaction or a transaction participant, such as its JNDI name, EIS product name and version, or its status, use a JMX client or alternatively use the JMX api:</p>
+<div class="listingblock">
+<div class="content">
+<pre>// obtain connection to the MBean server
+MBeanServer mbs = ...
+
+// query all ObjectStore MBean instances
+ObjectName on = new ObjectName("jboss.jta:type=ObjectStore,*", null);
+Set&lt;ObjectInstance&gt; transactions = mbs.queryMBeans(on);
+
+// lookup the attribute names of an ObjectInstance
+MBeanInfo info = mbs.getMBeanInfo( oi.getObjectName() );
+MBeanAttributeInfo[] attributeArray = info.getAttributes();
+
+// find the values of the attributes of an ObjectInstance
+AttributeList attributes = mbs.getAttributes(oi.getObjectName(), attributeNames);</pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">View the participants of a transaction.</dt>
+<dd>
+<p>A transaction log may contain one or more participants which can be viewed as MBeans using a JMX client or programmatically as follows:</p>
+<div class="listingblock">
+<div class="content">
+<pre>ObjectInstance transaction = ... //
+ObjectName on = transaction.getObjectName();
+String participantQuery =  on + ",puid=*";
+Set&lt;bjectInstance&gt; participants = mbs.queryMBeans(new ObjectName(participantQuery), null)</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For example the attributes of an XAResource record might look similar to:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>"eis-product-name" =&gt; "HornetQ",
+"eis-product-version" =&gt; "2.0",
+"jndi-name" =&gt; "java:/JmsXA",
+"status" =&gt; "HEURISTIC_HAZARD",
+"type" =&gt; "/StateManager/AbstractRecord/XAResourceRecord"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The status attribute shown in this example is in a <code>HEURISTIC_HAZARD</code> state and is eligible for recovery.
+Refer to <a href="#recover_transaction_participant_jmx">[recover_transaction_participant_jmx]</a> for more details.</p>
+</div>
+</dd>
+<dt class="hdlist1">Delete a transaction or transaction participant.</dt>
+<dd>
+<p>MBeans for transaction logs and participants contain a <code>remove</code> operation.
+Invoke this MBean operation to remove the record from the ObjectStore.</p>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If failures occur, transaction logs may remain in the object store until crash recovery facilities have resolved the transactions they represent.
+Therefore, it is very important that the contents of the object store are not deleted inadvertently, as this will make it impossible to resolve in-doubt transactions.
+In addition, if multiple users share the same object store, they must understand that it is not an exclusive resource,</p>
+</div>
+<div class="paragraph">
+<p>Normally you would leave participant log management to the transaction log that owns it or to the recovery system.
+However, this remove operation for participant logs is provided for those cases where you know it is safe to do so and, in the case of heuristically completed XA resources, you wish to trigger a forget call so that the XA resource vendors' logs are cleaned correctly.
+By default, if this forget call fails then the delete operation will still succeed.
+The system administrator may override this behaviour by setting a system property:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>ObjectStoreEnvironmentBean.ignoreMBeanHeuristics</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>to the value false.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</dd>
+</dl>
+</div>
+<div id="recover_transaction_participant_jmx" class="dlist">
+<dl>
+<dt class="hdlist1">Recover a transaction.</dt>
+<dd>
+<p>Transaction participants support recovery via the <code>clearHeuristic</code> operation.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Recovery of Heuristic Participants</p>
+<div class="ulist">
+<ul>
+<li>
+<p>If the transaction participant&#8217;s status is <code>HEURISTIC</code> or <code>HEURISTIC_HAZARD</code> or <code>HEURISTIC_MIXED</code> then the clearHeuristic operation changes the state to <code>PREPARED</code>.</p>
+</li>
+<li>
+<p>Subsequent runs of the recovery manager (periodic recovery) will try to replay the <code>commit</code> operation.
+If successful, the participant is removed from the transaction log.</p>
+</li>
+<li>
+<p>You can verify the transaction is completed by re-running the <code>probe</code> operation on the <code>ObjectStore</code> MBean.
+If this is the last participant, the transaction will have been also deleted.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_logeditor"><a class="anchor" href="#_logeditor"></a>LogEditor</h3>
+<div class="paragraph">
+<p>The LogEditor tool is started by executing the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">java -Dcom.arjuna.ats.arjuna.common.ObjectStoreEnvironmentBean.objectStoreDir=&quot;path to file based object store&quot; com.arjuna.ats.arjuna.tools.log.LogBrowser</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This command works with the file based object store.
+If you want to work with the Hornetq store instead then you need to specify a different property for the location of the log store and you also need to explicity provide the class name of the Hornetq Object Store:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">java -Dcom.arjuna.ats.internal.arjuna.objectstore.hornetq.HornetqJournalEnvironmentBean.storeDir=&quot;directory path&quot; -Dcom.arjuna.ats.arjuna.common.ObjectStoreEnvironmentBean.objectStoreType=&quot;com.arjuna.ats.internal.arjuna.objectstore.hornetq.HornetqObjectStoreAdaptor&quot;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The tool supports the following options that can be provided on the command-line:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. LogEditor Options</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Option</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-tx <code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specifies the transaction log to work on.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-type <code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The transaction type to work on.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-dump</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Print out the contents of the log identified by the other options.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-forget <code>index</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Move the specified target from the heuristic list to the prepared list.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-help</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Print out the list of commands and options.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_logbrowser"><a class="anchor" href="#_logbrowser"></a>LogBrowser</h3>
+<div class="paragraph">
+<p>The LogBrowser, invoked by calling <code>com.arjuna.ats.arjuna.tools.log.LogBrowser</code>, is similar to the LogEditor, but allows multiple log instances to be manipulated.
+It presents a shell-like interface, with the following options:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 3. LogBrowserOptions</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Option</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ls [<code>type</code>]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List the logs for the specified type.
+If no type is specified, the editor must already be attached to the transaction type.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">select [<code>type</code>]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Browse a specific transaction type.
+If already attached to a transaction type, you are detached from that type first.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">attach <code>log</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Attach the console to the specified transaction log.
+If you are attached to another log, the command will fail.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">detach</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Detach the console from the current log.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">forget <code>pid</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Move the specified heuristic participant back to the <em>prepared</em> list.
+The console must be attached.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">delete <code>pid</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Delete the specified heuristic participant.
+The console must be attached.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">types</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List the supported transaction types.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">quit</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Exit the console tool.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">help</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Print out the supported commands.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_gui_based_tools"><a class="anchor" href="#_gui_based_tools"></a>GUI Based Tools</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_embedded_console"><a class="anchor" href="#_embedded_console"></a>Embedded Console</h3>
+<div class="paragraph">
+<p>Transaction management is integrated into the WildFly Application Server.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_performance_graphing"><a class="anchor" href="#_performance_graphing"></a>Performance Graphing</h3>
+<div class="paragraph">
+<p>There is a transaction statistics graphing tool which can run standalone or inside a jconsole tab (jconsole is a tool for managing JVMs and is distributed with the reference JDK):</p>
+</div>
+<div class="paragraph">
+<p>The tool depends on the JFree graphing library.
+Download and unpack orson from <a href="http://www.jfree.org/orson" class="bare">http://www.jfree.org/orson</a>.
+Set the env variable ORSON_HOME to the directory where you plan to unpack the downloaded zip.
+If you intend to use the tool with jconsole you will also need to put the JDK tools and jconsole jars on the classpath:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">export CLASSPATH=&quot;$JDK_HOME/lib/tools.jar:$JDK_HOME/lib/jconsole.jar:$ORSON_HOME/orson-0.5.0.jar:$ORSON_HOME/lib/jfreechart-1.0.6.jar:$ORSON_HOME/lib/jcommon-1.0.10.jar:$INSTALL_ROOT/lib/narayana-jta.jar&gt;&quot;</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_standalone_usage"><a class="anchor" href="#_standalone_usage"></a>Standalone Usage</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">java com.arjuna.ats.arjuna.tools.stats.TxPerfGraph</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>(note that standalone usage does not require the JDK tools and jconsole jars)</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_usage_with_jconsole"><a class="anchor" href="#_usage_with_jconsole"></a>Usage with jconsole</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">jconsole -J-Djava.class.path=&quot;$CLASSPATH&quot; -pluginpath $INSTALL_ROOT/lib/narayana-jta.jar</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This command will launch the jconsole GUI in which there will be an extra tab for displaying transaction performance statistics.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_view_transaction_statistics_using_an_application_server"><a class="anchor" href="#_view_transaction_statistics_using_an_application_server"></a>View Transaction Statistics using an Application Server</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If you are using the Transaction Manager &#8482; inside the WildFly Application Server and if the TM statistics are enabled, then you can view statistics about the TM and transaction subsystem using tools provide by the application server.</p>
+</div>
+<div class="paragraph">
+<p>You can view statistics either via the web-based Management Console or the command-line Management CLI.
+In the web-based Management Console, Transaction statistics are available via <code>menu:Runtime[Subsystem Metrics &gt; Transactions]</code>.
+Transaction statistics are available for each server in a managed domain, as well.
+You can specify the server in the <code>Server</code> selection box at the top left.</p>
+</div>
+<div class="paragraph">
+<p>The following table shows each available statistic, its description, and the CLI command to view the statistic.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 4. Transaction Subsystem Statistics</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Statistic</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">CLI Command</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Total</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The total number of transactions processed by the TM on this server.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/subsystem=transactions/:read-attribute(name=number-of-transactions,include-defaults=true)</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Committed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The number of committed transactions processed by the TM on this server.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/subsystem=transactions/:read-attribute(name=number-of-committed-transactions,include-defaults=true)</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Aborted</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The number of aborted transactions processed by the TM on this server.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/subsystem=transactions/:read-attribute(name=number-of-aborted-transactions,include-defaults=true)</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Timed Out</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The number of timed out transactions processed by the TM on this server.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/subsystem=transactions/:read-attribute(name=number-of-timed-out-transactions,include-defaults=true)</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Heuristics</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Not available in the Management Console.
+Number of transactions in a heuristic state.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/subsystem=transactions/:read-attribute(name=number-of-heuristics,include-defaults=true)</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">In-Flight Transactions</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Not available in the Management Console.
+Number of transactions which have begun but not yet terminated.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/subsystem=transactions/:read-attribute(name=number-of-inflight-transactions,include-defaults=true)</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Failure Origin - Applications</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The number of failed transactions whose failure origin was an application.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/subsystem=transactions/:read-attribute(name=number-of-application-rollbacks,include-defaults=true)</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Failure Origin - Resources</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The number of failed transactions whose failure origin was a resource.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/subsystem=transactions/:read-attribute(name=number-of-resource-rollbacks,include-defaults=true)</code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>

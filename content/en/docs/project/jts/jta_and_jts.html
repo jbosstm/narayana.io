@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>JTA and JTS</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>JTA and JTS</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_distributed_jta">Distributed JTA</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_distributed_jta"><a class="anchor" href="#_distributed_jta"></a>Distributed JTA</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This guide describes how to use the JTA interfaces for purely local transactions.
+This is a high-performance implementation, but you can only use it to execute transactions within the same process.
+If you need support for distributed transactions, the JTA needs to use the JTS.
+Another advantage of this approach is interoperability with other JTS-compliant transaction systems.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If you use the JTS and JTA interfaces to manage the same transactions, the JTA needs to be configured to be aware of the JTS.
+Otherwise, local transactions will be unaware of their JTS counterparts.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>You need to do this configuration manually, because some applications may be using Narayana in a purely local manner, or may need to differentiate between transactions managed by JTS and JTA.</p>
+</div>
+<div class="olist arabic">
+<div class="title">Procedure: Making the JTA interfaces JTS-aware</div>
+<ol class="arabic">
+<li>
+<p>Set <code>JTAEnvironmentBean.jtaTMImplementation</code> to <code>com.arjuna.ats.internal.jta.transaction.jts.TransactionManagerImple</code>.</p>
+</li>
+<li>
+<p>Set <code>JTAEnvironmentBean.jtaUTImplementation</code> to <code>com.arjuna.ats.internal.jta.transaction.jts.UserTransactionImple</code>.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>

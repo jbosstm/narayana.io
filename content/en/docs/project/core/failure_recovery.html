@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>Failure Recovery</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+/*! Stylesheet for CodeRay to loosely match GitHub themes | MIT License */
+pre.CodeRay{background:#f7f7f8}
+.CodeRay .line-numbers{border-right:1px solid;opacity:.35;padding:0 .5em 0 0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+.CodeRay span.line-numbers{display:inline-block;margin-right:.75em}
+.CodeRay .line-numbers strong{color:#000}
+table.CodeRay{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.CodeRay td{vertical-align:top;line-height:inherit}
+table.CodeRay td.line-numbers{text-align:right}
+table.CodeRay td.code{padding:0 0 0 .75em}
+.CodeRay .debug{color:#fff!important;background:navy!important}
+.CodeRay .annotation{color:#007}
+.CodeRay .attribute-name{color:navy}
+.CodeRay .attribute-value{color:#700}
+.CodeRay .binary{color:#509}
+.CodeRay .comment{color:#998;font-style:italic}
+.CodeRay .char{color:#04d}
+.CodeRay .char .content{color:#04d}
+.CodeRay .char .delimiter{color:#039}
+.CodeRay .class{color:#458;font-weight:bold}
+.CodeRay .complex{color:#a08}
+.CodeRay .constant,.CodeRay .predefined-constant{color:teal}
+.CodeRay .color{color:#099}
+.CodeRay .class-variable{color:#369}
+.CodeRay .decorator{color:#b0b}
+.CodeRay .definition{color:#099}
+.CodeRay .delimiter{color:#000}
+.CodeRay .doc{color:#970}
+.CodeRay .doctype{color:#34b}
+.CodeRay .doc-string{color:#d42}
+.CodeRay .escape{color:#666}
+.CodeRay .entity{color:#800}
+.CodeRay .error{color:#808}
+.CodeRay .exception{color:inherit}
+.CodeRay .filename{color:#099}
+.CodeRay .function{color:#900;font-weight:bold}
+.CodeRay .global-variable{color:teal}
+.CodeRay .hex{color:#058}
+.CodeRay .integer,.CodeRay .float{color:#099}
+.CodeRay .include{color:#555}
+.CodeRay .inline{color:#000}
+.CodeRay .inline .inline{background:#ccc}
+.CodeRay .inline .inline .inline{background:#bbb}
+.CodeRay .inline .inline-delimiter{color:#d14}
+.CodeRay .inline-delimiter{color:#d14}
+.CodeRay .important{color:#555;font-weight:bold}
+.CodeRay .interpreted{color:#b2b}
+.CodeRay .instance-variable{color:teal}
+.CodeRay .label{color:#970}
+.CodeRay .local-variable{color:#963}
+.CodeRay .octal{color:#40e}
+.CodeRay .predefined{color:#369}
+.CodeRay .preprocessor{color:#579}
+.CodeRay .pseudo-class{color:#555}
+.CodeRay .directive{font-weight:bold}
+.CodeRay .type{font-weight:bold}
+.CodeRay .predefined-type{color:inherit}
+.CodeRay .reserved,.CodeRay .keyword{color:#000;font-weight:bold}
+.CodeRay .key{color:#808}
+.CodeRay .key .delimiter{color:#606}
+.CodeRay .key .char{color:#80f}
+.CodeRay .value{color:#088}
+.CodeRay .regexp .delimiter{color:#808}
+.CodeRay .regexp .content{color:#808}
+.CodeRay .regexp .modifier{color:#808}
+.CodeRay .regexp .char{color:#d14}
+.CodeRay .regexp .function{color:#404;font-weight:bold}
+.CodeRay .string{color:#d20}
+.CodeRay .string .string .string{background:#ffd0d0}
+.CodeRay .string .content{color:#d14}
+.CodeRay .string .char{color:#d14}
+.CodeRay .string .delimiter{color:#d14}
+.CodeRay .shell{color:#d14}
+.CodeRay .shell .delimiter{color:#d14}
+.CodeRay .symbol{color:#990073}
+.CodeRay .symbol .content{color:#a60}
+.CodeRay .symbol .delimiter{color:#630}
+.CodeRay .tag{color:teal}
+.CodeRay .tag-special{color:#d70}
+.CodeRay .variable{color:#036}
+.CodeRay .insert{background:#afa}
+.CodeRay .delete{background:#faa}
+.CodeRay .change{color:#aaf;background:#007}
+.CodeRay .head{color:#f8f;background:#505}
+.CodeRay .insert .insert{color:#080}
+.CodeRay .delete .delete{color:#800}
+.CodeRay .change .change{color:#66f}
+.CodeRay .head .head{color:#f4f}
+</style>
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>Failure Recovery</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_embedding_the_recovery_manager">Embedding the Recovery Manager</a>
+<ul class="sectlevel2">
+<li><a href="#_additional_recovery_module_classes">Additional Recovery Module Classes</a></li>
+</ul>
+</li>
+<li><a href="#_understanding_recovery_modules">Understanding Recovery Modules</a>
+<ul class="sectlevel2">
+<li><a href="#_the_recovery_manager">The Recovery Manager</a></li>
+<li><a href="#_configuring_the_recovery_manager">Configuring the Recovery Manager</a></li>
+<li><a href="#_periodic_recovery">Periodic Recovery</a></li>
+<li><a href="#_expired_entry_removal">Expired entry removal</a></li>
+</ul>
+</li>
+<li><a href="#_writing_a_recovery_module">Writing a Recovery Module</a>
+<ul class="sectlevel2">
+<li><a href="#_a_basic_scenario">A basic scenario</a></li>
+<li><a href="#_another_scenario">Another scenario</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this chapter we shall cover information on failure recovery that is specific to ArjunaCore, TXOJ, or using Narayana outside the scope of a supported application server.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_embedding_the_recovery_manager"><a class="anchor" href="#_embedding_the_recovery_manager"></a>Embedding the Recovery Manager</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In some situations it may be required to embed the <code>RecoveryManager</code> in the same process as the transaction service.
+In this case you can create an instance of the <code>RecoveryManager</code> through the manager method on <code>com.arjuna.ats.arjuna.recovery.RecoveryManager</code>.
+A <code>RecoveryManager</code> can be created in one of two modes, selected via the parameter to the manager method:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>i.
+<code>INDIRECT_MANAGEMENT</code>: the manager runs periodically but can also be instructed to run when desired via the scan operation or through the RecoveryDriver class to be described below.</p>
+</li>
+<li>
+<p>ii.
+<code>DIRECT_MANAGEMENT</code>: the manager does not run periodically and must be driven directly via the scan operation or RecoveryDriver.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>By default, the recovery manager listens on the first available port on a given machine.
+If you wish to control the port number that it uses, you can specify this using the <code>com.arjuna.ats.arjuna.recovery.recoveryPort</code> attribute.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_additional_recovery_module_classes"><a class="anchor" href="#_additional_recovery_module_classes"></a>Additional Recovery Module Classes</h3>
+<div class="paragraph">
+<p>Narayana provides a set of recovery modules that are responsible to manage recovery according to the nature of the participant and its position in a transactional tree.
+The provided classes over and above the ones covered elsewhere (that all implements the RecoveryModule interface) are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>com.arjuna.ats.internal.txoj.recovery.TORecoveryModule</code></p>
+<div class="paragraph">
+<p>Recovers Transactional Objects for Java.</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_understanding_recovery_modules"><a class="anchor" href="#_understanding_recovery_modules"></a>Understanding Recovery Modules</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The failure recovery subsystem of Narayana will ensure that results of a transaction are applied consistently to all resources affected by the transaction, even if any of the application processes or the machine hosting them crash or lose network connectivity.
+In the case of machine (system) crash or network failure, the recovery will not take place until the system or network are restored, but the original application does not need to be restarted – recovery responsibility is delegated to the Recovery Manager process (see below).
+Recovery after failure requires that information about the transaction and the resources involved survives the failure and is accessible afterward: this information is held in the ActionStore, which is part of the <code>ObjectStore</code>.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If the <code>ObjectStore</code> is destroyed or modified, recovery may not be possible.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Until the recovery procedures are complete, resources affected by a transaction that was in progress at the time of the failure may be inaccessible.
+For database resources, this may be reported as tables or rows held by &#8220;in-doubt transactions&#8221;.
+For TransactionalObjects for Java resources, an attempt to activate the Transactional Object (as when trying to get a lock) will fail.</p>
+</div>
+<div class="sect2">
+<h3 id="_the_recovery_manager"><a class="anchor" href="#_the_recovery_manager"></a>The Recovery Manager</h3>
+<div class="paragraph">
+<p>The failure recovery subsystem of Narayana requires that the stand-alone Recovery Manager process be running for each <code>ObjectStore</code> (typically one for each node on the network that is running Narayana applications).
+The <code>RecoveryManager</code> file is located in the package <code>com.arjuna.ats.arjuna.recovery.RecoveryManager</code>.
+To start the Recovery Manager issue the following command:</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">java com.arjuna.ats.arjuna.recovery.RecoveryManager</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the -test flag is used with the Recovery Manager then it will display a &#8220;Ready&#8221; message when initialised, i.e.,</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">java com.arjuna.ats.arjuna.recovery.RecoveryManager -test</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_configuring_the_recovery_manager"><a class="anchor" href="#_configuring_the_recovery_manager"></a>Configuring the Recovery Manager</h3>
+<div class="paragraph">
+<p>The <code>RecoveryManager</code> reads the properties defined in the arjuna.properties file and then also reads the property file <code>RecoveryManager.properties</code>, from the same directory as it found the arjuna properties file.
+An entry for a property in the <code>RecoveryManager</code> properties file will override an entry for the same property in the main TransactionService properties file.
+Most of the entries are specific to the Recovery Manager.</p>
+</div>
+<div class="paragraph">
+<p>A default version of <code>RecoveryManager.properties</code> is supplied with the distribution – this can be used without modification, except possibly the debug tracing fields (see below, Output).
+The rest of this section discusses the issues relevant in setting the properties to other values (in the order of their appearance in the default version of the file).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_periodic_recovery"><a class="anchor" href="#_periodic_recovery"></a>Periodic Recovery</h3>
+<div class="paragraph">
+<p>The <code>RecoveryManager</code> scans the <code>ObjectStore</code> and other locations of information, looking for transactions and resources that require, or may require recovery.
+The scans and recovery processing are performed by recovery modules, (instances of classes that implement the <code>com.arjuna.ats.arjuna.recovery.RecoveryModule</code> interface), each with responsibility for a particular category of transaction or resource.
+The set of recovery modules used are dynamically loaded, using properties found in the <code>RecoveryManager</code> property file.</p>
+</div>
+<div class="paragraph">
+<p>The interface has two methods: <code>periodicWorkFirstPass</code> and <code>periodicWorkSecondPass</code>.
+At an interval (defined by property <code>com.arjuna.ats.arjuna.recovery.periodicRecoveryPeriod</code>), the <code>RecoveryManager</code> will call the first pass method on each property, then wait for a brief period (defined by property <code>com.arjuna.ats.arjuna.recovery.recoveryBackoffPeriod</code>), then call the second pass of each module.
+Typically, in the first pass, the module scans (e.g. the relevant part of the <code>ObjectStore</code>) to find transactions or resources that are in-doubt (i.e. are part way through the commitment process).
+On the second pass, if any of the same items are still in-doubt, it is possible the original application process has crashed and the item is a candidate for recovery.</p>
+</div>
+<div class="paragraph">
+<p>An attempt, by the <code>RecoveryManager</code>, to recover a transaction that is still progressing in the original process(es) is likely to break the consistency.
+Accordingly, the recovery modules use a mechanism (implemented in the <code>com.arjuna.ats.arjuna.recovery.TransactionStatusManager</code> package) to check to see if the original process is still alive, and if the transaction is still in progress.
+The <code>RecoveryManager</code> only proceeds with recovery if the original process has gone, or, if still alive, the transaction is completed.
+(If a server process or machine crashes, but the transaction-initiating process survives, the transaction will complete, usually generating a warning.
+Recovery of such a transaction is the <code>RecoveryManager</code>’s responsibility).</p>
+</div>
+<div class="paragraph">
+<p>It is clearly important to set the interval periods appropriately.
+The total iteration time will be the sum of the <code>periodicRecoveryPeriod</code>, <code>recoveryBackoffPeriod</code> and the length of time it takes to scan the stores and to attempt recovery of any in-doubt transactions found, for all the recovery modules.
+The recovery attempt time may include connection timeouts while trying to communicate with processes or machines that have crashed or are inaccessible (which is why there are mechanisms in the recovery system to avoid trying to recover the same transaction forever).
+The total iteration time will affect how long a resource will remain inaccessible after a failure – <code>periodicRecoveryPeriod</code> should be set accordingly (default is 120 seconds).
+The <code>recoveryBackoffPeriod</code> can be comparatively short (default is 10 seconds) – its purpose is mainly to reduce the number of transactions that are candidates for recovery and which thus require a “call to the original process to see if they are still in progress</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>In previous versions of Narayana there was no contact mechanism, and the backoff period had to be long enough to avoid catching transactions in flight at all.
+From 3.0, there is no such risk.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Two recovery modules (implementations of the <code>com.arjuna.ats.arjuna.recovery.RecoveryModule</code> interface) are supplied with Narayana, supporting various aspects of transaction recovery including JDBC recovery.
+It is possible for advanced users to create their own recovery modules and register them with the Recovery Manager.
+The recovery modules are registered with the <code>RecoveryManager</code> using <code>RecoveryEnvironmentBean.recoveryExtensions</code>.
+These will be invoked on each pass of the periodic recovery in the sort-order of the property names – it is thus possible to predict the ordering (but note that a failure in an application process might occur while a periodic recovery pass is in progress).
+The default Recovery Extension settings are:</p>
+</div>
+<div class="listingblock">
+<div class="title">Recovery Environment Bean XML</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;entry</span> <span class="attribute-name">key</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">RecoveryEnvironmentBean.recoveryExtensions</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+    com.arjuna.ats.internal.arjuna.recovery.AtomicActionRecoveryModule
+    com.arjuna.ats.internal.txoj.recovery.TORecoveryModule
+<span class="tag">&lt;/entry&gt;</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_expired_entry_removal"><a class="anchor" href="#_expired_entry_removal"></a>Expired entry removal</h3>
+<div class="paragraph">
+<p>The operation of the recovery subsystem will cause some entries to be made in the <code>ObjectStore</code> that will not be removed in normal progress.
+The RecoveryManager has a facility for scanning for these and removing items that are very old.
+Scans and removals are performed by implementations of the <code>com.arjuna.ats.arjuna.recovery.ExpiryScanner</code> interface.
+Implementations of this interface are loaded by giving the class names as the value of a property <code>RecoveryEnvironmentBean.expiryScanners</code>.
+The <code>RecoveryManager</code> calls the <code>scan()</code> method on each loaded Expiry Scanner implementation at an interval determined by the property <code>RecoveryEnvironmentBean.expiryScanInterval</code>”.
+This value is given in hours – default is 12.
+An expiryScanInterval value of zero will suppress any expiry scanning.
+If the value as supplied is positive, the first scan is performed when <code>RecoveryManager</code> starts; if the value is negative, the first scan is delayed until after the first interval (using the absolute value)</p>
+</div>
+<div class="paragraph">
+<p>The kinds of item that are scanned for expiry are:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>TransactionStatusManager</code> items</dt>
+<dd>
+<p>one of these is created by every application process that uses Narayana – they contain the information that allows the <code>RecoveryManager</code> to determine if the process that initiated the transaction is still alive, and what the transaction status is.
+The expiry time for these is set by the property <code>com.arjuna.ats.arjuna.recovery.transactionStatusManagerExpiryTime</code> (in hours – default is 12, zero means never expire).
+The expiry time should be greater than the lifetime of any single Narayana-using process.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>The Expiry Scanner properties for these are:</p>
+</div>
+<div class="listingblock">
+<div class="title">Recovery Environment Bean XML</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;entry</span> <span class="attribute-name">key</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">RecoveryEnvironmentBean.expiryScanners</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+    com.arjuna.ats.internal.arjuna.recovery.ExpiredTransactionStatusManagerScanner
+<span class="tag">&lt;/entry&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To illustrate the behavior of a recovery module, the following pseudo code describes the basic algorithm used for Atomic Action transactions and Transactional Objects for java.</p>
+</div>
+<div class="listingblock">
+<div class="title">AtomicAction pseudo code</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="text">First Pass:
+&lt; create a collection containing all transactions currently in the log &gt;
+
+Second Pass:
+while &lt; there are transactions in the collection &gt;
+do
+ if &lt; the intention list for the transaction still exists &gt;
+ then
+   &lt; create new transaction cached item &gt;
+   &lt; obtain the status of the transaction &gt;
+
+   if &lt; the transaction is not in progress (ie phase 2 has finished ) &gt;
+   then
+     &lt; replay phase two of the commit protocol &gt;
+   endif.
+ endif.
+end while.</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Transactional Object pseudo code</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="text">First Pass:
+&lt; Create a hash table for uncommitted transactional objects. &gt;
+&lt; Read in all transactional objects within the object store. &gt;
+while &lt; there are transactional objects &gt;
+do
+   if &lt; the transactional object has an Uncommited status in the object store &gt;
+   then
+      &lt; add the transactional Object o the hash table for uncommitted transactional objects&gt;
+   end if.
+end while.
+
+Second Pass:
+while &lt; there are transactions in the hash table for uncommitted transactional objects &gt;
+do
+   if &lt; the transaction is still in the Uncommitted state &gt;
+   then
+      if &lt; the transaction is not in the Transaction Cache &gt;
+      then
+         &lt; check the status of the transaction with the original application process &gt;
+         if &lt; the status is Rolled Back or the application process is inactive &gt;
+            &lt; rollback the transaction by removing the Uncommitted status from the Object Store &gt;
+         endif.
+      endif.
+   endif.
+end while.</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_writing_a_recovery_module"><a class="anchor" href="#_writing_a_recovery_module"></a>Writing a Recovery Module</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In order to recover from failure, we have seen that the Recovery Manager contacts recovery modules by invoking periodically the methods <code>periodicWorkFirstPass</code> and <code>periodicWorkSecondPass</code>.
+Each Recovery Module is then able to manage recovery according the type of resources that need to be recovered.
+The Narayana product is shipped with a set of recovery modules (<code>TOReceveryModule</code>, <code>XARecoveryModule</code>…), but it is possible for a user to define its own recovery module that fit his application.
+The following basic example illustrates the steps needed to build such recovery module</p>
+</div>
+<div class="sect2">
+<h3 id="_a_basic_scenario"><a class="anchor" href="#_a_basic_scenario"></a>A basic scenario</h3>
+<div class="paragraph">
+<p>This basic example does not aim to present a complete process to recover from failure, but mainly to illustrate the way to implement a recovery module.</p>
+</div>
+<div class="paragraph">
+<p>The application used here consists to create an atomic transaction, to register a participant within the created transaction and finally to terminate it either by commit or abort.
+A set of arguments are provided:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>to decide to commit or abort the transaction,</p>
+</li>
+<li>
+<p>to decide generating a crash during the commitment process.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The code of the main class that control the application is given below</p>
+</div>
+<div class="listingblock">
+<div class="title">TestRecoveryModule.java</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">com.arjuna.demo.recoverymodule</span>;
+
+<span class="keyword">import</span> <span class="include">com.arjuna.ats.arjuna.AtomicAction</span>;
+<span class="keyword">import</span> <span class="include">com.arjuna.ats.arjuna.coordinator</span>.*;
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">TestRecoveryModule</span> {
+    <span class="directive">protected</span> <span class="directive">static</span> <span class="type">boolean</span> _commit = <span class="predefined-constant">true</span>;
+    <span class="directive">protected</span> <span class="directive">static</span> <span class="type">boolean</span> _crash = <span class="predefined-constant">false</span>;
+
+    <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span> args<span class="type">[]</span>) {
+        <span class="keyword">try</span> {
+            AtomicAction tx = <span class="keyword">new</span> AtomicAction();
+            <span class="comment">// Top level begin</span>
+            tx.begin();
+
+            <span class="comment">// enlist the participant</span>
+            tx.add(SimpleRecord.create());
+
+            <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">About to complete the transaction </span><span class="delimiter">&quot;</span></span>);
+            <span class="keyword">for</span> (<span class="type">int</span> i = <span class="integer">0</span>; i &lt; args.length; i++) {
+                <span class="keyword">if</span> ((args[i].compareTo(<span class="string"><span class="delimiter">&quot;</span><span class="content">-commit</span><span class="delimiter">&quot;</span></span>) == <span class="integer">0</span>))
+                    _commit = <span class="predefined-constant">true</span>;
+                <span class="keyword">if</span> ((args[i].compareTo(<span class="string"><span class="delimiter">&quot;</span><span class="content">-rollback</span><span class="delimiter">&quot;</span></span>) == <span class="integer">0</span>))
+                    _commit = <span class="predefined-constant">false</span>;
+                <span class="keyword">if</span> ((args[i].compareTo(<span class="string"><span class="delimiter">&quot;</span><span class="content">-crash</span><span class="delimiter">&quot;</span></span>) == <span class="integer">0</span>))
+                    _crash = <span class="predefined-constant">true</span>;
+            }
+            <span class="keyword">if</span> (_commit)
+                <span class="comment">// Top level commit</span>
+                tx.commit();
+            <span class="keyword">else</span>
+                <span class="comment">// Top level rollback</span>
+                tx.abort();
+        } <span class="keyword">catch</span> (<span class="exception">Exception</span> e) {
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The registered participant has the following behavior:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>During the prepare phase, it writes a simple message - “I’m prepared”- on the disk such The message is written in a well known file</p>
+</li>
+<li>
+<p>During the commit phase, it writes another message - “I’m committed”- in the same file used during prepare</p>
+</li>
+<li>
+<p>If it receives an abort message, it removes from the disk the file used for prepare if any.</p>
+</li>
+<li>
+<p>If a crash has been decided for the test, then it crashes during the commit phase – the file remains with the message “I’m prepared”.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The main portion of the code illustrating such behavior is described hereafter.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The location of the file given in variable filename can be changed</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="title">SimpleRecord.java</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">com.arjuna.demo.recoverymodule</span>;
+
+<span class="keyword">import</span> <span class="include">com.arjuna.ats.arjuna.coordinator</span>.*;
+
+<span class="keyword">import</span> <span class="include">java.io.File</span>;
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">SimpleRecord</span> <span class="directive">extends</span> AbstractRecord {
+    <span class="directive">public</span> <span class="predefined-type">String</span> filename = <span class="string"><span class="delimiter">&quot;</span><span class="content">c:/tmp/RecordState</span><span class="delimiter">&quot;</span></span>;
+
+    <span class="directive">public</span> SimpleRecord() {
+        <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Creating new resource</span><span class="delimiter">&quot;</span></span>);
+    }
+
+    <span class="directive">public</span> <span class="directive">static</span> AbstractRecord create() {
+        <span class="keyword">return</span> <span class="keyword">new</span> SimpleRecord();
+    }
+
+    <span class="directive">public</span> <span class="type">int</span> topLevelAbort() {
+        <span class="keyword">try</span> {
+            <span class="predefined-type">File</span> fd = <span class="keyword">new</span> <span class="predefined-type">File</span>(filename);
+            <span class="keyword">if</span> (fd.exists()) {
+                <span class="keyword">if</span> (fd.delete())
+                    <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">File Deleted</span><span class="delimiter">&quot;</span></span>);
+            }
+        } <span class="keyword">catch</span> (<span class="exception">Exception</span> ex) {
+            <span class="comment">// …</span>
+        }
+        <span class="keyword">return</span> TwoPhaseOutcome.FINISH_OK;
+    }
+
+    <span class="directive">public</span> <span class="type">int</span> topLevelCommit() {
+        <span class="keyword">if</span> (TestRecoveryModule._crash)
+            <span class="predefined-type">System</span>.exit(<span class="integer">0</span>);
+        <span class="keyword">try</span> {
+            java.io.FileOutputStream file = <span class="keyword">new</span> java.io.FileOutputStream(
+                    filename);
+            java.io.PrintStream pfile = <span class="keyword">new</span> java.io.PrintStream(
+                    file);
+            pfile.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">I'm Committed</span><span class="delimiter">&quot;</span></span>);
+            file.close();
+        } <span class="keyword">catch</span> (java.io.IOException ex) {
+            <span class="comment">// ...</span>
+        }
+        <span class="keyword">return</span> TwoPhaseOutcome.FINISH_OK;
+    }
+
+    <span class="directive">public</span> <span class="type">int</span> topLevelPrepare() {
+        <span class="keyword">try</span> {
+            java.io.FileOutputStream file = <span class="keyword">new</span> java.io.FileOutputStream(
+                    filename);
+            java.io.PrintStream pfile = <span class="keyword">new</span> java.io.PrintStream(
+                    file);
+            pfile.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">I'm prepared</span><span class="delimiter">&quot;</span></span>);
+            file.close();
+        } <span class="keyword">catch</span> (java.io.IOException ex) {
+            <span class="comment">// ...</span>
+        }
+        <span class="keyword">return</span> TwoPhaseOutcome.PREPARE_OK;
+    }
+    <span class="comment">// …</span>
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The role of the Recovery Module in such application consists to read the content of the file used to store the status of the participant, to determine that status and print a message indicating if a recovery action is needed or not.</p>
+</div>
+<div class="listingblock">
+<div class="title">SimpleRecoveryModule.java</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">com.arjuna.demo.recoverymodule</span>;
+
+<span class="keyword">import</span> <span class="include">com.arjuna.ats.arjuna.recovery.RecoveryModule</span>;
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">SimpleRecoveryModule</span> <span class="directive">implements</span> RecoveryModule {
+    <span class="directive">public</span> <span class="predefined-type">String</span> filename = <span class="string"><span class="delimiter">&quot;</span><span class="content">c:/tmp/RecordState</span><span class="delimiter">&quot;</span></span>;
+
+    <span class="directive">public</span> SimpleRecoveryModule() {
+        <span class="predefined-type">System</span>.out
+                .println(<span class="string"><span class="delimiter">&quot;</span><span class="content">The SimpleRecoveryModule is loaded</span><span class="delimiter">&quot;</span></span>);
+    }
+
+    <span class="directive">public</span> <span class="type">void</span> periodicWorkFirstPass() {
+        <span class="keyword">try</span> {
+            java.io.FileInputStream file = <span class="keyword">new</span> java.io.FileInputStream(
+                    filename);
+            java.io.InputStreamReader input = <span class="keyword">new</span> java.io.InputStreamReader(
+                    file);
+            java.io.BufferedReader reader = <span class="keyword">new</span> java.io.BufferedReader(
+                    input);
+            <span class="predefined-type">String</span> stringState = reader.readLine();
+            <span class="keyword">if</span> (stringState.compareTo(<span class="string"><span class="delimiter">&quot;</span><span class="content">I'm prepared</span><span class="delimiter">&quot;</span></span>) == <span class="integer">0</span>)
+                <span class="predefined-type">System</span>.out
+                        .println(<span class="string"><span class="delimiter">&quot;</span><span class="content">The transaction is in the prepared state</span><span class="delimiter">&quot;</span></span>);
+            file.close();
+        } <span class="keyword">catch</span> (java.io.IOException ex) {
+            <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Nothing found on the Disk</span><span class="delimiter">&quot;</span></span>);
+        }
+    }
+
+    <span class="directive">public</span> <span class="type">void</span> periodicWorkSecondPass() {
+        <span class="keyword">try</span> {
+            java.io.FileInputStream file = <span class="keyword">new</span> java.io.FileInputStream(
+                    filename);
+            java.io.InputStreamReader input = <span class="keyword">new</span> java.io.InputStreamReader(
+                    file);
+            java.io.BufferedReader reader = <span class="keyword">new</span> java.io.BufferedReader(
+                    input);
+            <span class="predefined-type">String</span> stringState = reader.readLine();
+            <span class="keyword">if</span> (stringState.compareTo(<span class="string"><span class="delimiter">&quot;</span><span class="content">I'm prepared</span><span class="delimiter">&quot;</span></span>) == <span class="integer">0</span>) {
+                <span class="predefined-type">System</span>.out
+                        .println(<span class="string"><span class="delimiter">&quot;</span><span class="content">The record is still in the prepared state</span><span class="delimiter">&quot;</span></span>);
+                <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">– Recovery is needed</span><span class="delimiter">&quot;</span></span>);
+            } <span class="keyword">else</span> <span class="keyword">if</span> (stringState
+                    .compareTo(<span class="string"><span class="delimiter">&quot;</span><span class="content">I'm Committed</span><span class="delimiter">&quot;</span></span>) == <span class="integer">0</span>) {
+                <span class="predefined-type">System</span>.out
+                        .println(<span class="string"><span class="delimiter">&quot;</span><span class="content">The transaction has completed and committed</span><span class="delimiter">&quot;</span></span>);
+            }
+            file.close();
+        } <span class="keyword">catch</span> (java.io.IOException ex) {
+            <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Nothing found on the Disk</span><span class="delimiter">&quot;</span></span>);
+            <span class="predefined-type">System</span>.out
+                    .println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Either there was no transaction</span><span class="delimiter">&quot;</span></span>);
+            <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">or it as been rolled back</span><span class="delimiter">&quot;</span></span>);
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The recovery module should now be deployed in order to be called by the Recovery Manager.
+To do so, we just need to add an entry in the config file for the extension:</p>
+</div>
+<div class="listingblock">
+<div class="title">Recovery Environment Bean Recovery Extensions XML</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;entry</span> <span class="attribute-name">key</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">RecoveryEnvironmentBean.recoveryExtenstions</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+    com.arjuna.demo.recoverymodule.SimpleRecoveryModule
+<span class="tag">&lt;/entry&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Once started, the Recovery Manager will automatically load the listed Recovery modules.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The source of the code can be retrieved under the trailmap directory of the Narayana installation.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_another_scenario"><a class="anchor" href="#_another_scenario"></a>Another scenario</h3>
+<div class="paragraph">
+<p>As mentioned, the basic application presented above does not present the complete process to recover from failure, but it was just presented to describe how the build a recovery module.
+In case of the OTS protocol, let’s consider how a recovery module that manages recovery of OTS resources can be configured.</p>
+</div>
+<div class="paragraph">
+<p>To manage recovery in case of failure, the OTS specification has defined a recovery protocol.
+Transaction’s participants in a doubt status could use the <code>RecoveryCoordinator</code> to determine the status of the transaction.
+According to that transaction status, those participants can take appropriate decision either by roll backing or committing.
+Asking the <code>RecoveryCoordinator</code> object to determine the status consists of invoke the <code>replay_completion</code> operation on the <code>RecoveryCoordinator</code>.</p>
+</div>
+<div class="paragraph">
+<p>For each OTS Resource in a doubt status, it is well known which RecoveyCoordinator to invoke to determine the status of the transaction in which the Resource is involved – It’s the <code>RecoveryCoordinator</code> returned during the Resource registration process.
+Retrieving such <code>RecoveryCoordinator</code> per resource means that it has been stored in addition to other information describing the resource.</p>
+</div>
+<div class="paragraph">
+<p>A recovery module dedicated to recover OTS Resources could have the following behavior.
+When requested by the recovery Manager on the first pass it retrieves from the disk the list of resources that are in the doubt status.
+During the second pass, if the resources that were retrieved in the first pass still remain in the disk then they are considered as candidates for recovery.
+Therefore, the Recovery Module retrieves for each candidate its associated <code>RecoveryCoordinator</code> and invokes the replay_completion operation that the status of the transaction.
+According to the returned status, an appropriate action would be taken (for instance, rollback the resource is the status is aborted or inactive).</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>

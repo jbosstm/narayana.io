@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>Overview</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+/*! Stylesheet for CodeRay to loosely match GitHub themes | MIT License */
+pre.CodeRay{background:#f7f7f8}
+.CodeRay .line-numbers{border-right:1px solid;opacity:.35;padding:0 .5em 0 0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+.CodeRay span.line-numbers{display:inline-block;margin-right:.75em}
+.CodeRay .line-numbers strong{color:#000}
+table.CodeRay{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.CodeRay td{vertical-align:top;line-height:inherit}
+table.CodeRay td.line-numbers{text-align:right}
+table.CodeRay td.code{padding:0 0 0 .75em}
+.CodeRay .debug{color:#fff!important;background:navy!important}
+.CodeRay .annotation{color:#007}
+.CodeRay .attribute-name{color:navy}
+.CodeRay .attribute-value{color:#700}
+.CodeRay .binary{color:#509}
+.CodeRay .comment{color:#998;font-style:italic}
+.CodeRay .char{color:#04d}
+.CodeRay .char .content{color:#04d}
+.CodeRay .char .delimiter{color:#039}
+.CodeRay .class{color:#458;font-weight:bold}
+.CodeRay .complex{color:#a08}
+.CodeRay .constant,.CodeRay .predefined-constant{color:teal}
+.CodeRay .color{color:#099}
+.CodeRay .class-variable{color:#369}
+.CodeRay .decorator{color:#b0b}
+.CodeRay .definition{color:#099}
+.CodeRay .delimiter{color:#000}
+.CodeRay .doc{color:#970}
+.CodeRay .doctype{color:#34b}
+.CodeRay .doc-string{color:#d42}
+.CodeRay .escape{color:#666}
+.CodeRay .entity{color:#800}
+.CodeRay .error{color:#808}
+.CodeRay .exception{color:inherit}
+.CodeRay .filename{color:#099}
+.CodeRay .function{color:#900;font-weight:bold}
+.CodeRay .global-variable{color:teal}
+.CodeRay .hex{color:#058}
+.CodeRay .integer,.CodeRay .float{color:#099}
+.CodeRay .include{color:#555}
+.CodeRay .inline{color:#000}
+.CodeRay .inline .inline{background:#ccc}
+.CodeRay .inline .inline .inline{background:#bbb}
+.CodeRay .inline .inline-delimiter{color:#d14}
+.CodeRay .inline-delimiter{color:#d14}
+.CodeRay .important{color:#555;font-weight:bold}
+.CodeRay .interpreted{color:#b2b}
+.CodeRay .instance-variable{color:teal}
+.CodeRay .label{color:#970}
+.CodeRay .local-variable{color:#963}
+.CodeRay .octal{color:#40e}
+.CodeRay .predefined{color:#369}
+.CodeRay .preprocessor{color:#579}
+.CodeRay .pseudo-class{color:#555}
+.CodeRay .directive{font-weight:bold}
+.CodeRay .type{font-weight:bold}
+.CodeRay .predefined-type{color:inherit}
+.CodeRay .reserved,.CodeRay .keyword{color:#000;font-weight:bold}
+.CodeRay .key{color:#808}
+.CodeRay .key .delimiter{color:#606}
+.CodeRay .key .char{color:#80f}
+.CodeRay .value{color:#088}
+.CodeRay .regexp .delimiter{color:#808}
+.CodeRay .regexp .content{color:#808}
+.CodeRay .regexp .modifier{color:#808}
+.CodeRay .regexp .char{color:#d14}
+.CodeRay .regexp .function{color:#404;font-weight:bold}
+.CodeRay .string{color:#d20}
+.CodeRay .string .string .string{background:#ffd0d0}
+.CodeRay .string .content{color:#d14}
+.CodeRay .string .char{color:#d14}
+.CodeRay .string .delimiter{color:#d14}
+.CodeRay .shell{color:#d14}
+.CodeRay .shell .delimiter{color:#d14}
+.CodeRay .symbol{color:#990073}
+.CodeRay .symbol .content{color:#a60}
+.CodeRay .symbol .delimiter{color:#630}
+.CodeRay .tag{color:teal}
+.CodeRay .tag-special{color:#d70}
+.CodeRay .variable{color:#036}
+.CodeRay .insert{background:#afa}
+.CodeRay .delete{background:#faa}
+.CodeRay .change{color:#aaf;background:#007}
+.CodeRay .head{color:#f8f;background:#505}
+.CodeRay .insert .insert{color:#080}
+.CodeRay .delete .delete{color:#800}
+.CodeRay .change .change{color:#66f}
+.CodeRay .head .head{color:#f4f}
+</style>
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>Overview</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_arjunacore_the_transaction_engine">ArjunaCore: The Transaction Engine</a></li>
+<li><a href="#_saving_object_states">Saving object states</a></li>
+<li><a href="#_the_object_store">The object store</a></li>
+<li><a href="#_recovery_and_persistence">Recovery and persistence</a></li>
+<li><a href="#_the_life_cycle_of_a_transactional_object_for_java">The life cycle of a Transactional Object for Java</a></li>
+<li><a href="#_the_concurrency_controller">The concurrency controller</a></li>
+<li><a href="#_the_transactional_protocol_engine">The transactional protocol engine</a></li>
+<li><a href="#_the_class_hierarchy">The class hierarchy</a>
+<ul class="sectlevel2">
+<li><a href="#_steps_followed_by_the_operation_setlock">Steps followed by the operation <code>setlock</code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>A transaction is a unit of work that encapsulates multiple database actions such that either all the encapsulated actions fail or all succeed.</p>
+</div>
+<div class="paragraph">
+<p>Transactions ensure data integrity when an application interacts with multiple datasources.</p>
+</div>
+<div class="paragraph">
+<p>This chapter contains a description of the use of the ArjunaCore transaction engine and the <em>Transactional Objects for Java</em> (TXOJ) classes and facilities.
+The classes mentioned in this chapter are the key to writing fault-tolerant applications using transactions.
+Thus, they are described and then applied in the construction of a simple application.
+The classes to be described in this chapter can be found in the <code>com.arjuna.ats.txoj</code> and <code>com.arjuna.ats.arjuna</code> packages.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">Stand-Alone Transaction Manager</div>
+<div class="paragraph">
+<p>Although Narayana can be embedded in various containers, such as WildFly Application Server, it remains a stand-alone transaction manager as well.
+There are no dependencies between the core Narayana and any container implementations.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_arjunacore_the_transaction_engine"><a class="anchor" href="#_arjunacore_the_transaction_engine"></a>ArjunaCore: The Transaction Engine</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In keeping with the object-oriented view, the mechanisms needed to construct reliable distributed applications are presented to programmers in an object-oriented manner.
+Some mechanisms need to be inherited, for example, concurrency control and state management.
+Other mechanisms, such as object storage and transactions, are implemented as ArjunaCore objects that are created and manipulated like any other object.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>When the manual talks about using persistence and concurrency control facilities it assumes that the Transactional Objects for Java (TXOJ) classes are being used.
+If this is not the case then the programmer is responsible for all of these issues.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>ArjunaCore exploits object-oriented techniques to present programmers with a toolkit of Java classes from which application classes can inherit to obtain desired properties, such as persistence and concurrency control.
+These classes form a hierarchy, part of which is shown in <a href="#_txcore_class_hierarchy">ArjunaCore Class Hierarchy</a> and which will be described later in this document.</p>
+</div>
+<div id="_txcore_class_hierarchy" class="imageblock text-center">
+<div class="content">
+<img src="images/core-txcore_class_hierarchy.png" alt="core txcore class hierarchy">
+</div>
+<div class="title">Figure 1. ArjunaCore Class Hierarchy</div>
+</div>
+<div class="paragraph">
+<p>Apart from specifying the scopes of transactions, and setting appropriate locks within objects, the application programmer does not have any other responsibilities: <em>ArjunaCore</em> and <em>TXOJ</em> guarantee that transactional objects will be registered with, and be driven by, the appropriate transactions, and crash recovery mechanisms are invoked automatically in the event of failures.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_saving_object_states"><a class="anchor" href="#_saving_object_states"></a>Saving object states</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>ArjunaCore needs to be able to remember the state of an object for several purposes.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">recovery</dt>
+<dd>
+<p>The state represents some past state of the object.</p>
+</dd>
+<dt class="hdlist1">persistence</dt>
+<dd>
+<p>The state represents the final state of an object at application termination.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>Since these requirements have common functionality they are all implemented using the same mechanism: the classes <code>InputObjectState</code> and <code>OutputObjectState</code>.
+The classes maintain an internal array into which instances of the standard types can be contiguously packed or unpacked using appropriate <code>pack</code> or <code>unpack</code> operations.
+This buffer is automatically resized as required should it have insufficient space.
+The instances are all stored in the buffer in a standard form called <em>network byte order</em>, making them machine independent.
+Any other architecture-independent format, such as XDR or ASN.1, can be implemented simply by replacing the operations with ones appropriate to the encoding required.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_object_store"><a class="anchor" href="#_the_object_store"></a>The object store</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Implementations of persistence can be affected by restrictions imposed by the Java SecurityManager.
+Therefore, the object store provided with ArjunaCore is implemented using the techniques of interface and implementation.
+The current distribution includes implementations which write object states to the local file system or database, and remote implementations, where the interface uses a client stub (proxy) to remote services.</p>
+</div>
+<div class="paragraph">
+<p>Persistent objects are assigned unique identifiers, which are instances of the <code>Uid</code> class, when they are created.
+These identifiers are used to identify them within the object store.
+States are read using the <code>read_committed</code> operation and written by the <code>write_committed</code> and <code>write_uncommitted</code> operations.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_recovery_and_persistence"><a class="anchor" href="#_recovery_and_persistence"></a>Recovery and persistence</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>At the root of the class hierarchy is the class <code>StateManager</code>. <code>StateManager</code> is responsible for object activation and deactivation, as well as object recovery.
+Refer to <a href="#statemanager_signature">Simplified signature of the <code>StateManager</code> class</a> for the simplified signature of the class.</p>
+</div>
+<div id="statemanager_signature" class="listingblock">
+<div class="title">Simplified signature of the <code>StateManager</code> class</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="directive">abstract</span> <span class="type">class</span> <span class="class">StateManager</span> {
+    <span class="directive">protected</span> StateManager();
+
+    <span class="directive">protected</span> StateManager(Uid id);
+
+    <span class="directive">public</span> <span class="type">boolean</span> activate();
+
+    <span class="comment">// methods to be provided by a derived class</span>
+
+    <span class="directive">public</span> <span class="type">boolean</span> deactivate(<span class="type">boolean</span> commit);
+
+    <span class="comment">// object’s identifier.</span>
+    <span class="directive">public</span> Uid get_uid();
+
+    <span class="directive">public</span> <span class="type">boolean</span> restore_state(InputObjectState os);
+
+    <span class="directive">public</span> <span class="type">boolean</span> save_state(OutputObjectState os);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Objects are assumed to be of three possible flavors.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Recoverable</dt>
+<dd>
+<p><code>StateManager</code> attempts to generate and maintain appropriate recovery information for the object.
+Such objects have lifetimes that do not exceed the application program that creates them.</p>
+</dd>
+<dt class="hdlist1">Recoverable and Persistent</dt>
+<dd>
+<p>The lifetime of the object is assumed to be greater than that of the creating or accessing application, so that in addition to maintaining recovery information, <code>StateManager</code> attempts to automatically load or unload any existing persistent state for the object by calling the <code>activate</code> or <code>deactivate</code> operation at appropriate times.</p>
+</dd>
+<dt class="hdlist1">Neither Recoverable nor Persistent</dt>
+<dd>
+<p>No recovery information is ever kept, nor is object activation or deactivation ever automatically attempted.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>If an object is <code>recoverable</code> or <code>recoverable and persistent</code>, then <code>StateManager</code> invokes the operations <code>save_state</code> while performing <code>deactivate</code>, and <code>restore_state</code> while performing <code>activate</code> at various points during the execution of the application.
+These operations must be implemented by the programmer since <code>StateManager</code> cannot detect user-level state changes.
+This gives the programmer the ability to decide which parts of an object’s state should be made persistent.
+For example, for a spreadsheet it may not be necessary to save all entries if some values can simply be recomputed.
+The <code>save_state</code> implementation for a class <code>Example</code> that has integer member variables called A, B and C might be implemented as:</p>
+</div>
+<div class="listingblock">
+<div class="title"><code>save_state</code> Implementation</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">boolean</span> save_state(OutputObjectState o) {
+    <span class="keyword">if</span> (!<span class="local-variable">super</span>.save_state(o))
+        <span class="keyword">return</span> <span class="predefined-constant">false</span>;
+
+    <span class="keyword">try</span> {
+        o.packInt(A);
+        o.packInt(B);
+        o.packInt(C));
+    } <span class="keyword">catch</span> (<span class="exception">Exception</span> e) {
+        <span class="keyword">return</span> <span class="predefined-constant">false</span>;
+    }
+
+    <span class="keyword">return</span> <span class="predefined-constant">true</span>;
+}</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>it is necessary for all <code>save_state</code> and <code>restore_state</code> methods to call <code>super.save_state</code> and <code>super.restore_state</code>.
+This is to cater for improvements in the crash recovery mechanisms.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_life_cycle_of_a_transactional_object_for_java"><a class="anchor" href="#_the_life_cycle_of_a_transactional_object_for_java"></a>The life cycle of a Transactional Object for Java</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A persistent object not in use is assumed to be held in a passive state, with its state residing in an object store and activated on demand.
+The fundamental life cycle of a persistent object in TXOJ is shown in <a href="#txoj-lifecycle">Life cycle of a persistent Object in TXOJ</a> .</p>
+</div>
+<div id="_txoj_lifecycle" class="imageblock text-center">
+<div class="content">
+<img src="images/core-txoj-lifecycle.png" alt="core txoj lifecycle">
+</div>
+<div class="title">Figure 2. Life cycle of a persistent Object in TXOJ</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>During its lifetime, a persistent object may be made active then passive many times.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_concurrency_controller"><a class="anchor" href="#_the_concurrency_controller"></a>The concurrency controller</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The concurrency controller is implemented by the class <code>LockManager</code>, which provides sensible default behavior while allowing the programmer to override it if deemed necessary by the particular semantics of the class being programmed.
+As with <code>StateManager</code> and persistence, concurrency control implementations are accessed through interfaces.
+As well as providing access to remote services, the current implementations of concurrency control available to interfaces include:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Local disk/database implementation</dt>
+<dd>
+<p>Locks are made persistent by being written to the local file system or database.</p>
+</dd>
+<dt class="hdlist1">A purely local implementation</dt>
+<dd>
+<p>Locks are maintained within the memory of the virtual machine which created them.
+This implementation has better performance than when writing locks to the local disk, but objects cannot be shared between virtual machines.
+Importantly, it is a basic Java object with no requirements which can be affected by the SecurityManager.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>The primary programmer interface to the concurrency controller is via the <code>setlock</code> operation.
+By default, the runtime system enforces strict two-phase locking following a multiple reader, single writer policy on a per-object basis.
+However, as shown in <a href="#_txcore_class_hierarchy">ArjunaCore Class Hierarchy</a>, by inheriting from the <code>Lock</code> class, you can provide your own lock implementations with different lock conflict rules to enable type specific concurrency control.</p>
+</div>
+<div class="paragraph">
+<p>Lock acquisition is, of necessity, under programmer control, since just as <code>StateManager</code> cannot determine if an operation modifies an object, <code>LockManager</code> cannot determine if an operation requires a read or write lock.
+Lock release, however, is under control of the system and requires no further intervention by the programmer.
+This ensures that the two-phase property can be correctly maintained.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">LockResult</span> {
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> GRANTED;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> REFUSED;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> RELEASED;
+}
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">ConflictType</span> {
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> CONFLICT;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> COMPATIBLE;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> PRESENT;
+}
+
+<span class="directive">public</span> <span class="directive">abstract</span> <span class="type">class</span> <span class="class">LockManager</span> <span class="directive">extends</span> StateManager {
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> defaultRetry;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> defaultTimeout;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> waitTotalTimeout;
+
+    <span class="directive">protected</span> LockManager();
+
+    <span class="directive">protected</span> LockManager(<span class="type">int</span> ot);
+
+    <span class="directive">protected</span> LockManager(<span class="type">int</span> ot, <span class="type">int</span> objectModel);
+
+    <span class="directive">protected</span> LockManager(Uid storeUid);
+
+    <span class="directive">protected</span> LockManager(Uid storeUid, <span class="type">int</span> ot);
+
+    <span class="directive">protected</span> LockManager(Uid storeUid, <span class="type">int</span> ot, <span class="type">int</span> objectModel);
+
+    <span class="directive">public</span> <span class="directive">final</span> <span class="directive">synchronized</span> <span class="type">boolean</span> releaselock(Uid lockUid);
+
+    <span class="directive">public</span> <span class="directive">final</span> <span class="directive">synchronized</span> <span class="type">int</span> setlock(<span class="predefined-type">Lock</span> toSet);
+
+    <span class="directive">public</span> <span class="directive">final</span> <span class="directive">synchronized</span> <span class="type">int</span> setlock(<span class="predefined-type">Lock</span> toSet, <span class="type">int</span> retry);
+
+    <span class="directive">public</span> <span class="directive">final</span> <span class="directive">synchronized</span> <span class="type">int</span> setlock(<span class="predefined-type">Lock</span> toSet, <span class="type">int</span> retry, <span class="type">int</span> sleepTime);
+
+    <span class="directive">public</span> <span class="type">void</span> print(<span class="predefined-type">PrintStream</span> strm);
+
+    <span class="directive">public</span> <span class="predefined-type">String</span> type();
+
+    <span class="directive">public</span> <span class="type">boolean</span> save_state(OutputObjectState os, <span class="type">int</span> ObjectType);
+
+    <span class="directive">public</span> <span class="type">boolean</span> restore_state(InputObjectState os, <span class="type">int</span> ObjectType);
+
+    <span class="directive">protected</span> <span class="type">void</span> terminate();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>LockManager</code> class is primarily responsible for managing requests to set a lock on an object or to release a lock as appropriate.
+However, since it is derived from <code>StateManager</code>, it can also control when some of the inherited facilities are invoked.
+For example, <code>LockManager</code> assumes that the setting of a write lock implies that the invoking operation must be about to modify the object.
+This may in turn cause recovery information to be saved if the object is recoverable.
+In a similar fashion, successful lock acquisition causes <code>activate</code> to be invoked.</p>
+</div>
+<div class="listingblock">
+<div class="title">This example class shows how to try to obtain a write lock on an object.</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">Example</span> <span class="directive">extends</span> LockManager {
+    <span class="directive">public</span> <span class="type">boolean</span> foobar() {
+        AtomicAction A = <span class="keyword">new</span> AtomicAction;
+        <span class="type">boolean</span> result = <span class="predefined-constant">false</span>;
+
+        A.begin();
+
+        <span class="keyword">if</span> (setlock(<span class="keyword">new</span> <span class="predefined-type">Lock</span>(LockMode.WRITE), <span class="integer">0</span>) == <span class="predefined-type">Lock</span>.GRANTED) {
+            <span class="comment">/*
+             * Do some work, and TXOJ will
+             * guarantee ACID properties.
+             */</span>
+
+            <span class="comment">// automatically aborts if fails</span>
+
+            <span class="keyword">if</span> (A.commit() == AtomicAction.COMMITTED) {
+                result = <span class="predefined-constant">true</span>;
+            }
+        } <span class="keyword">else</span>
+            A.rollback();
+
+        <span class="keyword">return</span> result;
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_transactional_protocol_engine"><a class="anchor" href="#_the_transactional_protocol_engine"></a>The transactional protocol engine</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The transaction protocol engine is represented by the <code>AtomicAction</code> class, which uses <code>StateManager</code> to record sufficient information for crash recovery mechanisms to complete the transaction in the event of failures.
+It has methods for starting and terminating the transaction, and, for those situations where programmers need to implement their own resources, methods for registering them with the current transaction.
+Because ArjunaCore supports sub-transactions, if a transaction is begun within the scope of an already executing transaction it will automatically be nested.</p>
+</div>
+<div class="paragraph">
+<p>You can use ArjunaCore with multi-threaded applications.
+Each thread within an application can share a transaction or execute within its own transaction.
+Therefore, all ArjunaCore classes are also thread-safe.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 1. Relationships Between Activation, Termination, and Commitment</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">{
+    ...
+    <span class="comment">/* (i) bind to &quot;old&quot; persistent object A */</span>
+    O1 objct1 = <span class="keyword">new</span> objct1(<span class="predefined-type">Name</span> - A);
+    <span class="comment">/* create a &quot;new&quot; persistent object */</span>
+    O2 objct2 = <span class="keyword">new</span> objct2();
+    <span class="comment">/* (ii) start of atomic action */</span>
+    OTS.current().begin();
+    <span class="comment">/* (iii) object activation and invocations */</span>
+    objct1.op(...);
+    objct2.op(...);
+    ...
+    <span class="comment">/* (iv) tx commits &amp; objects deactivated */</span>
+    OTS.current().commit(<span class="predefined-constant">true</span>);
+}
+<span class="comment">/* (v) */</span></code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">(i) Creation of bindings to persistent objects</dt>
+<dd>
+<p>This could involve the creation of stub objects and a call to remote objects.
+Here, we re-bind to an existing persistent object identified by <code>Name-A</code>, and a new persistent object.
+A naming system for remote objects maintains the mapping between object names and locations and is described in a later chapter.</p>
+</dd>
+<dt class="hdlist1">(ii) Start of the atomic transaction</dt>
+<dt class="hdlist1">(iii) Operation invocations</dt>
+<dd>
+<p>As a part of a given invocation, the object implementation is responsible to ensure that it is locked in read or write mode, assuming no lock conflict, and initialized, if necessary, with the latest committed state from the object store.
+The first time a lock is acquired on an object within a transaction the object’s state is acquired, if possible, from the object store.</p>
+</dd>
+<dt class="hdlist1">(iv) Commit of the top-level action</dt>
+<dd>
+<p>This includes updating of the state of any modified objects in the object store.</p>
+</dd>
+<dt class="hdlist1">(v) Breaking of the previously created bindings</dt>
+</dl>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_class_hierarchy"><a class="anchor" href="#_the_class_hierarchy"></a>The class hierarchy</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The principal classes which make up the class hierarchy of ArjunaCore are depicted below.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>StateManager</code></p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>LockManager</code></p>
+<div class="ulist">
+<ul>
+<li>
+<p>User-Defined Classes</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><code>Lock</code></p>
+<div class="ulist">
+<ul>
+<li>
+<p>User-Defined Classes</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><code>AbstractRecord</code></p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>RecoveryRecord</code></p>
+</li>
+<li>
+<p><code>LockRecord</code></p>
+</li>
+<li>
+<p><code>RecordList</code></p>
+</li>
+<li>
+<p>Other management record types</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><code>AtomicAction</code></p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>TopLevelTransaction</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><code>Input/OutputObjectBuffer</code></p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Input/OutputObjectState</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><code>ObjectStore</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Programmers of fault-tolerant applications will be primarily concerned with the classes <code>LockManager</code>, <code>Lock</code>, and <code>AtomicAction</code>. Other classes important to a programmer are <code>Uid</code> and <code>ObjectState</code>.</p>
+</div>
+<div class="paragraph">
+<p>Most ArjunaCore classes are derived from the base class <code>StateManager</code>, which provides primitive facilities necessary for managing persistent and recoverable objects.
+These facilities include support for the activation and de-activation of objects, and state-based object recovery.</p>
+</div>
+<div class="paragraph">
+<p>The class <code>LockManager</code> uses the facilities of <code>StateManager</code> and <code>Lock</code> to provide the concurrency control required for implementing the serializability property of atomic actions.
+The concurrency control consists of two-phase locking in the current implementation.
+The implementation of atomic action facilities is supported by <code>AtomicAction</code> and <code>TopLevelTransaction</code>.</p>
+</div>
+<div class="paragraph">
+<p>Consider a simple example.
+Assume that <code>Example</code> is a user-defined persistent class suitably derived from the <code>LockManager</code>. An application containing an atomic transaction <code>Trans</code> accesses an object called <code>O</code> of type <code>Example</code>, by invoking the operation <code>op1</code>, which involves state changes to <code>O</code>. The serializability property requires that a write lock must be acquired on <code>O</code> before it is modified.
+Therefore, the body of <code>op1</code> should contain a call to the <code>setlock</code> operation of the concurrency controller.</p>
+</div>
+<div class="listingblock">
+<div class="title">Simple Concurrency Control</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">boolean</span> op1(...) {
+    <span class="keyword">if</span> (setlock(<span class="keyword">new</span> <span class="predefined-type">Lock</span>(LockMode.WRITE) == LockResult.GRANTED)
+    {
+        <span class="comment">// actual state change operations follow </span>
+        ...
+    }
+}</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_steps_followed_by_the_operation_setlock"><a class="anchor" href="#_steps_followed_by_the_operation_setlock"></a>Steps followed by the operation <code>setlock</code></h3>
+<div class="paragraph">
+<p>The operation <code>setlock</code>, provided by the <code>LockManager</code> class, performs the following functions:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Check write lock compatibility with the currently held locks, and if allowed, continue.</p>
+</li>
+<li>
+<p>Call the StateManager operation <code>activate</code>. <code>activate</code> will load, if not done already, the latest persistent state of <code>O</code> from the object store, then call the <code>StateManager</code> operation <code>modified</code>, which has the effect of creating an instance of either <code>RecoveryRecord</code> or <code>PersistenceRecord</code> for <code>O</code>, depending upon whether <code>O</code> was persistent or not.
+The Lock is a WRITE lock so the old state of the object must be retained prior to modification.
+The record is then inserted into the RecordList of Trans.</p>
+</li>
+<li>
+<p>Create and insert a <code>LockRecord</code> instance in the <code>RecordList</code> of <code>Trans</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Now suppose that action <code>Trans</code> is aborted sometime after the lock has been acquired.
+Then the <code>rollback</code> operation of <code>AtomicAction</code> will process the <code>RecordList</code> instance associated with <code>Trans</code> by invoking an appropriate <code>Abort</code> operation on the various records.
+The implementation of this operation by the <code>LockRecord</code> class will release the WRITE lock while that of <code>RecoveryRecord</code> or <code>PersistenceRecord</code> will restore the prior state of <code>O</code>.</p>
+</div>
+<div class="paragraph">
+<p>It is important to realize that all of the above work is automatically being performed by ArjunaCore on behalf of the application programmer.
+The programmer need only start the transaction and set an appropriate lock; ArjunaCore and <em>TXOJ</em> take care of participant registration, persistence, concurrency control and recovery.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>

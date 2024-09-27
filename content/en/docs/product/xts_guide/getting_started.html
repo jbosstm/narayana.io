@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>Getting Started</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>Getting Started</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_enablexts_on_wildfly_application_server">EnableXTS on WildFly Application Server</a></li>
+<li><a href="#_working_with_ws_at">Working With WS-AT</a>
+<ul class="sectlevel2">
+<li><a href="#ref_createwsatclient">Creating Client Applications</a></li>
+<li><a href="#ref_createwsatservice">Creating Transactional Web Services</a></li>
+<li><a href="#_using_raw_xts_api">Using Raw XTS API</a></li>
+</ul>
+</li>
+<li><a href="#_working_with_ws_ba">Working With WS-BA</a>
+<ul class="sectlevel2">
+<li><a href="#_creating_client_applications_2">Creating Client Applications</a></li>
+<li><a href="#_creating_transactional_web_services">Creating Transactional Web Services</a></li>
+<li><a href="#_new_compensating_transactions_api">New Compensating Transactions API</a></li>
+</ul>
+</li>
+<li><a href="#ref_transactioncontextpropagation">Configuration of The Transaction Context Propagation</a></li>
+<li><a href="#_summary">Summary</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_enablexts_on_wildfly_application_server"><a class="anchor" href="#_enablexts_on_wildfly_application_server"></a>EnableXTS on WildFly Application Server</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>XTS, which is the Web Services component of Narayana, provides WS-AT and WS-BA support for Web Services hosted on the WildFly Application Server.
+XTS is available as an optional SubSystem, enabled using the <code>standalone-xts.xml</code> configuration.</p>
+</div>
+<div class="olist arabic">
+<div class="title">Procedure: Starting WildFly Application Server with XTS Enabled</div>
+<ol class="arabic">
+<li>
+<p>Change to the WildFly Application Server directory:</p>
+<div class="paragraph">
+<p><code>cd $JBOSS_HOME</code></p>
+</div>
+</li>
+<li>
+<p>Copy the example XTS configuration into the configurations directory:</p>
+<div class="paragraph">
+<p><code>cp docs/examples/configs/standalone-xts.xml standalone/configuration</code></p>
+</div>
+</li>
+<li>
+<p>Start WildFly Application Server, specifying the xts configuration:</p>
+<div class="paragraph">
+<p>Linux:</p>
+</div>
+<div class="paragraph">
+<p><code>bin/standalone.sh --server-config=standalone-xts.xml</code></p>
+</div>
+<div class="paragraph">
+<p>Windows:</p>
+</div>
+<div class="paragraph">
+<p><code>bin\standalone.bat --server-config=standalone-xts.xml</code></p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_working_with_ws_at"><a class="anchor" href="#_working_with_ws_at"></a>Working With WS-AT</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="ref_createwsatclient"><a class="anchor" href="#ref_createwsatclient"></a>Creating Client Applications</h3>
+<div class="paragraph">
+<p>XTS integrates WS-AT transactions with JTA.
+To invoke a web service inside a WS-AT transaction, simply start a new JTA transaction and invoke the web service.
+By default, XTS will create a WS-AT context and pass it with your request.
+See our quickstarts for an example: <a href="quickstarts_overview.html#ref_wsatmultiservice">WS-AT Multi-Service</a> and <a href="quickstarts_overview.html#ref_wsatmultihop">WS-AT Multi-Hop</a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="ref_createwsatservice"><a class="anchor" href="#ref_createwsatservice"></a>Creating Transactional Web Services</h3>
+<div class="paragraph">
+<p>Similarly to the client-side, the service-side is also integrated with JTA.
+To make your web service WS-AT compliant, annotate your web service class or method with the EJB 3 <code>jakarta.ejb.TransactionAttribute</code> annotation or the JTA <code>jakarta.transaction.Transactional annotation</code>.
+XTS will automatically translate WS-AT context, received with the request, to JTA.
+See our quickstarts for an example: <a href="quickstarts_overview.html#ref_wsatmultiservice">WS-AT Multi-Service</a> and <a href="quickstarts_overview.html#ref_wsatmultihop">WS-AT Multi-Hop</a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_using_raw_xts_api"><a class="anchor" href="#_using_raw_xts_api"></a>Using Raw XTS API</h3>
+<div class="paragraph">
+<p>Sometimes more control is needed over the client and the server applications.
+Also JTA transactions are not always wanted in the application.
+In such case it is possible to create client and service applications using the Raw XTS API.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>This is not a recommended way to work with WS-AT.
+Please take a look at <a href="#ref_createwsatclient">Creating Client Applications</a> and <a href="#ref_createwsatservice">Creating Transactional Web Services</a> for the recommended and easier XTS usage for WS-AT applications.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_creating_client_applications"><a class="anchor" href="#_creating_client_applications"></a>Creating Client Applications</h4>
+<div class="paragraph">
+<p>There are two aspects to a client application using Raw XTS, the transaction declaration aspects, and the business logic.
+The business logic includes the invocation of Web Services.</p>
+</div>
+<div class="paragraph">
+<p>Transaction declaration aspects are handled automatically with the XTS client API.
+This API provides simple transaction directives such as <code>begin</code>, <code>commit</code>, and <code>rollback</code>, which the client application can use to initialize, manage, and terminate transactions.
+Internally, this API uses SOAP to invoke operations on the various WS-C and WS-AT services, in order to create a coordinator and drive the transaction to completion.</p>
+</div>
+<div class="sect4">
+<h5 id="_user_transactions"><a class="anchor" href="#_user_transactions"></a>User Transactions</h5>
+<div class="paragraph">
+<p>A client uses the <code>UserTransactionFactory</code> and <code>UserTransaction</code> classes to create and manage WS-AT transactions.
+These classes provide a simple API which operates in a manner similar to the JTA API.
+A WS-AT transaction is started and associated with the client thread by calling the <code>begin</code> method of the <code>UserTransaction</code> class.
+The transaction can be committed by calling the <code>commit</code> method, and rolled back by calling the <code>rollback</code> method.</p>
+</div>
+<div class="paragraph">
+<p>More complex transaction management, such as suspension and resumption of transactions, is supported by the <code>TransactionManagerFactory</code> and <code>TransactionManager</code> classes.</p>
+</div>
+<div class="paragraph">
+<p>Full details of the WS-AT APIs are provided in <a href="xts_api.html#sec_xts_api">the XTS API</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="ref_wsatrawcreatingtransactionalwebservices"><a class="anchor" href="#ref_wsatrawcreatingtransactionalwebservices"></a>Creating Transactional Web Services</h4>
+<div class="paragraph">
+<p>The two parts to implementing a Web service using XTS are the transaction management and the business logic.</p>
+</div>
+<div class="paragraph">
+<p>The bulk of the transaction management aspects are organized in a clear and easy-to-implement model by means of the XTS&#8217;s <em>Participant API</em>, provides a structured model for negotiation between the web service and the transaction coordinator.
+It allows the web service to manage its own local transactional data, in accordance with the needs of the business logic, while ensuring that its activities are in step with those of the client and other services involved in the transaction.
+Internally, this API uses SOAP to invokes operations on the various WS-C and WS-AT services, to drive the transaction to completion.</p>
+</div>
+<div class="paragraph">
+<p>A <em>participant</em> is a software entity which is driven by the transaction manager on behalf of a Web service.
+When a web service wants to participate in a particular transaction, it must enroll a participant to act as a proxy for the service in subsequent negotiations with the coordinator.
+The participant implements an API appropriate to the type of transaction it is enrolled in, and the participant model selected when it is enrolled.
+For example, a <code>Durable2PC</code> participant, as part of a WS-Atomic Transaction, implements the <code>Durable2PCParticipant</code> interface.
+The use of participants allows the transactional control management aspects of the Web service to be factored into the participant implementation, while staying separate from the rest of the Web service&#8217;s business logic and private transactional data management.</p>
+</div>
+<div class="paragraph">
+<p>The creation of participants is not trivial, since they ultimately reflect the state of a Web service&#8217;s back-end processing facilities, an aspect normally associated with an enterprise&#8217;s own IT infrastructure.
+Implementations must use one of the following interfaces: <code>com.arjuna.wst11.Durable2PCParticipant</code>, <code>com.arjuna.wst11.Volatile2PCParticipant</code>.</p>
+</div>
+<div class="paragraph">
+<p>A full description of XTS&#8217;s participant features is provided in <a href="xts_api.html#sec_xts_api">the XTS API</a>.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_working_with_ws_ba"><a class="anchor" href="#_working_with_ws_ba"></a>Working With WS-BA</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_creating_client_applications_2"><a class="anchor" href="#_creating_client_applications_2"></a>Creating Client Applications</h3>
+<div class="paragraph">
+<p>There are two aspects to a client application using XTS, the transaction declaration aspects, and the business logic.
+The business logic includes the invocation of Web Services.</p>
+</div>
+<div class="paragraph">
+<p>Transaction declaration aspects are handled automatically with the XTS client API.
+This API provides simple transaction directives such as <code>begin</code>, <code>close</code>, and <code>cancel</code>, which the client application can use to initialize, manage, and terminate transactions.
+Internally, this API uses SOAP to invoke operations on WS-BA services, in order to create a coordinator and drive the transaction to completion.</p>
+</div>
+<div class="sect3">
+<h4 id="_business_activities"><a class="anchor" href="#_business_activities"></a>Business Activities</h4>
+<div class="paragraph">
+<p>A client creates and manages Business Activities using the <code>UserBusinessActivityFactory</code> and <code>UserBusinessActivity</code> classes.
+A WS-BA activity is started and associated with the client thread by calling the <code>begin</code> method of the <code>UserBusinessActivity</code> class.
+A client can terminate a business activity by calling the <code>close</code> method, and cancel it by calling the <code>cancel</code> method.</p>
+</div>
+<div class="paragraph">
+<p>If any of the Web Services invoked by the client register for the <code>BusinessActivityWithCoordinatorCompletion</code> protocol, the client can call the <code>completed</code> method before calling the <code>close</code> method, to notify the services that it has finished making service invocations in the current activity.</p>
+</div>
+<div class="paragraph">
+<p>More complex business activity management, such as suspension and resumption of business activities, is supported by the <code>BusinessActivityManagerFactory</code> and <code>BusinessActivityManager</code> classes.</p>
+</div>
+<div class="paragraph">
+<p>Full details of the WS-BA APIs are provided in <a href="xts_api.html#sec_xts_api">the XTS API</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_creating_transactional_web_services"><a class="anchor" href="#_creating_transactional_web_services"></a>Creating Transactional Web Services</h3>
+<div class="paragraph">
+<p>The theory behind creating WS-BA web services is similar to the WS-AT Raw API <a href="#ref_wsatrawcreatingtransactionalwebservices">Creating Transactional Web Services</a>.
+However, different participant classes are used: <code>com.arjuna.wst11.BusinessAgreementWithParticipantCompletionParticipant</code> , or <code>com.arjuna.wst11.BusinessAgreementWithCoordinatorCompletionParticipant</code>.</p>
+</div>
+<div class="paragraph">
+<p>A full description of XTS&#8217;s participant features is provided in <a href="xts_api.html#sec_xts_api">the XTS API</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_new_compensating_transactions_api"><a class="anchor" href="#_new_compensating_transactions_api"></a>New Compensating Transactions API</h3>
+<div class="paragraph">
+<p>There is a new Compensating Transactions API available to work with WS-BA applications.
+Please consult our quickstarts how to use it: <a href="quickstarts_overview.html#ref_compensationsnontransactionalresource">non-transactional resource with compensating transactions API</a> and <a href="quickstarts_overview.html#ref_compensationstravelagent">travel agent with compensating transactions API</a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="ref_transactioncontextpropagation"><a class="anchor" href="#ref_transactioncontextpropagation"></a>Configuration of The Transaction Context Propagation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You can enable transaction propagation for all Web service calls that are invoked within a JTA, WS-AT or WS-BA transaction.
+This is done with the <code>default-context-propagation</code> property in the XTS subsystem config of the <code>standalone-xts.xml</code>.</p>
+</div>
+<div class="paragraph">
+<p>As this is enabled by default (for <code>standalone-xts.xml</code>), calls to all Web services that support WS-AT or WS-BA will automatically receive the transaction context allowing them to participate in the distributed transaction.</p>
+</div>
+<div class="paragraph">
+<p>The transaction context is simply ignored if the service does not support WS-AT or WS-BA.
+This is done by setting <code>MustUnderstand="false"</code> on the <code>CoordinationContext</code> SOAP header.
+Unfortunately, this may cause issues when invoking WS-AT or WS-BA enabled Web services on other vendors' application servers.
+This is because the WS-Coordination specification states that <code>MustUnderstand</code> must be set to true.
+If you are affected by this issue, you will need to explicitly enable the transaction propagation for every port.</p>
+</div>
+<div class="paragraph">
+<p>The default context propagation policy can also be overridden on a per Web Service port basis.
+This allows the developer to easily state which Web Service clients must and must-not propagate the transaction context.
+This is done through the standard JAX-WS WebServiceFeature facility.
+A JAX-WS <code>WebServiceFeature</code> allows meta-information to be added to a port that describe cross-cutting behaviour, such as logging, security or compression.
+In our case we use the <a href="xts_api.html#ref_jtaoverwsatfeature">JTAOverWSATFeature</a> and <a href="xts_api.html#ref_wstxfeature">WSTXFeature</a> features.</p>
+</div>
+<div class="paragraph">
+<p><a href="xts_api.html#ref_jtaoverwsatfeature">JTAOverWSATFeature</a> states that any JTA, WS-AT, or WS-BA transactions should be distributed via calls on this client.
+This feature is recommended to use, if you have a JTA transactions which should be propagated.</p>
+</div>
+<div class="paragraph">
+<p><a href="xts_api.html#ref_wstxfeature">WSTXFeature</a> states that any WS-AT or WS-BA transaction should be distributed via calls on this client.
+You should use this feature, if you use Raw XTS or WS-BA APIs.</p>
+</div>
+<div class="paragraph">
+<p>Calls to the service will fail if the Web service does not support WS-AT or WS-BA (in this case, XTS sets <code>MustUnderstand=true</code> on the <code>CoordinationContext</code> SOAP header as the developer has explicitly stated that it is required).</p>
+</div>
+<div class="paragraph">
+<p>The developer may also state that the transaction must-not be distributed over calls to this Web service.
+This is done by setting the <a href="xts_api.html#ref_jtaoverwsatfeature">JTAOverWSATFeature</a> or <a href="xts_api.html#ref_wstxfeature">WSTXFeature</a> feature to disabled.</p>
+</div>
+<div class="paragraph">
+<p>The use of <a href="xts_api.html#ref_jtaoverwsatfeature">JTAOverWSATFeature</a> and <a href="xts_api.html#ref_wstxfeature">WSTXFeature</a> overrides whatever default context propagation is set to in the <code>standalone-xts.xml</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_summary"><a class="anchor" href="#_summary"></a>Summary</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This chapter gives a high-level overview of each of the major software pieces used by the Web Services transactions component of Narayana.
+The Web Services transaction manager provided by Narayana is the hub of the architecture and is the only piece of software that user-level software does not bind to directly.
+XTS provides header-processing infrastructure for use with Web Services transactions contexts for both client applications and Web Services.
+XTS provides a simple interface for developing transaction participants, along with the necessary document-handling code.</p>
+</div>
+<div class="paragraph">
+<p>This chapter is only an overview, and does not address the more difficult and subtle aspects of programming Web Services.
+For fuller explanations of the components, please continue reading.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>

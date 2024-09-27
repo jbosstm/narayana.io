@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>The Resource Manager</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+/*! Stylesheet for CodeRay to loosely match GitHub themes | MIT License */
+pre.CodeRay{background:#f7f7f8}
+.CodeRay .line-numbers{border-right:1px solid;opacity:.35;padding:0 .5em 0 0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+.CodeRay span.line-numbers{display:inline-block;margin-right:.75em}
+.CodeRay .line-numbers strong{color:#000}
+table.CodeRay{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.CodeRay td{vertical-align:top;line-height:inherit}
+table.CodeRay td.line-numbers{text-align:right}
+table.CodeRay td.code{padding:0 0 0 .75em}
+.CodeRay .debug{color:#fff!important;background:navy!important}
+.CodeRay .annotation{color:#007}
+.CodeRay .attribute-name{color:navy}
+.CodeRay .attribute-value{color:#700}
+.CodeRay .binary{color:#509}
+.CodeRay .comment{color:#998;font-style:italic}
+.CodeRay .char{color:#04d}
+.CodeRay .char .content{color:#04d}
+.CodeRay .char .delimiter{color:#039}
+.CodeRay .class{color:#458;font-weight:bold}
+.CodeRay .complex{color:#a08}
+.CodeRay .constant,.CodeRay .predefined-constant{color:teal}
+.CodeRay .color{color:#099}
+.CodeRay .class-variable{color:#369}
+.CodeRay .decorator{color:#b0b}
+.CodeRay .definition{color:#099}
+.CodeRay .delimiter{color:#000}
+.CodeRay .doc{color:#970}
+.CodeRay .doctype{color:#34b}
+.CodeRay .doc-string{color:#d42}
+.CodeRay .escape{color:#666}
+.CodeRay .entity{color:#800}
+.CodeRay .error{color:#808}
+.CodeRay .exception{color:inherit}
+.CodeRay .filename{color:#099}
+.CodeRay .function{color:#900;font-weight:bold}
+.CodeRay .global-variable{color:teal}
+.CodeRay .hex{color:#058}
+.CodeRay .integer,.CodeRay .float{color:#099}
+.CodeRay .include{color:#555}
+.CodeRay .inline{color:#000}
+.CodeRay .inline .inline{background:#ccc}
+.CodeRay .inline .inline .inline{background:#bbb}
+.CodeRay .inline .inline-delimiter{color:#d14}
+.CodeRay .inline-delimiter{color:#d14}
+.CodeRay .important{color:#555;font-weight:bold}
+.CodeRay .interpreted{color:#b2b}
+.CodeRay .instance-variable{color:teal}
+.CodeRay .label{color:#970}
+.CodeRay .local-variable{color:#963}
+.CodeRay .octal{color:#40e}
+.CodeRay .predefined{color:#369}
+.CodeRay .preprocessor{color:#579}
+.CodeRay .pseudo-class{color:#555}
+.CodeRay .directive{font-weight:bold}
+.CodeRay .type{font-weight:bold}
+.CodeRay .predefined-type{color:inherit}
+.CodeRay .reserved,.CodeRay .keyword{color:#000;font-weight:bold}
+.CodeRay .key{color:#808}
+.CodeRay .key .delimiter{color:#606}
+.CodeRay .key .char{color:#80f}
+.CodeRay .value{color:#088}
+.CodeRay .regexp .delimiter{color:#808}
+.CodeRay .regexp .content{color:#808}
+.CodeRay .regexp .modifier{color:#808}
+.CodeRay .regexp .char{color:#d14}
+.CodeRay .regexp .function{color:#404;font-weight:bold}
+.CodeRay .string{color:#d20}
+.CodeRay .string .string .string{background:#ffd0d0}
+.CodeRay .string .content{color:#d14}
+.CodeRay .string .char{color:#d14}
+.CodeRay .string .delimiter{color:#d14}
+.CodeRay .shell{color:#d14}
+.CodeRay .shell .delimiter{color:#d14}
+.CodeRay .symbol{color:#990073}
+.CodeRay .symbol .content{color:#a60}
+.CodeRay .symbol .delimiter{color:#630}
+.CodeRay .tag{color:teal}
+.CodeRay .tag-special{color:#d70}
+.CodeRay .variable{color:#036}
+.CodeRay .insert{background:#afa}
+.CodeRay .delete{background:#faa}
+.CodeRay .change{color:#aaf;background:#007}
+.CodeRay .head{color:#f8f;background:#505}
+.CodeRay .insert .insert{color:#080}
+.CodeRay .delete .delete{color:#800}
+.CodeRay .change .change{color:#66f}
+.CodeRay .head .head{color:#f4f}
+</style>
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>The Resource Manager</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_the_xaresource_interface">The <code>XAResource</code> interface</a>
+<ul class="sectlevel2">
+<li><a href="#_extended_xaresource_control">Extended <code>XAResource</code> control</a></li>
+</ul>
+</li>
+<li><a href="#_opening_a_resource_manager">Opening a resource manager</a></li>
+<li><a href="#_closing_a_resource_manager">Closing a resource manager</a></li>
+<li><a href="#_thread_of_control">Thread of control</a></li>
+<li><a href="#_transaction_association">Transaction association</a></li>
+<li><a href="#_externally_controlled_connections">Externally controlled connections</a></li>
+<li><a href="#_resource_sharing">Resource sharing</a></li>
+<li><a href="#_local_and_global_transactions">Local and global transactions</a></li>
+<li><a href="#_transaction_timeouts">Transaction timeouts</a></li>
+<li><a href="#_dynamic_registration">Dynamic registration</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_the_xaresource_interface"><a class="anchor" href="#_the_xaresource_interface"></a>The <code>XAResource</code> interface</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Some transaction specifications and systems define a generic resource which can be used to register arbitrary resources with a transaction, the JTA is much more XA-specific.
+Interface <code>javax.transaction.xa.XAResource</code> is a Java mapping of the XA interface.
+The <code>XAResource</code> interface defines the contract between a <code>ResourceManager</code> and a <code>TransactionManager</code> in a distributed transaction processing environment.
+A resource adapter for a <code>ResourceManager</code> implements the <code>XAResource</code> interface to support association of a top-level transaction to a resource such as a relational database.</p>
+</div>
+<div class="paragraph">
+<p>The <code>XAResource</code> interface can be supported by any transactional resource adapter designed to be used in an environment where transactions are controlled by an external transaction manager, such a database management system.
+An application may access data through multiple database connections.
+Each database connection is associated with an <code>XAResource</code> object that serves as a proxy object to the underlying <code>ResourceManager</code> instance.
+The transaction manager obtains an <code>XAResource</code> for each <code>ResourceManager</code> participating in a top-level transaction.
+The <code>start</code> method associates the transaction with the resource, and the <code>end</code> method disassociates the transaction from the resource.</p>
+</div>
+<div class="paragraph">
+<p>The <code>ResourceManager</code> associates the transaction with all work performed on its data between invocation of <code>start</code> and <code>end</code> methods.
+At transaction commit time, these transactional <code>ResourceManager</code> s are informed by the transaction manager to prepare, commit, or roll back the transaction according to the two-phase commit protocol.</p>
+</div>
+<div class="paragraph">
+<p>For better Java integration, the <code>XAResource</code> differs from the standard <code>XA</code> interface in the following ways:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The resource adapter implicitly initializes the <code>ResourceManager</code> when the resource (the connection) is acquired.
+There is no equivalent to the <code>xa_open</code> method of the interface <code>XA</code>.</p>
+</li>
+<li>
+<p><code>Rmid</code> is not passed as an argument.
+Each <code>Rmid</code> is represented by a separate <code>XAResource</code> object.</p>
+</li>
+<li>
+<p>Asynchronous operations are not supported, because Java supports multi-threaded processing and most databases do not support asynchronous operations.</p>
+</li>
+<li>
+<p>Error return values caused by the transaction manager&#8217;s improper handling of the <code>XAResource</code> object are mapped to Java exceptions via the <code>XAException</code> class.</p>
+</li>
+<li>
+<p>The DTP concept of Thread of Control maps to all Java threads that are given access to the <code>XAResource</code> and <code>Connection</code> objects.
+For example, it is legal for two different threads to perform the <code>start</code> and <code>end</code> operations on the same <code>XAResource</code> object.</p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_extended_xaresource_control"><a class="anchor" href="#_extended_xaresource_control"></a>Extended <code>XAResource</code> control</h3>
+<div class="paragraph">
+<p>By default, whenever an <code>XAResource</code> object is registered with a JTA-compliant transaction service, there is no way to manipulate the order in which it is invoked during the two-phase commit protocol, with respect to other <code>XAResource</code> objects.
+Narayana, however, provides support for controlling the order via the two interfaces <code>com.arjuna.ats.jta.resources.StartXAResource</code> and <code>com.arjuna.ats.jta.resources.EndXAResource</code>.
+By inheriting your <code>XAResource</code> instance from either of these interfaces, you control whether an instance of your class is invoked first or last, respectively.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Only one instance of each interface type may be registered with a specific transaction.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The <em>ArjunaCore Development Guide</em> discusses the <em>Last Resource Commit optimization (LRCO)</em>, whereby a single resource that is only one-phase aware, and does not support the <code>prepare</code> phase, can be enlisted with a transaction that is manipulating two-phase aware participants.
+This optimization is also supported within the Narayana.</p>
+</div>
+<div class="paragraph">
+<p>In order to use the LRCO, your <code>XAResource</code> implementation must extend the <code>com.arjuna.ats.jta.resources.LastResourceCommitOptimisation</code> marker interface.
+A marker interface is an interface which provides no methods.
+When enlisting the resource via method <code>Transaction.enlistResource</code>, Narayana ensures that only a single instance of this type of participant is used within each transaction.
+Your resource is driven last in the commit protocol, and no invocation of method <code>prepare</code> occurs.</p>
+</div>
+<div class="paragraph">
+<p>By default an attempt to enlist more than one instance of a <code>LastResourceCommitOptimisation</code> class will fail and false will be returned from <code>Transaction.enlistResource</code>.
+This behavior can be overridden by setting the <code>com.arjuna.ats.jta.allowMultipleLastResources</code> to true.
+However, before doing so you should read the section on enlisting multiple one-phase aware resources.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>You need to disable interposition support to use the LCRO in a distributed environment.
+You can still use implicit context propagation.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_enlisting_multiple_one_phase_aware_resources"><a class="anchor" href="#_enlisting_multiple_one_phase_aware_resources"></a>Enlisting multiple one-phase-aware resources</h4>
+<div class="paragraph">
+<p>One-phase commit is used to process a single one-phase aware resource, which does not conform to the two-phase commit protocol.
+You can still achieve an atomic outcome across resources, by using the LRCO, as explained earlier.</p>
+</div>
+<div class="paragraph">
+<p>Multiple one-phase-aware resources may be enlisted in the same transaction.
+One example is when a legacy database runs within the same transaction as a legacy JMS implementation.
+In such a situation, you cannot achieve atomicity of transaction outcome across multiple resources, because none of them enter the <code>prepare</code> state.
+They commit or roll back immediately when instructed by the transaction coordinator, without knowledge of other resource states and without a way to undo if subsequent resources make a different choice.
+This can result in data corruption or heuristic outcomes.</p>
+</div>
+<div class="paragraph">
+<p>You can approach these situations in two different ways:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Wrap the resources in compensating transactions.
+See the <em>XTS Transactions Development Guide</em> for details.</p>
+</li>
+<li>
+<p>Migrate the legacy implementations to two-phase aware equivalents.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If neither of these options is viable, Narayana support enlisting multiple one-phase aware resources within the same transaction, using LRCO, which is discussed in the <em>ArjunaCore Development Guide</em> in detail.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Even when this support is enabled, Narayana issues a warning when it detects that the option has been enabled: You have chosen to enable multiple last resources in the transaction manager.
+This is transactionally unsafe and should not be relied upon.
+Another warning is issued when multiple one-phase aware resources are enlisted within a transaction: This is transactionally unsafe and should not be relied on.</p>
+</div>
+<div class="paragraph">
+<p>To override the above-mentioned warning at runtime, set the <code>CoreEnvironmentBean.disableMultipleLastResourcesWarning</code> property to <code>true</code>.
+You will see a warning that you have done this when Narayana starts up and see the warning about enlisting multiple one-phase resources only the first time it happens, but after that no further warnings will be output.
+You should obviously only consider changing the default value of this property (false) with caution.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_opening_a_resource_manager"><a class="anchor" href="#_opening_a_resource_manager"></a>Opening a resource manager</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The X/Open <code>XA</code> interface requires the transaction manager to initialize a resource manager, using method <code>xa_open</code>, before invoking any other of the interface&#8217;s methods.
+JTA requires initialization of a resource manager to be embedded within the resource adapter that represents the resource manager.
+The transaction manager does not need to know how to initialize a resource manager.
+It only informs the resource manager about when to start and end work associated with a transaction and when to complete the transaction.
+The resource adapter opens the resource manager when the connection to the resource manager is established.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_closing_a_resource_manager"><a class="anchor" href="#_closing_a_resource_manager"></a>Closing a resource manager</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The resource adapter closes a resource manager as a result of destroying the transactional resource.
+A transaction resource at the resource adapter level is comprised of two separate objects:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>An <code>XAResource</code> object that allows the transaction manager to start and end the transaction association with the resource in use and to coordinate transaction completion process.</p>
+</li>
+<li>
+<p>A connection object that allows the application to perform operations on the underlying resource, such as JDBC operations on an RDBMS.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Once opened, the resource manager is kept open until the resource is released explicitly.
+When the application invokes the connection&#8217;s <code>close</code> method, the resource adapter invalidates the connection object reference that was held by the application and notifies the application server about the close.
+The transaction manager invokes the <code>XAResource.end</code> method to disassociate the transaction from that connection.</p>
+</div>
+<div class="paragraph">
+<p>The close notification triggers the application server to perform any necessary cleanup work and to mark the physical XA connection as free for reuse, if connection pooling is in place.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_thread_of_control"><a class="anchor" href="#_thread_of_control"></a>Thread of control</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The X/Open <code>XA</code> interface specifies that the transaction-association-related <em>xa</em> calls must be invoked from the same thread context.
+This <em>thread-of-control</em> requirement does not apply to the object-oriented component-based application run-time environment, in which application threads are dispatched dynamically as methods are invoked.. Different threads may use the same connection resource to access the resource manager if the connection spans multiple method invocation.
+Depending on the implementation of the application server, different threads may be involved with the same <code>XAResource</code> object.
+The resource context and the transaction context operate independent of thread context.
+This creates the possibility of different threads invoking the <code>start</code> and <code>end</code> methods.</p>
+</div>
+<div class="paragraph">
+<p>If the application server allows multiple threads to use a single <code>XAResource</code> object and the associated connection to the resource manager, the application server must ensure that only one transaction context is associated with the resource at any point of time.
+Thus the <code>XAResource</code> interface requires the resource managers to support the two-phase commit protocol from any thread context.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_transaction_association"><a class="anchor" href="#_transaction_association"></a>Transaction association</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A transaction is associated with a transactional resource via the <code>start</code> method and disassociated from the resource via the <code>end</code> method.
+The resource adapter internally maintains an association between the resource connection object and the <code>XAResource</code> object.
+At any given time, a connection is associated with zero or one transaction.
+JTA does not support nestedtransactions, so attempting to invoke the <code>start</code> method on a thread that is already associated with a transaction is an error.</p>
+</div>
+<div class="paragraph">
+<p>The transaction manager can Interleave multiple transaction contexts using the same resource, as long as methods <code>start</code> and <code>end</code> are invoked properly for each transaction context switch.
+Each time the resource is used with a different transaction, the method <code>end</code> must be invoked for the previous transaction that was associated with the resource, and method <code>start</code> must be invoked for the current transaction context.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_externally_controlled_connections"><a class="anchor" href="#_externally_controlled_connections"></a>Externally controlled connections</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For a transactional application whose transaction states are managed by an application server, its resources must also be managed by the application server so that transaction association is performed properly.
+If an application is associated with a transaction, the application must not perform transactional work through the connection without having the connection&#8217;s resource object already associated with the global transaction.
+The application server must ensure that the <code>XAResource</code> object in use is associated with the transaction, by invoking the <code>Transaction.enlistResource</code> method.</p>
+</div>
+<div class="paragraph">
+<p>If a server-side transactional application retains its database connection across multiple client requests, the application server must ensure that before dispatching a client request to the application thread, the resource is enlisted with the application&#8217;s current transaction context.
+This implies that the application server manages the connection resource usage status across multiple method invocations.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_resource_sharing"><a class="anchor" href="#_resource_sharing"></a>Resource sharing</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When the same transactional resource is used to interleave multiple transactions, the application server must ensure that only one transaction is enlisted with the resource at any given time.
+To initiate the transaction commit process, the transaction manager is allowed to use any of the resource objects connected to the same resource manager instance.
+The resource object used for the two-phase commit protocol does not need to have been involved with the transaction being completed.</p>
+</div>
+<div class="paragraph">
+<p>The resource adapter must be able to handle multiple threads invoking the <code>XAResource</code> methods concurrently for transaction commit processing.
+This is illustrated in <a href="#resource_sharing_example">Resource sharing example</a> .</p>
+</div>
+<div id="resource_sharing_example" class="exampleblock">
+<div class="title">Example 1. Resource sharing example</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">XAResource</span> xares = r1.getXAResource();
+
+xares.
+
+start(xid1); <span class="comment">// associate xid1 to the connection</span>
+
+..
+        xares.
+
+end(xid1); <span class="comment">// disassociate xid1 to the connection</span>
+..
+        xares.
+
+start(xid2); <span class="comment">// associate xid2 to the connection</span>
+..
+<span class="comment">// While the connection is associated with xid2,</span>
+<span class="comment">// the TM starts the commit process for xid1</span>
+status =xares.
+
+prepare(xid1);
+..
+        xares.
+
+commit(xid1, <span class="predefined-constant">false</span>);      </code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A transactional resource <em>r1</em>.
+Global transaction <em>xid1</em> is started and ended with r1.
+Then a different global transaction <em>xid2</em> is associated with <em>r1</em>.
+Meanwhile, the transaction manager may start the two phase commit process for <em>xid1</em> using <em>r1</em> or any other transactional resource connected to the same resource manager.
+The resource adapter needs to allow the commit process to be executed while the resource is currently associated with a different global transaction.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_local_and_global_transactions"><a class="anchor" href="#_local_and_global_transactions"></a>Local and global transactions</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The resource adapter must support the usage of both local and global transactions within the same transactional connection.
+Local transactions are started and coordinated by the resource manager internally.
+The <code>XAResource</code> interface is not used for local transactions.
+When using the same connection to perform both local and global transactions, the following rules apply:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The local transaction must be committed or rolled back before a global transaction is started in the connection.</p>
+</li>
+<li>
+<p>The global transaction must be disassociated from the connection before any local transaction is started.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_transaction_timeouts"><a class="anchor" href="#_transaction_timeouts"></a>Transaction timeouts</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You can associate timeout values with transactions in order to control their lifetimes.
+If the timeout value elapses before a transaction terminates, by committing or rolling back, the transaction system rolls it back.
+The <code>XAResource</code> interface supports a <code>setTransactionTimeout</code> operation, which allows the timeout associated with the current transaction to be propagated to the resource manager and if supported, overrides any default timeout associated with the resource manager.
+Overriding the timeout can be useful when long-running transactions may have lifetimes that would exceed the default, and using the default timeout would cause the resource manager to roll back before the transaction terminates, and cause the transaction to roll back as well.</p>
+</div>
+<div class="paragraph">
+<p>If You do not explicitly set a timeout value for a transaction, or you use a value of <code>0</code>, an implementation-specific default value may be used.
+In Narayana, property value <code>CoordinatorEnvironmentBean.defaultTimeout</code> represents this implementation-specific default, in seconds.
+The default value is 60 seconds.
+A value of <code>0</code> disables default transaction timeouts.</p>
+</div>
+<div class="paragraph">
+<p>Unfortunately, imposing the same timeout as the transaction on a resource manager is not always appropriate.
+One example is that your business rules may require you to have control over the lifetimes on resource managers without allowing that control to be passed to some external entity.
+Narayana supports an all-or-nothing approach to whether or not method <code>setTransactionTimeout</code> is called on <code>XAResource</code> instances.</p>
+</div>
+<div class="paragraph">
+<p>If the <code>JTAEnvironmentBean.xaTransactionTimeoutEnabled</code> property is set to <code>true</code>, which is the default, it is called on all instances.
+Otherwise, use the <code>setXATransactionTimeoutEnabled</code> method of <code>com.arjuna.ats.jta.common.Configuration</code> .</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_dynamic_registration"><a class="anchor" href="#_dynamic_registration"></a>Dynamic registration</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Dynamic registration is not supported in <code>XAResource</code>. There are two reasons this makes sense.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>In the Java component-based application server environment, connections to the resource manager are acquired dynamically when the application explicitly requests a connection.
+These resources are enlisted with the transaction manager on an as-needed basis.</p>
+</li>
+<li>
+<p>If a resource manager needs to dynamically register its work to the global transaction, you can implement this at the resource adapter level via a private interface between the resource adapter and the underlying resource manager.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>ORB Portability API</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+/*! Stylesheet for CodeRay to loosely match GitHub themes | MIT License */
+pre.CodeRay{background:#f7f7f8}
+.CodeRay .line-numbers{border-right:1px solid;opacity:.35;padding:0 .5em 0 0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+.CodeRay span.line-numbers{display:inline-block;margin-right:.75em}
+.CodeRay .line-numbers strong{color:#000}
+table.CodeRay{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.CodeRay td{vertical-align:top;line-height:inherit}
+table.CodeRay td.line-numbers{text-align:right}
+table.CodeRay td.code{padding:0 0 0 .75em}
+.CodeRay .debug{color:#fff!important;background:navy!important}
+.CodeRay .annotation{color:#007}
+.CodeRay .attribute-name{color:navy}
+.CodeRay .attribute-value{color:#700}
+.CodeRay .binary{color:#509}
+.CodeRay .comment{color:#998;font-style:italic}
+.CodeRay .char{color:#04d}
+.CodeRay .char .content{color:#04d}
+.CodeRay .char .delimiter{color:#039}
+.CodeRay .class{color:#458;font-weight:bold}
+.CodeRay .complex{color:#a08}
+.CodeRay .constant,.CodeRay .predefined-constant{color:teal}
+.CodeRay .color{color:#099}
+.CodeRay .class-variable{color:#369}
+.CodeRay .decorator{color:#b0b}
+.CodeRay .definition{color:#099}
+.CodeRay .delimiter{color:#000}
+.CodeRay .doc{color:#970}
+.CodeRay .doctype{color:#34b}
+.CodeRay .doc-string{color:#d42}
+.CodeRay .escape{color:#666}
+.CodeRay .entity{color:#800}
+.CodeRay .error{color:#808}
+.CodeRay .exception{color:inherit}
+.CodeRay .filename{color:#099}
+.CodeRay .function{color:#900;font-weight:bold}
+.CodeRay .global-variable{color:teal}
+.CodeRay .hex{color:#058}
+.CodeRay .integer,.CodeRay .float{color:#099}
+.CodeRay .include{color:#555}
+.CodeRay .inline{color:#000}
+.CodeRay .inline .inline{background:#ccc}
+.CodeRay .inline .inline .inline{background:#bbb}
+.CodeRay .inline .inline-delimiter{color:#d14}
+.CodeRay .inline-delimiter{color:#d14}
+.CodeRay .important{color:#555;font-weight:bold}
+.CodeRay .interpreted{color:#b2b}
+.CodeRay .instance-variable{color:teal}
+.CodeRay .label{color:#970}
+.CodeRay .local-variable{color:#963}
+.CodeRay .octal{color:#40e}
+.CodeRay .predefined{color:#369}
+.CodeRay .preprocessor{color:#579}
+.CodeRay .pseudo-class{color:#555}
+.CodeRay .directive{font-weight:bold}
+.CodeRay .type{font-weight:bold}
+.CodeRay .predefined-type{color:inherit}
+.CodeRay .reserved,.CodeRay .keyword{color:#000;font-weight:bold}
+.CodeRay .key{color:#808}
+.CodeRay .key .delimiter{color:#606}
+.CodeRay .key .char{color:#80f}
+.CodeRay .value{color:#088}
+.CodeRay .regexp .delimiter{color:#808}
+.CodeRay .regexp .content{color:#808}
+.CodeRay .regexp .modifier{color:#808}
+.CodeRay .regexp .char{color:#d14}
+.CodeRay .regexp .function{color:#404;font-weight:bold}
+.CodeRay .string{color:#d20}
+.CodeRay .string .string .string{background:#ffd0d0}
+.CodeRay .string .content{color:#d14}
+.CodeRay .string .char{color:#d14}
+.CodeRay .string .delimiter{color:#d14}
+.CodeRay .shell{color:#d14}
+.CodeRay .shell .delimiter{color:#d14}
+.CodeRay .symbol{color:#990073}
+.CodeRay .symbol .content{color:#a60}
+.CodeRay .symbol .delimiter{color:#630}
+.CodeRay .tag{color:teal}
+.CodeRay .tag-special{color:#d70}
+.CodeRay .variable{color:#036}
+.CodeRay .insert{background:#afa}
+.CodeRay .delete{background:#faa}
+.CodeRay .change{color:#aaf;background:#007}
+.CodeRay .head{color:#f8f;background:#505}
+.CodeRay .insert .insert{color:#080}
+.CodeRay .delete .delete{color:#800}
+.CodeRay .change .change{color:#66f}
+.CodeRay .head .head{color:#f4f}
+</style>
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>ORB Portability API</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_using_the_orb_and_oa">Using the ORB and OA</a>
+<ul class="sectlevel2">
+<li><a href="#_orb_and_oa_initialisation">ORB and OA Initialisation</a></li>
+<li><a href="#_orb_and_oa_shutdown">ORB and OA shutdown</a></li>
+<li><a href="#_specifying_the_orb_to_use">Specifying the ORB to use</a></li>
+<li><a href="#_initialisation_code">Initialisation code</a></li>
+<li><a href="#_locating_objects_and_services">Locating Objects and Services</a></li>
+<li><a href="#_orb_location_mechanisms">ORB location mechanisms</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_using_the_orb_and_oa"><a class="anchor" href="#_using_the_orb_and_oa"></a>Using the ORB and OA</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>ORB</code> class shown below provides a uniform way of using the ORB.
+There are methods for obtaining a reference to the ORB, and for placing the application into a mode where it listens for incoming connections.
+There are also methods for registering application-specific classes to be invoked before or after ORB initialisation.
+Note, some of the methods are not supported on all ORBs, and in this situation, a suitable exception will be thrown.
+The ORB class is a factory class which has no public constructor.
+To create an instance of an ORB you must call the getInstance method passing a unique name as a parameter.
+If this unique name has not been passed in a previous call to <code>getInstance</code> you will be returned a new ORB instance.
+Two invocations of getInstance made with the same unique name, within the same JVM, will return the same ORB instance.</p>
+</div>
+<div class="listingblock">
+<div class="title"><em>ORB.java</em></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">ORB</span> {
+    <span class="directive">public</span> <span class="directive">static</span> ORB getInstance(<span class="predefined-type">String</span> uniqueId);
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> initORB() <span class="directive">throws</span> SystemException;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> initORB(<span class="predefined-type">Applet</span> a, <span class="predefined-type">Properties</span> p) <span class="directive">throws</span> SystemException;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> initORB(<span class="predefined-type">String</span><span class="type">[]</span> s, <span class="predefined-type">Properties</span> p) <span class="directive">throws</span> SystemException;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> org.omg.CORBA.ORB orb();
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> setOrb(org.omg.CORBA.ORB theORB);
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> shutdown();
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> addAttribute(<span class="predefined-type">Attribute</span> p);
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> addPreShutdown(PreShutdown c);
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> addPostShutdown(PostShutdown c);
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> destroy() <span class="directive">throws</span> SystemException;
+
+    <span class="directive">public</span> <span class="type">void</span> run();
+
+    <span class="directive">public</span> <span class="type">void</span> run(<span class="predefined-type">String</span> name);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We shall now describe the various methods of the ORB class.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>initORB</code>: given the various parameters, this method initialises the ORB and retains a reference to it within the ORB class.
+This method should be used in preference to the raw ORB interface since the Narayana requires a reference to the ORB.
+If this method is not used, setOrb must be called prior to using Narayana.</p>
+</li>
+<li>
+<p><code>orb</code>: this method returns a reference to the ORB.
+After shutdown is called this reference may be null.</p>
+</li>
+<li>
+<p><code>shutdown</code>: where supported, this method cleanly shuts down the ORB.
+Any pre- and post- ORB shutdown classes which have been registered will also be called.
+See the section titled ORB and OA Initialisation.
+This method must be called prior to application termination.
+It is the application programmer&#8217;s responsibility to ensure that no objects or threads continue to exist which require access to the ORB.
+It is ORB implementation dependant whether outstanding references to the ORB remain useable after this call.</p>
+</li>
+<li>
+<p><code>addAttribute</code>: this method allows the application to register classes with Narayana which will be called either before, or after the ORB has been initialised.
+See the section titled ORB and OA Initialisation.
+If the ORB has already been initialised then the attribute object will not be added, and false will be returned.</p>
+</li>
+<li>
+<p><code>run</code>: these methods place the ORB into a listening mode, where it waits for incoming invocations.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The OA classes shown below provide a uniform way of using Object Adapters (OA).
+There are methods for obtaining a reference to the OA.
+There are also methods for registering application-specific classes to be invoked before or after OA initialisation.
+Note, some of the methods are not supported on all ORBs, and in this situation, a suitable exception will be thrown.
+The OA class is an abstract class and provides the basic interface to an Object Adapter.
+It has two sub-classes <code>RootOA</code> and <code>ChildOA</code>, these classes expose the interfaces specific to the root Object Adapter and a child Object Adapter respectively.
+From the <code>RootOA</code> you can obtain a reference to the <code>RootOA</code> for a given ORB by using the static method get`RootOA`.
+To create a <code>ChildOA</code> instance use the createPOA method on the <code>RootOA</code>.</p>
+</div>
+<div class="listingblock">
+<div class="title"><em>OA.java</em></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="directive">abstract</span> <span class="type">class</span> <span class="class">OA</span> {
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="directive">static</span> RootOA getRootOA(ORB associatedORB);
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> initPOA() <span class="directive">throws</span> SystemException;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> initPOA(<span class="predefined-type">String</span><span class="type">[]</span> args) <span class="directive">throws</span> SystemException;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> initOA() <span class="directive">throws</span> SystemException;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> initOA(<span class="predefined-type">String</span><span class="type">[]</span> args) <span class="directive">throws</span> SystemException;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> ChildOA createPOA(
+            <span class="predefined-type">String</span> adapterName, PolicyList policies)
+            <span class="directive">throws</span> AdapterAlreadyExists, InvalidPolicy;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> org.omg.PortableServer.POA rootPoa();
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> setPoa(org.omg.PortableServer.POA thePOA);
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> org.omg.PortableServer.POA poa(<span class="predefined-type">String</span> adapterName);
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> setPoa(<span class="predefined-type">String</span> adapterName, org.omg.PortableServer.POA thePOA);
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> addAttribute(OAAttribute p);
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> addPreShutdown(OAPreShutdown c);
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> addPostShutdown(OAPostShutdown c);
+}
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">RootOA</span> <span class="directive">extends</span> OA {
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> destroy() <span class="directive">throws</span> SystemException;
+
+    <span class="directive">public</span> org.omg.CORBA.Object corbaReference(Servant obj);
+
+    <span class="directive">public</span> <span class="type">boolean</span> objectIsReady(Servant obj, <span class="type">byte</span><span class="type">[]</span> id);
+
+    <span class="directive">public</span> <span class="type">boolean</span> objectIsReady(Servant obj);
+
+    <span class="directive">public</span> <span class="type">boolean</span> shutdownObject(org.omg.CORBA.Object obj);
+
+    <span class="directive">public</span> <span class="type">boolean</span> shutdownObject(Servant obj);
+}
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">ChildOA</span> <span class="directive">extends</span> OA {
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> setRootPoa(POA thePOA);
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">void</span> destroy() <span class="directive">throws</span> SystemException;
+
+    <span class="directive">public</span> org.omg.CORBA.Object corbaReference(Servant obj);
+
+    <span class="directive">public</span> <span class="type">boolean</span> objectIsReady(Servant obj, <span class="type">byte</span><span class="type">[]</span> id) <span class="directive">throws</span> SystemException;
+
+    <span class="directive">public</span> <span class="type">boolean</span> objectIsReady(Servant obj) <span class="directive">throws</span> SystemException;
+
+    <span class="directive">public</span> <span class="type">boolean</span> shutdownObject(org.omg.CORBA.Object obj);
+
+    <span class="directive">public</span> <span class="type">boolean</span> shutdownObject(Servant obj);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We shall now describe the various methods of the OA class.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>initPOA</code>: this method activates the POA, if this method is called on the <code>RootPOA</code> the POA with the name <code>RootPOA</code> will be activated.</p>
+</li>
+<li>
+<p><code>createPOA</code>: if a child POA with the specified name for the current POA has not already been created then this method will create and activate one, otherwise <code>AdapterAlreadyExists</code> will be thrown.
+This method returns a <code>ChildOA</code> object.</p>
+</li>
+<li>
+<p><code>initOA</code>: this method calls the initPOA method and has been retained for backwards compatibility.</p>
+</li>
+<li>
+<p><code>rootPoa</code>: this method returns a reference to the root POA.
+After destroy is called on the root POA this reference may be null.</p>
+</li>
+<li>
+<p><code>poa</code>: this method returns a reference to the POA.
+After destroy is called this reference may be null.</p>
+</li>
+<li>
+<p><code>destroy</code>: this method destroys the current POA, if this method is called on a <code>RootPOA</code> instance then the root POA will be destroyed along with its children.</p>
+</li>
+<li>
+<p><code>shutdown</code>: this method shuts down the POA.</p>
+</li>
+<li>
+<p><code>addAttribute</code>: this method allows the application to register classes with Narayana which will be called either before or after the OA has been initialised.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>See below.
+If the OA has already been initialised then the attribute object will not be added, and false will be returned.</p>
+</div>
+<div class="sect2">
+<h3 id="_orb_and_oa_initialisation"><a class="anchor" href="#_orb_and_oa_initialisation"></a>ORB and OA Initialisation</h3>
+<div class="paragraph">
+<p>It is possible to register application-specific code with the ORB portability library which can be executed either before or after the ORB or OA are initialised.
+Application programs can inherit from either <code>com.arjuna.orbportability.orb.Attribute</code> or <code>com.arjuna.orbportability.oa.Attribute</code> and pass these instances to the addAttribute method of the ORB/OA classes respectively:</p>
+</div>
+<div class="listingblock">
+<div class="title"><em>Attribute.java</em></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">com.arjuna.orbportability.orb</span>;
+
+<span class="directive">public</span> <span class="directive">abstract</span> <span class="type">class</span> <span class="class">Attribute</span> {
+    <span class="directive">public</span> <span class="directive">abstract</span> <span class="type">void</span> initialise(<span class="predefined-type">String</span><span class="type">[]</span> params);
+
+    <span class="directive">public</span> <span class="type">boolean</span> postORBInit();
+}
+
+<span class="keyword">package</span> <span class="namespace">com.arjuna.orbportability.oa</span>;
+
+<span class="directive">public</span> <span class="directive">abstract</span> <span class="type">class</span> <span class="class">OAAttribute</span> {
+    <span class="directive">public</span> <span class="directive">abstract</span> <span class="type">void</span> initialise(<span class="predefined-type">String</span><span class="type">[]</span> params);
+
+    <span class="directive">public</span> <span class="type">boolean</span> postOAInit();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>By default, the <code>postORBInit/postOAInit</code> methods return true, which means that any instances of derived classes will be invoked after either the ORB or OA have been initialised.
+By redefining this to return false, a particular instance will be invoked before either the ORB or OA have been initialised.</p>
+</div>
+<div class="paragraph">
+<p>When invoked, each registered instance will be provided with the exact String parameters passed to the initialise method for the ORB/OA.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_orb_and_oa_shutdown"><a class="anchor" href="#_orb_and_oa_shutdown"></a>ORB and OA shutdown</h3>
+<div class="paragraph">
+<p>It is possible to register application-specific code (via the <code>addPreShutdown/addPostShutdown</code> methods) with the ORB portability library which will be executed prior to, or after, shutting down the ORB.
+The pre/post interfaces which are to be registered have a single work method, taking no parameters and returning no results.
+When the ORB and OA are being shut down (using <code>shutdown/destroy</code> ), each registered class will have its work method invoked.</p>
+</div>
+<div class="listingblock">
+<div class="title"><em>Shutdown.java</em></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="directive">abstract</span> <span class="type">class</span> <span class="class">PreShutdown</span> {
+    <span class="directive">public</span> <span class="directive">abstract</span> <span class="type">void</span> work();
+}
+
+<span class="directive">public</span> <span class="directive">abstract</span> <span class="type">class</span> <span class="class">PostShutdown</span> {
+    <span class="directive">public</span> <span class="directive">abstract</span> <span class="type">void</span> work();
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_specifying_the_orb_to_use"><a class="anchor" href="#_specifying_the_orb_to_use"></a>Specifying the ORB to use</h3>
+<div class="paragraph">
+<p>JDK releases from 1.2.2 onwards include a minimum ORB implementation from Sun.
+If using such a JDK in conjunction with another ORB it is necessary to tell the JVM which ORB to use.
+This happens by specifying the <code>org.omg.CORBA.ORBClass</code> and <code>org.omg.CORBA.ORBSingletonClass</code> properties.
+The ORB Portability classes will ensure that these properties are automatically set when required, i.e., during ORB initialisation.
+Of course, it is still possible to specify these values explicitly (and necessary if not using the ORB initialisation methods).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+if you do not use the ORB Portability classes for ORB initialisation then it will still be necessary to set these properties.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The ORB portability library attempts to detect which ORB is in use, it does this by looking for the ORB implementation class for each ORB it supports.
+This means that if there are classes for more than one ORB in the classpath the wrong ORB can be detected.
+Therefore, it is best to only have one ORB in your classpath.
+If it is necessary to have multiple ORBs in the classpath then the property <code>OrbPortabilityEnvironmentBean.orbImplementation</code> must be set to the value specified in the table below.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">ORB</th>
+<th class="tableblock halign-left valign-top">Property Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JacORB v2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>com.arjuna.orbportability.internal.orbspecific.jacorb.orb.implementations.jacorb_2_0</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JDK miniORB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>com.arjuna.orbportability.internal.orbspecific.javaidl.orb.implementations.javaidl_1_4</code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_initialisation_code"><a class="anchor" href="#_initialisation_code"></a>Initialisation code</h3>
+<div class="paragraph">
+<p>The Narayana requires specialised code to be instantiated before and after the ORB and the OA are initialised.
+This code can be provided at runtime through the use of <code>OrbPortabilityEnvironmentBean.orbInitializationProperties</code>.
+This mechanism is also available to programmers who can register arbitrary code which the ORB Portability will guarantee to be instantiated either before or after ORB/OA initialisation.
+For each application (and each execution of the same application) the programmer can simultaneously provide multiple Java classes which are instantiated before and after the ORB and or OA is initialised.
+There are few restrictions on the types and numbers of classes which can be passed to an application at execution time.
+All classes which are to be instantiated must have a public default constructor, i.e., a constructor which takes no parameters.
+The classes can have any name.
+The property names used must follow the format specified below:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>com..orbportability.orb.PreInit</code> – this property is used to specify a global pre-initialisation routine which will be run before any ORB is initialised.</p>
+</li>
+<li>
+<p><code>com..orbportability.orb.PostInit</code> – this property is used to specify a global post-initialisation routine which will be run after any ORB is initialised.</p>
+</li>
+<li>
+<p><code>com..orbportability.orb.&lt;ORB NAME&gt;.PreInit</code> – this property is used to specify a pre-initialisation routine which will be run when an ORB with the given name is initialised.</p>
+</li>
+<li>
+<p><code>com..orbportability.orb.&lt;ORB NAME&gt;.PostInit</code> – this property is used to specify a post-initialisation routine which will be run after an ORB with the given name is initialised.</p>
+</li>
+<li>
+<p><code>com..orbportability.oa.PreInit</code> – this property is used to specify a global pre-initialisation routine which will be run before any OA is initialised.</p>
+</li>
+<li>
+<p><code>com..orbportability.oa.PostInit</code> – this property is used to specify a global post-initialisation routine which will be run after any OA is initialised,</p>
+</li>
+<li>
+<p><code>com..orbportability.oa.&lt;ORB NAME&gt;.PreInit</code> – this property is used to specify a pre-initialisation routine which will be run before an OA with the given name is initialised</p>
+</li>
+<li>
+<p><code>com..orbportability.oa.&lt;ORB NAME&gt;.PostInit</code> – this property is used to specify a pre-initialisation routine which will be run after an OA with the given name is initialised</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Pre and post initialisation can be arbitrarily combined, for example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">java –DorbPortabilityEnvironmentBean.orbInitializationProperties=”com..orbportability.orb.PreInit=org.foo.AllORBPreInit
+  com..orbportability.orb.MyORB.PostInit=org.foo.MyOrbPostInit
+  com..orbportability.oa.PostInit=orb.foo.AllOAPostInit” org.foo.MyMainClass</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_locating_objects_and_services"><a class="anchor" href="#_locating_objects_and_services"></a>Locating Objects and Services</h3>
+<div class="paragraph">
+<p>Locating and binding to distributed objects within CORBA can be ORB specific.
+For example, many ORBs provide implementations of the naming service, whereas some others may rely upon proprietary mechanisms.
+Having to deal with the many possible ways of binding to objects can be a difficult task, especially if portable applications are to be constructed.
+ORB Portability provides the Services class in order to provide a more manageable, and portable binding mechanism.
+The implementation of this class takes care of any ORB specific locations mechanisms, and provides a single interface to a range of different object location implementations.</p>
+</div>
+<div class="listingblock">
+<div class="title"><em>Services.java</em></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">Services</span> {
+    <span class="comment">/**
+     * The various means used to locate a service.
+     */</span>
+
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> RESOLVE_INITIAL_REFERENCES = <span class="integer">0</span>;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> NAME_SERVICE = <span class="integer">1</span>;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> CONFIGURATION_FILE = <span class="integer">2</span>;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> FILE = <span class="integer">3</span>;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> NAMED_CONNECT = <span class="integer">4</span>;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> BIND_CONNECT = <span class="integer">5</span>;
+
+    <span class="directive">public</span> <span class="directive">static</span> org.omg.CORBA.Object getService(
+            <span class="predefined-type">String</span> serviceName, <span class="predefined-type">Object</span><span class="type">[]</span> params,
+            <span class="type">int</span> mechanism) <span class="directive">throws</span> InvalidName,
+            CannotProceed, NotFound, <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">static</span> org.omg.CORBA.Object getService(
+            <span class="predefined-type">String</span> serviceName, <span class="predefined-type">Object</span><span class="type">[]</span> params)
+            <span class="directive">throws</span> InvalidName, CannotProceed, NotFound,
+            <span class="exception">IOException</span>;
+
+    <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> registerService(
+            org.omg.CORBA.Object objRef,
+            <span class="predefined-type">String</span> serviceName, <span class="predefined-type">Object</span><span class="type">[]</span> params,
+            <span class="type">int</span> mechanism) <span class="directive">throws</span> InvalidName, <span class="exception">IOException</span>,
+            CannotProceed, NotFound;
+
+    <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> registerService(
+            org.omg.CORBA.Object objRef,
+            <span class="predefined-type">String</span> serviceName, <span class="predefined-type">Object</span><span class="type">[]</span> params)
+            <span class="directive">throws</span> InvalidName, <span class="exception">IOException</span>, CannotProceed,
+            NotFound;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>There are currently several different object location and binding mechanisms supported by Services (not all of which are supported by all ORBs, in which case a suitable exception will be thrown):</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><em>RESOLVE_INITIAL_REFERENCES</em>: if the ORB supported <code>resolve_initial_references</code>, then Services will attempt to use this to locate the object.</p>
+</li>
+<li>
+<p><em>NAME_SERVICE</em>: Services will contact the name service for the object.
+The name service will be located using <code>resolve_initial_references</code>.</p>
+</li>
+<li>
+<p><em>CONFIGURATION_FILE</em>: as described in the Using the OTS Manual, the Narayana supports an initial reference file where references for specific services and objects can be stored and used at runtime.
+The file, <code>CosServices.cfg</code>, consists of two columns: the service name (in the case of the OTS server TransactionService) and the IOR, separated by a single space.
+<code>CosServices.cfg</code> is located at runtime by the <code>OrbPortabilityEnvironmentBean</code> properties <code>initialReferencesRoot</code> (a directory, defaulting to the current working directory) and <code>initialReferencesFile</code> (a name relative to the directory, <code>CosServices.cfg</code> by default).</p>
+</li>
+<li>
+<p><em>FILE</em> : object IORs can be read from, and written to, application-specific files.
+The service name is used as the file name.</p>
+</li>
+<li>
+<p><em>NAMED_CONNECT</em> : some ORBs support proprietary location and binding mechanisms.</p>
+</li>
+<li>
+<p><em>BIND_CONNECT</em> : some ORBs support the bind operation for locating services.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>We shall now describe the various methods supported by the Services class:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>getService</em>: given the name of the object or service to be located (serviceName), and the type of mechanism to be used (mechanism), the programmer must also supply location mechanism specific parameters in the form of params.
+If the name service is being used, then params[0] should be the String kind field.</p>
+</li>
+<li>
+<p><em>getService</em>: the second form of this method does not require a location mechanism to be supplied, and will use an ORB specific default.
+The default for each ORB is shown in Table 2.</p>
+</li>
+<li>
+<p><em>registerService</em>: given the object to be registered, the name it should be registered with, and the mechanism to use to register it, the application programmer must specify location mechanism specific parameters in the form of params.
+If the name service is being used, then params[0] should be the String kind field.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_orb_location_mechanisms"><a class="anchor" href="#_orb_location_mechanisms"></a>ORB location mechanisms</h3>
+<div class="paragraph">
+<p>The following table summarises the different location mechanisms that ORB Portability supports for each ORB via the Services class:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Location Mechanism</th>
+<th class="tableblock halign-left valign-top">ORB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CONFIGURATION_FILE</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">All available ORBs</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FILE</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">All available ORBs</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BIND_CONNECT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>If a location mechanism isn&#8217;t specified then the default is the configuration file.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>

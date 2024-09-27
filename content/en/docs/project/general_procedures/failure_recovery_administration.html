@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>Failure Recovery Administration</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+/*! Stylesheet for CodeRay to loosely match GitHub themes | MIT License */
+pre.CodeRay{background:#f7f7f8}
+.CodeRay .line-numbers{border-right:1px solid;opacity:.35;padding:0 .5em 0 0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+.CodeRay span.line-numbers{display:inline-block;margin-right:.75em}
+.CodeRay .line-numbers strong{color:#000}
+table.CodeRay{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.CodeRay td{vertical-align:top;line-height:inherit}
+table.CodeRay td.line-numbers{text-align:right}
+table.CodeRay td.code{padding:0 0 0 .75em}
+.CodeRay .debug{color:#fff!important;background:navy!important}
+.CodeRay .annotation{color:#007}
+.CodeRay .attribute-name{color:navy}
+.CodeRay .attribute-value{color:#700}
+.CodeRay .binary{color:#509}
+.CodeRay .comment{color:#998;font-style:italic}
+.CodeRay .char{color:#04d}
+.CodeRay .char .content{color:#04d}
+.CodeRay .char .delimiter{color:#039}
+.CodeRay .class{color:#458;font-weight:bold}
+.CodeRay .complex{color:#a08}
+.CodeRay .constant,.CodeRay .predefined-constant{color:teal}
+.CodeRay .color{color:#099}
+.CodeRay .class-variable{color:#369}
+.CodeRay .decorator{color:#b0b}
+.CodeRay .definition{color:#099}
+.CodeRay .delimiter{color:#000}
+.CodeRay .doc{color:#970}
+.CodeRay .doctype{color:#34b}
+.CodeRay .doc-string{color:#d42}
+.CodeRay .escape{color:#666}
+.CodeRay .entity{color:#800}
+.CodeRay .error{color:#808}
+.CodeRay .exception{color:inherit}
+.CodeRay .filename{color:#099}
+.CodeRay .function{color:#900;font-weight:bold}
+.CodeRay .global-variable{color:teal}
+.CodeRay .hex{color:#058}
+.CodeRay .integer,.CodeRay .float{color:#099}
+.CodeRay .include{color:#555}
+.CodeRay .inline{color:#000}
+.CodeRay .inline .inline{background:#ccc}
+.CodeRay .inline .inline .inline{background:#bbb}
+.CodeRay .inline .inline-delimiter{color:#d14}
+.CodeRay .inline-delimiter{color:#d14}
+.CodeRay .important{color:#555;font-weight:bold}
+.CodeRay .interpreted{color:#b2b}
+.CodeRay .instance-variable{color:teal}
+.CodeRay .label{color:#970}
+.CodeRay .local-variable{color:#963}
+.CodeRay .octal{color:#40e}
+.CodeRay .predefined{color:#369}
+.CodeRay .preprocessor{color:#579}
+.CodeRay .pseudo-class{color:#555}
+.CodeRay .directive{font-weight:bold}
+.CodeRay .type{font-weight:bold}
+.CodeRay .predefined-type{color:inherit}
+.CodeRay .reserved,.CodeRay .keyword{color:#000;font-weight:bold}
+.CodeRay .key{color:#808}
+.CodeRay .key .delimiter{color:#606}
+.CodeRay .key .char{color:#80f}
+.CodeRay .value{color:#088}
+.CodeRay .regexp .delimiter{color:#808}
+.CodeRay .regexp .content{color:#808}
+.CodeRay .regexp .modifier{color:#808}
+.CodeRay .regexp .char{color:#d14}
+.CodeRay .regexp .function{color:#404;font-weight:bold}
+.CodeRay .string{color:#d20}
+.CodeRay .string .string .string{background:#ffd0d0}
+.CodeRay .string .content{color:#d14}
+.CodeRay .string .char{color:#d14}
+.CodeRay .string .delimiter{color:#d14}
+.CodeRay .shell{color:#d14}
+.CodeRay .shell .delimiter{color:#d14}
+.CodeRay .symbol{color:#990073}
+.CodeRay .symbol .content{color:#a60}
+.CodeRay .symbol .delimiter{color:#630}
+.CodeRay .tag{color:teal}
+.CodeRay .tag-special{color:#d70}
+.CodeRay .variable{color:#036}
+.CodeRay .insert{background:#afa}
+.CodeRay .delete{background:#faa}
+.CodeRay .change{color:#aaf;background:#007}
+.CodeRay .head{color:#f8f;background:#505}
+.CodeRay .insert .insert{color:#080}
+.CodeRay .delete .delete{color:#800}
+.CodeRay .change .change{color:#66f}
+.CodeRay .head .head{color:#f4f}
+</style>
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>Failure Recovery Administration</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#recovery-manager">The Recovery Manager</a></li>
+<li><a href="#_configuring_the_recovery_manager">Configuring the Recovery Manager</a></li>
+<li><a href="#recovery_manager_output">Output</a></li>
+<li><a href="#_periodic_recovery">Periodic Recovery</a></li>
+<li><a href="#_expired_entry_removal">Expired Entry Removal</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>The failure recovery subsystem of Narayana will ensure that results of a transaction are applied consistently to all resources affected by the transaction, even if any of the application processes or the machine hosting them crash or lose network connectivity.
+In the case of machine (system) crash or network failure, the recovery will not take place until the system or network are restored, but the original application does not need to be restarted.
+Recovery responsibility is delegated to <a href="#recovery-manager">The Recovery Manager</a>.
+Recovery after failure requires that information about the transaction and the resources involved survives the failure and is accessible afterward: this information is held in the <code>ActionStore</code>, which is part of the <code>ObjectStore</code>.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If the <code>ObjectStore</code> is destroyed or modified, recovery may not be possible.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Until the recovery procedures are complete, resources affected by a transaction that was in progress at the time of the failure may be inaccessible.
+For database resources, this may be reported as tables or rows held by “in-doubt transactions”.
+For <em>TransactionalObjects for Java</em> resources, an attempt to activate the <code>Transactional Object</code> (as when trying to get a lock) will fail.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="recovery-manager"><a class="anchor" href="#recovery-manager"></a>The Recovery Manager</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The failure recovery subsystem of Narayana requires that the stand-alone Recovery Manager process be running for each <code>ObjectStore</code> (typically one for each node on the network that is running Narayana applications).
+The <code>RecoveryManager</code> file is located in the Narayana JAR file within the package <code>com.arjuna.ats.arjuna.recovery.RecoveryManager</code>.
+To start the Recovery Manager issue the following command:</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">java com.arjuna.ats.arjuna.recovery.RecoveryManager</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the <code>-test</code> flag is used with the Recovery Manager then it will display a <code>Ready</code> message when initialized, i.e.:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">java com.arjuna.ats.arjuna.recovery.RecoveryManager -test</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_configuring_the_recovery_manager"><a class="anchor" href="#_configuring_the_recovery_manager"></a>Configuring the Recovery Manager</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>RecoveryManager</code> reads the properties defined in the <code>jbossts-properties.xml</code> file.</p>
+</div>
+<div class="paragraph">
+<p>A default version of <code>jbossts-properties.xml</code> is supplied with the distribution.
+This can be used without modification, except possibly the debug tracing fields, as shown in <a href="#recovery_manager_output">Output</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="recovery_manager_output"><a class="anchor" href="#recovery_manager_output"></a>Output</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>It is likely that installations will want to have some form of output from the <code>RecoveryManager</code>, to provide a record of what recovery activity has taken place.
+<code>RecoveryManager</code> uses the logging mechanism provided by <em>jboss logging</em>, which provides a high level interface that hides differences that exist between existing logging APIs such Jakarta log4j or JDK logging API.</p>
+</div>
+<div class="paragraph">
+<p>The configuration of <em>jboss logging</em> depends on the underlying logging framework that is used, which is determined by the availability and ordering of alternatives on the classpath.
+Please, consult the <em>jboss logging</em> documentation for details.
+Each log message has an associated log Level, that gives the importance and urgency of a log message.
+The set of possible Log Levels, in order of least severity, and highest verbosity, is:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><code>TRACE</code></p>
+</li>
+<li>
+<p><code>DEBUG</code></p>
+</li>
+<li>
+<p><code>INFO</code></p>
+</li>
+<li>
+<p><code>WARN</code></p>
+</li>
+<li>
+<p><code>ERROR</code></p>
+</li>
+<li>
+<p><code>FATAL</code></p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Messages describing the start and the periodical behavior made by the <code>RecoveryManager</code> are output using the <code>INFO</code> level.
+If other debug tracing is wanted, the finer debug or trace levels should be set appropriately.</p>
+</div>
+<div class="paragraph">
+<p>Setting the normal recovery messages to the <code>INFO</code> level allows the <code>RecoveryManager</code> to produce a moderate level of reporting.
+If nothing is going on, it just reports the entry into each module for each periodic pass.
+To disable <code>INFO</code> messages produced by the Recovery Manager, the logging level could be set to the higher level of <code>ERROR</code>, which means that the <code>RecoveryManager</code> will only produce <code>ERROR</code>, <code>WARNING</code>, or <code>FATAL</code> messages.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_periodic_recovery"><a class="anchor" href="#_periodic_recovery"></a>Periodic Recovery</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>RecoveryManager</code> scans the <code>ObjectStore</code> and other locations of information, looking for transactions and resources that require, or may require recovery.
+The scans and recovery processing are performed by recovery modules.
+These recovery modules are instances of classes that implement the <code>com.arjuna.ats.arjuna.recovery.RecoveryModule</code> interface.
+Each module has responsibility for a particular category of transaction or resource.
+The set of recovery modules used is dynamically loaded, using properties found in the <code>RecoveryManager</code> property file.</p>
+</div>
+<div class="paragraph">
+<p>The interface has two methods: <code>periodicWorkFirstPass</code> and <code>periodicWorkSecondPass</code>.
+At an interval defined by property <code>com.arjuna.ats.arjuna.recovery.periodicRecoveryPeriod</code>, the <code>RecoveryManager</code> calls the first pass method on each property, then waits for a brief period, defined by property <code>com.arjuna.ats.arjuna.recovery.recoveryBackoffPeriod</code>.
+Next, it calls the second pass of each module.
+Typically, in the first pass, the module scans the relevant part of the <code>ObjectStore</code> to find transactions or resources that are in-doubt.
+An in-doubt transaction may be part of the way through the commitment process, for instance.
+On the second pass, if any of the same items are still in-doubt, the original application process may have crashed, and the item is a candidate for recovery.</p>
+</div>
+<div class="paragraph">
+<p>An attempt by the <code>RecoveryManager</code> to recover a transaction that is still progressing in the original process is likely to break the consistency.
+Accordingly, the recovery modules use a mechanism, implemented in the <code>com.arjuna.ats.arjuna.recovery.TransactionStatusManager</code> package, to check to see if the original process is still alive, and if the transaction is still in progress.
+The <code>RecoveryManager</code> only proceeds with recovery if the original process has gone, or, if still alive, the transaction is completed.
+If a server process or machine crashes, but the transaction-initiating process survives, the transaction completes, usually generating a warning.
+Recovery of such a transaction is the responsibility of the <code>RecoveryManager</code>.</p>
+</div>
+<div class="paragraph">
+<p>It is clearly important to set the interval periods appropriately.
+The total iteration time will be the sum of the <code>periodicRecoveryPeriod</code> and <code>recoveryBackoffPeriod</code> properties, and the length of time it takes to scan the stores and to attempt recovery of any in-doubt transactions found, for all the recovery modules.
+The recovery attempt time may include connection timeouts while trying to communicate with processes or machines that have crashed or are inaccessible.
+There are mechanisms in the recovery system to avoid trying to recover the same transaction indefinitely.
+The total iteration time affects how long a resource will remain inaccessible after a failure. – <code>periodicRecoveryPeriod</code> should be set accordingly.
+Its default is 120 seconds.
+The <code>recoveryBackoffPeriod</code> can be comparatively short, and defaults to 10 seconds.
+Its purpose is mainly to reduce the number of transactions that are candidates for recovery and which thus require a call to the original process to see if they are still in progress.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>In previous versions of Narayana, there was no contact mechanism, and the back-off period needed to be long enough to avoid catching transactions in flight at all.
+From 3.0, there is no such risk.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Two recovery modules, implementations of the <code>com.arjuna.ats.arjuna.recovery.RecoveryModule</code> interface, are supplied with Narayana.
+These modules support various aspects of transaction recovery, including JDBC recovery.
+It is possible for advanced users to create their own recovery modules and register them with the Recovery Manager.
+The recovery modules are registered with the <code>RecoveryManager</code> using <code>RecoveryEnvironmentBean.recoveryModuleClassNames</code>.
+These will be invoked on each pass of the periodic recovery in the sort-order of the property names – it is thus possible to predict the ordering, but a failure in an application process might occur while a periodic recovery pass is in progress.
+The default Recovery Extension settings are:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;entry</span> <span class="attribute-name">key</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">RecoveryEnvironmentBean.recoveryModuleClassNames</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+    com.arjuna.ats.internal.arjuna.recovery.AtomicActionRecoveryModule
+    com.arjuna.ats.internal.txoj.recovery.TORecoveryModule
+    com.arjuna.ats.internal.jts.recovery.transactions.TopLevelTransactionRecoveryModule
+    com.arjuna.ats.internal.jts.recovery.transactions.ServerTransactionRecoveryModule
+    com.arjuna.ats.internal.jta.recovery.jts.XARecoveryModule
+<span class="tag">&lt;/entry&gt;</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_expired_entry_removal"><a class="anchor" href="#_expired_entry_removal"></a>Expired Entry Removal</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The operation of the recovery subsystem cause some entries to be made in the <code>ObjectStore</code> that are not removed in normal progress.
+The <code>RecoveryManager</code> has a facility for scanning for these and removing items that are very old.
+Scans and removals are performed by implementations of the <code>com.arjuna.ats.arjuna.recovery.ExpiryScanner</code> interface.
+These implementations are loaded by giving the class names as the value of a property <code>RecoveryEnvironmentBean.expiryScannerClassNames</code>.
+The <code>RecoveryManager</code> calls the <code>scan()</code> method on each loaded Expiry Scanner implementation at an interval determined by the property <code>RecoveryEnvironmentBean.expiryScanInterval</code>.
+This value is given in hours, and defaults to 12hours.
+An <code>expiryScanInterval</code> value of zero suppresses any expiry scanning.
+If the value supplied is positive, the first scan is performed when <code>RecoveryManager</code> starts.
+If the value is negative, the first scan is delayed until after the first interval, using the absolute value.</p>
+</div>
+<div class="paragraph">
+<p>The kinds of item that are scanned for expiry are:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">TransactionStatusManager items</dt>
+<dd>
+<p>One <code>TransactionStatusManager</code> item is created by every application process that uses Narayana.
+It contains the information that allows the <code>RecoveryManager</code> to determine if the process that initiated the transaction is still alive, and its status.
+The expiry time for these items is set by the property <code>com.arjuna.ats.arjuna.recovery.transactionStatusManagerExpiryTime</code>, expressed in hours.
+The default is 12, and 0 (zero) means never to expire.The expiry time should be greater than the lifetime of any single processes using Narayana .</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>The Expiry Scanner properties for these are:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;entry</span> <span class="attribute-name">key</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">RecoveryEnvironmentBean.expiryScannerClassNames</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+    com.arjuna.ats.internal.arjuna.recovery.ExpiredTransactionStatusManagerScanner
+<span class="tag">&lt;/entry&gt;</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:39:50 +0100
+</div>
+</div>
+</body>
+</html>

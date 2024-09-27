@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>Integrate with Karaf</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body id="chap_integrate_with_karaf" class="article toc2 toc-left">
+<div id="header">
+<h1>Integrate with Karaf</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_introduction">Introduction</a></li>
+<li><a href="#_quickstart">Quickstart</a></li>
+<li><a href="#_admin_commands_support">Admin Commands Support</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_introduction"><a class="anchor" href="#_introduction"></a>Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The Narayana has been introduced in the Karaf 4.1.0-SNAPSHOT.
+You need to build from <a href="https://github.com/apache/karaf">https://github.com/apache/karaf</a>.</p>
+</div>
+<div class="paragraph">
+<p>The narayana configuration file could be found in <code>&lt;karaf-4.1.0-SNAPSHOT&gt;/etc/org.jboss.nararayana.cfg</code></p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Configuration</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Key</th>
+<th class="tableblock halign-left valign-top">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ObjectStoreEnvironmentBean.objectStoreDir</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">$\{karaf.data}/narayana</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ObjectStoreEnvironmentBean.communicationStore.objectStoreDir</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">$\{karaf.data}/narayana</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HornetqJournalEnvironmentBean.storeDir</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">$\{karaf.data}/narayana/hornetq</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>You could use the more keys in the <code>jbossts-properties.xml</code></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_quickstart"><a class="anchor" href="#_quickstart"></a>Quickstart</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You could build and run the <a href="https://github.com/jbosstm/quickstart/tree/master/karaf/osgi-jta"> Karaf osgi-jta Quicksart</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_admin_commands_support"><a class="anchor" href="#_admin_commands_support"></a>Admin Commands Support</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>We support the following commands in the karaf console</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. Admin Command Cli</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Command</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">narayana:refresh</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Refresh the view of the object store</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">narayana:types</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List record types</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">narayana:select type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Select a particular transaction type</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">narayana:ls [type]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List the transactions</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">narayana:attach id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Attach to a transaction log</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">narayana:detach id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Detach to the transaction log</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">narayana:forget idx</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Move the specified heuristic participant back to the prepared list</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">narayana:delete idx</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Delete the specified heuristic participant</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>STM</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+/*! Stylesheet for CodeRay to loosely match GitHub themes | MIT License */
+pre.CodeRay{background:#f7f7f8}
+.CodeRay .line-numbers{border-right:1px solid;opacity:.35;padding:0 .5em 0 0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+.CodeRay span.line-numbers{display:inline-block;margin-right:.75em}
+.CodeRay .line-numbers strong{color:#000}
+table.CodeRay{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.CodeRay td{vertical-align:top;line-height:inherit}
+table.CodeRay td.line-numbers{text-align:right}
+table.CodeRay td.code{padding:0 0 0 .75em}
+.CodeRay .debug{color:#fff!important;background:navy!important}
+.CodeRay .annotation{color:#007}
+.CodeRay .attribute-name{color:navy}
+.CodeRay .attribute-value{color:#700}
+.CodeRay .binary{color:#509}
+.CodeRay .comment{color:#998;font-style:italic}
+.CodeRay .char{color:#04d}
+.CodeRay .char .content{color:#04d}
+.CodeRay .char .delimiter{color:#039}
+.CodeRay .class{color:#458;font-weight:bold}
+.CodeRay .complex{color:#a08}
+.CodeRay .constant,.CodeRay .predefined-constant{color:teal}
+.CodeRay .color{color:#099}
+.CodeRay .class-variable{color:#369}
+.CodeRay .decorator{color:#b0b}
+.CodeRay .definition{color:#099}
+.CodeRay .delimiter{color:#000}
+.CodeRay .doc{color:#970}
+.CodeRay .doctype{color:#34b}
+.CodeRay .doc-string{color:#d42}
+.CodeRay .escape{color:#666}
+.CodeRay .entity{color:#800}
+.CodeRay .error{color:#808}
+.CodeRay .exception{color:inherit}
+.CodeRay .filename{color:#099}
+.CodeRay .function{color:#900;font-weight:bold}
+.CodeRay .global-variable{color:teal}
+.CodeRay .hex{color:#058}
+.CodeRay .integer,.CodeRay .float{color:#099}
+.CodeRay .include{color:#555}
+.CodeRay .inline{color:#000}
+.CodeRay .inline .inline{background:#ccc}
+.CodeRay .inline .inline .inline{background:#bbb}
+.CodeRay .inline .inline-delimiter{color:#d14}
+.CodeRay .inline-delimiter{color:#d14}
+.CodeRay .important{color:#555;font-weight:bold}
+.CodeRay .interpreted{color:#b2b}
+.CodeRay .instance-variable{color:teal}
+.CodeRay .label{color:#970}
+.CodeRay .local-variable{color:#963}
+.CodeRay .octal{color:#40e}
+.CodeRay .predefined{color:#369}
+.CodeRay .preprocessor{color:#579}
+.CodeRay .pseudo-class{color:#555}
+.CodeRay .directive{font-weight:bold}
+.CodeRay .type{font-weight:bold}
+.CodeRay .predefined-type{color:inherit}
+.CodeRay .reserved,.CodeRay .keyword{color:#000;font-weight:bold}
+.CodeRay .key{color:#808}
+.CodeRay .key .delimiter{color:#606}
+.CodeRay .key .char{color:#80f}
+.CodeRay .value{color:#088}
+.CodeRay .regexp .delimiter{color:#808}
+.CodeRay .regexp .content{color:#808}
+.CodeRay .regexp .modifier{color:#808}
+.CodeRay .regexp .char{color:#d14}
+.CodeRay .regexp .function{color:#404;font-weight:bold}
+.CodeRay .string{color:#d20}
+.CodeRay .string .string .string{background:#ffd0d0}
+.CodeRay .string .content{color:#d14}
+.CodeRay .string .char{color:#d14}
+.CodeRay .string .delimiter{color:#d14}
+.CodeRay .shell{color:#d14}
+.CodeRay .shell .delimiter{color:#d14}
+.CodeRay .symbol{color:#990073}
+.CodeRay .symbol .content{color:#a60}
+.CodeRay .symbol .delimiter{color:#630}
+.CodeRay .tag{color:teal}
+.CodeRay .tag-special{color:#d70}
+.CodeRay .variable{color:#036}
+.CodeRay .insert{background:#afa}
+.CodeRay .delete{background:#faa}
+.CodeRay .change{color:#aaf;background:#007}
+.CodeRay .head{color:#f8f;background:#505}
+.CodeRay .insert .insert{color:#080}
+.CodeRay .delete .delete{color:#800}
+.CodeRay .change .change{color:#66f}
+.CodeRay .head .head{color:#f4f}
+</style>
+</head>
+<body class="book toc2 toc-left">
+<div id="header">
+<h1>STM</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_an_stm_example">1. An STM Example</a></li>
+<li><a href="#_annotations">2. Annotations</a></li>
+<li><a href="#_containers_volatility_and_durability">3. Containers, Volatility and Durability</a></li>
+<li><a href="#_sharing_stm_objects">4. Sharing STM Objects</a></li>
+<li><a href="#_state_management">5. State Management</a></li>
+<li><a href="#_optimistic_concurrency_control">6. Optimistic Concurrency Control</a></li>
+<li><a href="#_a_typical_use_case">7. A Typical Use Case</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this chapter we shall look at the Software Transactional Memory (STM) implementation that ships as part of Narayana.
+Software Transactional Memory (STM) has been around in research environments since the late 1990&#8217;s and has relatively recently started to appear in products and various programming languages.
+We won&#8217;t go into all of the details behind STM but the interested reader could look at this paper (<code><a href="https://groups.csail.mit.edu/tds/papers/Shavit/ShavitTouitou-podc95.pdf" class="bare">https://groups.csail.mit.edu/tds/papers/Shavit/ShavitTouitou-podc95.pdf</a></code>).
+However, suffice it to say that STM offers an approach to developing transactional applications in a highly concurrent environment with some of the same characteristics of ACID transactions, which you&#8217;ve probably already used through JTA.
+Importantly though, the Durability property is relaxed (removed) within STM implementations, or at least made optional.
+This is not the situation with JTA, where state changes are made durable to a relational database which supports the X/Open XA standard.</p>
+</div>
+<div class="paragraph">
+<p>Now you may be asking yourself "Why STM instead of JTA?" or "What are the benefits to STM that I don&#8217;t get from JTA?" We will try to answer those and similar questions:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The goal of STM is to simplify object reads and writes from multiple threads/protect state from concurrent updates.
+The Narayana STM implementation will safely manage any conflicts between these threads using whatever isolation model has been chosen to protect that specific state instance.
+In STM, there are two isolation implementations, pessimistic (the default), which would cause conflicting threads to be blocked until the original has completed its updates (committed or aborted the transaction); then there is the optimistic approach which allows all of the threads to proceed and checks for conflicts at commit time, where one or more of the threads may be forced to abort if there have been conflicting updates.</p>
+</li>
+<li>
+<p>STM objects have state but it does not need to be persistent (durable).
+In fact the default behaviour is for objects managed within transactional memory to be volatile, such that if the service or microservice within which they are being used crashes or is spawned elsewhere, e.g., by a scheduler, all state in memory is lost and the objects start from scratch.
+But surely you get this and more with JTA (and a suitable transactional datastore) and do not need to worry about restarting your application?
+Not quite.
+There is a trade-off here: we are doing away with persistent state and the overhead of reading from and then writing (and sync-ing) to the datastore during each transaction.
+This makes updates to (volatile) state very fast but you still get the benefits of atomic updates across multiple STM objects (e.g., objects your team wrote then calling objects you inherited from another team and requiring them to make all-or-nothing updates), as well as consistency and isolation in the presence of concurrent threads/users (common in distributed microservices architectures).
+Furthermore, not all stateful applications need to be durable - even when JTA transactions are used, they tend to be the exception and not the rule.</p>
+</li>
+<li>
+<p>Another benefit of STM is composability and modularity.
+You can write concurrent objects/services that can be easily composed with any other services built using STM, without exposing the details of how the objects/services are implemented.
+As we discussed earlier, this ability to compose objects you wrote with those other teams may have written weeks, months or years earlier, and have A, C and I properties can be hugely beneficial.
+Furthermore, some STM implementations, including the Narayana version, support nested transactions and these allow changes made within the context of a nested (sub) transaction to later be rolled back by the parent transaction.</p>
+</li>
+<li>
+<p>Although the default for STM object state is volatile, it is possible to configure the STM implementation such that an object&#8217;s state is durable.
+Although it&#8217;s possible to configure Narayana such that different backend datastores can be used, including relational databases, the default is the local operating system file system, which means you don&#8217;t need to configure anything else, such as a database.</p>
+</li>
+<li>
+<p>Many STM implementations allow "plain old language objects" to be made STM-aware with little or no changes to the application code.
+You can build, test and deploy applications without wanting them to be STM-aware and then later add those capabilities if they become necessary and without much development overhead at all.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The Narayana STM implementation builds on the Transactional Objects for Java (TXOJ) framework which has offered building blocks for the construction of transactional objects via inheritence.
+The interested reader should look at the text on TXOJ within the ArjunaCore documentation for more in depth details.
+However, within TXOJ an application class can inherit from the LockManager class to obtain persistence (D) and concurrency (I), whilst at the same time having the flexibility to change some of these capabilities.
+For example, an object could be volatile, i.e., no durability, and yet still maintain the other transactional properties.</p>
+</div>
+<div class="paragraph">
+<p>If you look at the abilities that TXOJ offers to developers then it shares many aspects with STM.
+However, the downside is that developers need to modify their classes through class inheritence (something which is not always possible), add suitable extension methods (for saving and restoring state), set locks etc.
+None of this is entirely unreasonable, but it represents a barrier to some and hence is one of the reasons we decided to provide a separate STM implementation.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_an_stm_example"><a class="anchor" href="#_an_stm_example"></a>1. An STM Example</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In order to illustrate the Narayana STM implementation we shall use a worked example throughout the rest of this chapter.
+We&#8217;ll make it simple to start with, just a atomic integer that supports set, get and increment methods:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">interface</span> <span class="class">Atomic</span> {
+   <span class="directive">public</span> <span class="type">void</span> incr (<span class="type">int</span> value) <span class="directive">throws</span> <span class="exception">Exception</span>;
+   <span class="directive">public</span> <span class="type">void</span> set (<span class="type">int</span> value) <span class="directive">throws</span> <span class="exception">Exception</span>;
+   <span class="directive">public</span> <span class="type">int</span> get () <span class="directive">throws</span> <span class="exception">Exception</span>;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We&#8217;ll throw exceptions from each method just in case, but obviously you could just as easily catch any problems which occur and return booleans or some other indicator from the increment and set methods.</p>
+</div>
+<div class="paragraph">
+<p>In this example we&#8217;ll next create an implementation class:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">ExampleInteger</span> <span class="directive">implements</span> Atomic {
+   <span class="directive">public</span> <span class="type">int</span> get () <span class="directive">throws</span> <span class="exception">Exception</span> {
+       <span class="keyword">return</span> state;
+   }
+
+   <span class="directive">public</span> <span class="type">void</span> set (<span class="type">int</span> value) <span class="directive">throws</span> <span class="exception">Exception</span> {
+       state = value;
+   }
+
+   <span class="directive">public</span> <span class="type">void</span> incr (<span class="type">int</span> value) <span class="directive">throws</span> <span class="exception">Exception</span> {
+       state += value;
+   }
+
+   <span class="directive">private</span> <span class="type">int</span> state;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The implementation is pretty straightforward and we won&#8217;t go into it here.
+However, so far apart from inheriting from our Atomic interface there&#8217;s nothing to call this implementation out as being atomic.
+That&#8217;s because we haven&#8217;t actually done anything STM related to the code yet.</p>
+</div>
+<div class="paragraph">
+<p>Now let&#8217;s start to modify it by adding in STM specific elements.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>All class scope annotations should be applied to the interface whereas method scope annotations should be applied to the implementation class.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s start by looking at the Atomic interface.
+First of all any transactional objects must be instrumented as such for the underyling STM implementation to be able to differentiate them from non-transactional objects.
+To do that you use the Transactional annotation on the class.
+Next we need to ensure that our transactional object(s) is free from conflicts when used in a concurrent environment, so we have to add information about the type of operation, i.e., whether or not the method modifies the state of the object.
+You do this using either the ReadLock or WriteLock annotations.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If you do not add locking annotations to the methods on your Transactional interface then Narayana will default to assuming they all potentially modify the object&#8217;s state.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>At this stage we end up with a modified interface:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Transactional</span>
+<span class="directive">public</span> <span class="type">interface</span> <span class="class">Atomic</span> {
+   <span class="directive">public</span> <span class="type">void</span> incr (<span class="type">int</span> value) <span class="directive">throws</span> <span class="exception">Exception</span>;
+   <span class="directive">public</span> <span class="type">void</span> set (<span class="type">int</span> value) <span class="directive">throws</span> <span class="exception">Exception</span>;
+   <span class="directive">public</span> <span class="type">int</span> get () <span class="directive">throws</span> <span class="exception">Exception</span>;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And class:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>public class ExampleInteger implements Atomic {
+   @ReadLock
+   public int get () throws Exception {
+       return state;
+   }
+
+   @WriteLock
+   public void set (int value) throws Exception {
+       state = value;
+   }
+
+   @WriteLock
+   public void incr (int value) throws Exception {
+       state += value;
+   }
+
+   private int state;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As you can see, these are fairly straightfoward (and hopefully intuitive) changes to make.
+Everything else is defaulted, though will we will discuss other annotations later once we go beyond the basic example.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>We are contemplating allowing method annotations to be applied on the interface and then overridden on the implementation class.
+For now if you follow the above conventions you will continue to be compatible if this change is eventually supported.
+<a href="https://issues.jboss.org/browse/JBTM-2172" class="bare">https://issues.jboss.org/browse/JBTM-2172</a></p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Now we have a transactional class, by virtue of its dependency on the Atomic interface, how we go about creating instances of the corresponding STM object and use it (them) within transactions?</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Container</span>&lt;Atomic&gt; theContainer = <span class="keyword">new</span> <span class="predefined-type">Container</span>&lt;Atomic&gt;();
+ExampleInteger basic = <span class="keyword">new</span> ExampleInteger();
+Atomic obj = theContainer.create(basic);
+AtomicAction a = <span class="keyword">new</span> AtomicAction();
+
+a.begin();
+
+obj.set(<span class="integer">1234</span>);
+
+a.commit();
+
+<span class="keyword">if</span> (obj.get() == <span class="integer">1234</span>)
+   <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">State changed ok!</span><span class="delimiter">&quot;</span></span>);
+<span class="keyword">else</span>
+   <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">State not changed!</span><span class="delimiter">&quot;</span></span>);
+a = <span class="keyword">new</span> AtomicAction();
+
+a.begin();
+
+obj.change(<span class="integer">1</span>);
+
+a.abort();
+
+<span class="keyword">if</span> (obj.get() == <span class="integer">1234</span>)
+   <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">State reverted to 1234!</span><span class="delimiter">&quot;</span></span>);
+<span class="keyword">else</span>
+   <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">State is wrong!</span><span class="delimiter">&quot;</span></span>);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For clarity we&#8217;ve removed some of the error checking code in the above example, but let&#8217;s walk through exactly what is going on.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Some of the discussions around AtomicAction etc. are deliberately brief here because you can find more information in the relevant ArjunaCore documentation.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>In order for the STM subsystem to have knowledge about which classes are to be managed within the context of transactional memory it is necessary to provide a minimal level of instrumentation.
+This occurs by categorising STM-aware and STM-unaware classes through an interface boundary; specifically all STM-aware objects must be instances of classes which inherit from interfaces that themselves have been annotated to identify them as STM-aware.
+Any other objects (and their classes) which do not follow this rule will not be managed by the STM subsystem and hence any of their state changes will not be rolled back, for example.
+Therefore, the first thing we need to do is create an STM Container.
+We need to tell each Container about the type of objects for which it will be responsible.
+Then we create an instance of our <code>ExampleInteger</code>.
+However, we can&#8217;t use it directly because at this stage its operations aren&#8217;t being monitored by the Container.
+Therefore, we pass the instance to the Container and obtain a reference to an Atomic object through which we can operate on the STM object.</p>
+</div>
+<div class="paragraph">
+<p>At this point, if we called the operations such as incr on the Atomic instance we wouldn&#8217;t see any difference in behaviour: there are no transactions in flight to help provide the necessary properties.
+Let&#8217;s change that by creating an AtomicAction (transaction) and starting it.
+Now when we operate on the STM object all of the operations, such as set, will be performed within the scope of that transaction because it is associated with the thread of control.
+At this point, if we commit the transaction object the state changes will be made permanent (well not quite, but that&#8217;s a different story and one you can see when we discuss the Container in more detail later.)</p>
+</div>
+<div class="paragraph">
+<p>The rest of the example code simply repeats the above, except this time instead of committing the transaction we roll it back.
+What happens in this case is that any state changes which were performed within the scope of the transaction are automatically undone and we get back the state of the object(s) as it existed prior to the operations being performed.</p>
+</div>
+<div class="paragraph">
+<p>Pretty simple and not too much additional work on the part of the developer.
+Most of the ways in which you will use the Narayana STM implementation come down to similar approaches to what we&#8217;ve seen in the example.
+Where things may differ are in the various advanced options available to the developer.
+We&#8217;ll discuss those next as we look at all of the user classes and annotations that are available.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>All of the classes, interfaces and annotations that you should be using can be located within the <code>org.jboss.stm and org.jboss.stm.annotations</code> packages.
+All other classes etc.
+located within <code>org.jboss.stm.internal</code> are private implementation specific aspects of the framework and subject to change without warning.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_annotations"><a class="anchor" href="#_annotations"></a>2. Annotations</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The following annotations are available for use on STM interfaces or classes.</p>
+</div>
+<div class="paragraph">
+<p><code>@Transactional</code>: Used on the interface.
+Defines that implementations of the interface are to be managed within a transactional container.
+Unless specified using other annotations, all public methods will be assumed to modify the state of the object, i.e., require write locks.
+All state variables will be saved and restored unless marked explicitly using the @State annotation or SaveState/RestoreState.
+This assumes currently that all state modification and locking occurs through public methods, which means that even if there are private, protected or package scope methods that would change the state, they will not be tracked.
+Therefore, the implementation class should not modify state unless by calling its own public methods.
+All methods should either be invoked within a transactional context or have the Nested annotation applied, wherein the system will automatically create a new transaction when the method is invoked.</p>
+</div>
+<div class="paragraph">
+<p><code>@Optimistic</code>: Used on the interface.
+Specifies that the framework should use optimistic concurrency control for managing interactions on the instances.
+This may mean that a transaction is forced to abort at the end due to conflicting updates made by other users.
+The default is @Pessimistic.</p>
+</div>
+<div class="paragraph">
+<p><code>@Pessimistic</code>: Used on the interface.
+Specifies that pessimistic concurrency control should be used.
+This means that a read or write operation may block or be rejected if another user is manipulating the same object in a conflicting manner.
+If no other annotation appears to override this, then pessimistic is the default for a transactional object.</p>
+</div>
+<div class="paragraph">
+<p><code>@Nested</code>: Used on the interface or class.
+Defines that the container will create a new transaction for each method invocation, regardless of whether there is already a transaction associated with the caller.
+These transactions will then either be top-level transactions or nested automatically depending upon the context within which they are created.</p>
+</div>
+<div class="paragraph">
+<p><code>@NestedTopLevel</code>: Used on the interface or class.
+Defines that the container will create a new transaction for each method invocation, regardless of whether there is already a transaction associated with the caller.
+These transactions will always be top-level transactions even if there is a transaction already associated with the invoking thread.</p>
+</div>
+<div class="paragraph">
+<p><code>@ReadLock</code>: Used on the class method.
+The framework will grab a read lock when the method is invoked.</p>
+</div>
+<div class="paragraph">
+<p><code>@WriteLock</code>: Used on the class method.
+The framework will grab a write lock then the method is invoked.</p>
+</div>
+<div class="paragraph">
+<p><code>@LockFree</code>: Used on the class method.
+No locks will be obtained on this method, though any transaction context will still be on the thread when the method is invoked.</p>
+</div>
+<div class="paragraph">
+<p><code>@TransactionFree</code>: Used on the class method.
+This means that the method is not transactional, so no context will exist on the thread or locks acquired/released when the method is invoked.</p>
+</div>
+<div class="paragraph">
+<p><code>@Timeout</code>: Used on the class method.
+If pessimistic concurrency control is being used then a conflict will immediately cause the operation to fail and the application can do something else.
+If instead the developer wants the system to retry getting the lock before returning, then this annotation defines the time between each retry attempt in milliseconds.</p>
+</div>
+<div class="paragraph">
+<p><code>@Retry</code>: Used on the class method.
+If pessimistic concurrency control is being used then a conflict will immediately cause the operation to fail and the application can do something else.
+If instead the developer wants the system to retry getting the lock before returning, then this annotation defines the number of retry attempts.</p>
+</div>
+<div class="paragraph">
+<p><code>@State</code>: Used on the class member variables to define which state will be saved and restored by the transaction system.
+By default, all member variables (non-static, non-volatile) will be saved.</p>
+</div>
+<div class="paragraph">
+<p><code>@NotState</code>: Used on the class member variables to define which state to ignore when saving/restoring instance data.
+Note that any member variable that is not annotated with NotState will be saved and restored by the transaction system, irrespective of whether or not it has the State annotation.
+You should use these annotations cautiously because if you limit the state which is saved (and hence restored) you may allow dirty data to cross transaction boundaries.</p>
+</div>
+<div class="paragraph">
+<p><code>@SaveState</code>: Used on the class method to define the specific save_state method for the class.
+This is used in preference to any @State indications on the class state.
+This is the case no matter where in the class hierarchy it occurs.
+So if you have a base class that uses save/restore methods the inherited classes must have them too if their state is to be durable.
+In future we may save/restore specifically for each class in the inheritance hierarchy.</p>
+</div>
+<div class="paragraph">
+<p><code>@RestoreState</code>: Used on the class method to define the specific restore_state method for the class.
+This is used in preference to any @State indications on the class state.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_containers_volatility_and_durability"><a class="anchor" href="#_containers_volatility_and_durability"></a>3. Containers, Volatility and Durability</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>By default objects created within STM do not possess the Durable aspect of traditional ACID transactions, i.e., they are volatile instances.
+This has an obvious performance benefit since there is no disk or replicated in-memory data store involved.
+However, it has disadvantages.
+If the objects are Pessimitic or Optimistic then they can be shared between threads in the same address space (JVM instance).
+At the time of writing Optimistic objects cannot be shared between address spaces.</p>
+</div>
+<div class="paragraph">
+<p>Most of the time you will want to create volatile STM objects, with the option of using optimistic of pessimistic concurrency control really down to the type of application you are developing.
+As such you use of Containers will be very similar to that which we have seen already:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">TestContainer&lt;Sample&gt; theContainer = <span class="keyword">new</span> TestContainer&lt;Sample&gt;();
+SampleLockable tester = <span class="keyword">new</span> SampleLockable();
+Sample proxy = theContainer.enlist(tester);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>However, the Container class has a number of extensibility options available for the more advanced user and requirements, which we shall discuss in the rest of this section.</p>
+</div>
+<div class="paragraph">
+<p>By default when you create a Container it is used to manage volatile objects.
+In STM language we call these objects recoverable due to the fact their state can be recovered in the event of a transaction rolling back, but not if there is a crash.
+The Container therefore supports two types:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">enum</span> TYPE { RECOVERABLE, PERSISTENT };</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can therefore use the TYPE constructore to create a Container of either type.
+You can always determine the type of a Container later by calling the type() method.</p>
+</div>
+<div class="paragraph">
+<p>All Containers can be named with a String.
+We recommend uniquely naming your Container instances and in fact if you do not give your Container a name when it is created using the default constructure then the system will assign a unique name (an instance of a Narayana Uid).
+If you want to give you Container a name then you can use the constructor that takes a String and you can get the name of any Container instance by calling the name() method.
+The default type of a Container is RECOVERABLE.</p>
+</div>
+<div class="paragraph">
+<p>The Container also supports two sharing models for objects created:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">enum</span> MODEL { SHARED, EXCLUSIVE };</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>SHARED means the instance may be used within multiple processes.
+It must be PERSISTENT too; if not then the framework.
+EXCLUSIVE means that the instance will only be used within a single JVM, though it can be PERSISTENT or RECOVERABLE.
+You can get the model used by your container by calling the model() method.
+The default model for a Container is EXCLUSIVE.</p>
+</div>
+<div class="paragraph">
+<p>Given the above information, you should now be able to understand what the various constructors of the Container class do, since they provide the ability to modify the behaviour of any created instance through combinations of the above three parameters.
+Where a given parameter is not available in a specific constructor, the default value discussed previously is used.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_sharing_stm_objects"><a class="anchor" href="#_sharing_stm_objects"></a>4. Sharing STM Objects</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Once a Container is created, you can use the create() method to create objects (handles) within the STM.
+As shown in the previous example, you pass in an unmodified (with the possible exception of annotations) class instance which corresponds to the interface type given to the Container when it was created and the Container will return a reference to an instance of the same type:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Sample1 obj1 = theContainer.create(<span class="keyword">new</span> Sample1Imple(<span class="integer">10</span>));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>All objects thus created are uniquely identified by the system.
+You can obtain their identifier (an instance of the Uid class) at any time by calling the getIdentifier method of the corresponding Container:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Uid id = theContainer.getIdentifier(obj1)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This can be useful for debugging purposes.
+However, it can also be useful if you want to create a duplicate handle to the object for another thread to use.
+This is not strictly necessary when using the default Pessimistic concurrency control, but is a requirement when using Optimistic (MVCC) (see relevant section).</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Do not share the same reference for an Optimistic object with multiple threads.
+You must use the clone() operation for each thread.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>There are two variants of the clone() operation.
+Both of them require an empty instance of the original non-STM class to clone the data in to (this does not actually happen for Pessimistic instances, but is still required at present for uniformity):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="directive">synchronized</span> T clone (T member, T proxy)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This version requires a reference to the STM object that is being cloned as the second parameter:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Sample1 obj2 = theContainer.clone(<span class="keyword">new</span> Sample1Imple(), obj1);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The second version is similar:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="directive">synchronized</span> T clone (T member, Uid id)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This time instead of a reference you can provide the object&#8217;s identifier:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Sample1 obj2 = theContainer.clone(<span class="keyword">new</span> Sample1Imple(), theContainer.getIdentifier(obj1));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You are free to use either clone() operation depending upon what information your program has available.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_state_management"><a class="anchor" href="#_state_management"></a>5. State Management</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Earlier in this chapter we discussed how you can instrument your implementation class member variables with the State and NotState annotations to indicate what state should be saved and restored by the transaction system.
+In some situations you may want even more control over this process and this is where the @SaveState and @RestoreState annotations come in.
+These annotations let you define a method which will be called when the system needs to save your objec&#8217;s state and likewise when it needs to restore it.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>You must use SaveState and RestoreState annotations together, i.e., you cannot just define one without the other.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Your methods can be called whatever you want but they must have the following signatures.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>@SaveState</code></p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">void</span> save_state (OutputObjectState os) <span class="directive">throws</span> <span class="exception">IOException</span></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p><code>@RestoreState</code></p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">void</span> restore_state (InputObjectState os) <span class="directive">throws</span> <span class="exception">IOException</span></code></pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Each operation is then given complete control over which state variables are saved and restored at the appropriate time.
+Any state-related annotations on member instance variables are ignored by the framework so you must ensure that all state which can be modified within the scope of a transaction must be saved and restored if you want it to be manipulated appropriately by the transaction.</p>
+</div>
+<div class="paragraph">
+<p>For instance, look at the following example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">DummyImple</span> <span class="directive">implements</span> Dummy {
+        <span class="directive">public</span> DummyImple () {
+            _isNotState = <span class="predefined-constant">false</span>;
+            _saved = <span class="integer">1234</span>;
+        }
+
+        <span class="annotation">@ReadLock</span>
+        <span class="directive">public</span> <span class="type">int</span> getInt () {
+            <span class="keyword">return</span> _saved;
+        }
+
+        <span class="annotation">@WriteLock</span>
+        <span class="directive">public</span> <span class="type">void</span> setInt (<span class="type">int</span> value) {
+            _saved = value;
+        }
+
+        <span class="annotation">@ReadLock</span>
+        <span class="directive">public</span> <span class="type">boolean</span> getBoolean () {
+            <span class="keyword">return</span> _isNotState;
+        }
+
+        <span class="annotation">@WriteLock</span>
+        <span class="directive">public</span> <span class="type">void</span> setBoolean (<span class="type">boolean</span> value) {
+            _isNotState = value;
+        }
+
+        <span class="annotation">@SaveState</span>
+        <span class="directive">public</span> <span class="type">void</span> save_state (OutputObjectState os) <span class="directive">throws</span> <span class="exception">IOException</span> {
+           os.packInt(_saved);
+        }
+
+        <span class="annotation">@RestoreState</span>
+        <span class="directive">public</span> <span class="type">void</span> restore_state (InputObjectState os) <span class="directive">throws</span> <span class="exception">IOException</span> {
+            _saved = os.unpackInt();
+        }
+
+        <span class="directive">public</span> <span class="type">int</span> _saved;
+        <span class="directive">public</span> <span class="type">boolean</span> _isNotState;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this example, only the int member variable is saved and restored.
+This means that any changes made to the other member variable(s) within the scope of any transaction, in this case the boolean, will not be undone in the event the transaction(s) rolls back.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Use the SaveState and RestoreState annotations with care as you could cause dirty data to be visible between transactions if you do not save and restore all of the necessary state.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_optimistic_concurrency_control"><a class="anchor" href="#_optimistic_concurrency_control"></a>6. Optimistic Concurrency Control</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Per object concurrency control is done through locks and type specific concurrency control is available.
+You can define locks on a per object and per method basis, and combined with nested transactions this provides for a flexible way of structuring applications that would typically not block threads unless there is really high contention.
+All but the @Transactional annotation are optional, with sensible defaults taken for everything else including locks and state.</p>
+</div>
+<div class="paragraph">
+<p>However, the locking strategy we had originally was pessimistic.
+Most transaction systems utilize what is commonly referred to as pessimistic concurrency control mechanisms: in essence, whenever a data structure or other transactional resource is accessed, a lock is obtained on it as described earlier.
+This lock will remain held on that resource for the duration of the transaction and the benefit of this is that other users will not be able to modify (and possibly not even observe) the resource until the holding transaction has terminated.
+There are a number of disadvantages of this style: (i) the overhead of acquiring and maintaining concurrency control information in an environment where conflict or data sharing is not high, (ii) deadlocks may occur, where one user waits for another to release a lock not realizing that that user is waiting for the release of a lock held by the first.</p>
+</div>
+<div class="paragraph">
+<p>The obvious alternative to this approach is optimistic or MVCC.
+Therefore, optimistic concurrency control assumes that conflicts are not high and tries to ensure locks are held only for brief periods of time: essentially locks are only acquired at the end of the transaction when it is about to terminate.
+This kind of concurrency control requires a means to detect if an update to a resource does conflict with any updates that may have occurred in the interim and how to recover from such conflicts.
+Typically detection will happen using timestamps, whereby the system takes a snapshot of the timestamps associated with resources it is about to use or modify and compares them with the timestamps available when the transaction commits.</p>
+</div>
+<div class="paragraph">
+<p>As discussed previously, there are two annotations: @Optimistic and @Pessimistic, with Pessimistic being the default, i.e., if no annotation is present, then the STM framework will assume you want pessimistic concurrency control.
+These are defined on a per interface basis and define the type of concurrency control implementation that is used whenever locks are needed.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Transactional</span>
+<span class="annotation">@Optimistic</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">SampleLockable</span> <span class="directive">implements</span> Sample {
+   <span class="directive">public</span> SampleLockable (<span class="type">int</span> init) {
+      _isState = init;
+   }
+
+   <span class="annotation">@ReadLock</span>
+   <span class="directive">public</span> <span class="type">int</span> value () {
+      <span class="keyword">return</span> _isState;
+   }
+
+   <span class="annotation">@WriteLock</span>
+   <span class="directive">public</span> <span class="type">void</span> increment () {
+      _isState++;
+   }
+
+   <span class="annotation">@WriteLock</span>
+   <span class="directive">public</span> <span class="type">void</span> decrement () {
+      _isState--;
+   }
+
+   <span class="annotation">@State</span>
+   <span class="directive">private</span> <span class="type">int</span> _isState;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And that&#8217;s it.
+No other changes are needed to the interface or to the implementation.
+However, at present there is a subtle change in the way in which you create your objects.
+Recall how that was done previously and then compare it with the style necessary when using optimistic concurrency control:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Container</span> theContainer = <span class="keyword">new</span> <span class="predefined-type">Container</span>();
+Sample obj1 = theContainer.create(<span class="keyword">new</span> SampleLockable(<span class="integer">10</span>));
+Sample obj2 = theContainer.clone(<span class="keyword">new</span> SampleLockable(<span class="integer">10</span>),obj1);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In the original pessimistic approach the instance <code>obj1</code> can be shared between any number of threads and the STM implementation will ensure that the state is manipulated consistently and safely.
+However, with optimistic concurrency we need to have one instance of the state per thread.
+So in the above code we first create the object (<code>obj1</code>) and then we create a copy of it (<code>obj2</code>), passing a reference to the original to the container.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Remember that the same reference to Optimistic (MVCC) objects cannot be shared between different threads: you must use the clone() operation on the corresponding Container for each thread which wishes to use the object.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_a_typical_use_case"><a class="anchor" href="#_a_typical_use_case"></a>7. A Typical Use Case</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this chapter we have considered all of the publicly available interfaces and classes for the STM framework within Narayana.
+There is deliberately a lot of flexibility on offer but much of it will only be needed by more advanced users and use cases.
+In this section we shall consider the most typical way in which we believe users will want to use the STM implementation.
+Let&#8217;s consider the interface first:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Transactional</span>
+<span class="directive">public</span> <span class="type">interface</span> <span class="class">Sample</span> {
+       <span class="directive">public</span> <span class="type">void</span> increment ();
+       <span class="directive">public</span> <span class="type">void</span> decrement ();
+
+       <span class="directive">public</span> <span class="type">int</span> value ();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Whilst MVCC (optimistic concurrency control) is available, it is most useful in environments with a high degree of contention.
+Even then, with the ability to control the timeout and retry values of the locking used by the pessimistic concurrency control option, the surety of making progress in a longer running transaction and not being forced to roll back later can be an advantage.
+Therefore, pessimistic (the default) is probably the approach you will want to take initially.</p>
+</div>
+<div class="paragraph">
+<p>Now let&#8217;s look at the implementation class:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">MyExample</span> <span class="directive">implements</span> Sample {
+        <span class="directive">public</span> MyExample () {
+            <span class="local-variable">this</span>(<span class="integer">0</span>);
+        }
+
+        <span class="directive">public</span> MyExample (<span class="type">int</span> init) {
+            _isState = init;
+        }
+
+        <span class="annotation">@ReadLock</span>
+        <span class="directive">public</span> <span class="type">int</span> value () {
+            <span class="keyword">return</span> _isState;
+        }
+
+        <span class="annotation">@WriteLock</span>
+        <span class="directive">public</span> <span class="type">void</span> increment () {
+            _isState++;
+        }
+
+        <span class="annotation">@WriteLock</span>
+        <span class="directive">public</span> <span class="type">void</span> decrement () {
+            _isState--;
+        }
+
+        <span class="directive">private</span> <span class="type">int</span> _isState;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>By this point it should look fairly straightforward.
+We&#8217;ve kept it simple deliberately, but it can be as complex as your application requires.
+There are no nested transactions at work here, but you can easily add them using the Nested annotation.
+Remember that they give you improved modularity as well as the ability to better control failures.</p>
+</div>
+<div class="paragraph">
+<p>Because STM implementations typically relax or remove the durability aspect, you are more likely to want to create volatile objects, i.e., objects that do not survive the crash and repair of the JVM on which they are created.
+Therefore, you should use the default Container constructor, unless you want to control the name of the instance and in which case you can pass in an arbitrary string.
+Then all that is left is the creation and manipulation of AtomicActions as you invoke the relevant methods on your object(s).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">MyExample ex = <span class="keyword">new</span> MyExample(<span class="integer">10</span>);
+<span class="predefined-type">Container</span>&lt;Sample&gt; theContainer = <span class="keyword">new</span> <span class="predefined-type">Container</span>&lt;Sample&gt;();    Sample obj1 = theContainer.create(ex);
+AtomicAction act = <span class="keyword">new</span> AtomicAction();
+
+act.begin();
+
+obj1.increment();
+
+act.commit();</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>

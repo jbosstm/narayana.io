@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>Participant Crash Recovery</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+/*! Stylesheet for CodeRay to loosely match GitHub themes | MIT License */
+pre.CodeRay{background:#f7f7f8}
+.CodeRay .line-numbers{border-right:1px solid;opacity:.35;padding:0 .5em 0 0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+.CodeRay span.line-numbers{display:inline-block;margin-right:.75em}
+.CodeRay .line-numbers strong{color:#000}
+table.CodeRay{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.CodeRay td{vertical-align:top;line-height:inherit}
+table.CodeRay td.line-numbers{text-align:right}
+table.CodeRay td.code{padding:0 0 0 .75em}
+.CodeRay .debug{color:#fff!important;background:navy!important}
+.CodeRay .annotation{color:#007}
+.CodeRay .attribute-name{color:navy}
+.CodeRay .attribute-value{color:#700}
+.CodeRay .binary{color:#509}
+.CodeRay .comment{color:#998;font-style:italic}
+.CodeRay .char{color:#04d}
+.CodeRay .char .content{color:#04d}
+.CodeRay .char .delimiter{color:#039}
+.CodeRay .class{color:#458;font-weight:bold}
+.CodeRay .complex{color:#a08}
+.CodeRay .constant,.CodeRay .predefined-constant{color:teal}
+.CodeRay .color{color:#099}
+.CodeRay .class-variable{color:#369}
+.CodeRay .decorator{color:#b0b}
+.CodeRay .definition{color:#099}
+.CodeRay .delimiter{color:#000}
+.CodeRay .doc{color:#970}
+.CodeRay .doctype{color:#34b}
+.CodeRay .doc-string{color:#d42}
+.CodeRay .escape{color:#666}
+.CodeRay .entity{color:#800}
+.CodeRay .error{color:#808}
+.CodeRay .exception{color:inherit}
+.CodeRay .filename{color:#099}
+.CodeRay .function{color:#900;font-weight:bold}
+.CodeRay .global-variable{color:teal}
+.CodeRay .hex{color:#058}
+.CodeRay .integer,.CodeRay .float{color:#099}
+.CodeRay .include{color:#555}
+.CodeRay .inline{color:#000}
+.CodeRay .inline .inline{background:#ccc}
+.CodeRay .inline .inline .inline{background:#bbb}
+.CodeRay .inline .inline-delimiter{color:#d14}
+.CodeRay .inline-delimiter{color:#d14}
+.CodeRay .important{color:#555;font-weight:bold}
+.CodeRay .interpreted{color:#b2b}
+.CodeRay .instance-variable{color:teal}
+.CodeRay .label{color:#970}
+.CodeRay .local-variable{color:#963}
+.CodeRay .octal{color:#40e}
+.CodeRay .predefined{color:#369}
+.CodeRay .preprocessor{color:#579}
+.CodeRay .pseudo-class{color:#555}
+.CodeRay .directive{font-weight:bold}
+.CodeRay .type{font-weight:bold}
+.CodeRay .predefined-type{color:inherit}
+.CodeRay .reserved,.CodeRay .keyword{color:#000;font-weight:bold}
+.CodeRay .key{color:#808}
+.CodeRay .key .delimiter{color:#606}
+.CodeRay .key .char{color:#80f}
+.CodeRay .value{color:#088}
+.CodeRay .regexp .delimiter{color:#808}
+.CodeRay .regexp .content{color:#808}
+.CodeRay .regexp .modifier{color:#808}
+.CodeRay .regexp .char{color:#d14}
+.CodeRay .regexp .function{color:#404;font-weight:bold}
+.CodeRay .string{color:#d20}
+.CodeRay .string .string .string{background:#ffd0d0}
+.CodeRay .string .content{color:#d14}
+.CodeRay .string .char{color:#d14}
+.CodeRay .string .delimiter{color:#d14}
+.CodeRay .shell{color:#d14}
+.CodeRay .shell .delimiter{color:#d14}
+.CodeRay .symbol{color:#990073}
+.CodeRay .symbol .content{color:#a60}
+.CodeRay .symbol .delimiter{color:#630}
+.CodeRay .tag{color:teal}
+.CodeRay .tag-special{color:#d70}
+.CodeRay .variable{color:#036}
+.CodeRay .insert{background:#afa}
+.CodeRay .delete{background:#faa}
+.CodeRay .change{color:#aaf;background:#007}
+.CodeRay .head{color:#f8f;background:#505}
+.CodeRay .insert .insert{color:#080}
+.CodeRay .delete .delete{color:#800}
+.CodeRay .change .change{color:#66f}
+.CodeRay .head .head{color:#f4f}
+</style>
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>Participant Crash Recovery</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_ws_at_recovery">WS-AT Recovery</a>
+<ul class="sectlevel2">
+<li><a href="#_ws_at_coordinator_crash_recovery">WS-AT Coordinator Crash Recovery</a></li>
+<li><a href="#_ws_at_participant_crash_recovery">WS-AT Participant Crash Recovery</a></li>
+</ul>
+</li>
+<li><a href="#_ws_ba_recovery">WS-BA Recovery</a>
+<ul class="sectlevel2">
+<li><a href="#_ws_ba_coordinator_crash_recovery">WS-BA Coordinator Crash Recovery</a></li>
+<li><a href="#_ws_ba_participant_crash_recovery_apis">WS-BA Participant Crash Recovery APIs</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>A key requirement of a transaction service is to be resilient to a system crash by a host running a participant, as well as the host running the transaction coordination services.
+Crashes which happen before a transaction terminates or before a business activity completes are relatively easy to accommodate.
+The transaction service and participants can adopt a <code>presumed abort</code> policy.</p>
+</div>
+<div class="olist arabic">
+<div class="title">Procedure: Presumed Abort Policy</div>
+<ol class="arabic">
+<li>
+<p>If the coordinator crashes, it can assume that any transaction it does not know about is invalid, and reject a participant request which refers to such a transaction.</p>
+</li>
+<li>
+<p>If the participant crashes, it can forget any provisional changes it has made, and reject any request from the coordinator service to prepare a transaction or complete a business activity.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Crash recovery is more complex if the crash happens during a transaction commit operation, or between completing and closing a business activity.
+The transaction service must ensure as far as possible that participants arrive at a consistent outcome for the transaction.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">WS-AT Transaction</dt>
+<dd>
+<p>The transaction needs to commit all provisional changes or roll them all back to the state before the transaction started.</p>
+</dd>
+<dt class="hdlist1">WS-Business Activity Transaction</dt>
+<dd>
+<p>All participants need to close the activity or cancel the activity, and run any required compensating actions.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>On the rare occasions where such a consensus cannot be reached, the transaction service must log and report transaction failures.</p>
+</div>
+<div class="paragraph">
+<p>XTS includes support for automatic recovery of WS-AT and WS-BA transactions, if either or both of the coordinator and participant hosts crashes.
+The XTS recovery manager begins execution on coordinator and participant hosts when the XTS service restarts.
+On a coordinator host, the recovery manager detects any WS-AT transactions which have prepared but not committed, as well as any WS-BA transactions which have completed but not yet closed.
+It ensures that all their participants are rolled forward in the first case, or closed in the second.</p>
+</div>
+<div class="paragraph">
+<p>On a participant host, the recovery manager detects any prepared WS-AT participants which have not responded to a transaction rollback, and any completed WS-BA participants which have not yet responded to an activity cancel request, and ensures that the former are rolled back and the latter are compensated.
+The recovery service also allows for recovery of subordinate WS-AT transactions and their participants if a crash occurs on a host where an interposed WS-AT coordinator has been employed.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_ws_at_recovery"><a class="anchor" href="#_ws_at_recovery"></a>WS-AT Recovery</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_ws_at_coordinator_crash_recovery"><a class="anchor" href="#_ws_at_coordinator_crash_recovery"></a>WS-AT Coordinator Crash Recovery</h3>
+<div class="paragraph">
+<p>The WS-AT coordination service tracks the status of each participant in a transaction as the transaction progresses through its two-phase commit.
+When all participants have been sent a <code>prepare</code> message and have responded with a <code>prepared</code> message, the coordinator writes a log record storing each participant&#8217;s details, indicating that the transaction is ready to complete.
+If the coordinator service crashes after this point has been reached, completion of the two-phase commit protocol is still guaranteed, by reading the log file after reboot and sending a <code>commit</code> message to each participant.
+Once all participants have responded to the <code>commit</code> with a <code>committed</code> message, the coordinator can safely delete the log entry.</p>
+</div>
+<div class="paragraph">
+<p>Since the <code>prepared</code> messages returned by the participants imply that they are ready to commit their provisional changes and make them permanent, this type of recovery is safe.
+Additionally, the coordinator does not need to account for any commit messages which may have been sent before the crash, or resend messages if it crashes several times.
+The XTS participant implementation is resilient to redelivery of the <code>commit</code> messages.
+If the participant has implemented the recovery functions described in <a href="#ws_at_recovery_api">WS-AT Participant Crash Recovery APIs</a>, the coordinator can guarantee delivery of <code>commit</code> messages if both it crashes, and one or more of the participant service hosts also crash, at the same time.</p>
+</div>
+<div class="paragraph">
+<p>If the coordination service crashes before the <code>prepare</code> phase completes, the presumed abort protocol ensures that participants are rolled back.
+After system restart, the coordination service has the information about about all the transactions which could have entered the <code>commit</code> phase before the reboot, since they have entries in the log.
+It also knows about any active transactions started after the reboot.
+If a participant is waiting for a response, after sending its <code>prepared</code> message, it automatically re-sends the <code>prepared</code> message at regular intervals.
+When the coordinator detects a transaction which is not active and has no entry in the log file after the reboot, it instructs the participant to abort, ensuring that the web service gets a chance to roll back any provisional state changes it made on behalf of the transaction.</p>
+</div>
+<div class="paragraph">
+<p>A web service may decide to unilaterally commit or roll back provisional changes associated with a given participant, if configured to time-out after a specified length of time without a response.
+In this situation, the the web service should record this action and log a message to persistent storage.
+When the participant receives a request to commit or roll back, it should throw an exception if its unilateral decision action does not match the requested action.
+The coordinator detects the exception and logs a message marking the outcome as heuristic.
+It also saves the state of the transaction permanently in the transaction log, to be inspected and reconciled by an administrator.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ws_at_participant_crash_recovery"><a class="anchor" href="#_ws_at_participant_crash_recovery"></a>WS-AT Participant Crash Recovery</h3>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>This part is relevant only if Raw XTS API is used.
+JTA integration does the recovery automatically.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>WS-AT participants associated with a transactional web service do not need to be involved in crash recovery if the Web service&#8217;s host machine crashes before the participant is told to prepare.
+The coordinator will assume that the transaction has aborted, and the Web service can discard any information associated with unprepared transactions when it reboots.</p>
+</div>
+<div class="paragraph">
+<p>When a participant is told to <code>prepare</code>, the Web service is expected to save to persistent storage the transactional state it needs to commit or roll back the transaction.
+The specific information it needs to save is dependent on the implementation and business logic of the Web Service.
+However, the participant must save this state before returning a <code>prepared</code> vote from the <code>prepare</code> call.
+If the participant cannot save the required state, or there is some other problem servicing the request made by the client, it must return an <code>aborted</code> vote.</p>
+</div>
+<div class="paragraph">
+<p>The XTS participant services running on a Web Service&#8217;s host machine cooperate with the Web service implementation to facilitate participant crash recovery.
+These participant services are responsible for calling the participant&#8217;s <code>prepare</code>, <code>commit</code>, and <code>rollback</code> methods.
+The XTS implementation tracks the local state of every enlisted participant.
+If the <code>prepare</code> call returns a <code>prepared</code> vote, the XTS implementation ensures that the participant state is logged to the local transaction log before forwarding a <code>prepared</code> message to the coordinator.</p>
+</div>
+<div class="paragraph">
+<p>A participant log record contains information identifying the participant, its transaction, and its coordinator.
+This is enough information to allow the rebooted XTS implementation to reinstate the participant as active and to continue communication with the coordinator, as though the participant had been enlisted and driven to the prepared state.
+However, a participant instance is still necessary for the commit or rollback process to continue.</p>
+</div>
+<div class="paragraph">
+<p>Full recovery requires the log record to contain information needed by the Web service which enlisted the participant.
+This information must allow it to recreate an equivalent participant instance, which can continue the <code>commit</code> process to completion, or roll it back if some other Web Service fails to <code>prepare</code> . This information might be as simple as a String key which the participant can use to locate the data it made persistent before returning its Prepared vote.
+It may be as complex as a serialized object tree containing the original participant instance and other objects created by the Web service.</p>
+</div>
+<div class="paragraph">
+<p>If a participant instance implements the relevant interface, the XTS implementation will append this participant recovery state to its log record before writing it to persistent storage.
+In the event of a crash, the participant recovery state is retrieved from the log and passed to the Web Service which created it.
+The Web Service uses this state to create a new participant, which the XTS implementation uses to drive the transaction to completion.
+Log records are only deleted after the participant&#8217;s <code>commit</code> or <code>rollback</code> method is called.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If a crash happens just before or just after a <code>commit</code> method is called, a <code>commit</code> or <code>rollback</code> method may be called twice.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="ws_at_recovery_api"><a class="anchor" href="#ws_at_recovery_api"></a>WS-AT Participant Crash Recovery APIs</h4>
+<div class="sect4">
+<h5 id="_saving_participant_recovery_state"><a class="anchor" href="#_saving_participant_recovery_state"></a>Saving Participant Recovery State</h5>
+<div class="paragraph">
+<p>When a Business Activity participant web service completes its work, it may want to save the information which will be required later to close or compensate actions performed during the activity.
+The XTS implementation automatically acquires this information from the participant as part of the completion process and writes it to a participant log record.
+This ensures that the information can be restored and used to recreate a copy of the participant even if the web service container crashes between the complete and close or compensate operations.</p>
+</div>
+<div class="paragraph">
+<p>For a Participant Completion participant, this information is acquired when the web service invokes the <code>completed</code> method of the <code>BAParticipantManager</code> instance returned from the call which enlisted the participant.
+For a Coordinator Completion participant this occurs immediately after the call to it&#8217;s <code>completed</code> method returns.
+This assumes that the <code>completed</code> method does not throw an exception or call the participant manager&#8217;s <code>cannotComplete</code> or <code>fail</code> method.</p>
+</div>
+<div class="paragraph">
+<p>A participant may signal that it is capable of performing recovery processing, by implementing the <code>java.lang.Serializable</code> interface.
+An alternative is to implement the <a href="#example_persistableatparticipant"><code>PersistableATParticipant</code> Interface</a>.</p>
+</div>
+<div id="example_persistableatparticipant" class="listingblock">
+<div class="title"><code>PersistableATParticipant</code> Interface</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">interface</span> <span class="class">PersistableATParticipant</span> {
+    <span class="type">byte</span><span class="type">[]</span> getRecoveryState() <span class="directive">throws</span> <span class="exception">Exception</span>;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If a participant implements the <code>Serializable</code> interface, the XTS participant services implementation uses the serialization API to create a version of the participant which can be appended to the participant log entry.
+If it implements the <code>PersistableATParticipant</code> interface, the XTS participant services implementation call the <code>getRecoveryState</code> method to obtain the state to be appended to the participant log entry.</p>
+</div>
+<div class="paragraph">
+<p>If neither of these APIs is implemented, the XTS implementation logs a warning message and proceeds without saving any recovery state.
+In the event of a crash on the host machine for the Web service during commit, the transaction cannot be recovered and a heuristic outcome may occur.
+This outcome is logged on the host running the coordinator services.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_recovering_participants_at_reboot"><a class="anchor" href="#_recovering_participants_at_reboot"></a>Recovering Participants at Reboot</h5>
+<div class="paragraph">
+<p>A Web service must register with the XTS implementation when it is deployed, and unregister when it is undeployed, in order to participate in recovery processing.
+Registration is performed using class <code>XTSATRecoveryManager</code> defined in package <code>org.jboss.jbossts.xts.recovery.participant.at</code>.</p>
+</div>
+<div class="listingblock">
+<div class="title">Registering for Recovery</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="directive">abstract</span> <span class="type">class</span> <span class="class">XTSATRecoveryManager</span> {
+    ...
+
+    public <span class="directive">static</span> XTSATRecoveryManager getRecoveryManager();
+
+    <span class="directive">public</span> <span class="type">void</span> registerRecoveryModule(XTSATRecoveryModule module);
+
+    <span class="directive">public</span> <span class="directive">abstract</span> <span class="type">void</span> unregisterRecoveryModule(XTSATRecoveryModule module)
+            <span class="directive">throws</span> <span class="exception">NoSuchElementException</span>;
+    ...
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The Web service must provide an implementation of interface <code>XTSBARecoveryModule</code> in package <code>org.jboss.jbossts.xts.recovery.participant.ba</code>, as an argument to the <code>register</code> and <code>unregister</code> calls.
+This instance identifies saved participant recovery records and recreates new, recovered participant instances:</p>
+</div>
+<div class="listingblock">
+<div class="title"><code>XTSBARecoveryModule</code> Interface</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">interface</span> <span class="class">XTSATRecoveryModule</span> {
+    <span class="directive">public</span> Durable2PCParticipant
+    deserialize(<span class="predefined-type">String</span> id, <span class="predefined-type">ObjectInputStream</span> stream)
+            <span class="directive">throws</span> <span class="exception">Exception</span>;
+
+    <span class="directive">public</span> Durable2PCParticipant
+    recreate(<span class="predefined-type">String</span> id, <span class="type">byte</span><span class="type">[]</span> recoveryState)
+            <span class="directive">throws</span> <span class="exception">Exception</span>;
+
+    <span class="directive">public</span> <span class="type">void</span> endScan();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If a participant&#8217;s recovery state was saved using serialization, the recovery module&#8217;s <code>deserialize</code> method is called to recreate the participant.
+Normally, the recovery module is required to read, cast, and return an object from the supplied input stream.
+If a participant&#8217;s recovery state was saved using the <code>PersistableATParticipant</code> interface, the recovery module&#8217;s <code>recreate</code> method is called to recreate the participant from the byte array it provided when the state was saved.</p>
+</div>
+<div class="paragraph">
+<p>The XTS implementation cannot identify which participants belong to which recovery modules.
+A module only needs to return a participant instance if the recovery state belongs to the module&#8217;s Web service.
+If the participant was created by another Web service, the module should return <code>null</code>.
+The participant identifier, which is supplied as argument to the <code>deserialize</code> or <code>recreate</code> method, is the identifier used by the Web service when the original participant was enlisted in the transaction.
+Web Services participating in recovery processing should ensure that participant identifiers are unique per service.
+If a module recognizes that a participant identifier belongs to its Web service, but cannot recreate the participant, it should throw an exception.
+This situation might arise if the service cannot associate the participant with any transactional information which is specific to the business logic.</p>
+</div>
+<div class="paragraph">
+<p>Even if a module relies on serialization to create the participant recovery state saved by the XTS implementation, it still must be registered by the application.
+The <code>deserialization</code> operation must employ a class loader capable of loading classes specific to the Web service.
+XTS fulfills this requirement by devolving responsibility for the <code>deserialize</code> operation to the recovery module.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_ws_ba_recovery"><a class="anchor" href="#_ws_ba_recovery"></a>WS-BA Recovery</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_ws_ba_coordinator_crash_recovery"><a class="anchor" href="#_ws_ba_coordinator_crash_recovery"></a>WS-BA Coordinator Crash Recovery</h3>
+<div class="paragraph">
+<p>The WS-BA coordination service implementation tracks the status of each participant in an activity as the activity progresses through completion and closure.
+A transition point occurs during closure, once all <code>CoordinatorCompletion</code> participants receive a <code>complete</code> message and respond with a <code>completed</code> message.
+At this point, all <code>ParticipantCompletion</code> participants should have sent a <code>completed</code> message.
+The coordinator writes a log record storing the details of each participant, and indicating that the transaction is ready to close.
+If the coordinator service crashes after the log record is written, the <code>close</code> operation is still guaranteed to be successful.
+The coordinator checks the log after the system reboots and re-sends a <code>close</code> message to all participants.
+After all participants respond to the <code>close</code> with a <code>closed</code> message, the coordinator can safely delete the log entry.</p>
+</div>
+<div class="paragraph">
+<p>The coordinator does not need to account for any <code>close</code> messages sent before the crash, nor resend messages if it crashes several times.
+The XTS participant implementation is resilient to redelivery of <code>close</code> messages.
+Assuming that the participant has implemented the recovery functions described below, the coordinator can even guarantee delivery of <code>close</code> messages if both it, and one or more of the participant service hosts, crash simultaneously.</p>
+</div>
+<div class="paragraph">
+<p>If the coordination service crashes before it has written the log record, it does not need to explicitly compensate any completed participants.
+The presumed abort protocol ensures that all completed participants are eventually sent a <code>compensate</code> message.
+Recovery must be initiated from the participant side.</p>
+</div>
+<div class="paragraph">
+<p>A log record does not need to be written when an activity is being canceled.
+If a participant does not respond to a <code>cancel</code> or <code>compensate</code> request, the coordinator logs a warning and continues.
+The combination of the presumed abort protocol and participant-led recovery ensures that all participants eventually get canceled or compensated, as appropriate, even if the participant host crashes.</p>
+</div>
+<div class="paragraph">
+<p>If a completed participant does not detect a response from its coordinator after resending its <code>completed</code> response a suitable number of times, it switches to sending <code>getstatus</code> messages, to determine whether the coordinator still knows about it.
+If a crash occurs before writing the log record, the coordinator has no record of the participant when the coordinator restarts, and the <code>getstatus</code> request returns a fault.
+The participant recovery manager automatically compensates the participant in this situation, just as if the activity had been canceled by the client.</p>
+</div>
+<div class="paragraph">
+<p>After a participant crash, the participant recovery manager detects the log entries for each completed participant.
+It sends <code>getstatus</code> messages to each participant&#8217;s coordinator host, to determine whether the activity still exists.
+If the coordinator has not crashed and the activity is still running, the participant switches back to resending <code>completed</code> messages, and waits for a <code>close</code> or <code>compensate</code> response.
+If the coordinator has also crashed or the activity has been canceled, the participant is automatically canceled.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ws_ba_participant_crash_recovery_apis"><a class="anchor" href="#_ws_ba_participant_crash_recovery_apis"></a>WS-BA Participant Crash Recovery APIs</h3>
+<div class="sect3">
+<h4 id="_saving_participant_recovery_state_2"><a class="anchor" href="#_saving_participant_recovery_state_2"></a>Saving Participant Recovery State</h4>
+<div class="paragraph">
+<p>A participant may signal that it is capable of performing recovery processing, by implementing the <code>java.lang.Serializable</code> interface.
+An alternative is to implement the <a href="#example_persistablebaparticipant">`PersistableBAParticipant`Interface</a>.</p>
+</div>
+<div id="example_persistablebaparticipant" class="listingblock">
+<div class="title">`PersistableBAParticipant`Interface</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">interface</span> <span class="class">PersistableBAParticipant</span> {
+    <span class="type">byte</span><span class="type">[]</span> getRecoveryState() <span class="directive">throws</span> <span class="exception">Exception</span>;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If a participant implements the <code>Serializable</code> interface, the XTS participant services implementation uses the serialization API to create a version of the participant which can be appended to the participant log entry.
+If the participant implements the <code>PersistableBAParticipant</code>, the XTS participant services implementation call the <code>getRecoveryState</code> method to obtain the state, which is appended to the participant log entry.</p>
+</div>
+<div class="paragraph">
+<p>If neither of these APIs is implemented, the XTS implementation logs a warning message and proceeds without saving any recovery state.
+If the Web service&#8217;s host machine crashes while the activity is being closed, the activity cannot be recovered and a heuristic outcome will probably be logged on the coordinator&#8217;s host machine.
+If the activity is canceled, the participant is not compensated and the coordinator host machine may log a heuristic outcome for the activity.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_recovering_participants_at_reboot_2"><a class="anchor" href="#_recovering_participants_at_reboot_2"></a>Recovering Participants at Reboot</h4>
+<div class="paragraph">
+<p>A Web service must register with the XTS implementation when it is deployed, and unregister when it is undeployed, so it can take part in recovery processing.</p>
+</div>
+<div class="paragraph">
+<p>Registration is performed using the <code>XTSBARecoveryManager</code>, defined in the <code>org.jboss.jbossts.xts.recovery.participant.ba</code> package.</p>
+</div>
+<div class="listingblock">
+<div class="title"><code>XTSBARecoveryManager</code> Class</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="directive">abstract</span> <span class="type">class</span> <span class="class">XTSBARecoveryManager</span> {
+    ...
+
+    public <span class="directive">static</span> XTSBARecoveryManager getRecoveryManager();
+
+    <span class="directive">public</span> <span class="type">void</span> registerRecoveryModule(XTSBARecoveryModule module);
+
+    <span class="directive">public</span> <span class="directive">abstract</span> <span class="type">void</span> unregisterRecoveryModule(XTSBARecoveryModule module)
+            <span class="directive">throws</span> <span class="exception">NoSuchElementException</span>;
+    ...
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The Web service must provide an implementation of the <code>XTSBARecoveryModule</code> in the <code>org.jboss.jbossts.xts.recovery.participant.ba</code>, as an argument to the <code>register</code> and <code>unregister</code> calls.
+This instance identifies saved participant recovery records and recreates new, recovered participant instances:</p>
+</div>
+<div class="listingblock">
+<div class="title">`XTSBARecoveryModule`Interface</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">interface</span> <span class="class">XTSBARecoveryModule</span> {
+    <span class="directive">public</span> BusinessAgreementWithParticipantCompletionParticipant
+    deserializeParticipantCompletionParticipant(<span class="predefined-type">String</span> id,
+                                                <span class="predefined-type">ObjectInputStream</span> stream)
+            <span class="directive">throws</span> <span class="exception">Exception</span>;
+
+    <span class="directive">public</span> BusinessAgreementWithParticipantCompletionParticipant
+    recreateParticipantCompletionParticipant(<span class="predefined-type">String</span> id,
+                                             <span class="type">byte</span><span class="type">[]</span> recoveryState)
+            <span class="directive">throws</span> <span class="exception">Exception</span>;
+
+    <span class="directive">public</span> BusinessAgreementWithCoordinatorCompletionParticipant
+    deserializeCoordinatorCompletionParticipant(<span class="predefined-type">String</span> id,
+                                                <span class="predefined-type">ObjectInputStream</span> stream)
+            <span class="directive">throws</span> <span class="exception">Exception</span>;
+
+    <span class="directive">public</span> BusinessAgreementWithCoordinatorCompletionParticipant
+    recreateCoordinatorCompletionParticipant(<span class="predefined-type">String</span> id,
+                                             <span class="type">byte</span><span class="type">[]</span> recoveryState)
+            <span class="directive">throws</span> <span class="exception">Exception</span>;
+
+    <span class="directive">public</span> <span class="type">void</span> endScan();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If a participant&#8217;s recovery state was saved using serialization, one of the recovery module&#8217;s <code>deserialize</code> methods is called, so that it can recreate the participant.
+Which method to use depends on whether the saved participant implemented the <code>ParticipantCompletion</code> protocol or the <code>CoordinatorCompletion</code> protocol.
+Normally, the recovery module reads, casts and returns an object from the supplied input stream.
+If a participant&#8217;s recovery state was saved using the <code>PersistableBAParticipant</code> interface, one of the recovery module&#8217;s <code>recreate</code> methods is called, so that it can recreate the participant from the byte array provided when the state was saved.
+The method to use depends on which protocol the saved participant implemented.</p>
+</div>
+<div class="paragraph">
+<p>The XTS implementation does not track which participants belong to which recovery modules.
+A module is only expected to return a participant instance if it can identify that the recovery state belongs to its Web service.
+If the participant was created by some other Web service, the module should return <code>null</code>.
+The participant identifier supplied as an argument to the <code>deserialize</code> or <code>recreate</code> calls is the identifier used by the Web service when the original participant was enlisted in the transaction.
+Web Services which participate in recovery processing should ensure that the participant identifiers they employ are unique per service.
+If a module recognizes a participant identifier as belonging to its Web service, but cannot recreate the participant, it throws an exception.
+This situation might arise if the service cannot associate the participant with any transactional information specific to business logic.</p>
+</div>
+<div class="paragraph">
+<p>A module must be registered by the application, even when it relies upon serialization to create the participant recovery state saved by the XTS implementation.
+The <code>deserialization</code> operation must employ a class loader capable of loading Web service-specific classes.
+The XTS implementation achieves this by delegating responsibility for the <code>deserialize</code> operation to the recovery module.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_securing_web_service_state_changes"><a class="anchor" href="#_securing_web_service_state_changes"></a>Securing Web Service State Changes</h4>
+<div class="paragraph">
+<p>When a BA participant completes, it is expected to commit changes to the web service state made during the activity.
+The web service usually also needs to persist these changes to a local storage device.
+This leaves open a window where the persisted changes may not be guarded with the necessary compensation information.
+The web service container may crash after the changes to the service state have been written but before the XTS implementation is able to acquire the recovery state and write a recovery log record for the participant.
+Participants may close this window by employing a two phase update to the local store used to persist the web service state.</p>
+</div>
+<div class="paragraph">
+<p>A participant which needs to persist changes to local web service state should implement interface <code>ConfirmCompletedParticipant</code> in package <code>com.arjuna.wst11</code>.
+This signals to the XTS implementation that it expects confirmation after a successful write of the participant recovery record, allowing it to roll forward provisionally persisted changes to the web service state.
+Delivery of this confirmation can be guaranteed even if the web service container crashes after writing the participant log record.
+Conversely, if a recovery record cannot be written because of a fault or a crash prior to writing, the provisional changes can be guaranteed to be rolled back.</p>
+</div>
+<div class="listingblock">
+<div class="title"><code>ConfirmCompletedParticipant</code> Interface</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">interface</span> <span class="class">ConfirmCompletedParticipant</span> {
+    <span class="directive">public</span> <span class="type">void</span> confirmCompleted(<span class="type">boolean</span> confirmed);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When the participant is ready to complete, it should prepare its persistent changes by temporarily locking access to the relevant state in the local store and writing the changed data to disk, retaining both the old and new versions of the service state.
+For a Participant Completion participant, this prepare operation should be done just before calling the participant manager&#8217;s <code>completed</code> method.
+For a Coordinator Completion participant, it should be done just before returning from the call to the participant&#8217;s <code>completed</code> method.
+After writing the participant log record, the XTS implementation calls the participant&#8217;s <code>confirmCompleted</code> method, providing value <code>true</code> as the argument.
+The participant should respond by installing the provisional state changes and releasing any locks.
+If the log record cannot be written, the XTS implementation calls the participant&#8217;s <code>confirmCompleted</code> method, providing value <code>false</code> as the argument.
+The participant should respond by restoring the original state values and releasing any locks.</p>
+</div>
+<div class="paragraph">
+<p>If a crash occurs before the call to <code>confirmCompleted</code>, the application&#8217;s recovery module can make sure that the provisional changes to the web service state are rolled forward or rolled back as appropriate.
+The web service must identify all provisional writes to persistent state before it starts serving new requests or processing recovered participants.
+It must reobtain any locks required to ensure that the state is not changed by new transactions.
+When the recovery module recovers a participant from the log, its compensation information is available.
+If the participant still has prepared changes, the recovery code must call <code>confirmCompleted</code>, passing value true.
+This allows the participant to finish the <code>complete</code> operation.
+The XTS implementation then forwards a <code>completed</code> message to the coordinator, ensuring that the participant is subsequently notified either to close or to compensate.
+At the end of the first recovery scan, the recovery module may find some prepared changes on disk which are still unaccounted for.
+This means that the participant recovery record is not available.
+The recovery module should restore the original state values and release any locks.
+The XTS implementation responds to coordinator requests regarding the participant with an <code>unknown participant</code> fault, forcing the activity as a whole to be rolled back.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>

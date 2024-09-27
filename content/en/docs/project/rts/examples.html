@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>Examples</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+/*! Stylesheet for CodeRay to loosely match GitHub themes | MIT License */
+pre.CodeRay{background:#f7f7f8}
+.CodeRay .line-numbers{border-right:1px solid;opacity:.35;padding:0 .5em 0 0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+.CodeRay span.line-numbers{display:inline-block;margin-right:.75em}
+.CodeRay .line-numbers strong{color:#000}
+table.CodeRay{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.CodeRay td{vertical-align:top;line-height:inherit}
+table.CodeRay td.line-numbers{text-align:right}
+table.CodeRay td.code{padding:0 0 0 .75em}
+.CodeRay .debug{color:#fff!important;background:navy!important}
+.CodeRay .annotation{color:#007}
+.CodeRay .attribute-name{color:navy}
+.CodeRay .attribute-value{color:#700}
+.CodeRay .binary{color:#509}
+.CodeRay .comment{color:#998;font-style:italic}
+.CodeRay .char{color:#04d}
+.CodeRay .char .content{color:#04d}
+.CodeRay .char .delimiter{color:#039}
+.CodeRay .class{color:#458;font-weight:bold}
+.CodeRay .complex{color:#a08}
+.CodeRay .constant,.CodeRay .predefined-constant{color:teal}
+.CodeRay .color{color:#099}
+.CodeRay .class-variable{color:#369}
+.CodeRay .decorator{color:#b0b}
+.CodeRay .definition{color:#099}
+.CodeRay .delimiter{color:#000}
+.CodeRay .doc{color:#970}
+.CodeRay .doctype{color:#34b}
+.CodeRay .doc-string{color:#d42}
+.CodeRay .escape{color:#666}
+.CodeRay .entity{color:#800}
+.CodeRay .error{color:#808}
+.CodeRay .exception{color:inherit}
+.CodeRay .filename{color:#099}
+.CodeRay .function{color:#900;font-weight:bold}
+.CodeRay .global-variable{color:teal}
+.CodeRay .hex{color:#058}
+.CodeRay .integer,.CodeRay .float{color:#099}
+.CodeRay .include{color:#555}
+.CodeRay .inline{color:#000}
+.CodeRay .inline .inline{background:#ccc}
+.CodeRay .inline .inline .inline{background:#bbb}
+.CodeRay .inline .inline-delimiter{color:#d14}
+.CodeRay .inline-delimiter{color:#d14}
+.CodeRay .important{color:#555;font-weight:bold}
+.CodeRay .interpreted{color:#b2b}
+.CodeRay .instance-variable{color:teal}
+.CodeRay .label{color:#970}
+.CodeRay .local-variable{color:#963}
+.CodeRay .octal{color:#40e}
+.CodeRay .predefined{color:#369}
+.CodeRay .preprocessor{color:#579}
+.CodeRay .pseudo-class{color:#555}
+.CodeRay .directive{font-weight:bold}
+.CodeRay .type{font-weight:bold}
+.CodeRay .predefined-type{color:inherit}
+.CodeRay .reserved,.CodeRay .keyword{color:#000;font-weight:bold}
+.CodeRay .key{color:#808}
+.CodeRay .key .delimiter{color:#606}
+.CodeRay .key .char{color:#80f}
+.CodeRay .value{color:#088}
+.CodeRay .regexp .delimiter{color:#808}
+.CodeRay .regexp .content{color:#808}
+.CodeRay .regexp .modifier{color:#808}
+.CodeRay .regexp .char{color:#d14}
+.CodeRay .regexp .function{color:#404;font-weight:bold}
+.CodeRay .string{color:#d20}
+.CodeRay .string .string .string{background:#ffd0d0}
+.CodeRay .string .content{color:#d14}
+.CodeRay .string .char{color:#d14}
+.CodeRay .string .delimiter{color:#d14}
+.CodeRay .shell{color:#d14}
+.CodeRay .shell .delimiter{color:#d14}
+.CodeRay .symbol{color:#990073}
+.CodeRay .symbol .content{color:#a60}
+.CodeRay .symbol .delimiter{color:#630}
+.CodeRay .tag{color:teal}
+.CodeRay .tag-special{color:#d70}
+.CodeRay .variable{color:#036}
+.CodeRay .insert{background:#afa}
+.CodeRay .delete{background:#faa}
+.CodeRay .change{color:#aaf;background:#007}
+.CodeRay .head{color:#f8f;background:#505}
+.CodeRay .insert .insert{color:#080}
+.CodeRay .delete .delete{color:#800}
+.CodeRay .change .change{color:#66f}
+.CodeRay .head .head{color:#f4f}
+</style>
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>Examples</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_support_for_java_based_services">Support For Java based Services</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>The quickstarts contained in the release bundles or in the quickstart repo (<code><a href="https://github.com/jbosstm/quickstart" class="bare">https://github.com/jbosstm/quickstart</a></code>) contain examples of all the features provided by RESTAT.
+The unit tests in the source bundle are also a good resource for further examples.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_support_for_java_based_services"><a class="anchor" href="#_support_for_java_based_services"></a>Support For Java based Services</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For REST services written in Java there is a Utility class called org.jboss.jbossts.star.util.TxSupport in the source bundle (or is available at <a href="https://github.com/jbosstm/narayana" class="bare">https://github.com/jbosstm/narayana</a> ) which contains a variety of methods which help service writers to conform to the specification.
+The majority of the RESTAT quickstarts use this utility API.</p>
+</div>
+<div class="paragraph">
+<p>Alternatively, there is a RESTAT integration API for service writers.
+This API takes care of transaction enlistment and handles the responsibility for listening for transaction completion requests on HTTP endpoints from the transaction coordinator.
+Normally when a services wishes to join an existing transaction it sends a message to the coordinator containing HTTP endpoints on which it will be notified when the transaction progresses through its prepare and commit stages.
+The integration API simplifies this task and instead the service enlists a participant which implements a callback interface (<code>org.jboss.narayana.rest.integration.api.ParticipantsManager</code>).
+The API will then invoke the callback transparently (to the service) when the completion protocol begins executing.
+This makes managing participants much cleaner for the service writer.
+The service writer should implement the interface <code>org.jboss.narayana.rest.integration.api.Participant</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">interface</span> <span class="class">Participant</span> {
+    Vote prepare();
+    <span class="type">void</span> commit() <span class="directive">throws</span> HeuristicException;
+    <span class="type">void</span> commitOnePhase();
+    <span class="type">void</span> rollback() <span class="directive">throws</span> HeuristicException;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and register this implementation with the participant service manager:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">ParticipantsManagerFactory.getInstance().enlist(...);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The getInstance method on the <code>ParticipantsManagerFactory</code> returns an instance of the interface <code>ParticipantsManager</code> which is global to the (JAX-RS) application:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">interface</span> <span class="class">ParticipantsManager</span> {
+    ...
+    String enlist(<span class="predefined-type">String</span> applicationId,
+    <span class="predefined-type">String</span> participantEnlistmentURL,
+    Participant participant);
+    <span class="type">void</span> registerDeserializer(<span class="predefined-type">String</span> applicationId,
+    ParticipantDeserializer deserializer);
+    <span class="type">void</span> reportHeuristic(<span class="predefined-type">String</span> participantId,
+    HeuristicType heuristicType);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The participantEnlistmentURL in the enlist method corresponds to a running REST transaction which the service acquires during normal interactions with service clients.
+To register for completion callbacks the service writer registers an interface using the enlist method and passes in an implementation of Participant.
+For full details of this interface please refer to the javadoc for <code>org.jboss.narayana.rest.integration.api.ParticipantsManager</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Now when a service client terminates a transaction the services' callback methods will be invoked by the RESTAT coordinator which may or may not be running locally (since these are distributed transactions).
+It is interesting to note that the wildfly application server is a modular container so subsystems and applications run in their own class loaders.
+In the event of failures a recovery system will need to recreate participant callback registrations in order to complete any pending transaction and therefore will no longer have access to the original class.
+The service writer must help the recovery system in this task via the registerDeserializer call.
+The final method on the interface (reportHeuristic) is to allow services to independently abort or commit work before being asked to via the callback interface.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>For full details of this interface please refer to the javadoc for <code>org.jboss.narayana.rest.integration.api.ParticipantsManager</code></p>
+</div>
+<div class="paragraph">
+<p>The accessibility of the <code>ParticipantsManagerFactory</code> from your application depends upon whether the container contains the RTS subsystem.
+Versions of the wildfly application server from <code>8.0.0.Alpha3</code> onwards contain this subsystem so your manifest should declare a dependency on it by adding the line "Dependencies: org.jboss.narayana.rts" to the <code>MANIFEST.MF</code> file in your archive.
+For other containers you should register the dependency programatically.
+The quickstarts contain examples of how to do this for the embedded Resteasy and Jersey JAX-RS containers (look for classes called JaxrsServer in the quickstart source for <code>rts/at/service/service2 and rts/at/recovery/recovery2</code>).</p>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>

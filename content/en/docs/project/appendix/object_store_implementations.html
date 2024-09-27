@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>Object store implementations</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+/*! Stylesheet for CodeRay to loosely match GitHub themes | MIT License */
+pre.CodeRay{background:#f7f7f8}
+.CodeRay .line-numbers{border-right:1px solid;opacity:.35;padding:0 .5em 0 0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+.CodeRay span.line-numbers{display:inline-block;margin-right:.75em}
+.CodeRay .line-numbers strong{color:#000}
+table.CodeRay{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.CodeRay td{vertical-align:top;line-height:inherit}
+table.CodeRay td.line-numbers{text-align:right}
+table.CodeRay td.code{padding:0 0 0 .75em}
+.CodeRay .debug{color:#fff!important;background:navy!important}
+.CodeRay .annotation{color:#007}
+.CodeRay .attribute-name{color:navy}
+.CodeRay .attribute-value{color:#700}
+.CodeRay .binary{color:#509}
+.CodeRay .comment{color:#998;font-style:italic}
+.CodeRay .char{color:#04d}
+.CodeRay .char .content{color:#04d}
+.CodeRay .char .delimiter{color:#039}
+.CodeRay .class{color:#458;font-weight:bold}
+.CodeRay .complex{color:#a08}
+.CodeRay .constant,.CodeRay .predefined-constant{color:teal}
+.CodeRay .color{color:#099}
+.CodeRay .class-variable{color:#369}
+.CodeRay .decorator{color:#b0b}
+.CodeRay .definition{color:#099}
+.CodeRay .delimiter{color:#000}
+.CodeRay .doc{color:#970}
+.CodeRay .doctype{color:#34b}
+.CodeRay .doc-string{color:#d42}
+.CodeRay .escape{color:#666}
+.CodeRay .entity{color:#800}
+.CodeRay .error{color:#808}
+.CodeRay .exception{color:inherit}
+.CodeRay .filename{color:#099}
+.CodeRay .function{color:#900;font-weight:bold}
+.CodeRay .global-variable{color:teal}
+.CodeRay .hex{color:#058}
+.CodeRay .integer,.CodeRay .float{color:#099}
+.CodeRay .include{color:#555}
+.CodeRay .inline{color:#000}
+.CodeRay .inline .inline{background:#ccc}
+.CodeRay .inline .inline .inline{background:#bbb}
+.CodeRay .inline .inline-delimiter{color:#d14}
+.CodeRay .inline-delimiter{color:#d14}
+.CodeRay .important{color:#555;font-weight:bold}
+.CodeRay .interpreted{color:#b2b}
+.CodeRay .instance-variable{color:teal}
+.CodeRay .label{color:#970}
+.CodeRay .local-variable{color:#963}
+.CodeRay .octal{color:#40e}
+.CodeRay .predefined{color:#369}
+.CodeRay .preprocessor{color:#579}
+.CodeRay .pseudo-class{color:#555}
+.CodeRay .directive{font-weight:bold}
+.CodeRay .type{font-weight:bold}
+.CodeRay .predefined-type{color:inherit}
+.CodeRay .reserved,.CodeRay .keyword{color:#000;font-weight:bold}
+.CodeRay .key{color:#808}
+.CodeRay .key .delimiter{color:#606}
+.CodeRay .key .char{color:#80f}
+.CodeRay .value{color:#088}
+.CodeRay .regexp .delimiter{color:#808}
+.CodeRay .regexp .content{color:#808}
+.CodeRay .regexp .modifier{color:#808}
+.CodeRay .regexp .char{color:#d14}
+.CodeRay .regexp .function{color:#404;font-weight:bold}
+.CodeRay .string{color:#d20}
+.CodeRay .string .string .string{background:#ffd0d0}
+.CodeRay .string .content{color:#d14}
+.CodeRay .string .char{color:#d14}
+.CodeRay .string .delimiter{color:#d14}
+.CodeRay .shell{color:#d14}
+.CodeRay .shell .delimiter{color:#d14}
+.CodeRay .symbol{color:#990073}
+.CodeRay .symbol .content{color:#a60}
+.CodeRay .symbol .delimiter{color:#630}
+.CodeRay .tag{color:teal}
+.CodeRay .tag-special{color:#d70}
+.CodeRay .variable{color:#036}
+.CodeRay .insert{background:#afa}
+.CodeRay .delete{background:#faa}
+.CodeRay .change{color:#aaf;background:#007}
+.CodeRay .head{color:#f8f;background:#505}
+.CodeRay .insert .insert{color:#080}
+.CodeRay .delete .delete{color:#800}
+.CodeRay .change .change{color:#66f}
+.CodeRay .head .head{color:#f4f}
+</style>
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>Object store implementations</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_the_objectstore">The ObjectStore</a>
+<ul class="sectlevel2">
+<li><a href="#_persistent_object_stores">Persistent object stores</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_the_objectstore"><a class="anchor" href="#_the_objectstore"></a>The ObjectStore</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This appendix examines the various ArjunaCore object store implementations and gives guidelines for creating other implementations and plugging into an application.</p>
+</div>
+<div class="paragraph">
+<p>This release of Narayana contains several different implementations of a basic object store.
+Each serves a particular purpose and is generally optimized for that purpose.
+Each of the implementations implements the <code>ObjectStoreAPI</code> interface, which defines the minimum operations which must be provided for an object store implementation to be used by the Transaction Service.
+You can override the default object store implementation at runtime by setting the <code>com.arjuna.ats.arjuna.objectstore.objectStoreType</code> property variable to one of the types described below.</p>
+</div>
+<div class="listingblock">
+<div class="title">Class <code>StateStatus</code></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">/*
+ * This is the base class from which all object store types are derived.
+ * Note that because object store instances are stateless, to improve
+ * efficiency we try to only create one instance of each type per process.
+ * Therefore, the create and destroy methods are used instead of new
+ * and delete. If an object store is accessed via create it *must* be
+ * deleted using destroy. Of course it is still possible to make use of
+ * new and delete directly and to create instances on the stack.
+ */</span>
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">StateStatus</span> {
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> OS_ORIGINAL;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> OS_SHADOW;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> OS_UNCOMMITTED;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> OS_UNCOMMITTED_HIDDEN;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> OS_UNKNOWN;
+}
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">StateType</span> {
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> OS_COMMITTED;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> OS_COMMITTED_HIDDEN;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> OS_HIDDEN;
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> OS_INVISIBLE;
+}
+
+<span class="directive">public</span> <span class="directive">abstract</span> <span class="type">class</span> <span class="class">ObjectStore</span> <span class="directive">implements</span> BaseStore, ParticipantStore, RecoveryStore, TxLog {
+    <span class="directive">public</span> ObjectStore(<span class="predefined-type">String</span> osRoot);
+
+    <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> printState(<span class="predefined-type">PrintStream</span> strm, <span class="type">int</span> res);
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> allObjUids(<span class="predefined-type">String</span> s, InputObjectState buff) <span class="directive">throws</span> ObjectStoreException;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> allObjUids(<span class="predefined-type">String</span> s, InputObjectState buff, <span class="type">int</span> m) <span class="directive">throws</span> ObjectStoreException;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> allTypes(InputObjectState buff) <span class="directive">throws</span> ObjectStoreException;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">int</span> currentState(Uid u, <span class="predefined-type">String</span> tn) <span class="directive">throws</span> ObjectStoreException;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> commit_state(Uid u, <span class="predefined-type">String</span> tn) <span class="directive">throws</span> ObjectStoreException;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> hide_state(Uid u, <span class="predefined-type">String</span> tn) <span class="directive">throws</span> ObjectStoreException;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> reveal_state(Uid u, <span class="predefined-type">String</span> tn) <span class="directive">throws</span> ObjectStoreException;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> InputObjectState read_committed(Uid u, <span class="predefined-type">String</span> tn) <span class="directive">throws</span> ObjectStoreException;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> InputObjectState read_uncommitted(Uid u, <span class="predefined-type">String</span> tn) <span class="directive">throws</span> ObjectStoreException;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> remove_committed(Uid u, <span class="predefined-type">String</span> tn) <span class="directive">throws</span> ObjectStoreException;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> remove_uncommitted(Uid u, <span class="predefined-type">String</span> tn) <span class="directive">throws</span> ObjectStoreException;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> write_committed(Uid u, <span class="predefined-type">String</span> tn, OutputObjectState buff) <span class="directive">throws</span> ObjectStoreException;
+
+    <span class="directive">public</span> <span class="directive">synchronized</span> <span class="type">boolean</span> write_uncommitted(Uid u, <span class="predefined-type">String</span> tn, OutputObjectState buff) <span class="directive">throws</span> ObjectStoreException;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Narayana programmers do not usually need to interact with any of the object store implementations directly, apart from possibly creating them in the first place.
+Even this is not necessary if the default store type is used, since Narayana creates stores as necessary.
+All stores manipulate instances of the class <code>ObjectState</code>.
+These instances are named using a <code>type</code> (via the object&#8217;s <code>type()</code> operation) and a <em class="path">Uid</em> .</p>
+</div>
+<div class="paragraph">
+<p>For atomic actions purposes, object states in the store can be principally in two distinct states: <code>OS_COMMITTED</code> or <code>OS_UNCOMMITTED</code>.
+An object state starts in the <code>OS_COMMITTED</code> state, but when it is modified under the control of an atomic action, a new second object state may be written that is in the <code>OS_UNCOMMITTED</code> state.
+If the action commits, this second object state replaces the original and becomes <code>OS_COMMITTED</code>.
+If the action aborts, this second object state is discarded.
+All of the implementations provided with this release handle these state transitions by making use of shadow copies of object states.
+However, any other implementation that maintains this abstraction is permissible.</p>
+</div>
+<div class="paragraph">
+<p>Object states may become hidden, and thus inaccessible, under the control of the crash recovery system.</p>
+</div>
+<div class="paragraph">
+<p>You can browse the contents of a store through the <code>allTypes</code> and <code>allObjUids</code> operations. <code>allTypes</code> returns an <code>InputObjectState</code> containing all of the type names of all objects in a store, terminated by a <code>null</code> name.
+<code>allObjUids</code> returns an <code>InputObjectState</code> containing all of the <code>Uids</code> of all objects of a given type, terminated by the special <code>Uid.nullUid()</code>.</p>
+</div>
+<div class="sect2">
+<h3 id="_persistent_object_stores"><a class="anchor" href="#_persistent_object_stores"></a>Persistent object stores</h3>
+<div class="paragraph">
+<p>This section briefly describes the characteristics and optimizations of each of the supplied implementations of the persistent object store.
+Persistent object states are mapped onto the structure of the file system supported by the host operating system.</p>
+</div>
+<div class="sect3">
+<h4 id="_common_functionality"><a class="anchor" href="#_common_functionality"></a>Common functionality</h4>
+<div class="paragraph">
+<p>In addition to the features mentioned earlier, all of the supplied persistent object stores obey the following rules:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Each object state is stored in its own file, which is named using the Uid of the object.</p>
+</li>
+<li>
+<p>The type of an object, as given by the <code>type()</code> operation, determines the directory into which the object is placed.</p>
+</li>
+<li>
+<p>All of the stores have a common root directory that is determined when Narayana is configured.
+This directory name is automatically prepended to any store-specific root information.</p>
+</li>
+<li>
+<p>All stores also have the notion of a localized root directory that is automatically prepended to the type of the object to determine the ultimate directory name.
+The localized root name is specified when the store is created.
+The default name is <code>defaultStore</code>.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="text">&lt;ObjectStore root Directory from configure&gt;     &lt;filename&gt;/JBossTS/ObjectStore/&lt;/filename&gt;
+   &lt;ObjectStore Type1&gt;                          &lt;filename&gt;FragmentedStore/&lt;/filename&gt;
+      &lt;Default root&gt;                            &lt;filename&gt;defaultStore/&lt;/filename&gt;
+         &lt;StateManager&gt;                         &lt;filename&gt;StateManager&lt;/filename&gt;
+            &lt;LockManager&gt;                       &lt;filename&gt;LockManager/&lt;/filename&gt;
+               &lt;User Types&gt;
+      &lt;Localised root 2&gt;                        &lt;filename&gt;myStore/&lt;/filename&gt;
+         &lt;StateManager&gt;                         &lt;filename&gt;StateManager/&lt;/filename&gt;
+
+   &lt;ObjectStore Type2&gt;                          &lt;filename&gt;ActionStore/&lt;/filename&gt;
+         &lt;Default root&gt;                         &lt;filename&gt;defaultStore/&lt;/filename&gt;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_the_shadowing_store"><a class="anchor" href="#_the_shadowing_store"></a>The shadowing store</h4>
+<div class="paragraph">
+<p>The shadowing store is the original version of the object store, which was provided in prior releases.
+It is implemented by the class <code>ShadowingStore</code>.
+It is simple but slow.
+It uses pairs of files to represent objects.
+One file is the shadow version and the other is the committed version.
+Files are opened, locked, operated upon, unlocked, and closed on every interaction with the object store.
+This causes a lot of I/O overhead.</p>
+</div>
+<div class="paragraph">
+<p>If you are overriding the object store implementation, the type of this object store is <code>ShadowingStore</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_no_file_level_locking"><a class="anchor" href="#_no_file_level_locking"></a>No file-level locking</h4>
+<div class="paragraph">
+<p>Since transactional objects are concurrency-controlled through <code>LockManager</code>, you do not need to impose additional locking at the file level.
+The basic ShadowingStore implementation handles file-level locking.
+Therefore, the default object store implementation for Narayana, <em class="path">ShadowNoFileLockStore</em>, relies upon user-level locking.
+This enables it to provide better performance than the <em class="path">ShadowingStore</em> implementation.</p>
+</div>
+<div class="paragraph">
+<p>If you are overriding the object store implementation, the type of this object store is <code>ShadowNoFileLockStore</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_the_hashed_store"><a class="anchor" href="#_the_hashed_store"></a>The hashed store</h4>
+<div class="paragraph">
+<p>The HashedStore has the same structure for object states as the ShadowingStore, but has an alternate directory structure that is better suited to storing large numbers of objects of the same type.
+Using this store, objects are scattered among a set of directories by applying a hashing function to the object&#8217;s Uid.
+By default, 255 sub-directories are used.
+However, you can override this by setting the <code>ObjectStoreEnvironmentBean.hashedDirectories</code> environment variable accordingly.</p>
+</div>
+<div class="paragraph">
+<p>If you are overriding the object store implementation, the type of this object store is <code>HashedStore</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_the_jdbc_store"><a class="anchor" href="#_the_jdbc_store"></a>The JDBC store</h4>
+<div class="paragraph">
+<p>The JDBCStore uses a JDBC database to save persistent object states.
+When used in conjunction with the Transactional Objects for Java API, nested transaction support is available.
+In the current implementation, all object states are stored as <em class="term">Binary Large Objects (BLOBs)</em> within the same table.
+The limitation on object state size imposed by using BLOBs is <code>64k</code>.
+If you try to store an object state which exceeds this limit, an error is generated and the state is not stored.
+The transaction is subsequently forced to roll back.</p>
+</div>
+<div class="paragraph">
+<p>When using the JDBC object store, the application must provide an implementation of the <code>JDBCAccess</code> interface, located in the <code>com.arjuna.ats.arjuna.objectstore</code> package:</p>
+</div>
+<div class="listingblock">
+<div class="title">Interface <code>JDBCAccess</code></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">interface</span> <span class="class">JDBCAccess</span> {
+    <span class="directive">public</span> <span class="predefined-type">Connection</span> getConnection() <span class="directive">throws</span> <span class="exception">SQLException</span>;
+
+    <span class="directive">public</span> <span class="type">void</span> putConnection(<span class="predefined-type">Connection</span> conn) <span class="directive">throws</span> <span class="exception">SQLException</span>;
+
+    <span class="directive">public</span> <span class="type">void</span> initialise(<span class="predefined-type">Object</span><span class="type">[]</span> objName);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The implementation of this class is responsible for providing the <code>Connection</code> which the JDBC ObjectStore uses to save and restore object states:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>getConnection</code></dt>
+<dd>
+<p>Returns the Connection to use.
+This method is called whenever a connection is required, and the implementation should use whatever policy is necessary for determining what connection to return.
+This method need not return the same <code>Connection</code> instance more than once.</p>
+</dd>
+<dt class="hdlist1">putConnection</dt>
+<dd>
+<p>Returns one of the <code>Connections</code> acquired from <code>getConnection</code>.
+Connections are returned if any errors occur when using them.</p>
+</dd>
+<dt class="hdlist1">initialise</dt>
+<dd>
+<p>Used to pass additional arbitrary information to the implementation.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>The JDBC object store initially requests the number of <code>Connections</code> defined in the <code>ObjectStoreEnvironmentBean.jdbcPoolSizeInitial</code> property and will use no more than defined in the <code>ObjectStoreEnvironmentBean.jdbcPoolSizeMaximum</code> property.</p>
+</div>
+<div class="paragraph">
+<p>The implementation of the <code>JDBCAccess</code> interface to use should be set in the <code>ObjectStoreEnvironmentBean.jdbcUserDbAccessClassName</code> property variable.</p>
+</div>
+<div class="paragraph">
+<p>If overriding the object store implementation, the type of this object store is <code>JDBCStore</code>.</p>
+</div>
+<div class="paragraph">
+<p>A JDBC object store can be used for managing the transaction log.
+In this case, the transaction log implementation should be set to <code>JDBCActionStore</code> and the <code>JDBCAccess</code> implementation must be provided via the <code>ObjectStoreEnvironmentBean.jdbcTxDbAccessClassName</code> property variable.
+In this case, the default table name is <em class="path">JBossTSTxTable</em> .</p>
+</div>
+<div class="paragraph">
+<p>You can use the same <code>JDBCAccess</code> implementation for both the user object store and the transaction log.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_the_cached_store"><a class="anchor" href="#_the_cached_store"></a>The cached store</h4>
+<div class="paragraph">
+<p>This object store uses the hashed object store, but does not read or write states to the persistent backing store immediately.
+It maintains the states in a volatile memory cache and either flushes the cache periodically or when it is full.
+The failure semantics associated with this object store are different from the normal persistent object stores, because a failure could result in states in the cache being lost.</p>
+</div>
+<div class="paragraph">
+<p>If overriding the object store implementation, the type of this object store is <code>CacheStore</code>.</p>
+</div>
+<div class="dlist">
+<div class="title">Configuration Properties</div>
+<dl>
+<dt class="hdlist1">ObjectStoreEnvironmentBean.cacheStoreHash</dt>
+<dd>
+<p>sets the number of internal stores to hash the states over.
+The default value is 128.</p>
+</dd>
+<dt class="hdlist1">ObjectStoreEnvironmentBean.cacheStoreSize</dt>
+<dd>
+<p>the maximum size the cache can reach before a flush is triggered.
+The default is 10240 bytes.</p>
+</dd>
+<dt class="hdlist1">ObjectStoreEnvironmentBean.cacheStoreRemovedItems</dt>
+<dd>
+<p>the maximum number of removed items that the cache can contain before a flush is triggered.
+By default, calls to remove a state that is in the cache will simply remove the state from the cache, but leave a blank entry (rather than remove the entry immediately, which would affect the performance of the cache).
+When triggered, these entries are removed from the cache.
+The default value is twice the size of the hash.</p>
+</dd>
+<dt class="hdlist1">ObjectStoreEnvironmentBean.cacheStoreWorkItems</dt>
+<dd>
+<p>the maximum number of items that are allowed to build up in the cache before it is flushed.
+The default value is 100.
+<code>ObjectStoreEnvironmentBean.cacheStoreScanPeriod</code> sets the time in milliseconds for periodically flushing the cache.
+The default is 120 seconds.</p>
+</dd>
+<dt class="hdlist1">ObjectStoreEnvironmentBean.cacheStoreSync</dt>
+<dd>
+<p>determines whether flushes of the cache are sync-ed to disk.
+The default is <code>OFF</code>.
+To enable, set to <code>ON</code>.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_logstore"><a class="anchor" href="#_logstore"></a>LogStore</h4>
+<div class="paragraph">
+<p>This implementation is based on a traditional transaction log.
+All transaction states within the same process (VM instance) are written to the same log (file), which is an append-only entity.
+When transaction data would normally be deleted, at the end of the transaction, a <em class="path">delete</em> record is added to the log instead.
+Therefore, the log just keeps growing.
+Periodically a thread runs to prune the log of entries that have been deleted.</p>
+</div>
+<div class="paragraph">
+<p>A log is initially given a maximum capacity beyond which it cannot grow.
+After it reaches this size, the system creates a new log for transactions that could not be accommodated in the original log.
+The new log and the old log are pruned as usual.
+During the normal execution of the transaction system, there may be an arbitrary number of log instances.
+These should be garbage collected by the system,(or the recovery sub-system, eventually.</p>
+</div>
+<div class="paragraph">
+<p>Check the Configuration Options table for how to configure the LogStore.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>

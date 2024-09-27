@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>Constructing a Transactional Objects for Java application</title>
+<style>
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+h6 > .content > .title,h7,h8,h9 {
+    font-family:"Open Sans","DejaVu Sans",sans-serif;
+    font-weight:normal;
+    font-size:.85em;
+    font-style:normal;
+    color:#ba8425;
+    text-rendering:optimizeLegibility;
+    margin-top:1em;
+    margin-bottom:1em;
+    line-height:2em
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+/*! Stylesheet for CodeRay to loosely match GitHub themes | MIT License */
+pre.CodeRay{background:#f7f7f8}
+.CodeRay .line-numbers{border-right:1px solid;opacity:.35;padding:0 .5em 0 0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+.CodeRay span.line-numbers{display:inline-block;margin-right:.75em}
+.CodeRay .line-numbers strong{color:#000}
+table.CodeRay{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.CodeRay td{vertical-align:top;line-height:inherit}
+table.CodeRay td.line-numbers{text-align:right}
+table.CodeRay td.code{padding:0 0 0 .75em}
+.CodeRay .debug{color:#fff!important;background:navy!important}
+.CodeRay .annotation{color:#007}
+.CodeRay .attribute-name{color:navy}
+.CodeRay .attribute-value{color:#700}
+.CodeRay .binary{color:#509}
+.CodeRay .comment{color:#998;font-style:italic}
+.CodeRay .char{color:#04d}
+.CodeRay .char .content{color:#04d}
+.CodeRay .char .delimiter{color:#039}
+.CodeRay .class{color:#458;font-weight:bold}
+.CodeRay .complex{color:#a08}
+.CodeRay .constant,.CodeRay .predefined-constant{color:teal}
+.CodeRay .color{color:#099}
+.CodeRay .class-variable{color:#369}
+.CodeRay .decorator{color:#b0b}
+.CodeRay .definition{color:#099}
+.CodeRay .delimiter{color:#000}
+.CodeRay .doc{color:#970}
+.CodeRay .doctype{color:#34b}
+.CodeRay .doc-string{color:#d42}
+.CodeRay .escape{color:#666}
+.CodeRay .entity{color:#800}
+.CodeRay .error{color:#808}
+.CodeRay .exception{color:inherit}
+.CodeRay .filename{color:#099}
+.CodeRay .function{color:#900;font-weight:bold}
+.CodeRay .global-variable{color:teal}
+.CodeRay .hex{color:#058}
+.CodeRay .integer,.CodeRay .float{color:#099}
+.CodeRay .include{color:#555}
+.CodeRay .inline{color:#000}
+.CodeRay .inline .inline{background:#ccc}
+.CodeRay .inline .inline .inline{background:#bbb}
+.CodeRay .inline .inline-delimiter{color:#d14}
+.CodeRay .inline-delimiter{color:#d14}
+.CodeRay .important{color:#555;font-weight:bold}
+.CodeRay .interpreted{color:#b2b}
+.CodeRay .instance-variable{color:teal}
+.CodeRay .label{color:#970}
+.CodeRay .local-variable{color:#963}
+.CodeRay .octal{color:#40e}
+.CodeRay .predefined{color:#369}
+.CodeRay .preprocessor{color:#579}
+.CodeRay .pseudo-class{color:#555}
+.CodeRay .directive{font-weight:bold}
+.CodeRay .type{font-weight:bold}
+.CodeRay .predefined-type{color:inherit}
+.CodeRay .reserved,.CodeRay .keyword{color:#000;font-weight:bold}
+.CodeRay .key{color:#808}
+.CodeRay .key .delimiter{color:#606}
+.CodeRay .key .char{color:#80f}
+.CodeRay .value{color:#088}
+.CodeRay .regexp .delimiter{color:#808}
+.CodeRay .regexp .content{color:#808}
+.CodeRay .regexp .modifier{color:#808}
+.CodeRay .regexp .char{color:#d14}
+.CodeRay .regexp .function{color:#404;font-weight:bold}
+.CodeRay .string{color:#d20}
+.CodeRay .string .string .string{background:#ffd0d0}
+.CodeRay .string .content{color:#d14}
+.CodeRay .string .char{color:#d14}
+.CodeRay .string .delimiter{color:#d14}
+.CodeRay .shell{color:#d14}
+.CodeRay .shell .delimiter{color:#d14}
+.CodeRay .symbol{color:#990073}
+.CodeRay .symbol .content{color:#a60}
+.CodeRay .symbol .delimiter{color:#630}
+.CodeRay .tag{color:teal}
+.CodeRay .tag-special{color:#d70}
+.CodeRay .variable{color:#036}
+.CodeRay .insert{background:#afa}
+.CodeRay .delete{background:#faa}
+.CodeRay .change{color:#aaf;background:#007}
+.CodeRay .head{color:#f8f;background:#505}
+.CodeRay .insert .insert{color:#080}
+.CodeRay .delete .delete{color:#800}
+.CodeRay .change .change{color:#66f}
+.CodeRay .head .head{color:#f4f}
+</style>
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>Constructing a Transactional Objects for Java application</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_development_phases_of_a_arjunacore_application">Development Phases of a ArjunaCore Application</a></li>
+<li><a href="#_queue_description">Queue description</a></li>
+<li><a href="#_constructors_and_finalizers">Constructors and finalizers</a></li>
+<li><a href="#_required_methods">Required methods</a>
+<ul class="sectlevel2">
+<li><a href="#_save_state_restore_state_and_type"><code>save_state</code>, <code>restore_state</code>, and <code>type</code></a></li>
+<li><a href="#_enqueueand_dequeue_methods"><code>enqueue`and `dequeue</code> methods</a></li>
+<li><a href="#_queuesize_method"><code>queueSize</code> method</a></li>
+<li><a href="#_inspectvalue_and_setvalue_methods"><code>inspectValue</code> and <code>setValue</code> methods</a></li>
+</ul>
+</li>
+<li><a href="#_the_client">The client</a></li>
+<li><a href="#_comments">Comments</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_development_phases_of_a_arjunacore_application"><a class="anchor" href="#_development_phases_of_a_arjunacore_application"></a>Development Phases of a ArjunaCore Application</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>First, develop new classes with characteristics like persistence, recoverability, and concurrency control.</p>
+</li>
+<li>
+<p>Then develop the applications that make use of the new classes of objects.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Although these two phases may be performed in parallel and by a single person, this guide refers to the first step as the job of the class developer, and the second as the job of the applications developer.
+The class developer defines appropriate <code>save_state</code> and <code>restore_state</code> operations for the class, sets appropriate locks in operations, and invokes the appropriate ArjunaCore class constructors.
+The applications developer defines the general structure of the application, particularly with regard to the use of atomic actions.</p>
+</div>
+<div class="paragraph">
+<p>This chapter outlines a simple application, a simple FIFO Queue class for integer values.
+The Queue is implemented with a doubly linked list structure, and is implemented as a single object.
+This example is used throughout the rest of this manual to illustrate the various mechanisms provided by ArjunaCore.
+Although this is an unrealistic example application, it illustrates all of the ArjunaCore modifications without requiring in depth knowledge of the application code.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The application is assumed not to be distributed.
+To allow for distribution, context information must be propagated either implicitly or explicitly.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_queue_description"><a class="anchor" href="#_queue_description"></a>Queue description</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The queue is a traditional FIFO queue, where elements are added to the front and removed from the back.
+The operations provided by the queue class allow the values to be placed on to the queue (<code>enqueue</code>) and to be removed from it (<code>dequeue</code>), and values of elements in the queue can also be changed or inspected.
+In this example implementation, an array represents the queue.
+A limit of <code>QUEUE_SIZE</code> elements has been imposed for this example.</p>
+</div>
+<div class="listingblock">
+<div class="title">Java interface definition of class <code>queue</code></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">TransactionalQueue</span> <span class="directive">extends</span> LockManager {
+    <span class="comment">// maximum size of the queue</span>
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> QUEUE_SIZE = <span class="integer">40</span>;
+    <span class="directive">private</span> <span class="type">int</span> numberOfElements;
+
+    <span class="directive">public</span> TransactionalQueue(Uid uid);
+
+    <span class="directive">public</span> TransactionalQueue();
+
+    <span class="directive">public</span> <span class="type">void</span> finalize();
+
+    <span class="directive">public</span> <span class="type">void</span> enqueue(<span class="type">int</span> v) <span class="directive">throws</span> OverFlow, UnderFlow, QueueError, Conflict;
+
+    <span class="directive">public</span> <span class="type">int</span> dequeue() <span class="directive">throws</span> OverFlow, UnderFlow, QueueError, Conflict;
+
+    <span class="directive">public</span> <span class="type">int</span> queueSize();
+
+    <span class="directive">public</span> <span class="type">int</span> inspectValue(<span class="type">int</span> i) <span class="directive">throws</span> OverFlow, UnderFlow, QueueError, Conflict;
+
+    <span class="directive">public</span> <span class="type">void</span> setValue(<span class="type">int</span> i, <span class="type">int</span> v) <span class="directive">throws</span> OverFlow, UnderFlow, QueueError, Conflict;
+
+    <span class="directive">public</span> <span class="type">boolean</span> save_state(OutputObjectState os, <span class="type">int</span> ObjectType);
+
+    <span class="directive">public</span> <span class="type">boolean</span> restore_state(InputObjectState os, <span class="type">int</span> ObjectType);
+
+    <span class="directive">private</span> <span class="type">int</span>[QUEUE_SIZE] elements;
+
+    <span class="directive">public</span> <span class="predefined-type">String</span> type();
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_constructors_and_finalizers"><a class="anchor" href="#_constructors_and_finalizers"></a>Constructors and finalizers</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Using an existing persistent object requires the use of a special constructor that takes the Uid of the persistent object, as shown in <a href="#example_transactionalqueue">Class <code>TransactionalQueue</code></a>.</p>
+</div>
+<div id="example_transactionalqueue" class="listingblock">
+<div class="title">Class <code>TransactionalQueue</code></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">The constructor
+persistent o
+that createsbject
+<span class="directive">public</span> Tra
+a <span class="keyword">new</span>
+is similarnsactionalQueue(Uid u) {
+    <span class="local-variable">super</span>(u);
+
+    numberOfElements = <span class="integer">0</span>;
+}:
+
+<span class="directive">public</span> TransactionalQueue() {
+    <span class="local-variable">super</span>(ObjectType.ANDPERSISTENT);
+
+    numberOfElements = <span class="integer">0</span>;
+
+    <span class="keyword">try</span> {
+        AtomicAction A = <span class="keyword">new</span> AtomicAction();
+
+        <span class="comment">// Try to start atomic action</span>
+        A.begin(<span class="integer">0</span>);
+
+        <span class="comment">// Try to set lock</span>
+
+        <span class="keyword">if</span> (setlock(<span class="keyword">new</span> <span class="predefined-type">Lock</span>(LockMode.WRITE), <span class="integer">0</span>) == LockResult.GRANTED) {
+            <span class="comment">// Commit</span>
+            A.commit(<span class="predefined-constant">true</span>);
+        } <span class="keyword">else</span>
+            <span class="comment">// Lock refused so abort the atomic action</span>
+            A.rollback();
+    } <span class="keyword">catch</span> (<span class="exception">Exception</span> e) {
+        <span class="predefined-type">System</span>.err.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Object construction error: </span><span class="delimiter">&quot;</span></span>+e);
+        <span class="predefined-type">System</span>.exit(<span class="integer">1</span>);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The use of an atomic action within the constructor for a new object follows the guidelines outlined earlier and ensures that the object’s state will be written to the object store when the appropriate top level atomic action commits (which will either be the action A or some enclosing action active when the TransactionalQueue was constructed).
+The use of atomic actions in a constructor is simple: an action must first be declared and its begin operation invoked; the operation must then set an appropriate lock on the object (in this case a WRITE lock must be acquired), then the main body of the constructor is executed.
+If this is successful the atomic action can be committed, otherwise it is aborted.</p>
+</div>
+<div class="paragraph">
+<p>The finalizer of the <code>queue</code> class is only required to call the <code>terminate</code> and <code>finalizer</code> operations of <code>LockManager</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">void</span> finalize() {
+    <span class="local-variable">super</span>.terminate();
+    <span class="local-variable">super</span>.finalize();
+}     </code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_required_methods"><a class="anchor" href="#_required_methods"></a>Required methods</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_save_state_restore_state_and_type"><a class="anchor" href="#_save_state_restore_state_and_type"></a><code>save_state</code>, <code>restore_state</code>, and <code>type</code></h3>
+<div class="listingblock">
+<div class="title">Method <code>save_state</code></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">boolean</span> save_state(OutputObjectState os, <span class="type">int</span> ObjectType) {
+    <span class="keyword">if</span> (!<span class="local-variable">super</span>.save_state(os, ObjectType))
+        <span class="keyword">return</span> <span class="predefined-constant">false</span>;
+
+    <span class="keyword">try</span> {
+        os.packInt(numberOfElements);
+
+        <span class="keyword">if</span> (numberOfElements &gt; <span class="integer">0</span>) {
+            <span class="keyword">for</span> (<span class="type">int</span> i = <span class="integer">0</span>; i &lt; numberOfElements; i++)
+                os.packInt(elements[i]);
+        }
+
+        <span class="keyword">return</span> <span class="predefined-constant">true</span>;
+    } <span class="keyword">catch</span> (<span class="exception">IOException</span> e) {
+        <span class="keyword">return</span> <span class="predefined-constant">false</span>;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Method <code>restore_state</code></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">boolean</span> restore_state(InputObjectState os, <span class="type">int</span> ObjectType) {
+    <span class="keyword">if</span> (!<span class="local-variable">super</span>.restore_state(os, ObjectType))
+        <span class="keyword">return</span> <span class="predefined-constant">false</span>;
+
+    <span class="keyword">try</span> {
+        numberOfElements = os.unpackInt();
+
+        <span class="keyword">if</span> (numberOfElements &gt; <span class="integer">0</span>) {
+            <span class="keyword">for</span> (<span class="type">int</span> i = <span class="integer">0</span>; i &lt; numberOfElements; i++)
+                elements[i] = os.unpackInt();
+        }
+
+        <span class="keyword">return</span> <span class="predefined-constant">true</span>;
+    } <span class="keyword">catch</span> (<span class="exception">IOException</span> e) {
+        <span class="keyword">return</span> <span class="predefined-constant">false</span>;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="exampleblock">
+<div class="title">Example 1. Method <code>type</code></div>
+<div class="content">
+<div class="paragraph">
+<p>Because the Queue class is derived from the LockManager class, the operation type should be:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="predefined-type">String</span> type() {
+    <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">/StateManager/LockManager/TransactionalQueue</span><span class="delimiter">&quot;</span></span>;
+}       </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_enqueueand_dequeue_methods"><a class="anchor" href="#_enqueueand_dequeue_methods"></a><code>enqueue`and `dequeue</code> methods</h3>
+<div class="paragraph">
+<p>If the operations of the <code>queue</code> class are to be coded as atomic actions, then the enqueue operation might have the structure given below.
+The <code>dequeue</code> operation is similarly structured, but is not implemented here.</p>
+</div>
+<div class="listingblock">
+<div class="title">Method <code>enqueue</code></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">void</span> enqueue(<span class="type">int</span> v) <span class="directive">throws</span> OverFlow, UnderFlow, QueueError {
+    AtomicAction A = <span class="keyword">new</span> AtomicAction();
+    <span class="type">boolean</span> res = <span class="predefined-constant">false</span>;
+
+    <span class="keyword">try</span> {
+        A.begin(<span class="integer">0</span>);
+
+        <span class="keyword">if</span> (setlock(<span class="keyword">new</span> <span class="predefined-type">Lock</span>(LockMode.WRITE), <span class="integer">0</span>) == LockResult.GRANTED) {
+            <span class="keyword">if</span> (numberOfElements &lt; QUEUE_SIZE) {
+                elements[numberOfElements] = v;
+                numberOfElements++;
+                res = <span class="predefined-constant">true</span>;
+            } <span class="keyword">else</span> {
+                A.rollback();
+                <span class="keyword">throw</span> <span class="keyword">new</span> UnderFlow();
+            }
+        }
+
+        <span class="keyword">if</span> (res)
+            A.commit(<span class="predefined-constant">true</span>);
+        <span class="keyword">else</span> {
+            A.rollback();
+            <span class="keyword">throw</span> <span class="keyword">new</span> Conflict();
+        }
+    } <span class="keyword">catch</span> (<span class="exception">Exception</span> e1) {
+        <span class="keyword">throw</span> <span class="keyword">new</span> QueueError();
+    }
+}       </code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_queuesize_method"><a class="anchor" href="#_queuesize_method"></a><code>queueSize</code> method</h3>
+<div class="listingblock">
+<div class="title">Method <code>queueSize</code></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">int</span> queueSize() <span class="directive">throws</span> QueueError, Conflict {
+    AtomicAction A = <span class="keyword">new</span> AtomicAction();
+    <span class="type">int</span> size = -<span class="integer">1</span>;
+
+    <span class="keyword">try</span> {
+        A.begin(<span class="integer">0</span>);
+
+        <span class="keyword">if</span> (setlock(<span class="keyword">new</span> <span class="predefined-type">Lock</span>(LockMode.READ), <span class="integer">0</span>) == LockResult.GRANTED)
+            size = numberOfElements;
+
+        <span class="keyword">if</span> (size != -<span class="integer">1</span>)
+            A.commit(<span class="predefined-constant">true</span>);
+        <span class="keyword">else</span> {
+            A.rollback();
+
+            <span class="keyword">throw</span> <span class="keyword">new</span> Conflict();
+        }
+    } <span class="keyword">catch</span> (<span class="exception">Exception</span> e1) {
+        <span class="keyword">throw</span> <span class="keyword">new</span> QueueError();
+    }
+
+    <span class="keyword">return</span> size;
+}       </code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_inspectvalue_and_setvalue_methods"><a class="anchor" href="#_inspectvalue_and_setvalue_methods"></a><code>inspectValue</code> and <code>setValue</code> methods</h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The <code>setValue</code> method is not implemented here, but is similar in structure to <a href="#example_queue_inspectvalue">Method <code>inspectValue</code></a> .</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="example_queue_inspectvalue" class="listingblock">
+<div class="title">Method <code>inspectValue</code></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">int</span> inspectValue(<span class="type">int</span> index) <span class="directive">throws</span> UnderFlow,
+        OverFlow, Conflict, QueueError {
+    AtomicAction A = <span class="keyword">new</span> AtomicAction();
+    <span class="type">boolean</span> res = <span class="predefined-constant">false</span>;
+    <span class="type">int</span> val = -<span class="integer">1</span>;
+
+    <span class="keyword">try</span> {
+        A.begin();
+
+        <span class="keyword">if</span> (setlock(<span class="keyword">new</span> <span class="predefined-type">Lock</span>(LockMode.READ), <span class="integer">0</span>) == LockResult.GRANTED) {
+            <span class="keyword">if</span> (index &lt; <span class="integer">0</span>) {
+                A.rollback();
+                <span class="keyword">throw</span> <span class="keyword">new</span> UnderFlow();
+            } <span class="keyword">else</span> {
+                <span class="comment">// array is 0 - numberOfElements -1</span>
+
+                <span class="keyword">if</span> (index &gt; numberOfElements - <span class="integer">1</span>) {
+                    A.rollback();
+                    <span class="keyword">throw</span> <span class="keyword">new</span> OverFlow();
+                } <span class="keyword">else</span> {
+                    val = elements[index];
+                    res = <span class="predefined-constant">true</span>;
+                }
+            }
+        }
+
+        <span class="keyword">if</span> (res)
+            A.commit(<span class="predefined-constant">true</span>);
+        <span class="keyword">else</span> {
+            A.rollback();
+            <span class="keyword">throw</span> <span class="keyword">new</span> Conflict();
+        }
+    } <span class="keyword">catch</span> (<span class="exception">Exception</span> e1) {
+        <span class="keyword">throw</span> <span class="keyword">new</span> QueueError();
+    }
+
+    <span class="keyword">return</span> val;
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_client"><a class="anchor" href="#_the_client"></a>The client</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Rather than show all of the code for the client, this example concentrates on a representative portion.
+Before invoking operations on the object, the client must first bind to the object.
+In the local case this simply requires the client to create an instance of the object.</p>
+</div>
+<div class="listingblock">
+<div class="title">Binding to the Object</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) {
+    TransactionalQueue myQueue = <span class="keyword">new</span> TransactionalQueue();
+    <span class="comment">// Before invoking one of the queue’s operations, the client starts a transaction.The queueSize operation is</span>
+    shown below:
+    AtomicAction A = <span class="keyword">new</span> AtomicAction();
+    <span class="type">int</span> size = <span class="integer">0</span>;
+
+    <span class="keyword">try</span> {
+        A.begin(<span class="integer">0</span>);
+
+        <span class="keyword">try</span> {
+            size = queue.queueSize();
+        } <span class="keyword">catch</span> (<span class="exception">Exception</span> e) {
+        }
+
+        <span class="keyword">if</span> (size &gt;= <span class="integer">0</span>) {
+            A.commit(<span class="predefined-constant">true</span>);
+
+            <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Size of queue: </span><span class="delimiter">&quot;</span></span>+size);
+        } <span class="keyword">else</span>
+            A.rollback();
+    } <span class="keyword">catch</span> (<span class="exception">Exception</span> e) {
+        <span class="predefined-type">System</span>.err.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Caught unexpected exception !</span><span class="delimiter">&quot;</span></span>);
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_comments"><a class="anchor" href="#_comments"></a>Comments</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Since the <em>queue</em> object is persistent, the state of the object survives any failures of the node on which it is located.
+The state of the object that survives is the state produced by the last top-level committed atomic action performed on the object.
+If an application intends to perform two <code>enqueue</code> operations atomically, for example, you can nest the <code>enqueue</code> operations in another enclosing atomic action.
+In addition, concurrent operations on such a persistent object are serialized, preventing inconsistencies in the state of the object.</p>
+</div>
+<div class="paragraph">
+<p>However, since the elements of the <em>queue</em> objects are not individually concurrency controlled, certain combinations of concurrent operation invocations are executed serially, even though logically they could be executed concurrently.
+An example of this is modifying the states of two different elements in the queue.
+The platform Development Guide addresses some of these issues.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-09-27 14:38:03 +0100
+</div>
+</div>
+</body>
+</html>
