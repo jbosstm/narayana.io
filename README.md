@@ -29,6 +29,8 @@ rsync -Pr --protocol=28 --delete-after public/* jbosstm@<rysnc_hostname>:www_htd
 ```
 # Releasing Narayana and updating the website
 
+Pre-requisite: please use JDK21 for releasing!
+
 After a new Narayana version is released we need to make sure that also the following components are updated:
 - download links and release date need updating (https://github.com/jbosstm/narayana.io/tree/develop/content/en/docs) at https://github.com/jbosstm/narayana.io/blob/develop/content/en/downloads/_index.md?plain=1#L12-L17
 - api needs updating (unzip the javadoc build by the narayana-full component into the api folder) at https://github.com/jbosstm/narayana.io/tree/develop/content/en/docs/api
