@@ -1,4 +1,5 @@
-relativeURLs = true
+canonifyURLs = true
+baseURL = "https://www.narayana.io/"
 disableAliases = true
 disableHugoGeneratorInject = true
 enableEmoji = true

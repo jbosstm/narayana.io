@@ -1,0 +1,3 @@
+canonifyURLs = false
+relativeURLs = true
+baseURL = "https://www.narayana.io/"
