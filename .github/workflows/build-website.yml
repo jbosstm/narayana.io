@@ -1,6 +1,7 @@
 name: Website Build
 
-on:
+on: 
+  workflow_dispatch:
   push:
     branches:
       - develop
@@ -32,3 +33,7 @@ jobs:
         #with:
          # github_token: ${{ secrets.GITHUB_TOKEN }}
          # publish_dir: ./public
+      - uses: actions/upload-artifact@v4
+        with:
+          path: public/*
+          if-no-files-found: error
