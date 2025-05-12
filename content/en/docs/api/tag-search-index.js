@@ -1,1 +1,1 @@
-tagSearchIndex = [{"l":"Constant Field Values","h":"","u":"constant-values.html"},{"l":"Design Notes","h":"class com.arjuna.ats.jta.cdi.DelegatingTransactionSynchronizationRegistry","d":"Section","u":"com/arjuna/ats/jta/cdi/DelegatingTransactionSynchronizationRegistry.html#design-notes-heading"},{"l":"Serialized Form","h":"","u":"serialized-form.html"}];updateSearchResults();
+tagSearchIndex = [{"l":"Constant Field Values","h":"","u":"constant-values.html"},{"l":"Serialized Form","h":"","u":"serialized-form.html"}];updateSearchResults();
