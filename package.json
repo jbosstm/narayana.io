@@ -41,7 +41,7 @@
     "semver": "^7.5.4"
   },
   "devDependencies": {
-    "@babel/cli": "^7.27",
+    "@babel/cli": "^7.28",
     "@babel/core": "^7.28",
     "@babel/preset-env": "^7.27",
     "@fullhuman/postcss-purgecss": "^7.0",
