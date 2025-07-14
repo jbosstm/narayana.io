@@ -18,6 +18,30 @@ The narayana-full zip is not downloadable anymore from the website, but you can 
 
 [Legacy Narayana versions](../downloads-other/index.html)
 
+### GPG Public Key
+
+Starting with version 7.2.3.Final, all Narayana [Maven artifacts](https://mvnrepository.com/artifact/org.jboss.narayana) are signed with jbosstm GPG key.
+The corresponding public key is:
+
+**ID**: rsa4096/F54B74513B168DB7 2025-07-11\
+**Fingerprint**: 3AA1 3E1B 77D4 1EEC 473E  1FAF F54B 7451 3B16 8DB7\
+**From version**: 7.2.3.Final
+<a href="/files/F54B74513B168DB7.gpg" download>**Download jbosstm's Public Key**</a>
+
+To verify the authenticity of jbosstm Maven artifacts, download both the `.jar` file and its corresponding `.asc` signature file from Maven Central.
+Then, import the above public GPG key using
+```bash
+gpg --import F54B74513B168DB7.gpg
+```
+Once the key is imported, verify the artifact with the following command:
+```bash
+gpg --verify artifact.jar.asc artifact.jar
+```
+If the verification is successful, it confirms that the artifact was signed with the official jbosstm GPG key.
+
+> **Warning:** Before verifying any Narayana artifact, ensure you're using the correct jbosstm public key corresponding to the specific version you're verifying.
+> The Narayana team may rotate signing keys over time, so always refer to the official website to obtain the appropriate key.
+
 Other related files
 -------------------
 
