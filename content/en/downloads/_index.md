@@ -9,14 +9,12 @@ images: []
 weight: 100
 layout: default
 ---
-The narayana-full zip is not downloadable anymore from the website, but you can still download single components from [maven central](https://mvnrepository.com/artifact/org.jboss.narayana), build it from github (i.e. [7.2.2.Final](https://github.com/jbosstm/narayana/tree/7.2.2.Final)) or download it from github tag (i.e [7.2.2.Final](https://github.com/jbosstm/narayana/releases/tag/7.2.2.Final))
+The narayana-full zip is not downloadable anymore from the website, but you can still download single components from [Maven Central](https://mvnrepository.com/artifact/org.jboss.narayana), build it from github (i.e. [7.2.2.Final](https://github.com/jbosstm/narayana/tree/7.2.2.Final)) or download it from github tag (i.e [7.2.2.Final](https://github.com/jbosstm/narayana/releases/tag/7.2.2.Final))
 
 
 | | Version | Date | License |
 | ---------------------------------------- | ----------- | ----------------- | ---------------- |
 | [Narayana Source Code](https://github.com/jbosstm/narayana/releases/tag/7.2.2.Final) | 7.2.2.Final | 2025-05-12 | Apache-2.0
-
-[Legacy Narayana versions](../downloads-other/index.html)
 
 ### GPG Public Key
 
