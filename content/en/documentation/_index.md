@@ -21,7 +21,7 @@ features)](..//docs/product/index.html)
 
 [ Narayana Quickstarts](https://github.com/jbosstm/quickstart)
 
-[ Narayana Javadocs](..//docs/api/index.html)
+[ Narayana Javadocs](https://javadoc.io)
 
 Wiki
 ====
