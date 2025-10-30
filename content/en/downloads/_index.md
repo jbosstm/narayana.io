@@ -9,19 +9,19 @@ images: []
 weight: 100
 layout: default
 ---
-The narayana-full zip is not downloadable anymore from the website, but you can still download single components from [Maven Central](https://mvnrepository.com/artifact/org.jboss.narayana), build it from github (i.e. [7.3.0.Final](https://github.com/jbosstm/narayana/tree/7.3.0.Final)) or download it from github tag (i.e [7.3.0.Final](https://github.com/jbosstm/narayana/releases/tag/7.3.0.Final))
+The narayana-full zip is not downloadable anymore from the website, but you can still download single components from [Maven Central](https://mvnrepository.com/artifact/org.jboss.narayana), build it from github (i.e. [7.3.1.Final](https://github.com/jbosstm/narayana/tree/7.3.1.Final)) or download it from github tag (i.e [7.3.1.Final](https://github.com/jbosstm/narayana/releases/tag/7.3.1.Final))
 
 
 | | Version | Date       | License |
 | ---------------------------------------- | ----------- |------------| ---------------- |
-| [Narayana Source Code](https://github.com/jbosstm/narayana/releases/tag/7.3.0.Final) | 7.3.0.Final | 2025-09-26 | Apache-2.0
+| [Narayana Source Code](https://github.com/jbosstm/narayana/releases/tag/7.3.1.Final) | 7.3.1.Final | 2025-10-30 | Apache-2.0
 
 ### GPG Public Key
 
 Starting with version 7.2.3.Final, all Narayana [Maven artifacts](https://mvnrepository.com/artifact/org.jboss.narayana) are signed with jbosstm GPG key.
 The corresponding public key is:
 
-**ID**: rsa4096/F54B74513B168DB7.3.05-07-11\
+**ID**: rsa4096/F54B74513B168DB7.3.15-07-11\
 **Fingerprint**: 3AA1 3E1B 77D4 1EEC 473E  1FAF F54B 7451 3B16 8DB7\
 **From version**: 7.2.3.Final
 <a href="/files/F54B74513B168DB7.gpg" download>**Download jbosstm's Public Key**</a>
@@ -46,23 +46,23 @@ Other related files
 ### Narayana JTS IDL Files
 
 -   [
-    ArjunaOTS.idl](https://github.com/jbosstm/narayana/tree/7.3.0.Final/ArjunaJTS/idl/src/main/idl/arjuna/ArjunaOTS.idl)
+    ArjunaOTS.idl](https://github.com/jbosstm/narayana/tree/7.3.1.Final/ArjunaJTS/idl/src/main/idl/arjuna/ArjunaOTS.idl)
 -   [
-    CosTSInteroperation.idl](https://github.com/jbosstm/narayana/tree/7.3.0.Final/ArjunaJTS/idl/src/main/idl/omg/CosTSInteroperation.idl)
+    CosTSInteroperation.idl](https://github.com/jbosstm/narayana/tree/7.3.1.Final/ArjunaJTS/idl/src/main/idl/omg/CosTSInteroperation.idl)
 -   [
-    CosTSPortability.idl](https://github.com/jbosstm/narayana/tree/7.3.0.Final/ArjunaJTS/idl/src/main/idl/omg/CosTSPortability.idl)
+    CosTSPortability.idl](https://github.com/jbosstm/narayana/tree/7.3.1.Final/ArjunaJTS/idl/src/main/idl/omg/CosTSPortability.idl)
 -   [
-    CosTransactions.idl](https://github.com/jbosstm/narayana/tree/7.3.0.Final/ArjunaJTS/idl/src/main/idl/omg/CosTransactions.idl)
+    CosTransactions.idl](https://github.com/jbosstm/narayana/tree/7.3.1.Final/ArjunaJTS/idl/src/main/idl/omg/CosTransactions.idl)
 -   [
-    TSIdentification.idl](https://github.com/jbosstm/narayana/tree/7.3.0.Final/ArjunaJTS/idl/src/main/idl/omg/TSIdentification.idl)
+    TSIdentification.idl](https://github.com/jbosstm/narayana/tree/7.3.1.Final/ArjunaJTS/idl/src/main/idl/omg/TSIdentification.idl)
 -   [
-    XA.idl](https://github.com/jbosstm/narayana/tree/7.3.0.Final/ArjunaJTS/idl/src/main/idl/omg/XA.idl)
+    XA.idl](https://github.com/jbosstm/narayana/tree/7.3.1.Final/ArjunaJTS/idl/src/main/idl/omg/XA.idl)
 
 ### Narayana XTS WSDL and XSD Files
 
 -   [ WS-C wscoor
-    1.1](https://github.com/jbosstm/narayana/tree/7.3.0.Final/XTS/WS-C/dev/dd/wscoor1.1/wsdl)
+    1.1](https://github.com/jbosstm/narayana/tree/7.3.1.Final/XTS/WS-C/dev/dd/wscoor1.1/wsdl)
 -   [ WS-T
-    wsarjtx](https://github.com/jbosstm/narayana/tree/7.3.0.Final/XTS/WS-T/dev/dd/wsarjtx/wsdl)
+    wsarjtx](https://github.com/jbosstm/narayana/tree/7.3.1.Final/XTS/WS-T/dev/dd/wsarjtx/wsdl)
 -   [ WS-T wscoor
-    1.1](https://github.com/jbosstm/narayana/tree/7.3.0.Final/XTS/WS-T/dev/dd/wscoor1.1/wsdl)
+    1.1](https://github.com/jbosstm/narayana/tree/7.3.1.Final/XTS/WS-T/dev/dd/wscoor1.1/wsdl)
