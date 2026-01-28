@@ -20,7 +20,7 @@ npm run build
 
 To run a preview of the website on a local server:
 ```
-hugo serve
+npm start
 ```
 
 To upload the (new) production web site, run the following command. If everything went OK, the new web site is updated automatically.
