@@ -1,4 +1,44 @@
 /** Custom styles */
+/** Commonhaus Foundation footer */
+.commonhaus-flexcontainer {
+  display: flex;
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.commonhaus-footer .commonhaus-logo {
+  flex: 0 0 auto;
+}
+
+.commonhaus-footer .commonhaus-logo img {
+  height: 40px;
+}
+
+.commonhaus-footer .commonhaus-logo-reverse {
+  display: none;
+}
+
+[data-dark-mode] .commonhaus-footer .commonhaus-logo-default {
+  display: none;
+}
+
+[data-dark-mode] .commonhaus-footer .commonhaus-logo-reverse {
+  display: inline;
+}
+
+.commonhaus-footer .commonhaus-legal {
+  flex: 1 1 auto;
+  font-size: .75rem;
+}
+
+@media (max-width: 576px) {
+  .commonhaus-flexcontainer {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
 #badges .arquillian a {
   background: url(https://static.jboss.org/common/images/licenses/badges-sprite.gif) no-repeat 0 0;
   color: #666;
