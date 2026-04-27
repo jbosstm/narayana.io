@@ -87,6 +87,26 @@ docsRepoSubPath = ""
 editPage = false
 lastMod = false
 
+[doks]
+  colorMode = "auto"
+  containerBreakpoint = "xxl"
+  navbarSticky = true
+  toTopButton = false
+  scrollSpy = false
+  flexSearch = false
+  breadcrumbTrail = false
+  editPage = false
+  lastMod = false
+  headlineHash = false
+  sectionNav = ["docs", "guides"]
+  sectionSwitcher = false
+  bootstrapJavascript = true
+  colorModeToggler = true
+  aiButtons = false
+  headerBar = false
+  backgroundDots = false
+  sectionFooter = false
+
 [sections]
   sectionNav = ["docs", "guides"]
 
@@ -107,7 +127,7 @@ lastMod = false
   fullWidth = false
   navbarSticky = true
   toTopButton = false
-  scrollSpy = false # experimental; needs Bootstrap >= 5.2.0-beta1
+  scrollSpy = false
 
 [menu]
   [menu.section]
