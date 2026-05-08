@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.20">
+<meta name="generator" content="Asciidoctor 2.0.23">
 <title>Narayana Project Documentation</title>
 <style>
 @import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
@@ -163,51 +163,42 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_overview_of_protocols_used_by_xts">5.3. Overview of Protocols Used by XTS</a></li>
 </ul>
 </li>
-<li><a href="#_long_running_actions_lra">6. Long Running Actions (LRA)</a>
+<li><a href="#_rts">6. RTS</a>
 <ul class="sectlevel2">
 <li><a href="#_overview_2">6.1. Overview</a></li>
-<li><a href="#_jax_rs_services">6.2. JAX-RS services</a></li>
-<li><a href="#_non_jax_rs_services">6.3. Non JAX-RS services</a></li>
-<li><a href="#lra_examples">6.4. Examples</a></li>
-<li><a href="#lra_integration">6.5. Runtime Integration</a></li>
+<li><a href="#_transaction_model">6.2. Transaction Model</a></li>
+<li><a href="#client_responsibilities">6.3. Client Responsibilities</a></li>
+<li><a href="#_service_responsibilities">6.4. Service Responsibilities</a></li>
+<li><a href="#_container_integration">6.5. Container Integration</a></li>
+<li><a href="#_examples_5">6.6. Examples</a></li>
+<li><a href="#_interoperating_with_other_transaction_models">6.7. Interoperating With Other Transaction Models</a></li>
 </ul>
 </li>
-<li><a href="#_rts">7. RTS</a>
+<li><a href="#_stm">7. STM</a>
 <ul class="sectlevel2">
-<li><a href="#_overview_3">7.1. Overview</a></li>
-<li><a href="#_transaction_model">7.2. Transaction Model</a></li>
-<li><a href="#client_responsibilities">7.3. Client Responsibilities</a></li>
-<li><a href="#_service_responsibilities">7.4. Service Responsibilities</a></li>
-<li><a href="#_container_integration">7.5. Container Integration</a></li>
-<li><a href="#_examples_5">7.6. Examples</a></li>
-<li><a href="#_interoperating_with_other_transaction_models">7.7. Interoperating With Other Transaction Models</a></li>
+<li><a href="#_an_stm_example">7.1. An STM Example</a></li>
+<li><a href="#_annotations">7.2. Annotations</a></li>
+<li><a href="#_containers_volatility_and_durability">7.3. Containers, Volatility and Durability</a></li>
+<li><a href="#_sharing_stm_objects">7.4. Sharing STM Objects</a></li>
+<li><a href="#_state_management_2">7.5. State Management</a></li>
+<li><a href="#_optimistic_concurrency_control">7.6. Optimistic Concurrency Control</a></li>
+<li><a href="#_a_typical_use_case">7.7. A Typical Use Case</a></li>
 </ul>
 </li>
-<li><a href="#_stm">8. STM</a>
+<li><a href="#_compensating_transactions">8. Compensating transactions</a>
 <ul class="sectlevel2">
-<li><a href="#_an_stm_example">8.1. An STM Example</a></li>
-<li><a href="#_annotations">8.2. Annotations</a></li>
-<li><a href="#_containers_volatility_and_durability">8.3. Containers, Volatility and Durability</a></li>
-<li><a href="#_sharing_stm_objects">8.4. Sharing STM Objects</a></li>
-<li><a href="#_state_management_2">8.5. State Management</a></li>
-<li><a href="#_optimistic_concurrency_control">8.6. Optimistic Concurrency Control</a></li>
-<li><a href="#_a_typical_use_case">8.7. A Typical Use Case</a></li>
+<li><a href="#_overview_3">8.1. Overview</a></li>
+<li><a href="#_compensations_framework">8.2. Compensations Framework</a></li>
+<li><a href="#_resources">8.3. Resources</a></li>
+<li><a href="#_notes">8.4. Notes</a></li>
 </ul>
 </li>
-<li><a href="#_compensating_transactions">9. Compensating transactions</a>
+<li><a href="#_osgi">9. OSGi</a>
 <ul class="sectlevel2">
-<li><a href="#_overview_4">9.1. Overview</a></li>
-<li><a href="#_compensations_framework">9.2. Compensations Framework</a></li>
-<li><a href="#_resources">9.3. Resources</a></li>
-<li><a href="#_notes">9.4. Notes</a></li>
+<li><a href="#chap_integrate_with_karaf">9.1. Integrate with Karaf</a></li>
 </ul>
 </li>
-<li><a href="#_osgi">10. OSGi</a>
-<ul class="sectlevel2">
-<li><a href="#chap_integrate_with_karaf">10.1. Integrate with Karaf</a></li>
-</ul>
-</li>
-<li><a href="#_appendixes">11. Appendixes</a>
+<li><a href="#_appendixes">10. Appendixes</a>
 <ul class="sectlevel2">
 <li><a href="#_object_store_implementations">Appendix A: Object store implementations</a></li>
 <li><a href="#_core_class_definitions">Appendix B: Core Class Definitions</a></li>
@@ -17924,198 +17915,10 @@ XTS provides everything necessary to keep application and transactional aspects 
 </div>
 </div>
 <div class="sect1">
-<h2 id="_long_running_actions_lra"><a class="anchor" href="#_long_running_actions_lra"></a>6. Long Running Actions (LRA)</h2>
+<h2 id="_rts"><a class="anchor" href="#_rts"></a>6. RTS</h2>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_overview_2"><a class="anchor" href="#_overview_2"></a>6.1. Overview</h3>
-<div class="paragraph">
-<p>This guide describes the Naryana implementation, or Naryana LRA for short, of the MicroProfile LRA specification <a href="https://github.com/eclipse/microprofile-lra/blob/master/spec/src/main/asciidoc/microprofile-lra-spec.adoc" class="bare">https://github.com/eclipse/microprofile-lra/blob/master/spec/src/main/asciidoc/microprofile-lra-spec.adoc</a> The specification introduces annotations and APIs for services to coordinate long running activities whilst still maintaining loose coupling and doing so in such a way as to guarantee a globally consistent outcome without the need to take locks on data for extended periods.
-The specification has similarities to WS-BA except that it uses a simplified compensation model and as such it can expose certain failure conditions that are not present in WS-BA.
-Please refer to <a href="https://github.com/eclipse/microprofile-lra/blob/master/spec/src/main/asciidoc/microprofile-lra-spec.adoc#the-model" class="bare">https://github.com/eclipse/microprofile-lra/blob/master/spec/src/main/asciidoc/microprofile-lra-spec.adoc#the-model</a> for details of the state model used by the LRA specification.</p>
-</div>
-<div class="paragraph">
-<p>The basic idea is to group a collection of compensatable JAX-RS service interactions within a context, called a Long Running Action (LRA).
-The context is propagated on JAX-RS service requests and responses using a JAX-RS header.
-The implementation automatically adds the header to requests and responses before and after service method invocation (using JAX-RS filters as an implementation technique).
-An attribute of the @LRA annotation determines how the LRA is started and/or ended.</p>
-</div>
-<div class="paragraph">
-<p>A service may join the context by, in the case of a JAX-RS resource, providing REST endpoints (via annotations) that the implementation should invoke when the LRA is later closed or cancelled.
-The specification is transactional in the sense that all the endpoints involved in the interaction are informed about the decision to close or cancel the context regardless of system failures.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_jax_rs_services"><a class="anchor" href="#_jax_rs_services"></a>6.2. JAX-RS services</h3>
-<div class="paragraph">
-<p>Primary support is for JAX-RS based services to participate in transactional Long Running Actions (LRAs).
-Full details are available in the MP-LRA specification document <a href="https://github.com/eclipse/microprofile-lra/blob/master/spec/src/main/asciidoc/microprofile-lra-spec.adoc" class="bare">https://github.com/eclipse/microprofile-lra/blob/master/spec/src/main/asciidoc/microprofile-lra-spec.adoc</a>.
-Also look in the <a href="examples.html#lra_examples">examples section</a> below and in the MP-LRA TCK.</p>
-</div>
-<div class="sect3">
-<h4 id="_configuring_the_location_of_the_coordinator_and_load_balancer_when_starting_new_long_running_actions"><a class="anchor" href="#_configuring_the_location_of_the_coordinator_and_load_balancer_when_starting_new_long_running_actions"></a>6.2.1. Configuring the location of the Coordinator and Load Balancer when starting new Long Running Actions</h4>
-<div class="paragraph">
-<p>Services should be configured with a comma separated list of URLs of coordinators using a property called <code>lra.coordinator.urls</code>, and if unset then <code><a href="http://localhost:8080/lra-coordinator" class="bare">http://localhost:8080/lra-coordinator</a></code> will be used. When a service starts a new LRA one of the URLs will be chosen according to the configured load balancing strategy, the default is to choose one in a "round robin" fashion. Note that the chosen coordinator must be available for the lifetime of the LRA (or restarted on the same endpoint, with access to the same object store, if it fails). The <a href="https://smallrye.io/smallrye-stork/latest">Smallry Stork service discovery and client-side load-balancing framework</a> is used to support a static list of coordinators and load balancing strategies.</p>
-</div>
-<div class="paragraph">
-<p>The load balancing algorithm is controlled by the value of a property called <code>lra.coordinator.lb-method</code>. The property supports the following values (refer to the Stork documentation for more detail about the various algorithms):</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>round-robin</code>: Iterates over the set of coordinators.</p>
-</li>
-<li>
-<p><code>sticky</code>: Selects a single coordinator and keeps using it until it fails. Then, it selects another one.</p>
-</li>
-<li>
-<p><code>random</code>: Picks a random coordinator every time.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>If an invalid algorithm is configured then a request to start a new coordinator will return an <a href="https://www.rfc-editor.org/rfc/rfc9110.html#name-503-service-unavailable">HTTP 503, "Service Unavailable"</a> response code.</p>
-</div>
-<div class="paragraph">
-<p>When <code>round-robin</code> is selected and a coordinator isn&#8217;t available then the next one in the list is tried. If the list is exhausted then an HTTP 503, "Service Unavailable" response code is returned.</p>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_non_jax_rs_services"><a class="anchor" href="#_non_jax_rs_services"></a>6.3. Non JAX-RS services</h3>
-<div class="paragraph">
-<p>We also support POJO style participants, details of which are available in the specification and TCK available on the MP-LRA github repository <a href="https://github.com/eclipse/microprofile-lra" class="bare">https://github.com/eclipse/microprofile-lra</a></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="lra_examples"><a class="anchor" href="#lra_examples"></a>6.4. Examples</h3>
-<div class="sect3">
-<h4 id="_lra_quickstart_examples"><a class="anchor" href="#_lra_quickstart_examples"></a>6.4.1. LRA Quickstart Examples</h4>
-<div class="paragraph">
-<p>There are some quickstarts with README.md files for using LRAs in the quickstart repository: <a href="https://github.com/jbosstm/quickstart/tree/master/rts/lra-examples" class="bare">https://github.com/jbosstm/quickstart/tree/master/rts/lra-examples</a> and <a href="https://github.com/jbosstm/quickstart/tree/master/rts/lra" class="bare">https://github.com/jbosstm/quickstart/tree/master/rts/lra</a></p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_participating_in_long_running_actions"><a class="anchor" href="#_participating_in_long_running_actions"></a>6.4.2. Participating in Long Running Actions</h4>
-<div class="paragraph">
-<p>The following code snippet shows the basic steps for writing service methods (and associated participant resource) that will result in the registration of a participant in a new or an existing LRA.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@LRA</span>(value = LRA.Type.REQUIRED, <span class="comment">// if there is no incoming context a new one is created</span>
-     cancelOn = {
-         Response.Status.INTERNAL_SERVER_ERROR <span class="comment">// cancel on a 500 code</span>
-     },
-     cancelOnFamily = {
-         Response.Status.Family.CLIENT_ERROR <span class="comment">// cancel on any 4xx code</span>
-     },
-     end = <span class="predefined-constant">false</span>) <span class="comment">// the LRA will continue to run when the method finishes</span>
-<span class="annotation">@Path</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">/book</span><span class="delimiter">&quot;</span></span>)
-<span class="annotation">@POST</span>
-<span class="directive">public</span> Response bookTrip(<span class="annotation">@HeaderParam</span>(LRA_HTTP_CONTEXT_HEADER) <span class="predefined-type">URI</span> lraId,
-                         <span class="annotation">@HeaderParam</span>(LRA_HTTP_PARENT_CONTEXT_HEADER) <span class="predefined-type">URI</span> parentLRA) {
-    <span class="keyword">if</span> (parentLRA != <span class="predefined-constant">null</span>) { <span class="comment">// is the context nested</span>
-          <span class="comment">// code which is sensitive to executing with a nested context goes here</span>
-    }
-    ...
-}
-
-<span class="annotation">@LRA</span>(LRA.Type.MANDATORY, <span class="comment">// requires an active context before method can be executed</span>
-     end = <span class="predefined-constant">true</span>) <span class="comment">// end the LRA started by the bookTrip method</span>
-<span class="annotation">@Path</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">/confirm</span><span class="delimiter">&quot;</span></span>)
-<span class="annotation">@PUT</span>
-<span class="directive">public</span> Booking confirmTrip(<span class="annotation">@HeaderParam</span>(LRA_HTTP_CONTEXT_HEADER) <span class="predefined-type">URI</span> lraId,
-                           <span class="annotation">@HeaderParam</span>(LRA_HTTP_PARENT_CONTEXT_HEADER) <span class="predefined-type">URI</span> parentLRA,
-                           Booking booking) <span class="directive">throws</span> BookingException {
-    <span class="keyword">if</span> (parentLRA != <span class="predefined-constant">null</span>) { <span class="comment">// is the context nested</span>
-          <span class="comment">// code which is sensitive to executing with a nested context goes here</span>
-    }
-    <span class="comment">// lookup data associated with the incoming LRA (lraId)</span>
-    ...
-}
-
-<span class="annotation">@Complete</span>
-<span class="annotation">@Path</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">/complete</span><span class="delimiter">&quot;</span></span>)
-<span class="annotation">@PUT</span>
-<span class="directive">public</span> Response completeWork(<span class="annotation">@HeaderParam</span>(LRA_HTTP_CONTEXT_HEADER) <span class="predefined-type">URI</span> lraId)
-{
-    <span class="comment">/*
-     * Free up resources allocated in the context of the LRA identified by the
-     * value in the injected JAX-RS header.
-     *
-     * Since there is no @Status method in this class, completeWork MUST be
-     * idempotent and MUST return the status.
-     */</span>
-    <span class="keyword">return</span> Response.ok(ParticipantStatus.Completed.name()).build();
-}
-
-<span class="annotation">@Compensate</span>
-<span class="annotation">@Path</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">/compensate</span><span class="delimiter">&quot;</span></span>)
-<span class="annotation">@PUT</span>
-<span class="directive">public</span> Response compensateWork(<span class="annotation">@HeaderParam</span>(LRA_HTTP_CONTEXT_HEADER) <span class="predefined-type">URI</span> lraId)
-{
-    <span class="comment">/*
-     * The LRA identified by the value in the injected JAX-RS header was
-     * cancelled so the business logic should compensate for any actions
-     * that have been performed while running in its context.
-     *
-     * Since there is no @Status method in this class, compensateWork MUST be
-     * idempotent and MUST return the status
-    */</span>
-    <span class="keyword">return</span> Response.ok(ParticipantStatus.Compensated.name()).build();
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_making_jax_rs_invocations_from_jax_rs_resource_methods"><a class="anchor" href="#_making_jax_rs_invocations_from_jax_rs_resource_methods"></a>6.4.3. Making JAX-RS Invocations from JAX-RS Resource Methods</h4>
-<div class="paragraph">
-<p>According to the specification the LRA context (<a href="https://download.eclipse.org/microprofile/microprofile-lra-2.0-RC1/microprofile-lra-spec-2.0-RC1.html#_setting_the_context_on_outgoing_jax_rs_requests" class="bare">https://download.eclipse.org/microprofile/microprofile-lra-2.0-RC1/microprofile-lra-spec-2.0-RC1.html#_setting_the_context_on_outgoing_jax_rs_requests</a>) is implicitly propagated to outgoing requests.
-The Narayana implementation enforces this requirement by storing the LRA context with the thread used to service the incoming request and then reading it if the service methods makes outgoing requests and adds the context to the outgoing headers.
-Although exhaustive testing of the implementation indicates that this requirement is met there is still a concern because the JAX-RS specification does not mandate that the same thread is used for the incoming and outgoing requests.
-We therefore recommend that the service writer explicitly set the context on outgoing requests as shown in the following code snippet:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">    <span class="annotation">@LRA</span>(value = LRA.Type.REQUIRED)
-    <span class="annotation">@PUT</span>
-    <span class="directive">public</span> Response addContextHeader(<span class="annotation">@HeaderParam</span>(LRA_HTTP_CONTEXT_HEADER) <span class="predefined-type">URI</span> lraId) {
-        <span class="comment">// some business logic</span>
-
-        <span class="comment">// create an invocation builder for a remote service</span>
-        Invocation.Builder builder = ClientBuilder.newClient()
-            .target(context.getBaseUri())
-            .path(resource)
-            .path(path)
-            .request();
-
-        <span class="comment">// explicitly set the context</span>
-        builder.header(LRA_HTTP_CONTEXT_HEADER, lraId); <span class="comment">// lraId must be valid</span>
-
-        Response response = builder.put(<span class="predefined-type">Entity</span>.text(<span class="string"><span class="delimiter">&quot;</span><span class="content">bodyText</span><span class="delimiter">&quot;</span></span>));
-
-        <span class="comment">// more business logic</span>
-
-        <span class="keyword">return</span> Response.ok().entity(lraId.toASCIIString()).build();
-    }
-    ...</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="lra_integration"><a class="anchor" href="#lra_integration"></a>6.5. Runtime Integration</h3>
-<div class="paragraph">
-<p>To date we have only integrated with thorntail or standalone.
-The near term plan is to provide a quarkus extension and a WildFly subsystem for running coordinators and participants.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_rts"><a class="anchor" href="#_rts"></a>7. RTS</h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_overview_3"><a class="anchor" href="#_overview_3"></a>7.1. Overview</h3>
 <div class="paragraph">
 <p>This guide covers the REST interfaces to the Narayana Transaction Manager.
 The actual protocol implemented by RESTAT described in this book is taken from the draft RESTAT specification <a href="https://github.com/jbosstm/documentation/blob/master/rts/docs/REST-Atomic_v2_draft_8_comments_sept_4.pdf">https://github.com/jbosstm/documentation/blob/master/rest-tx/docs/RESTAT-v2-latest.pdf</a> . The specification is still evolving but has reached a stability level such that it can be used in real world environments.</p>
@@ -18143,7 +17946,7 @@ To support this need, we have created a RESTful interface to the Narayana transa
 </div>
 </div>
 <div class="sect2">
-<h3 id="_transaction_model"><a class="anchor" href="#_transaction_model"></a>7.2. Transaction Model</h3>
+<h3 id="_transaction_model"><a class="anchor" href="#_transaction_model"></a>6.2. Transaction Model</h3>
 <div class="paragraph">
 <p>The REST Atomic Transaction (RESTAT) model uses a traditional two-phase commit protocol with the following optimizations:</p>
 </div>
@@ -18162,7 +17965,7 @@ A definitive answer that a transaction does not exist can be used to infer that 
 </ul>
 </div>
 <div class="sect3">
-<h4 id="_architecture"><a class="anchor" href="#_architecture"></a>7.2.1. Architecture</h4>
+<h4 id="_architecture"><a class="anchor" href="#_architecture"></a>6.2.1. Architecture</h4>
 <div class="paragraph">
 <p>The diagram below illustrates the various resources defined within the RESTAT protocol.
 We shall discuss each of these in the following sections.</p>
@@ -18200,7 +18003,7 @@ The participant is driven through two-phase commit by the coordinator.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_state_transitions"><a class="anchor" href="#_state_transitions"></a>7.2.2. State Transitions</h4>
+<h4 id="_state_transitions"><a class="anchor" href="#_state_transitions"></a>6.2.2. State Transitions</h4>
 <div class="paragraph">
 <p>A transaction coordinator and two-phase participant go through the state transitions shown:</p>
 </div>
@@ -18216,7 +18019,7 @@ Asking a resource to change its state from, say, Active to Committed, may drive 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_the_transaction_manager_resource"><a class="anchor" href="#_the_transaction_manager_resource"></a>7.2.3. The Transaction Manager Resource</h4>
+<h4 id="_the_transaction_manager_resource"><a class="anchor" href="#_the_transaction_manager_resource"></a>6.2.3. The Transaction Manager Resource</h4>
 <div class="paragraph">
 <p>The transaction manager is represented by a URI (referred to as the <em>transaction-manager</em> URI).
 It enables clients to create new transaction resources and to query the list of current transactions.
@@ -18225,12 +18028,12 @@ The actual URI depends upon how RESTAT is deployed and will be discussed later.<
 </div>
 </div>
 <div class="sect2">
-<h3 id="client_responsibilities"><a class="anchor" href="#client_responsibilities"></a>7.3. Client Responsibilities</h3>
+<h3 id="client_responsibilities"><a class="anchor" href="#client_responsibilities"></a>6.3. Client Responsibilities</h3>
 <div class="paragraph">
 <p>The RESTAT client is responsible for creating and terminating transaction resources.</p>
 </div>
 <div class="sect3">
-<h4 id="_starting_a_transaction"><a class="anchor" href="#_starting_a_transaction"></a>7.3.1. Starting a Transaction</h4>
+<h4 id="_starting_a_transaction"><a class="anchor" href="#_starting_a_transaction"></a>6.3.1. Starting a Transaction</h4>
 <div class="paragraph">
 <p>Performing a POST on the <em>transaction-manager</em> URI with header as shown below will start a new transaction with a default timeout.
 A successful invocation returns a 201 HTTP status code and the Location header contains the URI of the newly created transaction resource, which we refer to as transaction-coordinator in the rest of this book.
@@ -18277,7 +18080,7 @@ timeout=1000</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_obtaining_the_transaction_status"><a class="anchor" href="#_obtaining_the_transaction_status"></a>7.3.2. Obtaining The Transaction Status</h4>
+<h4 id="_obtaining_the_transaction_status"><a class="anchor" href="#_obtaining_the_transaction_status"></a>6.3.2. Obtaining The Transaction Status</h4>
 <div class="paragraph">
 <p>Performing a GET on the <em>transaction-coordinator</em> URI returns the current status of the transaction:</p>
 </div>
@@ -18308,7 +18111,7 @@ For full details of this extended media type please refer to the specification a
 </div>
 </div>
 <div class="sect3">
-<h4 id="_propagating_the_context"><a class="anchor" href="#_propagating_the_context"></a>7.3.3. Propagating the Context</h4>
+<h4 id="_propagating_the_context"><a class="anchor" href="#_propagating_the_context"></a>6.3.3. Propagating the Context</h4>
 <div class="paragraph">
 <p>When making an invocation on a resource that needs to participate in a transaction, either the <em>transaction-coordinator</em> URI or the <em>transaction-enlistment</em> URI (<code>/transaction-coordinator/1234/participant</code> in the previous example) needs to be transmitted to the resource.
 Alternatively, if the client knows which endpoints the service will use to cancel or commit its work, it can do the registration and skip this requirement to propagate the context).
@@ -18343,7 +18146,7 @@ For example, if the client wishes to make a transactional service request then i
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discovering_existing_transactions"><a class="anchor" href="#_discovering_existing_transactions"></a>7.3.4. Discovering Existing Transactions</h4>
+<h4 id="_discovering_existing_transactions"><a class="anchor" href="#_discovering_existing_transactions"></a>6.3.4. Discovering Existing Transactions</h4>
 <div class="paragraph">
 <p>Performing a GET on the <em>transaction-manager</em> URI with media type <code>application/txlist</code> returns a list of all <em>transaction-coordinator</em> URIs known to the coordinator (active and in recovery).
 The returned response includes a link header with <em>rel</em> attribute <em>statistics</em> linking to a resource that contains statistical information such as the number of transactions that have committed and aborted.</p>
@@ -18353,7 +18156,7 @@ The returned response includes a link header with <em>rel</em> attribute <em>sta
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ending_the_transaction"><a class="anchor" href="#_ending_the_transaction"></a>7.3.5. Ending the Transaction</h4>
+<h4 id="_ending_the_transaction"><a class="anchor" href="#_ending_the_transaction"></a>6.3.5. Ending the Transaction</h4>
 <div class="paragraph">
 <p>The client can PUT a document containing the desired transaction status to the <em>transaction-terminator</em> URI in order to control the outcome of the transaction.
 Upon termination, the resource and all associated resources are implicitly deleted.
@@ -18389,14 +18192,14 @@ txstatus=TransactionRolledBack</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_service_responsibilities"><a class="anchor" href="#_service_responsibilities"></a>7.4. Service Responsibilities</h3>
+<h3 id="_service_responsibilities"><a class="anchor" href="#_service_responsibilities"></a>6.4. Service Responsibilities</h3>
 <div class="paragraph">
 <p>Once a resource has the transaction or enlistment URI, it can register participation in the transaction (or, alternatively, as mentioned earlier it is possible for the client to register the service directly with the coordinator if it knows the services cancel and commit endpoints).
 Each participant must be uniquely identified to the transaction coordinator in order that the protocol can guarantee consistency and atomicity in the event of failure and recovery.
 The participant is free to use whatever URI structure it desires for uniquely identifying itself; in the rest of this manual we shall assume it is <code>/participant-resource</code> and refer to it as the <em>participant-resource</em> URI.</p>
 </div>
 <div class="sect3">
-<h4 id="_joining_the_transaction"><a class="anchor" href="#_joining_the_transaction"></a>7.4.1. Joining the Transaction</h4>
+<h4 id="_joining_the_transaction"><a class="anchor" href="#_joining_the_transaction"></a>6.4.1. Joining the Transaction</h4>
 <div class="sect4">
 <h5 id="_two_phase_aware_participants"><a class="anchor" href="#_two_phase_aware_participants"></a>Two Phase Aware Participants</h5>
 <div class="paragraph">
@@ -18527,7 +18330,7 @@ txstatus=TransactionActive</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_leaving_the_transaction"><a class="anchor" href="#_leaving_the_transaction"></a>7.4.2. Leaving the Transaction</h4>
+<h4 id="_leaving_the_transaction"><a class="anchor" href="#_leaving_the_transaction"></a>6.4.2. Leaving the Transaction</h4>
 <div class="paragraph">
 <p>A participant can leave the transaction at any time by sending a DELETE request to the coordinator using the URI it obtained during registration (i.e., the <em>participant-recovery</em> URI).
 Alternatively, it can respond to a prepare request from the coordinator with content body containing <em>txstatus=TransactionReadOnly</em> (in which case the transaction coordinator will remove it from further participation in the transaction).
@@ -18535,7 +18338,7 @@ Otherwise it is the participants responsibility to participate in the <a href="#
 </div>
 </div>
 <div class="sect3">
-<h4 id="_2pc"><a class="anchor" href="#_2pc"></a>7.4.3. Preparing and Committing Work</h4>
+<h4 id="_2pc"><a class="anchor" href="#_2pc"></a>6.4.3. Preparing and Committing Work</h4>
 <div class="paragraph">
 <p>The coordinator drives the participant through the two-phase commit protocol by sending a PUT request to the <em>participant-terminator</em> URI, provided to the coordinator during enlistment, with the desired transaction outcome as the content ( <em>TransactionPrepared</em>, <em>TransactionCommitted</em>, <em>TransactionRolledBack</em> or <em>TransactionCommittedOnePhase</em>).
 For instance, here is how the prepare phase would be driven:</p>
@@ -18576,7 +18379,7 @@ Any other response means the coordinator will keep retrying.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_recovery"><a class="anchor" href="#_recovery"></a>7.4.4. Recovery</h4>
+<h4 id="_recovery"><a class="anchor" href="#_recovery"></a>6.4.4. Recovery</h4>
 <div class="paragraph">
 <p>In general it is assumed that failed actors in this protocol, i.e., coordinator or participants, will recover on the same URI as they had prior to the failure.
 HTTP provides a number of options to support temporary or permanent changes of address, including 301 (Moved Permanently) and 307 (Temporary Redirect), if the actor is unable to recover on the same URI then requests to the original endpoints should return an HTTP status code of 301 (Moved Permanently), 307 (Temporary Redirect) is also acceptable.</p>
@@ -18613,7 +18416,7 @@ Content-Length: 0</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_pre_and_post_two_phase_commit_processing"><a class="anchor" href="#_pre_and_post_two_phase_commit_processing"></a>7.4.5. Pre- and Post- Two-Phase Commit Processing</h4>
+<h4 id="_pre_and_post_two_phase_commit_processing"><a class="anchor" href="#_pre_and_post_two_phase_commit_processing"></a>6.4.5. Pre- and Post- Two-Phase Commit Processing</h4>
 <div class="paragraph">
 <p>Most modern transaction processing systems allow the creation of participants that do not take part in the two-phase commit protocol, but are informed before it begins and after it has completed.
 They are called Synchronizations, and are typically employed to flush volatile (cached) state, which may be being used to improve performance of an application, to a recoverable object or database prior to the transaction committing.</p>
@@ -18641,14 +18444,14 @@ And finally, there is no one-phase commit optimization for the Volatile protocol
 </div>
 </div>
 <div class="sect2">
-<h3 id="_container_integration"><a class="anchor" href="#_container_integration"></a>7.5. Container Integration</h3>
+<h3 id="_container_integration"><a class="anchor" href="#_container_integration"></a>6.5. Container Integration</h3>
 <div class="paragraph">
 <p>The RESTAT protocol described here is implemented as a JAX-RS service, deploys as a Servlet 3.0 application and depends on the Narayana TM as the back-end transaction engine.
 JAX-RS is the Java language support for building REST based applications - it is both an annotation-based API for defining resources and a run-time for mapping HTTP requests to Java methods.
 Thus any container supporting these two requirements (servlet 3.0 and the Narayana TM) can be used.</p>
 </div>
 <div class="sect3">
-<h4 id="_deploying_as_a_wildfly_subsystem"><a class="anchor" href="#_deploying_as_a_wildfly_subsystem"></a>7.5.1. Deploying as a Wildfly Subsystem</h4>
+<h4 id="_deploying_as_a_wildfly_subsystem"><a class="anchor" href="#_deploying_as_a_wildfly_subsystem"></a>6.5.1. Deploying as a Wildfly Subsystem</h4>
 <div class="paragraph">
 <p>The RESTAT coordinator is integrated with the 8.0.0.Alpha3 and subsequent releases of the Wildfly application server ( <a href="http://www.wildfly.org/download/" class="bare">http://www.wildfly.org/download/</a> ) as a subsystem (called RTS) so you do not have to explicitly deploy it.
 You do, however, need to start the application server using an optional server configuration:</p>
@@ -18682,7 +18485,7 @@ You do, however, need to start the application server using an optional server c
 </div>
 </div>
 <div class="sect3">
-<h4 id="_deploying_into_a_servlet_container"><a class="anchor" href="#_deploying_into_a_servlet_container"></a>7.5.2. Deploying into a Servlet Container</h4>
+<h4 id="_deploying_into_a_servlet_container"><a class="anchor" href="#_deploying_into_a_servlet_container"></a>6.5.2. Deploying into a Servlet Container</h4>
 <div class="paragraph">
 <p>For other versions of the application server you will need to deploy the coordinator as a war archive using the standard war deployment mechanism appropriate to your particular container.
 The archive is contained in the bin folder of the narayana download (restat-web.war).
@@ -18694,13 +18497,13 @@ If you are building from source the archive is located in <code>rts/at/webservic
 </div>
 </div>
 <div class="sect2">
-<h3 id="_examples_5"><a class="anchor" href="#_examples_5"></a>7.6. Examples</h3>
+<h3 id="_examples_5"><a class="anchor" href="#_examples_5"></a>6.6. Examples</h3>
 <div class="paragraph">
 <p>The quickstarts contained in the release bundles or in the quickstart repo (<code><a href="https://github.com/jbosstm/quickstart" class="bare">https://github.com/jbosstm/quickstart</a></code>) contain examples of all the features provided by RESTAT.
 The unit tests in the source bundle are also a good resource for further examples.</p>
 </div>
 <div class="sect3">
-<h4 id="_support_for_java_based_services"><a class="anchor" href="#_support_for_java_based_services"></a>7.6.1. Support For Java based Services</h4>
+<h4 id="_support_for_java_based_services"><a class="anchor" href="#_support_for_java_based_services"></a>6.6.1. Support For Java based Services</h4>
 <div class="paragraph">
 <p>For REST services written in Java there is a Utility class called org.jboss.jbossts.star.util.TxSupport in the source bundle (or is available at <a href="https://github.com/jbosstm/narayana" class="bare">https://github.com/jbosstm/narayana</a> ) which contains a variety of methods which help service writers to conform to the specification.
 The majority of the RESTAT quickstarts use this utility API.</p>
@@ -18784,13 +18587,13 @@ The quickstarts contain examples of how to do this for the embedded Resteasy and
 </div>
 </div>
 <div class="sect2">
-<h3 id="_interoperating_with_other_transaction_models"><a class="anchor" href="#_interoperating_with_other_transaction_models"></a>7.7. Interoperating With Other Transaction Models</h3>
+<h3 id="_interoperating_with_other_transaction_models"><a class="anchor" href="#_interoperating_with_other_transaction_models"></a>6.7. Interoperating With Other Transaction Models</h3>
 <div class="paragraph">
 <p>Narayana in general supports a number of different transaction models other than the one described in this book.
 Of particular importance are the standard ones supported by the standards, namely JTA and Web Services Transactions.</p>
 </div>
 <div class="sect3">
-<h4 id="_jta_bridge"><a class="anchor" href="#_jta_bridge"></a>7.7.1. JTA Bridge</h4>
+<h4 id="_jta_bridge"><a class="anchor" href="#_jta_bridge"></a>6.7.1. JTA Bridge</h4>
 <div class="sect4">
 <h5 id="_inbound_bridge"><a class="anchor" href="#_inbound_bridge"></a>Inbound Bridge</h5>
 <div class="paragraph">
@@ -18863,7 +18666,7 @@ When REST-AT transaction is bridged to JTA then the bridged JTA transaction is c
 </div>
 </div>
 <div class="sect3">
-<h4 id="_web_services_transactions"><a class="anchor" href="#_web_services_transactions"></a>7.7.2. Web Services Transactions</h4>
+<h4 id="_web_services_transactions"><a class="anchor" href="#_web_services_transactions"></a>6.7.2. Web Services Transactions</h4>
 <div class="paragraph">
 <p>WS includes two transaction models referred to as WSAT and WSBA.
 WSAT integration with JTA is documented in the Transaction Bridging section of the product guide (<code><a href="http://narayana.io/docs/product/index.html#txbridge" class="bare">http://narayana.io/docs/product/index.html#txbridge</a></code>).
@@ -18888,7 +18691,7 @@ By using this bridge in conjunction with the RESTAT JTA bridge full interoperabi
 </div>
 </div>
 <div class="sect1">
-<h2 id="_stm"><a class="anchor" href="#_stm"></a>8. STM</h2>
+<h2 id="_stm"><a class="anchor" href="#_stm"></a>7. STM</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>In this chapter we shall look at the Software Transactional Memory (STM) implementation that ships as part of Narayana.
@@ -18945,7 +18748,7 @@ However, the downside is that developers need to modify their classes through cl
 None of this is entirely unreasonable, but it represents a barrier to some and hence is one of the reasons we decided to provide a separate STM implementation.</p>
 </div>
 <div class="sect2">
-<h3 id="_an_stm_example"><a class="anchor" href="#_an_stm_example"></a>8.1. An STM Example</h3>
+<h3 id="_an_stm_example"><a class="anchor" href="#_an_stm_example"></a>7.1. An STM Example</h3>
 <div class="paragraph">
 <p>In order to illustrate the Narayana STM implementation we shall use a worked example throughout the rest of this chapter.
 We&#8217;ll make it simple to start with, just a atomic integer that supports set, get and increment methods:</p>
@@ -19180,7 +18983,7 @@ located within <code>org.jboss.stm.internal</code> are private implementation sp
 </div>
 </div>
 <div class="sect2">
-<h3 id="_annotations"><a class="anchor" href="#_annotations"></a>8.2. Annotations</h3>
+<h3 id="_annotations"><a class="anchor" href="#_annotations"></a>7.2. Annotations</h3>
 <div class="paragraph">
 <p>The following annotations are available for use on STM interfaces or classes.</p>
 </div>
@@ -19263,7 +19066,7 @@ This is used in preference to any @State indications on the class state.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_containers_volatility_and_durability"><a class="anchor" href="#_containers_volatility_and_durability"></a>8.3. Containers, Volatility and Durability</h3>
+<h3 id="_containers_volatility_and_durability"><a class="anchor" href="#_containers_volatility_and_durability"></a>7.3. Containers, Volatility and Durability</h3>
 <div class="paragraph">
 <p>By default objects created within STM do not possess the Durable aspect of traditional ACID transactions, i.e., they are volatile instances.
 This has an obvious performance benefit since there is no disk or replicated in-memory data store involved.
@@ -19326,7 +19129,7 @@ Where a given parameter is not available in a specific constructor, the default 
 </div>
 </div>
 <div class="sect2">
-<h3 id="_sharing_stm_objects"><a class="anchor" href="#_sharing_stm_objects"></a>8.4. Sharing STM Objects</h3>
+<h3 id="_sharing_stm_objects"><a class="anchor" href="#_sharing_stm_objects"></a>7.4. Sharing STM Objects</h3>
 <div class="paragraph">
 <p>Once a Container is created, you can use the create() method to create objects (handles) within the STM.
 As shown in the previous example, you pass in an unmodified (with the possible exception of annotations) class instance which corresponds to the interface type given to the Container when it was created and the Container will return a reference to an instance of the same type:</p>
@@ -19403,7 +19206,7 @@ Both of them require an empty instance of the original non-STM class to clone th
 </div>
 </div>
 <div class="sect2">
-<h3 id="_state_management_2"><a class="anchor" href="#_state_management_2"></a>8.5. State Management</h3>
+<h3 id="_state_management_2"><a class="anchor" href="#_state_management_2"></a>7.5. State Management</h3>
 <div class="paragraph">
 <p>Earlier in this chapter we discussed how you can instrument your implementation class member variables with the State and NotState annotations to indicate what state should be saved and restored by the transaction system.
 In some situations you may want even more control over this process and this is where the @SaveState and @RestoreState annotations come in.
@@ -19516,7 +19319,7 @@ This means that any changes made to the other member variable(s) within the scop
 </div>
 </div>
 <div class="sect2">
-<h3 id="_optimistic_concurrency_control"><a class="anchor" href="#_optimistic_concurrency_control"></a>8.6. Optimistic Concurrency Control</h3>
+<h3 id="_optimistic_concurrency_control"><a class="anchor" href="#_optimistic_concurrency_control"></a>7.6. Optimistic Concurrency Control</h3>
 <div class="paragraph">
 <p>Per object concurrency control is done through locks and type specific concurrency control is available.
 You can define locks on a per object and per method basis, and combined with nested transactions this provides for a flexible way of structuring applications that would typically not block threads unless there is really high contention.
@@ -19601,7 +19404,7 @@ So in the above code we first create the object (<code>obj1</code>) and then we 
 </div>
 </div>
 <div class="sect2">
-<h3 id="_a_typical_use_case"><a class="anchor" href="#_a_typical_use_case"></a>8.7. A Typical Use Case</h3>
+<h3 id="_a_typical_use_case"><a class="anchor" href="#_a_typical_use_case"></a>7.7. A Typical Use Case</h3>
 <div class="paragraph">
 <p>In this chapter we have considered all of the publicly available interfaces and classes for the STM framework within Narayana.
 There is deliberately a lot of flexibility on offer but much of it will only be needed by more advanced users and use cases.
@@ -19685,10 +19488,10 @@ act.commit();</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_compensating_transactions"><a class="anchor" href="#_compensating_transactions"></a>9. Compensating transactions</h2>
+<h2 id="_compensating_transactions"><a class="anchor" href="#_compensating_transactions"></a>8. Compensating transactions</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_overview_4"><a class="anchor" href="#_overview_4"></a>9.1. Overview</h3>
+<h3 id="_overview_3"><a class="anchor" href="#_overview_3"></a>8.1. Overview</h3>
 <div class="paragraph">
 <p>Compensating transactions are acknowledged as a good fit for long-lived transactions.
 The idea comes out of (<a href="https://www.cs.cornell.edu/andru/cs711/2002fa/reading/sagas.pdf">the Sagas paper, Princeton University, 1987</a>).
@@ -19727,13 +19530,13 @@ When a failure occurs the transaction manager invokes the compensating handlers 
 </div>
 </div>
 <div class="sect2">
-<h3 id="_compensations_framework"><a class="anchor" href="#_compensations_framework"></a>9.2. Compensations Framework</h3>
+<h3 id="_compensations_framework"><a class="anchor" href="#_compensations_framework"></a>8.2. Compensations Framework</h3>
 <div class="paragraph">
 <p>Narayana contains a compensations framework to assist users with developing transactional applications which require the use of compensating transactions.
 The compensating transaction behaviour can be expressed using either CDI annotations or via a programmatic API.</p>
 </div>
 <div class="sect3">
-<h4 id="_cdi_annotations"><a class="anchor" href="#_cdi_annotations"></a>9.2.1. CDI annotations</h4>
+<h4 id="_cdi_annotations"><a class="anchor" href="#_cdi_annotations"></a>8.2.1. CDI annotations</h4>
 <div class="paragraph">
 <p>Application developer annotates methods with the CDI annotations to define actions and undo operations which are managed by Transaction Manager.
 Narayana handles the state of the compensating transaction and drives undo operation if necessary.
@@ -19810,7 +19613,7 @@ All work items then belong under the same compensation and in the case of failur
 </div>
 </div>
 <div class="sect3">
-<h4 id="_recovery_2"><a class="anchor" href="#_recovery_2"></a>9.2.2. Recovery</h4>
+<h4 id="_recovery_2"><a class="anchor" href="#_recovery_2"></a>8.2.2. Recovery</h4>
 <div class="paragraph">
 <p>Implementation of recovery for compensating transaction is not yet part of the Narayana codebase, see <a href="https://issues.jboss.org/browse/JBTM-1107">JBTM-1107</a> however the implementation is under the review.</p>
 </div>
@@ -19834,7 +19637,7 @@ Narayana manages serializing and deserializing but programmer has to implement a
 </div>
 </div>
 <div class="sect3">
-<h4 id="_limitation"><a class="anchor" href="#_limitation"></a>9.2.3. Limitation</h4>
+<h4 id="_limitation"><a class="anchor" href="#_limitation"></a>8.2.3. Limitation</h4>
 <div class="paragraph">
 <p>Currently, there is one limitation which is needed to be emphasized.
 If you are used to work with XTS AT transactions you probably take advantage of transaction bridge functionality - ability of smoothly join XTS transaction with app server container transaction under one transparent global transaction.
@@ -19844,7 +19647,7 @@ The lack of the bridge functionality for the compensating transactions is addres
 </div>
 </div>
 <div class="sect2">
-<h3 id="_resources"><a class="anchor" href="#_resources"></a>9.3. Resources</h3>
+<h3 id="_resources"><a class="anchor" href="#_resources"></a>8.3. Resources</h3>
 <div class="paragraph">
 <p>This is our blog series which is valuable to check out</p>
 </div>
@@ -19869,7 +19672,7 @@ The lack of the bridge functionality for the compensating transactions is addres
 </div>
 </div>
 <div class="sect2">
-<h3 id="_notes"><a class="anchor" href="#_notes"></a>9.4. Notes</h3>
+<h3 id="_notes"><a class="anchor" href="#_notes"></a>8.4. Notes</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -19881,12 +19684,12 @@ The lack of the bridge functionality for the compensating transactions is addres
 </div>
 </div>
 <div class="sect1">
-<h2 id="_osgi"><a class="anchor" href="#_osgi"></a>10. OSGi</h2>
+<h2 id="_osgi"><a class="anchor" href="#_osgi"></a>9. OSGi</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="chap_integrate_with_karaf"><a class="anchor" href="#chap_integrate_with_karaf"></a>10.1. Integrate with Karaf</h3>
+<h3 id="chap_integrate_with_karaf"><a class="anchor" href="#chap_integrate_with_karaf"></a>9.1. Integrate with Karaf</h3>
 <div class="sect3">
-<h4 id="_introduction_11"><a class="anchor" href="#_introduction_11"></a>10.1.1. Introduction</h4>
+<h4 id="_introduction_11"><a class="anchor" href="#_introduction_11"></a>9.1.1. Introduction</h4>
 <div class="paragraph">
 <p>The Narayana has been introduced in the Karaf 4.1.0-SNAPSHOT.
 You need to build from <a href="https://github.com/apache/karaf">https://github.com/apache/karaf</a>.</p>
@@ -19926,13 +19729,13 @@ You need to build from <a href="https://github.com/apache/karaf">https://github.
 </div>
 </div>
 <div class="sect3">
-<h4 id="_quickstart"><a class="anchor" href="#_quickstart"></a>10.1.2. Quickstart</h4>
+<h4 id="_quickstart"><a class="anchor" href="#_quickstart"></a>9.1.2. Quickstart</h4>
 <div class="paragraph">
 <p>You could build and run the <a href="https://github.com/jbosstm/quickstart/tree/master/karaf/osgi-jta"> Karaf osgi-jta Quicksart</a></p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_admin_commands_support"><a class="anchor" href="#_admin_commands_support"></a>10.1.3. Admin Commands Support</h4>
+<h4 id="_admin_commands_support"><a class="anchor" href="#_admin_commands_support"></a>9.1.3. Admin Commands Support</h4>
 <div class="paragraph">
 <p>We support the following commands in the karaf console</p>
 </div>
@@ -19988,7 +19791,7 @@ You need to build from <a href="https://github.com/apache/karaf">https://github.
 </div>
 </div>
 <div class="sect1">
-<h2 id="_appendixes"><a class="anchor" href="#_appendixes"></a>11. Appendixes</h2>
+<h2 id="_appendixes"><a class="anchor" href="#_appendixes"></a>10. Appendixes</h2>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_object_store_implementations"><a class="anchor" href="#_object_store_implementations"></a>Appendix A: Object store implementations</h3>
@@ -20299,6 +20102,215 @@ These should be garbage collected by the system,(or the recovery sub-system, eve
 </div>
 <div class="paragraph">
 <p>Check the Configuration Options table for how to configure the LogStore.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_infinispanslotstore"><a class="anchor" href="#_infinispanslotstore"></a>InfinispanSlotStore</h6>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>This is an experimental feature. It is not recommended for production systems and may contain breaking changes in future releases. If the store is enabled on startup you should notice a warning message in the logs:</p>
+</div>
+<div class="paragraph">
+<p><code>ARJUNA012419: InfinispanSlotStore: Initializing experimental feature. Do not use in production.</code></p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>With this store, transaction logs are stored in an infinispan cache. The user is responsible for configuring the cache in such a way that the store can serve as transaction log storage, for example cache writes should be backed by persistent storage so that they can be recovered in the event of the loss of all nodes hosting the cache.</p>
+</div>
+<div class="paragraph">
+<p>The InfinispanSlotStore is implemented internally using the Narayana SlotStore feature whose design is conceptually an array. The SlotStore is divided into a number of elements, each capable of holding one entry of up to a given size. The SlotStore has pluggable sub-implementations, termed backends, and the InfinispanSlotStore is one such backend.</p>
+</div>
+<div class="dlist">
+<div class="title">Configuration Properties</div>
+<dl>
+<dt class="hdlist1">ObjectStoreEnvironmentBean.objectStoreType</dt>
+<dd>
+<p>Defines the object store implementation and must be set to <code>com.arjuna.ats.internal.arjuna.objectstore.slot.SlotStoreAdaptor</code>.
+As is usual with most object store types, it is recommended to also set the state and communication stores to the same type, ie <code>ObjectStoreEnvironmentBean.stateStore.objectStoreType</code> and <code>ObjectStoreEnvironmentBean.communicationStore.objectStoreType</code>
+properties.</p>
+</dd>
+<dt class="hdlist1">SlotStoreEnvironmentBean.backingSlotsClassName</dt>
+<dd>
+<p>Defines the SlotStore backend and must be set to <code>com.arjuna.ats.internal.arjuna.objectstore.slot.infinispan.InfinispanSlots</code> to enable the feature.</p>
+</dd>
+<dt class="hdlist1">SlotStoreEnvironmentBean.numberOfSlots</dt>
+<dd>
+<p>Sets the desired number of slots for the store.
+Should equal the maximum number of unresolved transactions expected at any given time,
+including those in-flight and awaiting recovery.</p>
+</dd>
+</dl>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Caution: reducing the number of slots in a non-empty store may result in data loss.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The default is 256.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">SlotStoreEnvironmentBean.bytesPerSlot</dt>
+<dd>
+<p>Sets the desired maximum size of entries in the store. A typical transaction record is less than 1KB.
+The optimum sizing depends on both the infinispan storage and whether write-through caches are used (which they should be for transaction logs).</p>
+</dd>
+</dl>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Modifying the size of slots in a non-empty store may result in data loss.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Default: 4096</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">InfinispanStoreEnvironmentBean.infinispanConfigFileName</dt>
+<dd>
+<p>The infinispan xml based cache configuration. The config file name relative to the resource directory
+so begins with a slash char</p>
+</dd>
+</dl>
+</div>
+<div id="NOTE" class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>Properties set in this infinispan xml config file will override any related config the beans, including
+<code>cacheName</code>, <code>nodeAddress</code>, <code>storeDir</code> and <code>groupName</code>.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Default: /infinispan-config.xml</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">InfinispanStoreEnvironmentBean.cacheName</dt>
+<dd>
+<p>The name of the cache used to store the key/value pairs for this slot store</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>Default: clusteredObjectStore</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">InfinispanStoreEnvironmentBean.cache</dt>
+<dd>
+<p>Set the infinispan cache that the InfinispanSlotStore should use.</p>
+</dd>
+<dt class="hdlist1">InfinispanStoreEnvironmentBean.storeDir</dt>
+<dd>
+<p>When infinispan write through caching is configured set the filesystem location used for the storage.
+If storeDir is not an absolute path then it will be interpreted as being relative to the User&#8217;s current working directory
+(as defined by the user.dir system property).</p>
+</dd>
+</dl>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>This setting only applies for programmatic configuration of the cache. If <code>infinispanConfigFileName</code> is configured then the cache config will use that file instead.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Default: infinispan-caches</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">InfinispanStoreEnvironmentBean.ignoreReturnValues</dt>
+<dd>
+<p>When set to true the return value of cache write operations will be ignored to avoid needless remote calls.
+Default: true</p>
+</dd>
+<dt class="hdlist1">InfinispanStoreEnvironmentBean.nodeAddress</dt>
+<dd>
+<p>The address of the node within a cluster.
+Used in clustered and embedded scenarios to identify which member of the JGroups cluster
+the JVM is currently representing.</p>
+</dd>
+<dt class="hdlist1">InfinispanStoreEnvironmentBean.groupName</dt>
+<dd>
+<p>== Cluster Configuration Considerations</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>A single member must run the recovery manager and a new one started if it fails (aka an HA singleton)</p>
+</li>
+<li>
+<p>Top down recovery via the AtomicActionRecoveryModule will recover all transactions in the store unless the
+recovery groupName is set in which case the recovery manager will only recover AtomicActions created
+with that groupName.</p>
+</li>
+<li>
+<p>Any member can create and commit transactions ({@link com.arjuna.ats.arjuna.recovery.TransactionStatusManager}
+will be used during recovery to decide if the creator is still running)
+&lt;p&gt;
+The group name may also be used in Distributed Mode which can provide orders of magnitude improvements in
+scalability than can the Replication Mode. For example if a large cluster is supporting multi-tenancy
+(multiple transaction and recovery managers) then Distributed Mode together with key grouping can ensure
+that cache entries for a particular group are co-located on a group of cluster nodes rather than being
+scattered over the entire cluster.</p>
+</li>
+</ol>
+</div>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>leave unset if group name functionality is not required</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">InfinispanStoreEnvironmentBean.slotKeyGeneratorClassName</dt>
+<dd>
+<p>The classname of the class that should be used to generate unique slot keys. The class should implement the interface
+<code>com.arjuna.ats.internal.arjuna.objectstore.slot.infinispan.InfinispanSlotKeyGenerator</code>.
+If unset then a strategy based on <code>com.arjuna.ats.arjuna.common.Uid</code> will be used.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>&lt;HERE&gt;</p>
 </div>
 </div>
 </div>
@@ -20876,7 +20888,7 @@ If the recipient has already terminated, then it must return a 410 error code.</
 <div class="sect3">
 <h4 id="_jdbcresources_01_02"><a class="anchor" href="#_jdbcresources_01_02"></a>JDBCResources 01 &amp; 02</h4>
 <div class="sect4">
-<h5 id="_overview_5"><a class="anchor" href="#_overview_5"></a>Overview</h5>
+<h5 id="_overview_4"><a class="anchor" href="#_overview_4"></a>Overview</h5>
 <div class="ulist">
 <ul>
 <li>
@@ -21604,7 +21616,7 @@ If the recipient has already terminated, then it must return a 410 error code.</
 <div class="sect3">
 <h4 id="_jdbcresources_03_04"><a class="anchor" href="#_jdbcresources_03_04"></a>JDBCResources 03 &amp; 04</h4>
 <div class="sect4">
-<h5 id="_overview_6"><a class="anchor" href="#_overview_6"></a>Overview</h5>
+<h5 id="_overview_5"><a class="anchor" href="#_overview_5"></a>Overview</h5>
 <div class="ulist">
 <ul>
 <li>
@@ -21918,7 +21930,7 @@ If the recipient has already terminated, then it must return a 410 error code.</
 <div class="sect3">
 <h4 id="_currenttests"><a class="anchor" href="#_currenttests"></a>CurrentTests</h4>
 <div class="sect4">
-<h5 id="_overview_7"><a class="anchor" href="#_overview_7"></a>Overview</h5>
+<h5 id="_overview_6"><a class="anchor" href="#_overview_6"></a>Overview</h5>
 <div class="ulist">
 <ul>
 <li>
@@ -22261,7 +22273,7 @@ If the recipient has already terminated, then it must return a 410 error code.</
 <div class="sect3">
 <h4 id="_otsserver"><a class="anchor" href="#_otsserver"></a>OTSServer</h4>
 <div class="sect4">
-<h5 id="_overview_8"><a class="anchor" href="#_overview_8"></a>Overview</h5>
+<h5 id="_overview_7"><a class="anchor" href="#_overview_7"></a>Overview</h5>
 <div class="ulist">
 <ul>
 <li>
@@ -22565,7 +22577,7 @@ If the recipient has already terminated, then it must return a 410 error code.</
 <div class="sect3">
 <h4 id="_aitresources"><a class="anchor" href="#_aitresources"></a>AITResources</h4>
 <div class="sect4">
-<h5 id="_overview_9"><a class="anchor" href="#_overview_9"></a>Overview</h5>
+<h5 id="_overview_8"><a class="anchor" href="#_overview_8"></a>Overview</h5>
 <div class="ulist">
 <ul>
 <li>
@@ -23178,7 +23190,7 @@ If the recipient has already terminated, then it must return a 410 error code.</
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-11-11 11:02:25 +0100
+Last updated 2026-05-08 10:28:04 +0100
 </div>
 </div>
 </body>
