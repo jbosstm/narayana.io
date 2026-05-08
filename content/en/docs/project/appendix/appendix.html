@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.20">
+<meta name="generator" content="Asciidoctor 2.0.23">
 <title>Appendixes</title>
 <style>
 @import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
@@ -451,6 +451,215 @@ These should be garbage collected by the system,(or the recovery sub-system, eve
 </div>
 <div class="paragraph">
 <p>Check the Configuration Options table for how to configure the LogStore.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_infinispanslotstore"><a class="anchor" href="#_infinispanslotstore"></a>InfinispanSlotStore</h5>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>This is an experimental feature. It is not recommended for production systems and may contain breaking changes in future releases. If the store is enabled on startup you should notice a warning message in the logs:</p>
+</div>
+<div class="paragraph">
+<p><code>ARJUNA012419: InfinispanSlotStore: Initializing experimental feature. Do not use in production.</code></p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>With this store, transaction logs are stored in an infinispan cache. The user is responsible for configuring the cache in such a way that the store can serve as transaction log storage, for example cache writes should be backed by persistent storage so that they can be recovered in the event of the loss of all nodes hosting the cache.</p>
+</div>
+<div class="paragraph">
+<p>The InfinispanSlotStore is implemented internally using the Narayana SlotStore feature whose design is conceptually an array. The SlotStore is divided into a number of elements, each capable of holding one entry of up to a given size. The SlotStore has pluggable sub-implementations, termed backends, and the InfinispanSlotStore is one such backend.</p>
+</div>
+<div class="dlist">
+<div class="title">Configuration Properties</div>
+<dl>
+<dt class="hdlist1">ObjectStoreEnvironmentBean.objectStoreType</dt>
+<dd>
+<p>Defines the object store implementation and must be set to <code>com.arjuna.ats.internal.arjuna.objectstore.slot.SlotStoreAdaptor</code>.
+As is usual with most object store types, it is recommended to also set the state and communication stores to the same type, ie <code>ObjectStoreEnvironmentBean.stateStore.objectStoreType</code> and <code>ObjectStoreEnvironmentBean.communicationStore.objectStoreType</code>
+properties.</p>
+</dd>
+<dt class="hdlist1">SlotStoreEnvironmentBean.backingSlotsClassName</dt>
+<dd>
+<p>Defines the SlotStore backend and must be set to <code>com.arjuna.ats.internal.arjuna.objectstore.slot.infinispan.InfinispanSlots</code> to enable the feature.</p>
+</dd>
+<dt class="hdlist1">SlotStoreEnvironmentBean.numberOfSlots</dt>
+<dd>
+<p>Sets the desired number of slots for the store.
+Should equal the maximum number of unresolved transactions expected at any given time,
+including those in-flight and awaiting recovery.</p>
+</dd>
+</dl>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Caution: reducing the number of slots in a non-empty store may result in data loss.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The default is 256.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">SlotStoreEnvironmentBean.bytesPerSlot</dt>
+<dd>
+<p>Sets the desired maximum size of entries in the store. A typical transaction record is less than 1KB.
+The optimum sizing depends on both the infinispan storage and whether write-through caches are used (which they should be for transaction logs).</p>
+</dd>
+</dl>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Modifying the size of slots in a non-empty store may result in data loss.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Default: 4096</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">InfinispanStoreEnvironmentBean.infinispanConfigFileName</dt>
+<dd>
+<p>The infinispan xml based cache configuration. The config file name relative to the resource directory
+so begins with a slash char</p>
+</dd>
+</dl>
+</div>
+<div id="NOTE" class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>Properties set in this infinispan xml config file will override any related config the beans, including
+<code>cacheName</code>, <code>nodeAddress</code>, <code>storeDir</code> and <code>groupName</code>.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Default: /infinispan-config.xml</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">InfinispanStoreEnvironmentBean.cacheName</dt>
+<dd>
+<p>The name of the cache used to store the key/value pairs for this slot store</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>Default: clusteredObjectStore</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">InfinispanStoreEnvironmentBean.cache</dt>
+<dd>
+<p>Set the infinispan cache that the InfinispanSlotStore should use.</p>
+</dd>
+<dt class="hdlist1">InfinispanStoreEnvironmentBean.storeDir</dt>
+<dd>
+<p>When infinispan write through caching is configured set the filesystem location used for the storage.
+If storeDir is not an absolute path then it will be interpreted as being relative to the User&#8217;s current working directory
+(as defined by the user.dir system property).</p>
+</dd>
+</dl>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>This setting only applies for programmatic configuration of the cache. If <code>infinispanConfigFileName</code> is configured then the cache config will use that file instead.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Default: infinispan-caches</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">InfinispanStoreEnvironmentBean.ignoreReturnValues</dt>
+<dd>
+<p>When set to true the return value of cache write operations will be ignored to avoid needless remote calls.
+Default: true</p>
+</dd>
+<dt class="hdlist1">InfinispanStoreEnvironmentBean.nodeAddress</dt>
+<dd>
+<p>The address of the node within a cluster.
+Used in clustered and embedded scenarios to identify which member of the JGroups cluster
+the JVM is currently representing.</p>
+</dd>
+<dt class="hdlist1">InfinispanStoreEnvironmentBean.groupName</dt>
+<dd>
+<p>== Cluster Configuration Considerations</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>A single member must run the recovery manager and a new one started if it fails (aka an HA singleton)</p>
+</li>
+<li>
+<p>Top down recovery via the AtomicActionRecoveryModule will recover all transactions in the store unless the
+recovery groupName is set in which case the recovery manager will only recover AtomicActions created
+with that groupName.</p>
+</li>
+<li>
+<p>Any member can create and commit transactions ({@link com.arjuna.ats.arjuna.recovery.TransactionStatusManager}
+will be used during recovery to decide if the creator is still running)
+&lt;p&gt;
+The group name may also be used in Distributed Mode which can provide orders of magnitude improvements in
+scalability than can the Replication Mode. For example if a large cluster is supporting multi-tenancy
+(multiple transaction and recovery managers) then Distributed Mode together with key grouping can ensure
+that cache entries for a particular group are co-located on a group of cluster nodes rather than being
+scattered over the entire cluster.</p>
+</li>
+</ol>
+</div>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>leave unset if group name functionality is not required</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">InfinispanStoreEnvironmentBean.slotKeyGeneratorClassName</dt>
+<dd>
+<p>The classname of the class that should be used to generate unique slot keys. The class should implement the interface
+<code>com.arjuna.ats.internal.arjuna.objectstore.slot.infinispan.InfinispanSlotKeyGenerator</code>.
+If unset then a strategy based on <code>com.arjuna.ats.arjuna.common.Uid</code> will be used.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>&lt;HERE&gt;</p>
 </div>
 </div>
 </div>
@@ -3337,7 +3546,7 @@ If the recipient has already terminated, then it must return a 410 error code.</
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-11-11 11:02:25 +0100
+Last updated 2026-05-08 10:28:04 +0100
 </div>
 </div>
 </body>
