@@ -48,7 +48,7 @@
     "@thulite/core": "^1.5.9",
     "@thulite/doks-core": "^1.8",
     "@thulite/images": "^3.3",
-    "auto-changelog": "^2.5.0",
+    "auto-changelog": "^2.5.1",
     "autoprefixer": "^10.5",
     "eslint": "^10.3",
     "exec-bin": "^1.0.0",
