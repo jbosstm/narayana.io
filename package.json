@@ -63,7 +63,7 @@
     "postcss": "^8.5",
     "postcss-cli": "^11.0",
     "shx": "^0.4.0",
-    "stylelint": "^17.11",
+    "stylelint": "^17.12",
     "stylelint-config-standard-scss": "^17.0"
   },
   "otherDependencies": {
