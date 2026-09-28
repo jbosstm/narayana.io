@@ -43,7 +43,7 @@
   "devDependencies": {
     "@babel/cli": "^7.29",
     "@babel/core": "^7.29",
-    "@babel/preset-env": "^7.29",
+    "@babel/preset-env": "^8.0",
     "@fullhuman/postcss-purgecss": "^8.0",
     "@thulite/core": "^1.5.9",
     "@thulite/doks-core": "^1.8",
