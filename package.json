@@ -46,7 +46,7 @@
     "@babel/preset-env": "^7.29",
     "@fullhuman/postcss-purgecss": "^8.0",
     "@thulite/core": "^1.5.9",
-    "@thulite/doks-core": "^1.8",
+    "@thulite/doks-core": "^1.9",
     "@thulite/images": "^3.3",
     "auto-changelog": "^2.7.0",
     "autoprefixer": "^10.6",
