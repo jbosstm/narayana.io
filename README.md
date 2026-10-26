@@ -23,10 +23,9 @@ To run a preview of the website on a local server:
 npm start
 ```
 
-To upload the (new) production web site, run the following command. If everything went OK, the new web site is updated automatically.
-```
-rsync -Pr --protocol=28 --delete-after public/* jbosstm@<rysnc_hostname>:www_htdocs/jbosstm/
-```
+To upload the new production website, connect to the server via SFTP using the `jbosstm` user and a valid private key.
+Once connected, delete the existing contents of the `jbosstm` directory, then upload the new website files in their place.
+
 # Releasing Narayana and updating the website
 
 Pre-requisite: please use JDK21 for releasing!
