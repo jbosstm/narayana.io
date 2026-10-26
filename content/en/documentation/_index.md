@@ -21,7 +21,80 @@ features)](..//docs/product/index.html)
 
 [ Narayana Quickstarts](https://github.com/jbosstm/quickstart)
 
-[ Narayana Javadocs](https://javadoc.io)
+Narayana Javadocs
+
+<div class="d-flex flex-wrap gap-2">
+<div class="dropdown">
+<button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Core</button>
+<ul class="dropdown-menu">
+<li><a class="dropdown-item" href="https://www.javadoc.io/doc/org.jboss.narayana.arjunacore/arjuna/latest">arjuna</a></li>
+<li><a class="dropdown-item" href="https://www.javadoc.io/doc/org.jboss.narayana.arjunacore/arjunacore/latest">arjunacore</a></li>
+<li><a class="dropdown-item" href="https://www.javadoc.io/doc/org.jboss.narayana.arjunacore/txoj/latest">txoj</a></li>
+</ul>
+</div>
+<div class="dropdown">
+<button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">JTA</button>
+<ul class="dropdown-menu">
+<li><a class="dropdown-item" href="https://www.javadoc.io/doc/org.jboss.narayana.jta/narayana-jta/latest">narayana-jta</a></li>
+<li><a class="dropdown-item" href="https://www.javadoc.io/doc/org.jboss.narayana.jta/jta/latest">jta</a></li>
+<li><a class="dropdown-item" href="https://www.javadoc.io/doc/org.jboss.narayana.jta/cdi/latest">cdi</a></li>
+<li><a class="dropdown-item" href="https://www.javadoc.io/doc/org.jboss.narayana.jta/jdbc/latest">jdbc</a></li>
+<li><a class="dropdown-item" href="https://www.javadoc.io/doc/org.jboss.narayana.jta/jms/latest">jms</a></li>
+</ul>
+</div>
+<div class="dropdown">
+<button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">JTS</button>
+<ul class="dropdown-menu">
+<li><a class="dropdown-item" href="https://www.javadoc.io/doc/org.jboss.narayana.jts/narayana-jts-integration/latest">narayana-jts-integration</a></li>
+<li><a class="dropdown-item" href="https://www.javadoc.io/doc/org.jboss.narayana.jts/narayana-jts-idlj/latest">narayana-jts-idlj</a></li>
+<li><a class="dropdown-item" href="https://www.javadoc.io/doc/org.jboss.narayana.jts/jtax/latest">jtax</a></li>
+</ul>
+</div>
+<div class="dropdown">
+<button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">XTS</button>
+<ul class="dropdown-menu">
+<li><a class="dropdown-item" href="https://www.javadoc.io/doc/org.jboss.narayana.xts/jbossxts/latest">jbossxts</a></li>
+</ul>
+</div>
+<div class="dropdown">
+<button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">REST-AT</button>
+<ul class="dropdown-menu">
+<li><a class="dropdown-item" href="https://www.javadoc.io/doc/org.jboss.narayana.rts/restat-api/latest">restat-api</a></li>
+<li><a class="dropdown-item" href="https://www.javadoc.io/doc/org.jboss.narayana.rts/restat-bridge/latest">restat-bridge</a></li>
+<li><a class="dropdown-item" href="https://www.javadoc.io/doc/org.jboss.narayana.rts/restat-integration/latest">restat-integration</a></li>
+<li><a class="dropdown-item" href="https://www.javadoc.io/doc/org.jboss.narayana.rts/restat-util/latest">restat-util</a></li>
+</ul>
+</div>
+<div class="dropdown">
+<button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">LRA</button>
+<ul class="dropdown-menu">
+<li><a class="dropdown-item" href="https://www.javadoc.io/doc/org.jboss.narayana.lra/narayana-lra/latest">narayana-lra</a></li>
+<li><a class="dropdown-item" href="https://www.javadoc.io/doc/org.jboss.narayana.lra/lra-client/latest">lra-client</a></li>
+<li><a class="dropdown-item" href="https://www.javadoc.io/doc/org.jboss.narayana.lra/lra-coordinator-jar/latest">lra-coordinator-jar</a></li>
+<li><a class="dropdown-item" href="https://www.javadoc.io/doc/org.jboss.narayana.lra/lra-service-base/latest">lra-service-base</a></li>
+<li><a class="dropdown-item" href="https://www.javadoc.io/doc/org.jboss.narayana.lra/lra-proxy-api/latest">lra-proxy-api</a></li>
+<li><a class="dropdown-item" href="https://www.javadoc.io/doc/org.jboss.narayana.lra/lra-test-arquillian-extension/latest">lra-test-arquillian-extension</a></li>
+</ul>
+</div>
+<div class="dropdown">
+<button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">STM</button>
+<ul class="dropdown-menu">
+<li><a class="dropdown-item" href="https://www.javadoc.io/doc/org.jboss.narayana.stm/stm/latest">stm</a></li>
+</ul>
+</div>
+<div class="dropdown">
+<button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Compensations</button>
+<ul class="dropdown-menu">
+<li><a class="dropdown-item" href="https://www.javadoc.io/doc/org.jboss.narayana.compensations/compensations/latest">compensations</a></li>
+</ul>
+</div>
+<div class="dropdown">
+<button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">TXBridge</button>
+<ul class="dropdown-menu">
+<li><a class="dropdown-item" href="https://www.javadoc.io/doc/org.jboss.narayana/jbosstxbridge/latest">jbosstxbridge</a></li>
+</ul>
+</div>
+</div>
 
 Wiki
 ====
