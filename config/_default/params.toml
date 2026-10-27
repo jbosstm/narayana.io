@@ -1,135 +1,138 @@
-# Meta Data for SEO
-
-## Homepage
+# Hugo
 title = "Narayana"
-titleSeparator = "-"
 titleAddition = "The premier open source transaction manager"
 description = "With over 30 years of expertise in the area of transaction processing, Narayana is the premier open source transaction manager."
+images = ["narayana-banner-1180px.png"]
 
-## Documentation
-# docsVersion = "0.1"
+# Enable mathematical rendering on every page (unless you set the `math` parameter to `false` in front matter)
+math = false # false (default) or true
+mathEngine = "KaTeX" # "KaTeX" (default) or "MathJax"
 
-## Open Graph
-images = ["apple-touch-icon-precomposed.png"]
-ogLocale = "en_US"
-domainTLD = "doks.netlify.app"
-titleHome = "Narayana"
+[social]
+  twitter = ""
 
-## Twitter Cards
-twitterSite = "@getdoks"
-twitterCreator = "@henkverlinde"
-
-## JSON-LD
-# schemaType = "Person"
-schemaType = "Organization"
-schemaName = "Doks"
-schemaAuthor = "Henk Verlinde"
-schemaAuthorTwitter = "https://twitter.com/henkverlinde"
-schemaAuthorLinkedIn = "https://www.linkedin.com/in/henkverlinde/"
-schemaAuthorGitHub = "https://github.com/h-enk"
-schemaLocale = "en-US"
-schemaLogo = "apple-touch-icon-precomposed.png"
-schemaLogoWidth = 512
-schemaLogoHeight = 512
-schemaImage = "apple-touch-icon-precomposed.png"
-schemaImageWidth = 1280
-schemaImageHeight = 640
-schemaTwitter = "https://twitter.com/getdoks"
-schemaLinkedIn = ""
-schemaGitHub = "https://github.com/h-enk/doks"
-schemaSection = "blog"
-
-## Sitelinks Search Box
-siteLinksSearchBox = false
-
-## Chrome Browser
-themeColor = "#fff"
-
-# Images - Temporarily left in place for backward compatibility
-quality = 85
-bgColor = "#fff"
-landscapePhotoWidths = [900, 800, 700, 600, 500]
-portraitPhotoWidths = [800, 700, 600, 500]
-lqipWidth = "20x"
-smallLimit = "300"
-
-# Images
-imageResponsive = true
-imageConvertTo = "webp"
-imageImageSizes = ["480","720","1080","1280","1600","2048"]
-singleSize = false
-imageAddClass = "img-fluid lazyload blur-up"
-
-### Image template
-defaultImage = "default-image.png" # put in `./assets/images/`
-fillImage = "1270x740 Center" # normalize image size
-
-# Footer
-#footer = "Powered by <a class=\"text-muted\" href=\"https://www.netlify.com/\">Netlify</a>, <a class=\"text-muted\" href=\"https://gohugo.io/\">Hugo</a>, and <a class=\"text-muted\" href=\"https://getdoks.org/\">Doks</a>"
-footer = ""
-
-# Feed
-copyRight = "Copyright (c) 2020-2021 Henk Verlinde"
-
-# Alert
-alert = false
-alertDismissable = true
-# alertText = "Introducing the Doks child theme, several DX + UX updates, and more! <a class=\"alert-link stretched-link\" href=\"https://getdoks.org/blog/doks-v0.2/\" target=\"_blank\" rel=\"noopener\">Check out Doks v0.2</a>"
-alertText = "Introducing the Doks child theme, several DX + UX updates, and more! <a class=\"alert-link stretched-link\" href=\"https://getdoks.org/blog/doks-v0.2/\">Check out Doks v0.2</a>"
-
-# Edit Page
-# repoHost [Github | Gitea | GitLab | Bitbucket | BitbucketServer ] is used for building the edit link based on git hoster
-repoHost = "GitHub"
-#repoHost = "Gitea"
-docsRepo = "https://github.com/jbosstm/narayana.io"
-docsRepoBranch = "main"
-docsRepoSubPath = ""
-editPage = false
-lastMod = false
-
+# Doks (@thulite/doks-core)
 [doks]
-  colorMode = "auto"
-  containerBreakpoint = "xxl"
-  navbarSticky = true
-  toTopButton = false
-  scrollSpy = false
-  flexSearch = false
-  breadcrumbTrail = false
-  editPage = false
-  lastMod = false
-  headlineHash = false
-  sectionNav = ["docs", "guides"]
-  sectionSwitcher = false
-  bootstrapJavascript = true
-  colorModeToggler = true
-  aiButtons = false
-  headerBar = false
-  backgroundDots = false
-  sectionFooter = false
+  # Color mode
+  colorMode = "auto" # auto (default), light or dark
+  colorModeToggler = true # true (default) or false (this setting is only relevant when colorMode = auto)
 
-[sections]
-  sectionNav = ["docs", "guides"]
+  # Navbar
+  navbarSticky = true # true (default) or false
+  containerBreakpoint = "xxl" # "", "sm", "md", "lg", "xl", "xxl", or "fluid" (default)
 
-[options]
-  lazySizes = true
-  clipBoard = true
-  instantPage = true
-  flexSearch = false
-  searchSectionsShow = []
-  searchSectionsIndex = []
-  darkMode = true
-  bootStrapJs = true
-  breadCrumb = false
-  highLight = true
-  kaTex = false
-  multilingualMode = false
-  docsVersioning = false
-  fullWidth = false
-  navbarSticky = true
-  toTopButton = false
-  scrollSpy = false
+  ## Button
+  navBarButton = false # false (default) or true
+  navBarButtonUrl = "/docs/prologue/introduction/"
+  navBarButtonText = "Get started"
 
-[menu]
-  [menu.section]
-    auto = true
-    collapsibleSidebar = true
+  # FlexSearch
+  flexSearch = false # true (default) or false
+  searchExclKinds = [] # list of page kinds to exclude from search indexing (e.g. ["home", "taxonomy", "term"] )
+  searchExclTypes = [] # list of content types to exclude from search indexing (e.g. ["blog", "docs", "legal", "contributors", "categories"])
+  showSearch = [] # [] (all pages, default) or homepage (optionally) and list of sections (e.g. ["homepage", "blog", "guides"])
+  indexSummary = false # true or false (default); whether to index only the `.Summary` instead of the full `.Content`
+
+  ## Search results
+  showDate = false # false (default) or true
+  showSummary = true # true (default) or false
+  searchLimit = 99 # 0 (no limit, default) or natural number
+
+  # Global alert
+  alert = false # false (default) or true
+  alertDismissable = true # true (default) or false
+
+  # Bootstrap
+  bootstrapJavascript = true # false (default) or true
+
+  # Nav
+  sectionSwitcher = false # true or false (default)
+  sectionNav = ["docs", "guides"] # ["docs"] (default) or list of sections (e.g. ["docs", "guides"])
+  toTopButton = false # false (default) or true
+  breadcrumbTrail = false # false (default) or true
+  headlineHash = false # true (default) or false
+  scrollSpy = false # true (default) or false
+
+  # Multilingual
+  multilingualMode = false # false (default) or true
+  showMissingLanguages = true # whether or not to show untranslated languages in the language menu; true (default) or false
+
+  # Versioning
+  docsVersioning = false # false (default) or true
+  docsVersion = "1.0"
+
+  # UX
+  headerBar = false # true (default) or false
+  backgroundDots = false # true (default) or false
+  aiButtons = false # true (default) or false
+
+  # Homepage
+  sectionFooter = false # false (default) or true
+
+  # Blog
+  relatedPosts = false # false (default) or true
+  imageList = true # true (default) or false
+  imageSingle = true # true (default) or false
+
+  # Repository
+  editPage = false # false (default) or true
+  lastMod = false # false (default) or true
+  repoHost = "GitHub" # GitHub (default), Gitea, GitLab, Bitbucket, or BitbucketServer
+  docsRepo = "https://github.com/jbosstm/narayana.io"
+  docsRepoBranch = "main" # main (default), master, or <branch name>
+  docsRepoSubPath = "" # "" (none, default) or <sub path>
+
+  krokiURL = "https://kroki.io" # "https://kroki.io" (default) or custom URL like http://localhost:8000.
+
+  [doks.menu]
+    [doks.menu.section]
+      auto = true # true (default) or false
+      collapsibleSidebar = true # true (default) or false
+
+# Debug
+[render_hooks.image]
+  errorLevel = 'ignore' # ignore (default), warning, or error (fails the build)
+
+[render_hooks.link]
+  errorLevel = 'ignore' # ignore (default), warning, or error (fails the build)
+  highlightBroken = false # true or false (default)
+
+# Images (@thulite/images)
+[thulite_images]
+  [thulite_images.defaults]
+    decoding = "async" # sync, async, or auto (default)
+    fetchpriority = "auto" # high, low, or auto (default)
+    loading = "lazy" # eager or lazy (default)
+    widths = [480, 576, 768, 1025, 1200, 1440]
+    sizes = "auto" # 100vw (default), 75vw, or auto for example
+    process = "" # "fill 1600x900" or "fill 2100x900" for example
+    lqip = "16x webp q20" # "16x webp q20" or "21x webp q20" for example
+
+# Inline SVG (@thulite/inline-svg)
+[inline_svg]
+  iconSetDir = "tabler-icons" # tabler-icons (default)
+  iconSetVariant = "outline" # outline (default) or filled
+
+# SEO (@thulite/seo)
+[seo]
+  [seo.title]
+    separator = "-" # "|" (default)
+    suffix = "" # title hugo.toml (default)
+  [seo.description]
+    summaryFallback = "" # "" (default)
+  [seo.description.length]
+    errorlevel = "ignore" # warning (default), error, or ignore
+    min = 110
+    max = 160
+  [seo.favicons]
+    icon = "favicon.png" # favicon.png (default)
+    svgIcon = "favicon.svg" # favicon.svg (default)
+  [seo.schemas]
+    type = "Organization" # Organization (default) or Person
+    logo = "narayana-logo.png" # Logo of Organization
+    name = "Narayana" # Name of Organization or Person
+    sameAs = ["https://github.com/jbosstm/narayana"] # E.g. ["https://github.com/...", "https://..."]
+    article = [] # Article sections
+    newsArticle = [] # NewsArticle sections
+    blogPosting = ["blog"] # BlogPosting sections
+    product = [] # Product sections

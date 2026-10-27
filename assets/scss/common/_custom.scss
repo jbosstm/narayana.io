@@ -29,7 +29,7 @@
 
 .commonhaus-footer .commonhaus-legal {
   flex: 1 1 auto;
-  font-size: .75rem;
+  font-size: 0.75rem;
 }
 
 @media (max-width: 576px) {
@@ -50,13 +50,12 @@
   text-shadow: 2px 2px 2px #fff;
 }
 
-.row2{
+.row2 {
   position: relative;
   text-align: right;
   color: white;
   --bs-gutter-x: 0px;
 }
-
 
 .bottom-right {
   position: absolute;
@@ -75,7 +74,6 @@
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
   border-radius: 2px;
-
 }
 
 .tabnav-closed {
@@ -91,7 +89,6 @@
   top: 0px;
   right: 4px;
   background-repeat: no-repeat;
-
 }
 .tabnav-closed::after {
   -webkit-transform: rotate(0deg);
@@ -101,7 +98,8 @@
   -o-transition: all 0.2s ease-in-out;
   -ms-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
-  background: url("https://static.jboss.org/common/images/arrow-tabnav-down.png") no-repeat scroll 0 0 transparent;
+  background: url("https://static.jboss.org/common/images/arrow-tabnav-down.png") no-repeat scroll 0
+    0 transparent;
   content: "x";
   height: 15px;
   position: absolute;
