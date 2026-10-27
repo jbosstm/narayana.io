@@ -1,24 +1,7 @@
-## Awestruct
-_tmp
-_site
-.awestruct
-.sass_cache
-stylesheets/_config-variables.less
-
-## OS related
-*.DS_Store
-
-## IDE
-.settings
-.project
-.buildpath
-.idea
-
-## Ruby tools
-.rvmrc
-
-## Hugo
-/public/
-/resources/
+.env
+.netlify
 .hugo_build.lock
-/node_modules/
+node_modules
+public
+resources
+hugo_stats.json
