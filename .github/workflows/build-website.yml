@@ -16,14 +16,24 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '24'
           cache: 'npm'
+
+      - name: Install Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: '0.166.0'
+          extended: true
+
+      - name: Install Dart Sass
+        run: |
+          DART_SASS_VERSION=1.104.1
+          curl -sfLO "https://github.com/sass/dart-sass/releases/download/${DART_SASS_VERSION}/dart-sass-${DART_SASS_VERSION}-linux-x64.tar.gz"
+          tar -xf "dart-sass-${DART_SASS_VERSION}-linux-x64.tar.gz"
+          echo "${GITHUB_WORKSPACE}/dart-sass" >> "$GITHUB_PATH"
 
       - name: Install dependencies
         run: npm install
-
-      #- name: Check for linting errors
-       # run: npm test
 
       - name: Build production website
         run: npm run build

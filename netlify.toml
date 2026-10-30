@@ -1,31 +1,51 @@
 [build]
   publish = "public"
-  functions = "functions"
 
 [build.environment]
-  NODE_VERSION = "22.14.0"
-  NPM_VERSION = "10.9.2"
+  DART_SASS_VERSION = "1.104.1"
+  HUGO_VERSION = "0.166.0"
+  NODE_VERSION = "24.21.0"
+  NPM_VERSION = "11.19.0"
+  TZ = "Europe/London"
 
 [context.production]
-  command = "npm run build"
+  command = """\
+    curl -sfLO "https://github.com/sass/dart-sass/releases/download/${DART_SASS_VERSION}/dart-sass-${DART_SASS_VERSION}-linux-x64.tar.gz" && \
+    tar -C "${HOME}/.local" -xf "dart-sass-${DART_SASS_VERSION}-linux-x64.tar.gz" && \
+    rm "dart-sass-${DART_SASS_VERSION}-linux-x64.tar.gz" && \
+    export PATH="${HOME}/.local/dart-sass:${PATH}" && \
+    git config core.quotepath false && \
+    npm install && \
+    hugo build --gc --minify
+    """
 
 [context.deploy-preview]
-  command = "npm run build -- -b $DEPLOY_PRIME_URL"
+  command = """\
+    curl -sfLO "https://github.com/sass/dart-sass/releases/download/${DART_SASS_VERSION}/dart-sass-${DART_SASS_VERSION}-linux-x64.tar.gz" && \
+    tar -C "${HOME}/.local" -xf "dart-sass-${DART_SASS_VERSION}-linux-x64.tar.gz" && \
+    rm "dart-sass-${DART_SASS_VERSION}-linux-x64.tar.gz" && \
+    export PATH="${HOME}/.local/dart-sass:${PATH}" && \
+    git config core.quotepath false && \
+    npm install && \
+    hugo build --gc --minify --baseURL "$DEPLOY_PRIME_URL"
+    """
 
 [context.branch-deploy]
-  command = "npm run build -- -b $DEPLOY_PRIME_URL"
-
-[context.next]
-  command = "npm run build"
-
-[context.next.environment]
-  HUGO_ENV = "next"
+  command = """\
+    curl -sfLO "https://github.com/sass/dart-sass/releases/download/${DART_SASS_VERSION}/dart-sass-${DART_SASS_VERSION}-linux-x64.tar.gz" && \
+    tar -C "${HOME}/.local" -xf "dart-sass-${DART_SASS_VERSION}-linux-x64.tar.gz" && \
+    rm "dart-sass-${DART_SASS_VERSION}-linux-x64.tar.gz" && \
+    export PATH="${HOME}/.local/dart-sass:${PATH}" && \
+    git config core.quotepath false && \
+    npm install && \
+    hugo build --gc --minify --baseURL "$DEPLOY_PRIME_URL"
+    """
 
 [[plugins]]
   package = "netlify-plugin-submit-sitemap"
 
-	[plugins.inputs]
-    baseUrl = "https://doks-child-theme.netlify.app/"
+  [plugins.inputs]
+    baseUrl = "https://www.narayana.io/"
     sitemapPath = "/sitemap.xml"
     ignorePeriod = 0
     providers = [
@@ -35,7 +55,7 @@
 
 [dev]
   framework = "#custom"
-  command = "npm run start"
+  command = "npm run dev"
   targetPort = 1313
   port = 8888
   publish = "public"

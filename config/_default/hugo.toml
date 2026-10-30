@@ -1,0 +1,82 @@
+title = "Narayana"
+baseURL = "https://www.narayana.io/"
+canonifyURLs = true
+disableAliases = true
+disableHugoGeneratorInject = true
+enableEmoji = true
+enableGitInfo = false
+enableRobotsTXT = true
+locale = "en-US"
+rssLimit = 10
+summarylength = 70
+
+# Multilingual
+defaultContentLanguage = "en"
+disableLanguages = ["de", "nl"]
+defaultContentLanguageInSubdir = false
+
+copyRight = "Copyright (c) 2020-2026 Narayana"
+
+[build.buildStats]
+  enable = true
+
+[outputs]
+  home = ["html", "rss", "sitemap"]
+  page = ["html"]
+  section = ["html", "rss", "sitemap"]
+  taxonomy = ["html", "rss", "sitemap"]
+  term = ["html", "rss", "sitemap"]
+
+# Add output format for section sitemap.xml
+[outputFormats.sitemap]
+  mediaType = "application/xml"
+  baseName = "sitemap"
+  isHTML = false
+  isPlainText = true
+  noUgly = true
+  rel  = "sitemap"
+
+[sitemap]
+  changefreq = "weekly"
+  filename = "sitemap.xml"
+  priority = 0.5
+
+[caches]
+  [caches.getresource]
+    dir = ":cacheDir/:project"
+    maxAge = "10s"
+
+[taxonomies]
+  contributor = "contributors"
+  category = "categories"
+  tag = "tags"
+
+[permalinks]
+  blog = "/blog/:title/"
+# docs = "/docs/1.0/:sections[1:]/:title/"
+
+[minify.tdewolff.html]
+  keepWhitespace = false
+
+# Narayana ships many pre-generated HTML content pages (pandoc/docbook docs).
+# Hugo's default security policy (since v0.161) blocks `text/html` content files,
+# so allow all content media types here.
+[security]
+  allowContent = ['.*']
+
+[pagination]
+  pagerSize = 7
+
+[related]
+  threshold = 80
+  includeNewer = true
+  toLower = false
+    [[related.indices]]
+      name = "categories"
+      weight = 100
+    [[related.indices]]
+      name = "tags"
+      weight = 80
+    [[related.indices]]
+      name = "date"
+      weight = 10
